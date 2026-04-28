@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Diagram - CerebroVial</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .mermaid {
+            margin: 0 auto;
+            text-align: left;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Diagrama de Clases - Arquitectura de Visión</h1>
+    <div class="mermaid">
+        classDiagram
+        %% Core Components
+        class VisionApplicationBuilder {
+        +build_detector()
+        +build_tracker()
+        +build_source()
+        +build_pipeline()
+        }
+
+        class AsyncVisionPipeline {
+        -frame_queue
+        -result_queue
+        +run() Iterator
+        +stop()
+        }
+
+        class VideoSource {
+        YouTube-Webcam-File
+        +read() Frame
+        }
+
+        class YoloDetector {
+        -YOLO model
+        +detect(frame) FrameAnalysis
+        }
+
+        class SupervisionTracker {
+        -ByteTrack
+        +track(vehicles) List
+        }
+
+        class ZoneCounter {
+        -PolygonZones
+        +count_in_zones(vehicles) ZoneStats
+        }
+
+        class CSVRepository {
+        +save(TrafficData)
+        }
+
+        %% Data Flow Entities
+        class Frame {
+        +id
+        +timestamp
+        +image
+        }
+
+        class FrameAnalysis {
+        +vehicles
+        +total_count
+        +zones
+        }
+
+        class DetectedVehicle {
+        +id
+        +type
+        +bbox
+        +speed
+        }
+
+        %% Main Flow
+        VisionApplicationBuilder ..> AsyncVisionPipeline : creates
+        VisionApplicationBuilder ..> VideoSource : creates
+        VisionApplicationBuilder ..> YoloDetector : creates
+        VisionApplicationBuilder ..> SupervisionTracker : creates
+        VisionApplicationBuilder ..> ZoneCounter : creates
+
+        AsyncVisionPipeline --> VideoSource : 1. read frames
+        VideoSource ..> Frame : produces
+
+        AsyncVisionPipeline --> YoloDetector : 2. detect
+        YoloDetector ..> FrameAnalysis : creates
+
+        AsyncVisionPipeline --> SupervisionTracker : 3. track
+        SupervisionTracker --> DetectedVehicle : assigns IDs
+
+        AsyncVisionPipeline --> ZoneCounter : 4. count zones
+
+        AsyncVisionPipeline --> CSVRepository : 5. persist
+
+        FrameAnalysis *-- DetectedVehicle : contains
+
+        %% Styling
+        style AsyncVisionPipeline fill:#4ECDC4,stroke:#2E8B8B,stroke-width:3px
+        style YoloDetector fill:#FFE66D,stroke:#D4B942,stroke-width:2px
+        style SupervisionTracker fill:#95E1D3,stroke:#5FA896,stroke-width:2px
+        style VideoSource fill:#FF6B6B,stroke:#C92A2A,stroke-width:2px
+    </div>
+</body>
+
+</html>
