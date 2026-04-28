@@ -1,0 +1,26 @@
+vision:
+  source: https://www.youtube.com/watch?v=qMYlpMsWsBE
+  source_type: youtube
+  zones:
+    zone1:
+    - - 100
+      - 100
+    - - 500
+      - 100
+    - - 500
+      - 500
+    - - 100
+      - 500
+  speed_estimation:
+    enabled: true
+    pixels_per_meter: 10.0
+  performance:
+    target_width: 1280
+    target_height: 720
+    opencv_buffer_size: 3
+    detect_every_n_frames: 3
+    youtube_format: best
+  model:
+    path: yolo11n.pt
+    conf_threshold: 0.5
+  display: true

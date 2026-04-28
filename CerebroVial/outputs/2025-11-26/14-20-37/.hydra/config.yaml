@@ -1,0 +1,13 @@
+vision:
+  source: https://www.youtube.com/watch?v=qMYlpMsWsBE
+  source_type: youtube
+  performance:
+    target_width: 640
+    target_height: 360
+    opencv_buffer_size: 1
+    detect_every_n_frames: 5
+    youtube_format: worst
+  model:
+    path: yolo11n.pt
+    conf_threshold: 0.5
+  display: true

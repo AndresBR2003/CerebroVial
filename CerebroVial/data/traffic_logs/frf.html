@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pseudocódigo - Predicción de Tráfico</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 50px;
+            color: #d4d4d4;
+        }
+
+        .window {
+            background-color: #252526;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 1px solid #3e3e42;
+        }
+
+        .title-bar {
+            background-color: #333333;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #1e1e1e;
+        }
+
+        .dots {
+            display: flex;
+            gap: 8px;
+            margin-right: 15px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .red {
+            background-color: #ff5f56;
+        }
+
+        .yellow {
+            background-color: #ffbd2e;
+        }
+
+        .green {
+            background-color: #27c93f;
+        }
+
+        .filename {
+            color: #cccccc;
+            font-size: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .code-content {
+            padding: 20px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        pre {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="dots">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="filename">traffic_prediction_logic.pseudo</div>
+        </div>
+        <div class="code-content">
+            <pre>
+
+<span style="color: #6A9955;"># Algorithm 1: Vehicular Flow Prediction Logic (Phase 2)</span>
+<span style="color: #6A9955;"># Input: StreamDataEdge (JSON: Count, Speed, Crossing_ID)</span>
+<span style="color: #6A9955;"># Output: Prediction_Vector (Future Flow for Phase 3)</span>
+<span style="color: #6A9955;"># Resource: GRUModel (Pre-trained)</span>
+
+<span style="color: #C586C0;">Start</span>
+    <span style="color: #DCDCAA;">Load</span> GRUModel <span style="color: #C586C0;">into</span> memory
+    <span style="color: #C586C0;">While</span> System_Active <span style="color: #C586C0;">do</span>:
+        Current_Data = <span style="color: #DCDCAA;">ReadMessageQueue</span>(StreamDataEdge)
+
+        <span style="color: #C586C0;">If</span> Current_Data <span style="color: #C586C0;">is NOT</span> <span style="color: #569CD6;">Null</span>:
+            Data_Norm = <span style="color: #DCDCAA;">Normalize</span>(Current_Data)
+            Time_Window = <span style="color: #DCDCAA;">GenerateSequence</span>(Data_Norm, t-n)
+
+            <span style="color: #6A9955;"># Inference: Predict flow for the next t+1..t+k</span>
+            Future_Flow = GRUModel.<span style="color: #DCDCAA;">Predict</span>(Time_Window)
+
+            <span style="color: #6A9955;"># Package data for the Management Module</span>
+            Prediction_Vector = <span style="color: #CE9178;">{Crossing_ID, Future_Flow, Timestamp}</span>
+
+            <span style="color: #DCDCAA;">Send</span>(Prediction_Vector) -> Traffic_Light_Management_Module
+            <span style="color: #DCDCAA;">Persist</span>(Current_Data, Future_Flow) <span style="color: #C586C0;">in</span> Database
+        <span style="color: #C586C0;">End If</span>
+    <span style="color: #C586C0;">End While</span>
+<span style="color: #C586C0;">End</span>
+            </pre>
+        </div>
+    </div>
+</body>
+
+</html>
