@@ -1,0 +1,123 @@
+classDiagram
+%% Core Components
+class PredictionApplicationBuilder {
++build_data_loader()
++build_graph_builder()
++build_model()
++build_predictor()
+}
+
+class TrafficGraphBuilder {
+-nodes: List~Intersection~
+-edges: List~RoadSegment~
++build_adjacency_matrix() AdjacencyMatrix
++add_temporal_features() Graph
++get_neighbors(node_id) List
+}
+
+class TrafficDataLoader {
+-vision_data: VisionTrafficData
+-waze_data: WazeTrafficData
++load_historical(time_window) DataFrame
++load_realtime() DataFrame
++merge_sources() TrafficGraph
++create_sequences(lookback) Tensor
+}
+
+class STGCNModel {
+<<PyTorch Module>>
+    -spatial_conv: GraphConv
+    -temporal_conv: LSTM
+    -output_layer: Linear
+    +forward(graph, features) Predictions
+    +train_step(batch) loss
+    }
+
+    class CongestionPredictor {
+    -model: STGCNModel
+    -graph: TrafficGraph
+    -scaler: StandardScaler
+    +predict_next_n_steps(horizon) Predictions
+    +predict_intersection(id, horizon) float
+    +get_confidence_interval() Tuple
+    }
+
+    class PredictionRepository {
+    +save_prediction(pred) void
+    +get_historical_predictions() List
+    +evaluate_accuracy() Metrics
+    }
+
+    %% Data Entities
+    class TrafficGraph {
+    +nodes: List~NodeFeatures~
+    +edges: List~EdgeFeatures~
+    +adjacency_matrix: Tensor
+    +temporal_features: Tensor
+    +timestamp: datetime
+    }
+
+    class NodeFeatures {
+    +node_id: str
+    +speed: float
+    +density: float
+    +occupancy: float
+    +vehicle_count: int
+    +historical_avg: float
+    }
+
+    class EdgeFeatures {
+    +edge_id: str
+    +length: float
+    +lanes: int
+    +road_type: str
+    +current_flow: int
+    }
+
+    class CongestionPrediction {
+    +intersection_id: str
+    +timestamp: datetime
+    +horizon_minutes: int
+    +predicted_speed: float
+    +predicted_density: float
+    +congestion_level: int
+    +confidence: float
+    }
+
+    %% External Data Sources
+    class VisionTrafficData {
+    <<From Vision Module>>
+        +get_zone_metrics() List
+        }
+
+        class WazeTrafficData {
+        <<External API>>
+            +get_jams() List
+            +get_alerts() List
+            }
+
+            %% Relationships
+            PredictionApplicationBuilder ..> TrafficGraphBuilder : creates
+            PredictionApplicationBuilder ..> TrafficDataLoader : creates
+            PredictionApplicationBuilder ..> STGCNModel : creates
+            PredictionApplicationBuilder ..> CongestionPredictor : creates
+
+            TrafficDataLoader --> VisionTrafficData : consumes
+            TrafficDataLoader --> WazeTrafficData : consumes
+            TrafficDataLoader ..> TrafficGraph : produces
+
+            TrafficGraphBuilder ..> TrafficGraph : builds
+
+            CongestionPredictor --> STGCNModel : uses
+            CongestionPredictor --> TrafficGraph : uses
+            CongestionPredictor ..> CongestionPrediction : produces
+
+            CongestionPredictor --> PredictionRepository : saves to
+
+            TrafficGraph *-- NodeFeatures : contains
+            TrafficGraph *-- EdgeFeatures : contains
+
+            %% Styling
+            style STGCNModel fill:#FFE66D,stroke:#D4B942,stroke-width:3px
+            style CongestionPredictor fill:#4ECDC4,stroke:#2E8B8B,stroke-width:3px
+            style TrafficGraph fill:#95E1D3,stroke:#5FA896,stroke-width:2px
