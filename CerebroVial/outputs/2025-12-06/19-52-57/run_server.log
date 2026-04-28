@@ -1,4 +1,0 @@
-[2025-12-06 19:55:23,160][src.prediction.engine][INFO] - Loaded model: current
-[2025-12-06 19:55:23,179][src.prediction.engine][INFO] - Loaded model: 15min
-[2025-12-06 19:55:23,189][src.prediction.engine][INFO] - Loaded model: 30min
-[2025-12-06 19:55:23,214][src.prediction.service][ERROR] - Error predicting from log: name 'confidence' is not defined

@@ -1,7 +1,0 @@
-vision:
-  source: https://www.youtube.com/watch\?v=qMYlpMsWsBE
-  source_type: webcam
-  model:
-    path: yolo11n.pt
-    conf_threshold: 0.5
-  display: true
