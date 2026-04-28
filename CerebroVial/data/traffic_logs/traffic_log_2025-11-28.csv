@@ -1,0 +1,16 @@
+timestamp,camera_id,street_monitored,car_count,bus_count,truck_count,motorcycle_count,total_vehicles,occupancy_rate,flow_rate_per_min,avg_speed,avg_density,zone_id,duration_seconds
+1764374012.01,CAM_001,Av. Javier Prado,65,2,8,0,67,0.2889,67,6.08,6.55,zone1,60.57
+1764374072.03,CAM_001,Av. Javier Prado,58,0,4,0,58,0.3070,58,3.93,5.95,zone1,60.02
+1764374132.06,CAM_001,Av. Javier Prado,61,0,13,3,65,0.1229,65,17.59,2.85,zone1,60.03
+1764374192.20,CAM_001,Av. Javier Prado,64,0,2,4,69,0.1777,69,7.76,3.37,zone1,60.14
+1764374252.22,CAM_001,Av. Javier Prado,69,0,9,0,74,0.2940,74,5.47,5.86,zone1,60.02
+1764374312.24,CAM_001,Av. Javier Prado,69,0,8,3,72,0.1619,72,11.95,3.79,zone1,60.02
+1764374372.26,CAM_001,Av. Javier Prado,85,0,6,0,85,0.2710,85,5.94,4.83,zone1,60.03
+1764374433.01,CAM_001,Av. Javier Prado,82,2,16,0,89,0.2811,89,8.76,5.58,zone1,60.75
+1764374493.67,CAM_001,Av. Javier Prado,57,0,18,0,60,0.1136,60,20.29,2.44,zone1,60.66
+1764374554.58,CAM_001,Av. Javier Prado,56,0,1,0,56,0.3293,56,3.10,6.15,zone1,60.90
+1764374615.17,CAM_001,Av. Javier Prado,74,0,8,0,75,0.1675,75,13.12,4.17,zone1,60.59
+1764374675.20,CAM_001,Av. Javier Prado,56,0,2,0,56,0.1256,56,12.02,2.94,zone1,60.03
+1764374735.23,CAM_001,Av. Javier Prado,83,0,8,0,86,0.3685,86,3.09,6.38,zone1,60.03
+1764374795.26,CAM_001,Av. Javier Prado,68,0,15,0,71,0.1377,71,19.03,3.31,zone1,60.03
+1764374855.53,CAM_001,Av. Javier Prado,55,1,7,0,56,0.0961,56,12.76,2.24,zone1,60.27
