@@ -1,0 +1,5 @@
+.claude/settings.local.json
+.claude/projects/
+tmp_*.txt
+tmp_*.py
+.env
