@@ -41,9 +41,35 @@ Cada ítem es una sesión separada de Claude Code, en plan mode primero.
  [x] C8. Limpieza de raíz: mover evidence_report.md, diagrama_vial*.html, DOCUMENTACION.md a documentation/. Borrar tmp_docx_output.txt, tmp_docx_utf8.txt, tmp_read_docx.py, generate_evidence.py.
  [x] C9. Configurar Git LFS para binarios + limpiar checkpoints intermedios. LFS aplicado a 13 binarios (.joblib, .pt, .ckpt, .h5, .npy, .docx). Borrados 4 .ckpt intermedios del STGNN (~48 MB). Solo queda epoch=79-step=30800.ckpt como referencia.
  [ ] **C9.5** — Evaluar migración de `metr_la.h5` y `metr_la_dist.npy` de LFS a download-on-demand. MetrLA es un dataset público estándar; `tsl` library tiene helpers para descargarlo. Sacarlo del repo libera ~12 MB de LFS y normaliza el flujo de datasets externos. Resolver en Fase 3 cuando se trabaje con el predictor.
- C10. Verificar que docker compose up levanta db, core_management_api y edge_device sin crashes. Frontend con npm run dev puede llamar a los endpoints existentes.
+ [x] C10. Verificar que docker compose up levanta db, core_management_api y edge_device sin crashes. Frontend con npm run dev puede llamar a los endpoints existentes.
  C11. Crear un Makefile o tasks.py raíz con comandos: make up, make down, make test, make lint. Trivial pero ahorra mucho tiempo a futuro.
  C12. Commit final del bloque C: [Fase 1] Estabilización: docker compose up funciona end-to-end.
+ [ ] **C9.6** — Validación al arranque: detectar binarios LFS como
+  pointers en lugar de archivos reales y fallar con mensaje claro si
+  git-lfs no está instalado. Hoy si un dev clona sin git-lfs, los
+  modelos `.joblib` y `yolo11n.pt` vienen como punteros de texto y
+  `joblib.load()` / torch fallan con errores crípticos
+  (`UnpicklingError: invalid load key, 'v'.`). Implementar check al
+  load del modelo en `core_management_api` (predictor) y `edge_device`
+  (yolo). Si el archivo empieza con `version https://git-lfs...`,
+  fallar con mensaje accionable que apunte a CLAUDE.md sección
+  "Git LFS (requerido)". Prioridad media — no bloquea hoy pero ahorra
+  horas de soporte futuro.
+ [ ] **C10.1** — Setup de dev: documentar cómo correr tests fuera
+  del container. `pytest` y `pytest-asyncio` NO están en la imagen
+  Docker (correcto, son dev deps), entonces
+  `docker compose exec ... pytest` falla con `No module named pytest`.
+  Opciones: (a) crear `core_management_api/requirements-dev.txt` y
+  `edge_device/requirements-dev.txt` con las dev deps, documentar en
+  CLAUDE.md cómo crear venv local + instalar; (b) sumar pytest a un
+  stage de build separado del Dockerfile para correr tests dentro del
+  container. Recomendación: opción (a), más estándar. Prioridad media.
+ [ ] **C10.2** — Vulnerabilidades npm en frontend_ui. `npm install`
+  reporta 10 vulnerabilities (4 moderate, 6 high) en las dependencias
+  del frontend. Heredadas del refactor anterior, no introducidas en
+  Fase 1. Antes de defensa de tesis: correr `npm audit fix` o
+  actualización manual. Prioridad media-alta para defensa
+  (impresión profesional), baja para funcionalidad.
 
 
 BLOQUE D — Avance del lunes 4 (preparación)
