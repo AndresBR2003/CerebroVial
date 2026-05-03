@@ -7,12 +7,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Instalar paquete compartido
+COPY shared/ /shared/
+RUN pip install --no-cache-dir -e /shared
+
 # Copia de requerimientos
-COPY requirements.txt .
+COPY core_management_api/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia del codigo
-COPY . .
+COPY core_management_api/ .
 
 # Variables de entorno
 ENV PYTHONPATH=/app

@@ -9,12 +9,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalar dependencias Python primero (aprovecha el cache de Docker)
-COPY requirements.txt .
+# Instalar paquete compartido
+COPY shared/ /shared/
+RUN pip install --no-cache-dir -e /shared
+
+# Instalar dependencias Python (aprovecha el cache de Docker)
+COPY edge_device/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar el código fuente
-COPY . .
+COPY edge_device/ .
 
 # Hace que 'src' sea importable como paquete raíz
 ENV PYTHONPATH=/app
