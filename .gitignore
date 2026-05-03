@@ -6,3 +6,6 @@ tmp_*.py
 frontend_ui/.env
 *.docx
 !documentation/tesis/*.docx
+__pycache__/
+*.pyc
+.venv/
