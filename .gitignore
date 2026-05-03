@@ -3,3 +3,6 @@
 tmp_*.txt
 tmp_*.py
 .env
+frontend_ui/.env
+*.docx
+!documentation/tesis/*.docx
