@@ -6,6 +6,11 @@ tmp_*.py
 frontend_ui/.env
 *.docx
 !documentation/tesis/*.docx
+.venv/
+# Python build artifacts
+*.egg-info/
+*.egg-info
+build/
+dist/
 __pycache__/
 *.pyc
-.venv/
