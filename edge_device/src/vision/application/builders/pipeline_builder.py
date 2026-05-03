@@ -17,7 +17,7 @@ from ..processors import (
 from ..processors.smart_detection import SmartDetectionProcessor
 from ..pipelines.sync_pipeline import VisionPipeline
 from ..pipelines.async_pipeline import AsyncVisionPipeline
-from ....common.metrics import MetricsCollector
+from cerebrovial_shared.metrics import MetricsCollector
 
 class VisionApplicationBuilder:
     """

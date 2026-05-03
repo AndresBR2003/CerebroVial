@@ -7,7 +7,7 @@ import sys
 
 # Add src to path to import schemas
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from src.common.schemas.camera import CameraTrafficData
+from cerebrovial_shared.schemas.camera import CameraTrafficData
 
 # Simulation Configuration
 NUM_SAMPLES = 5000
@@ -85,7 +85,7 @@ def generate_data(num_samples=NUM_SAMPLES, output_file="data/prediction/camera_y
             
             # Validate with Pydantic schema
             try:
-                # Note: We import CameraTrafficData from src.common.schemas.camera
+                # Note: We import CameraTrafficData from cerebrovial_shared.schemas.camera
                 # But wait, the import above has a typo: .py
                 # I will fix the import in the file content.
                 pass

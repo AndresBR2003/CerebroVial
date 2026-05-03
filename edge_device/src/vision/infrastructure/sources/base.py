@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from pydantic import BaseModel, field_validator, Field
 from ...domain.protocols import FrameProducer
 from ...domain.entities import Frame
-from ....common.exceptions import SourceError
+from cerebrovial_shared.exceptions import SourceError
 
 class SourceConfig(BaseModel):
     """Validated configuration for video sources"""

@@ -1,7 +1,7 @@
 import pytest
 from datetime import datetime
 from pydantic import ValidationError
-from src.common.schemas import (
+from cerebrovial_shared.schemas import (
     Camera, GraphNode, GraphEdge, GraphConnection,
     VisionTrack, VisionFlow, WazeJam, WazeAlert
 )

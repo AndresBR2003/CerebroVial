@@ -2,7 +2,7 @@ from typing import Iterator, Tuple, Optional
 from ...domain.protocols import FrameProducer
 from ...domain.entities import FrameAnalysis, Frame
 from ..processors import FrameProcessor
-from ....common.metrics import MetricsCollector
+from cerebrovial_shared.metrics import MetricsCollector
 
 class VisionPipeline:
     """

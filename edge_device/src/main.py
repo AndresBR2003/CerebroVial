@@ -23,7 +23,7 @@ def main():
             import hydra
             from omegaconf import DictConfig, OmegaConf
             from src.vision.application.builders.pipeline_builder import VisionApplicationBuilder
-            from src.common.logging import setup_logger
+            from cerebrovial_shared.logging import setup_logger
             from src.vision.presentation.visualization.opencv_visualizer import OpenCVVisualizer
             from src.vision.infrastructure.interaction import InteractiveZoneSelector
             

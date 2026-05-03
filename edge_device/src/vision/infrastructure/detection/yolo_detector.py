@@ -7,8 +7,8 @@ from ultralytics import YOLO
 from typing import List, Tuple
 from ...domain.entities import FrameAnalysis, DetectedVehicle
 from ...domain.protocols import VehicleDetector
-from ....common.logging import setup_logger, log_execution_time
-from ....common.exceptions import DetectionError
+from cerebrovial_shared.logging import setup_logger, log_execution_time
+from cerebrovial_shared.exceptions import DetectionError
 
 class YoloDetector(VehicleDetector):
     """

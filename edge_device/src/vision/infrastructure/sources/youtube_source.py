@@ -2,7 +2,7 @@
 YouTube source implementation.
 """
 import yt_dlp
-from ....common.exceptions import SourceError
+from cerebrovial_shared.exceptions import SourceError
 from .video_source import OpenCVSource
 from .base import SourceConfig
 

@@ -6,7 +6,7 @@ import time
 from typing import Iterator, Union
 from ...domain.entities import Frame
 from ...domain.protocols import FrameProducer
-from ....common.exceptions import SourceError
+from cerebrovial_shared.exceptions import SourceError
 from .base import SourceConfig
 
 class OpenCVSource(FrameProducer):
