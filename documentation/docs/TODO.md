@@ -32,7 +32,7 @@ Cada ítem es una sesión separada de Claude Code, en plan mode primero.
  C1.8 — Arreglar ZoneCounter. test_zone_manager_update muestra que no detecta vehículos dentro del polígono cuando debería. Investigar si es bug del polygon contains o de cómo se calcula el centroide del bbox. Prioridad alta — el conteo por zonas es funcionalidad central del módulo de visión.
  C1.5 — Investigar y arreglar `test_pipeline_processing_flow` en edge_device. Race condition pre-existente entre `finally: pipeline.stop()` y el thread de procesamiento de `AsyncVisionPipeline`. Confirmado preexistente comparando con commit 0e20b0b4. Marcado xfail temporalmente. Prioridad media — no bloquea, pero conviene resolver antes de Fase 3.
  [x] C2. Crear core_management_api/src/main.py como entry point real de FastAPI con routers de prediction y control montados. Actualizar el Dockerfile de core_management_api para que apunte a src.main:app. Mantener scripts/run_prediction.py como entry alternativo de dev.
- C3. Sacar ia_prediction_service del docker-compose.yml. Documentar en su README cómo correrlo manualmente para entrenar.
+ [x] C3. Sacar ia_prediction_service del docker-compose.yml. Documentar en su README cómo correrlo manualmente para entrenar.
  C4. Renombrar el servicio compose db_postgres → db (o cambiar el .env para que use db_postgres). Lo que sea menos invasivo.
  C5. Sacar db_mongo del docker-compose.yml. Documentar en docs/DECISIONS.md que MongoDB se reemplaza por PostgreSQL+TimescaleDB para todo (incluyendo logs).
  C6. Sacar api_gateway del docker-compose.yml. Borrar la referencia al directorio inexistente.

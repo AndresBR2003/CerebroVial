@@ -1,23 +1,48 @@
-# Traffic Prediction with Spatiotemporal Graph Neural Networks
+# ia_prediction_service
 
-[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.3+-ee4c2c.svg)](https://pytorch.org/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+## Qué es
+Pipeline de entrenamiento offline para los modelos de predicción de
+tráfico. Basado en PyTorch Lightning + tsl. **NO es un servicio HTTP.**
+No tiene FastAPI, no expone endpoints, no se ejecuta como contenedor
+permanente.
 
-Proyecto de predicción de congestión de tráfico utilizando Redes Neuronales de Grafos Espaciotemporales (STGNN) basado en [Torch Spatiotemporal (tsl)](https://torch-spatiotemporal.readthedocs.io/).
+## Por qué no está en docker-compose.yml
+Porque no es un servicio. Se invoca manualmente cuando hace falta
+(re)entrenar modelos. Mantenerlo en `docker compose up` rompía el
+arranque del sistema entero.
 
-## 📋 Descripción
+## Cómo correrlo
 
-Este proyecto implementa un modelo de aprendizaje profundo para predecir el tráfico vehicular utilizando datos de sensores distribuidos en una red de carreteras. El modelo aprovecha tanto las relaciones temporales (patrones de tráfico a lo largo del tiempo) como las relaciones espaciales (conectividad entre sensores en la red vial).
+### Opción A — Sin Docker (desarrollo local)
+```bash
+cd ia_prediction_service
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+pip install -r requirements.txt
+python scripts/train.py
+```
 
-### Características Principales
+### Opción B — Con Docker (reproducible, recomendado para CI)
+```bash
+# Build (desde la raíz del repo)
+docker build -f ia_prediction_service/Dockerfile \
+             -t cerebrovial-trainer \
+             ia_prediction_service/
 
-- 🧠 **Arquitectura Time-then-Space**: Procesa primero patrones temporales con RNN, luego patrones espaciales con GNN
-- 📊 **Dataset MetrLA**: 207 sensores de tráfico en autopistas de Los Ángeles
-- ⚡ **PyTorch Lightning**: Entrenamiento estructurado y escalable
-- 📈 **TensorBoard**: Monitoreo en tiempo real del entrenamiento
-- 🔧 **Configuración YAML**: Fácil ajuste de hiperparámetros
-- 📦 **Código Modular**: Estructura clara y mantenible
-- ✅ **Tests Unitarios**: Cobertura de componentes críticos
+# Run
+docker run --rm \
+  -v $(pwd)/models:/app/models \
+  cerebrovial-trainer
+```
 
-## 🏗️ Arquitectura del Modelo
+El volumen `-v models:/app/models` es para que el modelo entrenado
+quede en el host, no se pierda al cerrar el contenedor.
+
+## Estado actual del modelo
+Hoy este pipeline entrena un STGNN. Según `docs/DECISIONS.md`, se va
+a reemplazar por GRU en Fase 3. El código del STGNN se mantiene como
+referencia hasta que el GRU esté validado.
+
+## Salidas
+- Checkpoints en `notebooks/logs/`
+- Modelo final en `models/` (montado como volumen si se usa Docker)

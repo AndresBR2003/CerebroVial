@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Dependencias para ciencias de datos basicas
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq-dev build-essential \
+    libpq-dev build-essential git \
     && rm -rf /var/lib/apt/lists/*
 
 # Normalmente aqui iria un pip install de PyTorch/Scikit-Learn
@@ -16,4 +16,4 @@ COPY . .
 ENV PYTHONPATH=/app
 EXPOSE 8002
 
-CMD ["python", "main.py"]
+CMD ["python", "scripts/train.py"]
