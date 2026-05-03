@@ -7,7 +7,7 @@ import sys
 
 # Add src to path to import schemas
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from src.common.schemas.waze import WazeTrafficData
+from cerebrovial_shared.schemas.waze import WazeTrafficData
 
 # Simulation Configuration
 NUM_SAMPLES = 5000  # Number of rows to generate
