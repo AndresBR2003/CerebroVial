@@ -25,6 +25,7 @@ BLOQUE C — Fase 1: Estabilización del repo (objetivo: lunes 4 o domingo 3)
 Cada ítem es una sesión separada de Claude Code, en plan mode primero.
 
  C1. Consolidar common/ en un solo lugar: crear shared/ (o cerebrovial_common/) en la raíz con pyproject.toml mínimo, mover el contenido de core_management_api/src/common/ ahí, instalar como paquete pip local en ambos servicios (pip install -e ../shared), borrar el common/ duplicado de edge_device/. Verificar que tests siguen pasando.
+ C1.1. Resolver duplicación de setup_logger: definida en logging.py (con param `level`) y en utils.py (INFO hardcoded). Decidir cuál queda, eliminar la otra, actualizar imports.
  C2. Crear core_management_api/src/main.py como entry point real de FastAPI con routers de prediction y control montados. Actualizar el Dockerfile de core_management_api para que apunte a src.main:app. Mantener scripts/run_prediction.py como entry alternativo de dev.
  C3. Sacar ia_prediction_service del docker-compose.yml. Documentar en su README cómo correrlo manualmente para entrenar.
  C4. Renombrar el servicio compose db_postgres → db (o cambiar el .env para que use db_postgres). Lo que sea menos invasivo.

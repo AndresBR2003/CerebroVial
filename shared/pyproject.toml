@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cerebrovial-shared"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.0",
+    "sqlalchemy>=2.0",
+    "geoalchemy2",
+    "omegaconf",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cerebrovial_shared*"]
