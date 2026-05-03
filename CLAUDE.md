@@ -68,9 +68,17 @@ NO usar `docker compose ...` directo — `invoke` agrega validaciones
   `documentation/tesis/`.
 
 ## Estado del proyecto
-Ver `documentation/docs/20260430_ARCHITECTURE_DISCOVERY.md` para el assessment completo del 
-estado al 30/04/2026. Ver `documentation/docs/PLAN.md` para el plan de fases actual.
-Ver `documentation/docs/DECISIONS.md` para las decisiones técnicas y su justificación.
+
+**Fase 1 (Estabilización del repo):** ✓ Cerrada el 2026-05-03.
+Ver `documentation/docs/20260503_PHASE1_CLOSURE.md` para detalle.
+
+**Fase 2 (Backend conectado: DB real, auth, SSE, frontend integrado):**
+próxima.
+
+**Fase 3 (Predictor GRU + control adaptativo + métricas comparativas):**
+después de Fase 2.
+
+Detalle en `documentation/docs/PLAN.md`.
 
 ## Git LFS (requerido)
 Este repo usa Git LFS para binarios (.joblib, .pt, .ckpt, .h5, .npy, .docx).
