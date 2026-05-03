@@ -33,7 +33,7 @@ Cada ítem es una sesión separada de Claude Code, en plan mode primero.
  C1.5 — Investigar y arreglar `test_pipeline_processing_flow` en edge_device. Race condition pre-existente entre `finally: pipeline.stop()` y el thread de procesamiento de `AsyncVisionPipeline`. Confirmado preexistente comparando con commit 0e20b0b4. Marcado xfail temporalmente. Prioridad media — no bloquea, pero conviene resolver antes de Fase 3.
  [x] C2. Crear core_management_api/src/main.py como entry point real de FastAPI con routers de prediction y control montados. Actualizar el Dockerfile de core_management_api para que apunte a src.main:app. Mantener scripts/run_prediction.py como entry alternativo de dev.
  [x] C3. Sacar ia_prediction_service del docker-compose.yml. Documentar en su README cómo correrlo manualmente para entrenar.
- C4. Renombrar el servicio compose db_postgres → db (o cambiar el .env para que use db_postgres). Lo que sea menos invasivo.
+ [x] C4. Renombrar el servicio compose db_postgres → db (o cambiar el .env para que use db_postgres). Lo que sea menos invasivo.
  C5. Sacar db_mongo del docker-compose.yml. Documentar en docs/DECISIONS.md que MongoDB se reemplaza por PostgreSQL+TimescaleDB para todo (incluyendo logs).
  C6. Sacar api_gateway del docker-compose.yml. Borrar la referencia al directorio inexistente.
  C7. Limpiar core_management_api/requirements.txt: sacar torch, ultralytics, opencv-python, supervision, hydra-core, cap_from_youtube, imageio-ffmpeg, streamlink, shapely. Mantener fastapi, uvicorn, sqlalchemy, geoalchemy2, alembic, numpy, pandas, scikit-learn, psycopg2-binary, sse-starlette, python-jose[cryptography], passlib[bcrypt], httpx, python-multipart.

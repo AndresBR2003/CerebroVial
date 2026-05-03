@@ -25,8 +25,8 @@ ML: PyTorch + PyTorch Lightning (modelo RNN). Frontend: React 19 +
 TypeScript + Vite + Tailwind 4 + Leaflet.
 
 ## Cómo levantar
-`docker compose up` (objetivo Sprint 1; hoy sólo `edge_device` y `db_postgres` 
-funcionan vía compose).
+`docker compose up` (objetivo Sprint 1; hoy `edge_device`, `db`, `core_management_api`,
+`db_mongo` y `api_gateway` levantan; `db_mongo` y `api_gateway` se van a remover en C5 y C6).
 
 ## Decisiones tomadas
 - **Arquitectura**: monolito modular, NO microservicios. Las carpetas separadas 

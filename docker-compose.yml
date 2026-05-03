@@ -3,7 +3,7 @@ services:
   # ------------------------------------
   # DOMINIO DE DATOS
   # ------------------------------------
-  db_postgres:
+  db:
     image: timescale/timescaledb-ha:pg15
     env_file: .env
     environment:
@@ -60,7 +60,7 @@ services:
     ports:
       - "8001:8001"
     depends_on:
-      db_postgres:
+      db:
         condition: service_healthy
     deploy:
       resources:
@@ -78,7 +78,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      db_postgres:
+      db:
         condition: service_healthy
     deploy:
       resources:
