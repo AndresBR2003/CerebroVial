@@ -1,24 +1,24 @@
 BLOQUE A — Decisiones y comunicación (no es código, es lo más importante)
 
- A1. Llamar a tu compañero. Mostrarle el assessment, este plan, las decisiones sensibles. Acordar reparto de trabajo: vos código, él documento de tesis (recomendado).
- A2. Llamar al asesor de tesis. Tres preguntas concretas: (1) ¿podemos actualizar los números 88.2% / 81.3% / <2s tras validación real?; (2) ¿es aceptable demostrar "arquitectura desplegable en Pi" sin entregar Pi física?; (3) ¿demo local con plan de deploy en Azure cubre la "arquitectura híbrida" del documento?
- A3. Decidir formalmente: el modelo es GRU (una arquitectura RNN). Documentarlo en un commit de tesis o en docs/DECISIONS.md.
- A4. Acordar con el compañero el refinamiento del backlog (mover HU04 al Sprint 2, reducir alcance de HU07, distribuir SP de forma pareja).
+ [x]A1. Llamar a tu compañero. Mostrarle el assessment, este plan, las decisiones sensibles. Acordar reparto de trabajo: vos código, él documento de tesis (recomendado).
+ [x]A2. Llamar al asesor de tesis. Tres preguntas concretas: (1) ¿podemos actualizar los números 88.2% / 81.3% / <2s tras validación real?; (2) ¿es aceptable demostrar "arquitectura desplegable en Pi" sin entregar Pi física?; (3) ¿demo local con plan de deploy en Azure cubre la "arquitectura híbrida" del documento?
+ [x]A3. Decidir formalmente: el modelo es GRU (una arquitectura RNN). Documentarlo en un commit de tesis o en docs/DECISIONS.md.
+ [x]A4. Acordar con el compañero el refinamiento del backlog (mover HU04 al Sprint 2, reducir alcance de HU07, distribuir SP de forma pareja).
 
 
 BLOQUE B — Fase 0: Documentación honesta del estado actual (objetivo: lunes 4)
 
- B1. Mergear analysis/initial-discovery a main con el assessment incluido como docs/ARCHITECTURE_DISCOVERY.md.
- B2. Mover el CLAUDE.md antiguo del compañero a docs/SPEC.md (es la especificación target, no el estado actual).
- B3. Crear el nuevo CLAUDE.md raíz con el contenido del mensaje anterior, ajustado a las decisiones tomadas (monolito modular, GRU, docker local).
- B4. Crear docs/PLAN.md con las 4 fases del plan que te pasé.
- B5. Crear docs/TODO.md con esta misma lista para que sea trackeable.
- B6. Crear docs/DECISIONS.md con las 5 decisiones tomadas (monolito, GRU, local docker, Pi conceptual, números reales tras validación). Cada una con fecha y justificación de una línea.
- B7. Crear docs/BACKLOG_V2.md con el backlog refinado (resultado de A4).
- B8. Verificar que .env esté en .gitignore. Si está versionado, rotar credenciales y agregarlo al ignore.
- B9. Agregar al .gitignore: .claude/settings.local.json, .claude/projects/, tmp_*.txt, tmp_*.py, *.docx excepto los que estén en documentation/tesis/.
- B10. Borrar CLAUDE.md.old (ya no es necesario, el contenido vive en docs/SPEC.md).
- B11. Commit final del bloque B con mensaje [Fase 0] Documentación de estado y plan.
+ [x] B1. Mergear analysis/initial-discovery a main con el assessment incluido como docs/ARCHITECTURE_DISCOVERY.md.
+ [x] B2. Mover el CLAUDE.md antiguo del compañero a docs/SPEC.md (es la especificación target, no el estado actual).
+ [x] B3. Crear el nuevo CLAUDE.md raíz con el contenido del mensaje anterior, ajustado a las decisiones tomadas (monolito modular, GRU, docker local).
+ [x] B4. Crear docs/PLAN.md con las 4 fases del plan que te pasé.
+ [x] B5. Crear docs/TODO.md con esta misma lista para que sea trackeable.
+ [x] B6. Crear docs/DECISIONS.md con las 5 decisiones tomadas (monolito, GRU, local docker, Pi conceptual, números reales tras validación). Cada una con fecha y justificación de una línea.
+ [x] B7. Crear docs/BACKLOG_V2.md con el backlog refinado (resultado de A4).
+ [x] B8. Verificar que .env esté en .gitignore. Si está versionado, rotar credenciales y agregarlo al ignore.
+ [x] B9. Agregar al .gitignore: .claude/settings.local.json, .claude/projects/, tmp_*.txt, tmp_*.py, *.docx excepto los que estén en documentation/tesis/.
+ [x] B10. Borrar CLAUDE.md.old (ya no es necesario, el contenido vive en docs/SPEC.md).
+ [x] B11. Commit final del bloque B con mensaje [Fase 0] Documentación de estado y plan.
 
 
 BLOQUE C — Fase 1: Estabilización del repo (objetivo: lunes 4 o domingo 3)
