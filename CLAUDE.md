@@ -24,9 +24,22 @@ PostGIS + TimescaleDB. Vision: ultralytics YOLO + supervision + opencv.
 ML: PyTorch + PyTorch Lightning (modelo RNN). Frontend: React 19 + 
 TypeScript + Vite + Tailwind 4 + Leaflet.
 
-## Cómo levantar
-`docker compose up` levanta `edge_device`, `db` y `core_management_api`.
-(`db_mongo` y `api_gateway` ya se removieron en C5/C6.)
+## Cómo levantar el proyecto
+
+El repo usa `invoke` (gestor de tareas en Python) para envolver los
+comandos frecuentes. Ver lista completa con `invoke --list`.
+
+Setup primer-uso:
+1. Tener instalados los prerequisitos (ver README.md raíz).
+2. `cp .env.example .env` y completar valores.
+3. `pip install invoke`
+4. `invoke setup-dev` (crea venv local con deps de dev)
+5. `invoke up`
+
+Día a día: `invoke up`, `invoke down`, `invoke logs`, `invoke test`.
+
+NO usar `docker compose ...` directo — `invoke` agrega validaciones
+(check de LFS, etc.) que evitan errores crípticos.
 
 ## Decisiones tomadas
 - **Arquitectura**: monolito modular, NO microservicios. Las carpetas separadas 
