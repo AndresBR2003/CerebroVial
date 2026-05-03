@@ -54,8 +54,8 @@ services:
 
   core_management_api:
     build:
-      context: ./core_management_api
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: core_management_api/Dockerfile
     env_file: .env
     ports:
       - "8001:8001"
@@ -87,8 +87,8 @@ services:
   # ------------------------------------
   edge_device:
     build:
-      context: ./edge_device
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: edge_device/Dockerfile
     env_file: .env
     ports:
       - "8000:8000"
