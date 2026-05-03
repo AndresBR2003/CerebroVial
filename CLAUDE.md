@@ -25,8 +25,8 @@ ML: PyTorch + PyTorch Lightning (modelo RNN). Frontend: React 19 +
 TypeScript + Vite + Tailwind 4 + Leaflet.
 
 ## Cómo levantar
-`docker compose up` (objetivo Sprint 1; hoy `edge_device`, `db`, `core_management_api`,
-`db_mongo` y `api_gateway` levantan; `db_mongo` y `api_gateway` se van a remover en C5 y C6).
+`docker compose up` levanta `edge_device`, `db` y `core_management_api`.
+(`db_mongo` y `api_gateway` ya se removieron en C5/C6.)
 
 ## Decisiones tomadas
 - **Arquitectura**: monolito modular, NO microservicios. Las carpetas separadas 
@@ -39,9 +39,10 @@ TypeScript + Vite + Tailwind 4 + Leaflet.
 ## Reglas para Claude Code
 - NO refactorizar `edge_device/src/vision/`. Es el subsistema mejor armado y 
   con tests reales. Tocar sólo cuando se pida explícitamente.
-- NO modificar `ia_prediction_service/src/models/time_then_space.py` ni los 
-  `.ckpt` en `notebooks/logs/`. El STGNN se descarta pero el código queda 
-  como referencia hasta que el RNN esté funcional.
+- NO modificar `ia_prediction_service/src/models/time_then_space.py`. El STGNN
+  se descarta pero el código queda como referencia hasta que el RNN esté funcional.
+  En `notebooks/logs/` solo queda `epoch=79-step=30800.ckpt` (en LFS); los 4
+  checkpoints intermedios se borraron en C9.
 - NO duplicar más código en `common/`. Hoy `core_management_api/src/common/` 
   y `edge_device/src/common/` son byte-idénticos; eso se consolida en Sprint 1.
 - NO instalar `torch` ni `ultralytics` en `core_management_api`. Los 
@@ -57,3 +58,14 @@ TypeScript + Vite + Tailwind 4 + Leaflet.
 Ver `documentation/docs/20260430_ARCHITECTURE_DISCOVERY.md` para el assessment completo del 
 estado al 30/04/2026. Ver `documentation/docs/PLAN.md` para el plan de fases actual.
 Ver `documentation/docs/DECISIONS.md` para las decisiones técnicas y su justificación.
+
+## Git LFS (requerido)
+Este repo usa Git LFS para binarios (.joblib, .pt, .ckpt, .h5, .npy, .docx).
+Antes de clonar o pull, instalar git-lfs y configurarlo:
+
+  brew install git-lfs   # macOS
+  # o: apt install git-lfs   # Linux Debian/Ubuntu
+  git lfs install
+
+Sin LFS, los archivos binarios van a venir como pointers de texto y
+`docker compose up` va a fallar al cargar modelos.
