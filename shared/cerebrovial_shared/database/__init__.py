@@ -1,4 +1,4 @@
-from .database import engine, SessionLocal, Base, get_db, init_db
+from .database import engine, SessionLocal, Base, get_db
 from .models import (
     GraphNodeDB, GraphEdgeDB, CameraDB,
     WazeJamDB, WazeAlertDB,
@@ -6,7 +6,7 @@ from .models import (
 )
 
 __all__ = [
-    "engine", "SessionLocal", "Base", "get_db", "init_db",
+    "engine", "SessionLocal", "Base", "get_db",
     "GraphNodeDB", "GraphEdgeDB", "CameraDB",
     "WazeJamDB", "WazeAlertDB",
     "VisionTrackDB", "VisionFlowDB"
