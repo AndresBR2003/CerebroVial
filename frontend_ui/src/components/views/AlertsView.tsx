@@ -1,4 +1,6 @@
 import React from 'react';
+import { Alert } from '../../types';
+
 import { AlertTriangle, Sparkles } from 'lucide-react';
 import { Card } from '../ui/Card';
 
@@ -10,7 +12,7 @@ const alerts = [
 ];
 
 interface AlertsViewProps {
-    setSelectedAlertForReport: (alert: any) => void;
+    setSelectedAlertForReport: (alert: Alert) => void;
 }
 
 export const AlertsView = ({ setSelectedAlertForReport }: AlertsViewProps) => {

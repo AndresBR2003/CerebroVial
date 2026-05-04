@@ -1,0 +1,68 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master, fase-* ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  backend-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff pytest
+          pip install -r core_management_api/requirements.txt
+
+      - name: Lint with ruff
+        run: ruff check .
+
+      - name: Run backend tests
+        run: |
+          cd core_management_api
+          pytest
+
+  frontend-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: frontend_ui/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd frontend_ui
+          npm ci
+
+      - name: Lint frontend
+        run: |
+          cd frontend_ui
+          npm run lint
+
+      - name: Run frontend tests
+        run: |
+          cd frontend_ui
+          npm run test -- --run
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker images
+        run: docker compose build

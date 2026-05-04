@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Alert } from './types';
+
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';
 import { DashboardView } from './components/views/DashboardView';
@@ -13,7 +15,7 @@ import { AIChatWidget } from './components/widgets/AIChatWidget';
 const CerebroVialApp = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showThesis, setShowThesis] = useState(false);
-  const [selectedAlertForReport, setSelectedAlertForReport] = useState<any>(null);
+  const [selectedAlertForReport, setSelectedAlertForReport] = useState<Alert | null>(null);
   const [selectedCameraId, setSelectedCameraId] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
 

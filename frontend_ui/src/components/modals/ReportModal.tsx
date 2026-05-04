@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Alert } from '../../types';
+
 import { Sparkles, X, Loader2, Copy } from 'lucide-react';
 
 // --- CONFIGURACIÓN API GEMINI ---
@@ -31,7 +33,7 @@ const callGeminiAPI = async (prompt: string) => {
     }
 };
 
-export const ReportModal = ({ alert, onClose }: { alert: any, onClose: () => void }) => {
+export const ReportModal = ({ alert, onClose }: { alert: Alert, onClose: () => void }) => {
     const [report, setReport] = useState("");
     const [loading, setLoading] = useState(true);
 
