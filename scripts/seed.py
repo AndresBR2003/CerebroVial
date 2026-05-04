@@ -1,19 +1,26 @@
 """
 Seed inicial de datos reales de Miraflores para graph_nodes, graph_edges y cameras.
 Idempotente: usa session.merge() — se puede correr múltiples veces sin duplicar filas.
-
-# TODO E7: agregar seed de usuario admin
 """
 
 import math
 import os
+from datetime import datetime
 from pathlib import Path
 
 from geoalchemy2 import WKTElement
+import bcrypt
 from sqlalchemy import create_engine, func, select
 from sqlalchemy.orm import Session
 
-from cerebrovial_shared.database.models import CameraDB, GraphEdgeDB, GraphNodeDB
+from cerebrovial_shared.database.models import CameraDB, GraphEdgeDB, GraphNodeDB, UserDB
+
+# ID fijo para que seed sea idempotente (session.merge lo reutiliza)
+_ADMIN_ID = "00000000-0000-0000-0000-000000000001"
+
+
+def _hash_password(plain: str) -> str:
+    return bcrypt.hashpw(plain.encode(), bcrypt.gensalt()).decode()
 
 
 def _load_dotenv() -> None:
@@ -129,10 +136,21 @@ def main() -> None:
 
         session.commit()
 
-        n_nodes = session.scalar(select(func.count()).select_from(GraphNodeDB))
-        n_edges = session.scalar(select(func.count()).select_from(GraphEdgeDB))
-        n_cams  = session.scalar(select(func.count()).select_from(CameraDB))
-        print(f"Nodes: {n_nodes}, Edges: {n_edges}, Cameras: {n_cams}")
+        # TODO: cambiar password antes de demo
+        session.merge(UserDB(
+            id=_ADMIN_ID,
+            email="admin@cerebrovial.pe",
+            password_hash=_hash_password("admin123"),
+            role="admin",
+            created_at=datetime.utcnow(),
+        ))
+        session.commit()
+
+        n_nodes  = session.scalar(select(func.count()).select_from(GraphNodeDB))
+        n_edges  = session.scalar(select(func.count()).select_from(GraphEdgeDB))
+        n_cams   = session.scalar(select(func.count()).select_from(CameraDB))
+        n_users  = session.scalar(select(func.count()).select_from(UserDB))
+        print(f"Nodes: {n_nodes}, Edges: {n_edges}, Cameras: {n_cams}, Users: {n_users}")
 
 
 if __name__ == "__main__":
