@@ -31,6 +31,19 @@ _db_url = _db_url.replace("@db:", "@localhost:")
 from cerebrovial_shared.database import Base  # noqa: E402
 import cerebrovial_shared.database.models  # noqa: E402, F401
 
+# Tablas internas de PostGIS/TopologyDB que Alembic NO debe tocar
+_POSTGIS_INTERNAL_TABLES = {
+    "spatial_ref_sys",
+    "layer",
+    "topology",
+}
+
+def include_object(_object, name, type_, _reflected, _compare_to):
+    """Excluir tablas internas de PostGIS del autogenerate."""
+    if type_ == "table" and name in _POSTGIS_INTERNAL_TABLES:
+        return False
+    return True
+
 config = context.config
 
 if config.config_file_name is not None:
@@ -64,6 +77,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        include_object=include_object,
     )
 
     with context.begin_transaction():
@@ -85,7 +99,9 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
+            include_object=include_object,
         )
 
         with context.begin_transaction():
