@@ -65,7 +65,7 @@ Cada ítem es sesión separada de Claude Code.
  [x] E2. Generar la primera migración con todas las tablas modeladas: alembic revision --autogenerate -m "initial schema". Revisar el SQL generado antes de aplicar.
  [x] E3. Generar segunda migración para activar TimescaleDB hypertables sobre vision_tracks, vision_flows, waze_jams, waze_alerts. Esto es SQL manual: SELECT create_hypertable('vision_tracks', 'timestamp');.
  [x] E4. Borrar la función init_db() que nadie llama. Las tablas ahora se crean con alembic upgrade head.
- E5. Crear scripts/seed.py con datos reales de Miraflores: 5 intersecciones (Av. Larco, Av. José Pardo, Av. Angamos, Av. Arequipa, Av. del Ejército) con sus coordenadas reales, las 4 cámaras con sus URLs YouTube, un usuario admin de prueba.
+ [x] E5. Crear scripts/seed.py con datos reales de Miraflores: 5 intersecciones (Av. Larco, Av. José Pardo, Av. Angamos, Av. Arequipa, Av. del Ejército) con sus coordenadas reales, las 4 cámaras con sus URLs YouTube, un usuario admin de prueba.
  E6. Modificar el frontend DashboardView.tsx para que las coordenadas de cámaras vengan de GET /api/intersections en lugar de estar hardcoded.
  E7. Crear modelo User en shared/database/models.py: id, email, password_hash, role (operador / analista / admin), created_at.
  E8. Implementar endpoint POST /api/auth/login: recibe email + password, valida con passlib, retorna JWT con python-jose.
