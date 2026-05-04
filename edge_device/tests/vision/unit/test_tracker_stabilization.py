@@ -1,5 +1,3 @@
-import pytest
-from unittest.mock import MagicMock
 from src.vision.infrastructure.tracking.supervision_tracker import SupervisionTracker
 from src.vision.domain.entities import DetectedVehicle
 
@@ -42,7 +40,7 @@ def test_class_stabilization():
     
     # Frame 4: Truck (Noise continues?)
     d4 = [DetectedVehicle("0", "truck", 0.8, bbox, 1.3)]
-    res4 = tracker.track(d4)
+    tracker.track(d4)
     # History: [1, 1, 2, 2]. Tie? max() behavior depends on implementation, usually first one encountered or lowest value.
     # If tie, it might flip. Let's see.
     

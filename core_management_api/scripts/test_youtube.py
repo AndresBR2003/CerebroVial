@@ -78,7 +78,7 @@ def test_with_streamlink(youtube_url: str):
             
             total_time = time.time() - start_time
             avg_fps = frame_count / total_time
-            print(f"\nEstadísticas:")
+            print("\nEstadísticas:")
             print(f"  Tiempo total: {total_time:.2f}s")
             print(f"  Frames totales: {frame_count}")
             print(f"  FPS promedio: {avg_fps:.2f}")
@@ -164,7 +164,7 @@ def test_with_ytdlp(youtube_url: str):
             
             total_time = time.time() - start_time
             avg_fps = frame_count / total_time
-            print(f"\nEstadísticas:")
+            print("\nEstadísticas:")
             print(f"  Tiempo total: {total_time:.2f}s")
             print(f"  Frames totales: {frame_count}")
             print(f"  FPS promedio: {avg_fps:.2f}")

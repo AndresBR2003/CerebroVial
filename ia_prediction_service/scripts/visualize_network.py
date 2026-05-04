@@ -203,7 +203,7 @@ def main():
     # Load dataset
     logger.info("\nLoading dataset...")
     data_loader = DatasetLoader(config['data'])
-    dataset = data_loader.load_dataset()
+    data_loader.load_dataset()
     connectivity = data_loader.compute_connectivity()
     
     # Load locations

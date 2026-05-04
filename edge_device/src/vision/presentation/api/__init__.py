@@ -34,7 +34,7 @@ def set_pipeline(pipeline, visualizer):
     Legacy compatibility. 
     In the new architecture, we add a default camera with this pipeline.
     """
-    manager = cameras.get_manager()
+    cameras.get_manager()
     # We can't easily inject an existing pipeline into the manager because the manager builds them.
     # But run_server.py builds a pipeline first. 
     # For now, we might need to refactor run_server.py to use the manager directly 

@@ -6,7 +6,7 @@ import numpy as np
 from unittest.mock import patch, MagicMock
 from omegaconf import OmegaConf
 from src.vision.application.builders.pipeline_builder import VisionApplicationBuilder
-from src.vision.domain.entities import Frame, FrameAnalysis, DetectedVehicle, ZoneVehicleCount
+from src.vision.domain.entities import FrameAnalysis, DetectedVehicle, ZoneVehicleCount
 
 @pytest.fixture
 def temp_output_dir():
@@ -62,7 +62,7 @@ def test_persistence_integration(temp_output_dir):
         mock_cap.return_value.read.side_effect = [(True, dummy_frame)] * 5 + [(False, None)]
         
         # Mock YOLO to return dummy detections
-        with patch('src.vision.infrastructure.detection.yolo_detector.YOLO') as mock_yolo:
+        with patch('src.vision.infrastructure.detection.yolo_detector.YOLO'):
             # Mock detector to return a vehicle in the zone
             mock_detector = MagicMock()
             mock_detector.detect.return_value = FrameAnalysis(

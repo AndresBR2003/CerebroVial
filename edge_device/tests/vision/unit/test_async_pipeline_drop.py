@@ -1,5 +1,3 @@
-import pytest
-import time
 import queue
 from unittest.mock import MagicMock
 from src.vision.application.pipelines.async_pipeline import AsyncVisionPipeline

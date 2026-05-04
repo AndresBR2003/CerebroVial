@@ -20,10 +20,8 @@ def main():
         print("Initializing Computer Vision Module...")
         try:
             import cv2
-            import hydra
-            from omegaconf import DictConfig, OmegaConf
+            from omegaconf import OmegaConf
             from src.vision.application.builders.pipeline_builder import VisionApplicationBuilder
-            from cerebrovial_shared.logging import setup_logger
             from src.vision.presentation.visualization.opencv_visualizer import OpenCVVisualizer
             from src.vision.infrastructure.interaction import InteractiveZoneSelector
             

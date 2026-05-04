@@ -4,9 +4,9 @@ from fastapi.testclient import TestClient
 from unittest.mock import MagicMock
 
 # from src.main import app  # Check if app is exposed here, or create a throwaway app with router
-from src.prediction.presentation.api.routes import router, get_predictor, init_predictor
+from src.prediction.presentation.api.routes import router, get_predictor
 from src.prediction.application.predictor import CongestionPredictor
-from src.prediction.presentation.api.schemas import PredictionInput, HistoricalDataPoint
+from src.prediction.presentation.api.schemas import HistoricalDataPoint
 
 # Setup standalone app for testing router if main app has complex deps
 from fastapi import FastAPI

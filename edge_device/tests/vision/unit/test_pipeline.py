@@ -1,5 +1,4 @@
-import pytest
-from unittest.mock import Mock, MagicMock
+from unittest.mock import Mock
 from src.vision.application.pipelines.sync_pipeline import VisionPipeline
 from src.vision.domain.protocols import FrameProducer
 from src.vision.domain.entities import Frame

@@ -1,8 +1,6 @@
 import os
 import csv
-import os
 from datetime import datetime
-from typing import List
 from ...domain.entities import TrafficData
 from ...domain.repositories import TrafficRepository
 

@@ -3,12 +3,11 @@ Dataset loading and initialization module.
 """
 
 import logging
-from typing import Optional, Dict, Any
+from typing import Dict, Any
 from pathlib import Path
 
 from tsl.datasets import MetrLA
 from tsl.data import SpatioTemporalDataset
-import pandas as pd
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +38,7 @@ class DatasetLoader:
     
     def _log_dataset_info(self):
         """Log dataset information."""
-        logger.info(f"Dataset loaded successfully:")
+        logger.info("Dataset loaded successfully:")
         logger.info(f"  - Shape: {self.dataset.dataframe().shape}")
         logger.info(f"  - Nodes: {self.dataset.n_nodes}")
         logger.info(f"  - Missing values: {(1 - self.dataset.mask.mean()) * 100:.2f}%")

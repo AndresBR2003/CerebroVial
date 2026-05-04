@@ -1,4 +1,3 @@
-import pytest
 from unittest.mock import MagicMock
 from src.vision.application.aggregators.sync_aggregator import TrafficDataAggregator
 from src.vision.domain.entities import FrameAnalysis, ZoneVehicleCount

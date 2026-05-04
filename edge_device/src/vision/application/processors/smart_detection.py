@@ -1,7 +1,7 @@
 from typing import Optional, List, Dict, Tuple
 import time
 import threading
-from ...domain.entities import Frame, FrameAnalysis, DetectedVehicle
+from ...domain.entities import Frame, FrameAnalysis
 from ...domain.protocols import VehicleDetector
 from . import FrameProcessor
 

@@ -1,7 +1,6 @@
 import torch
-from typing import List, Tuple
-from ..domain import VisionTrafficData, WazeTrafficData, NodeFeatures, TrafficGraph
-import numpy as np
+from typing import List
+from ..domain import VisionTrafficData, WazeTrafficData, NodeFeatures
 
 class TrafficDataLoader:
     """

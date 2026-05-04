@@ -1,7 +1,7 @@
 """
 Domain entities for the Congestion Prediction module.
 """
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List, Optional, Protocol, Any
 from datetime import datetime
 import torch

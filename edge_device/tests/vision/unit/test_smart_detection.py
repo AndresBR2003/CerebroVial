@@ -1,6 +1,5 @@
 import pytest
-import time
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 from src.vision.application.processors.smart_detection import SmartDetectionProcessor
 from src.vision.domain.entities import Frame, FrameAnalysis, DetectedVehicle
 

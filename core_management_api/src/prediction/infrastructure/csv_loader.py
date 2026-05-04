@@ -1,7 +1,7 @@
 import pandas as pd
 import glob
 import os
-from typing import Tuple, List, Optional
+from typing import List, Optional
 import logging
 
 logger = logging.getLogger(__name__)

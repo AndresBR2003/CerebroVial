@@ -2,11 +2,10 @@
 Manager for multiple independent camera pipelines.
 """
 import time
-from typing import Dict, List, Optional, Any
+from typing import Dict, Optional, Any
 from dataclasses import dataclass
 from omegaconf import DictConfig
 import asyncio
-from ..pipelines.async_pipeline import AsyncVisionPipeline
 from ..builders.pipeline_builder import VisionApplicationBuilder
 from ...infrastructure.broadcast.realtime_broadcaster import RealtimeBroadcaster
 from ...presentation.visualization.opencv_visualizer import OpenCVVisualizer

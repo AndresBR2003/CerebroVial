@@ -1,6 +1,5 @@
 from omegaconf import DictConfig, OmegaConf
 from pathlib import Path
-from typing import Optional
 
 class ConfigManager:
     """Centraliza la carga y validación de configuración"""

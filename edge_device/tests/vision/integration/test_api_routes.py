@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import MagicMock, patch
-from src.vision.presentation.api.routes.cameras import app, init_manager
+from src.vision.presentation.api.routes.cameras import app
 
 @pytest.fixture
 def client():

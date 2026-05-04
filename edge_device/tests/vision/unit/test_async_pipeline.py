@@ -1,8 +1,6 @@
 import pytest
-import threading
-import queue
 import time
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 from src.vision.application.pipelines.async_pipeline import AsyncVisionPipeline
 from src.vision.domain.entities import Frame, FrameAnalysis
 

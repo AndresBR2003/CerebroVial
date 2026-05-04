@@ -3,7 +3,7 @@ OpenCV-based video source implementation.
 """
 import cv2
 import time
-from typing import Iterator, Union
+from typing import Iterator
 from ...domain.entities import Frame
 from ...domain.protocols import FrameProducer
 from cerebrovial_shared.exceptions import SourceError

@@ -3,8 +3,6 @@ Unit tests for data loading functionality.
 """
 
 import pytest
-import tempfile
-from pathlib import Path
 
 from src.data.dataset_loader import DatasetLoader
 
@@ -42,7 +40,7 @@ def test_connectivity_computation():
     }
     
     loader = DatasetLoader(config)
-    dataset = loader.load_dataset()
+    loader.load_dataset()
     connectivity = loader.compute_connectivity()
     
     assert connectivity is not None

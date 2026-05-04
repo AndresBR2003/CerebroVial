@@ -1,5 +1,4 @@
-import pytest
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import patch
 from src.vision.infrastructure.sources import create_source, VideoFileSource, WebcamSource, YouTubeSource
 
 def test_create_source_auto_file():

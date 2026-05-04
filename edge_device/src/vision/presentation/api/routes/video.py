@@ -3,7 +3,7 @@ API for video streaming.
 """
 import cv2
 import asyncio
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from .cameras import get_manager
 

@@ -2,8 +2,8 @@ import pytest
 from datetime import datetime
 from pydantic import ValidationError
 from cerebrovial_shared.schemas import (
-    Camera, GraphNode, GraphEdge, GraphConnection,
-    VisionTrack, VisionFlow, WazeJam, WazeAlert
+    Camera, GraphEdge, GraphConnection,
+    VisionFlow, WazeJam
 )
 
 # --- Camera Tests ---
