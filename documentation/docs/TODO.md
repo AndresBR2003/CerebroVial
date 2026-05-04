@@ -25,7 +25,7 @@ BLOQUE C — Fase 1: Estabilización del repo (objetivo: lunes 4 o domingo 3)
 Cada ítem es una sesión separada de Claude Code, en plan mode primero.
 
  [x] C1. Consolidar common/ en un solo lugar: crear shared/ (o cerebrovial_common/) en la raíz con pyproject.toml mínimo, mover el contenido de core_management_api/src/common/ ahí, instalar como paquete pip local en ambos servicios (pip install -e ../shared), borrar el common/ duplicado de edge_device/. Verificar que tests siguen pasando.
- [ ] C1.1. Resolver duplicación de setup_logger: definida en logging.py (con param `level`) y en utils.py (INFO hardcoded). Decidir cuál queda, eliminar la otra, actualizar imports.
+ [x] C1.1. Resolver duplicación de setup_logger: definida en logging.py (con param `level`) y en utils.py (INFO hardcoded). Decidir cuál queda, eliminar la otra, actualizar imports.
  [x] C1.4 — Marcar `test_pipeline_processing_flow` como xfail (deuda preexistente). Race condition confirmada en commit 0e20b0b4. Decorador aplicado, tracked como C1.5.
  [ ] C1.6 — Arreglar tests de MultiCameraManager. CameraInstance perdió los atributos `camera_id` e `is_running` en el refactor de microservicios. Decidir: o se restauran los atributos en CameraInstance, o se actualizan los tests para reflejar la nueva API. Confirmar antes con compañero. Prioridad media — afecta 2 tests, no bloquea Fase 1.
  [ ] C1.7 — Arreglar SmartDetectionProcessor. La lógica de interpolación y de trayectorias de vehículos no funciona después del refactor (test_interpolation_logic, test_trajectory_update). Investigar si es bug real del processor o si los tests asumen API vieja. Prioridad alta — afecta el flujo de detección, debe resolverse antes de Fase 3 (donde se entrena el GRU con datos producidos por este pipeline).
@@ -61,8 +61,8 @@ BLOQUE D — Avance del lunes 4 (preparación)
 BLOQUE E — Fase 2: Cimientos reales (objetivo: lunes 11)
 Cada ítem es sesión separada de Claude Code.
 
- E1. Inicializar Alembic en core_management_api: alembic init alembic, configurar alembic.ini con la URL de .env, configurar env.py para leer los modelos de shared/database/models.py.
- E2. Generar la primera migración con todas las tablas modeladas: alembic revision --autogenerate -m "initial schema". Revisar el SQL generado antes de aplicar.
+ [x] E1. Inicializar Alembic en core_management_api: alembic init alembic, configurar alembic.ini con la URL de .env, configurar env.py para leer los modelos de shared/database/models.py.
+ [x] E2. Generar la primera migración con todas las tablas modeladas: alembic revision --autogenerate -m "initial schema". Revisar el SQL generado antes de aplicar.
  E3. Generar segunda migración para activar TimescaleDB hypertables sobre vision_tracks, vision_flows, waze_jams, waze_alerts. Esto es SQL manual: SELECT create_hypertable('vision_tracks', 'timestamp');.
  E4. Borrar la función init_db() que nadie llama. Las tablas ahora se crean con alembic upgrade head.
  E5. Crear scripts/seed.py con datos reales de Miraflores: 5 intersecciones (Av. Larco, Av. José Pardo, Av. Angamos, Av. Arequipa, Av. del Ejército) con sus coordenadas reales, las 4 cámaras con sus URLs YouTube, un usuario admin de prueba.
