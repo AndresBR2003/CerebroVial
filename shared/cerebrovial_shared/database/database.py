@@ -20,9 +20,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
-def init_db():
-    """Initialize database tables."""
-    # Import models here to ensure they are registered with Base
-    from . import models
-    Base.metadata.create_all(bind=engine)
