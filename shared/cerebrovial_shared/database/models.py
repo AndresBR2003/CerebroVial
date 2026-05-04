@@ -1,8 +1,10 @@
+import uuid
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey, BigInteger
 from sqlalchemy.orm import relationship
 from geoalchemy2 import Geometry
 from .database import Base
-from datetime import datetime
 
 # --- Graph Topology ---
 
@@ -88,3 +90,23 @@ class VisionFlowDB(Base):
     turn_direction = Column(String, nullable=True)
     vehicle_count = Column(Integer, nullable=False)
     avg_speed_mps = Column(Float, nullable=True)
+
+
+# --- Auth ---
+
+class UserDB(Base):
+    __tablename__ = "users"
+
+    id = Column(
+        String,
+        primary_key=True,
+        default=lambda: str(uuid.uuid4()),
+    )
+    email = Column(String, nullable=False, unique=True, index=True)
+    password_hash = Column(String, nullable=False)
+    role = Column(String, nullable=False)  # "operador" | "analista" | "admin"
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        default=datetime.utcnow,
+    )

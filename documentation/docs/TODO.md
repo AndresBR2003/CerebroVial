@@ -67,7 +67,7 @@ Cada ítem es sesión separada de Claude Code.
  [x] E4. Borrar la función init_db() que nadie llama. Las tablas ahora se crean con alembic upgrade head.
  [x] E5. Crear scripts/seed.py con datos reales de Miraflores: 5 intersecciones (Av. Larco, Av. José Pardo, Av. Angamos, Av. Arequipa, Av. del Ejército) con sus coordenadas reales, las 4 cámaras con sus URLs YouTube, un usuario admin de prueba.
  E6. Modificar el frontend DashboardView.tsx para que las coordenadas de cámaras vengan de GET /api/intersections en lugar de estar hardcoded.
- E7. Crear modelo User en shared/database/models.py: id, email, password_hash, role (operador / analista / admin), created_at.
+ [x] E7. Crear modelo User en shared/database/models.py: id, email, password_hash, role (operador / analista / admin), created_at.
  E8. Implementar endpoint POST /api/auth/login: recibe email + password, valida con passlib, retorna JWT con python-jose.
  E9. Crear dependency get_current_user que valida el JWT en headers. Crear require_role(role) para endpoints protegidos por rol.
  E10. Aplicar get_current_user a las rutas existentes de prediction y vision. Decidir cuáles van por rol (admin para CRUD usuarios, todos los roles para lectura, etc.).
