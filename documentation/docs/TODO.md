@@ -40,52 +40,15 @@ Cada ítem es una sesión separada de Claude Code, en plan mode primero.
  [ ] C7.5 — Deuda arquitectónica: existe código STGNN (`models.py` con STGCNModel) dentro de `core_management_api/src/` que debería vivir en `ia_prediction_service` o eliminarse cuando se reemplace por GRU. Hoy fuerza a `core_management_api` a depender de torch (~2 GB en imagen Docker). Resolverlo en Fase 3 (Block F) cuando se migre el predictor a GRU. Prioridad media — no bloquea, pero la separación de responsabilidades del backend queda debilitada hasta entonces.
  [x] C8. Limpieza de raíz: mover evidence_report.md, diagrama_vial*.html, DOCUMENTACION.md a documentation/. Borrar tmp_docx_output.txt, tmp_docx_utf8.txt, tmp_read_docx.py, generate_evidence.py.
  [x] C9. Configurar Git LFS para binarios + limpiar checkpoints intermedios. LFS aplicado a 13 binarios (.joblib, .pt, .ckpt, .h5, .npy, .docx). Borrados 4 .ckpt intermedios del STGNN (~48 MB). Solo queda epoch=79-step=30800.ckpt como referencia.
- [ ] **C9.5** — Evaluar migración de `metr_la.h5` y `metr_la_dist.npy` de LFS a download-on-demand. MetrLA es un dataset público estándar; `tsl` library tiene helpers para descargarlo. Sacarlo del repo libera ~12 MB de LFS y normaliza el flujo de datasets externos. Resolver en Fase 3 cuando se trabaje con el predictor.
+ [~] **C9.5** — ~~Migración de metr_la.h5 a download-on-demand~~ **NO APLICA**: D-008 confirma que `metr_la.h5` se mantiene en LFS como input del pipeline de calibración del dataset sintético del GRU.
  [x] C10. Verificar que docker compose up levanta db, core_management_api y edge_device sin crashes. Frontend con npm run dev puede llamar a los endpoints existentes.
  [x] C11. Crear un Makefile o tasks.py raíz con comandos: make up, make down, make test, make lint. Trivial pero ahorra mucho tiempo a futuro.
  [x] C12. Commit final del bloque C: [Fase 1] Estabilización: docker compose up funciona end-to-end.
- [ ] **C9.6** — Validación al arranque: detectar binarios LFS como
-  pointers en lugar de archivos reales y fallar con mensaje claro si
-  git-lfs no está instalado. Hoy si un dev clona sin git-lfs, los
-  modelos `.joblib` y `yolo11n.pt` vienen como punteros de texto y
-  `joblib.load()` / torch fallan con errores crípticos
-  (`UnpicklingError: invalid load key, 'v'.`). Implementar check al
-  load del modelo en `core_management_api` (predictor) y `edge_device`
-  (yolo). Si el archivo empieza con `version https://git-lfs...`,
-  fallar con mensaje accionable que apunte a CLAUDE.md sección
-  "Git LFS (requerido)". Prioridad media — no bloquea hoy pero ahorra
-  horas de soporte futuro.
- [ ] **C10.1** — Setup de dev: ~~documentar cómo correr tests fuera
-  del container~~. **Parcialmente resuelto en C11**: `invoke setup-dev`
-  automatiza la creación del venv y la instalación de pytest desde
-  `requirements-dev.txt`. Pendiente: si en algún momento se decide
-  correr tests dentro del container Docker, agregar un stage de build
-  separado al Dockerfile. Por ahora, el flujo dev está cubierto.
-  Prioridad: baja.
- [x] **C10.2** — Vulnerabilidades npm en frontend_ui. `npm audit fix`
-  conservador aplicado. Antes: 10 vulns (4 moderate + 6 high).
-  Después: 0 vulnerabilidades. Solo `package-lock.json` modificado
-  (291 ins / 243 del). Node v24.11.0 / npm 11.6.1. Sin `.nvmrc`
-  (ver C10.2.2). Build no regresó — errores pre-existentes (ver C10.2.1).
- [ ] **C10.2.1** — Build del frontend falla con errores TypeScript
-  pre-existentes (no introducidos por C10.2). Tres tipos de error:
-  (1) TS6133: imports `React` no usados en ~9 archivos .tsx (React 19
-  usa JSX transform automático, el import explícito es redundante);
-  (2) TS2304: `global` no reconocido en 2 archivos de tests (.test.tsx)
-  — falta tipado de entorno Vitest (`@vitest/globals` o `types` en
-  tsconfig); (3) TS2769 en `vite.config.ts`: clave `test` no reconocida
-  en el tipo `UserConfigExport` — falta `/// <reference types="vitest" />`
-  o la importación correcta del plugin. Confirmado preexistente:
-  `npm run build` fallaba idénticamente antes de C10.2. Prioridad media
-  — bloquea el build de producción pero no el dev (`npm run dev`).
-  Resolver antes de Fase 4b (CI/CD) o antes de defensa si se demuestra
-  el build.
- [ ] **C10.2.2** — Sin `.nvmrc` en `frontend_ui/`. El proyecto usa Node
-  v24.11.0 localmente pero no hay fichero que lo fije. Riesgo: diferente
-  versión de Node en CI/CD futuro puede producir comportamientos
-  distintos. Agregar `.nvmrc` con `24` (o la versión exacta) antes de
-  configurar CI en J6. Prioridad baja.
-
+ [ ] **C9.6** — Validación al arranque: detectar binarios LFS como pointers en lugar de archivos reales y fallar con mensaje claro si git-lfs no está instalado. Hoy si un dev clona sin git-lfs, los modelos `.joblib` y `yolo11n.pt` vienen como punteros de texto y `joblib.load()` / torch fallan con errores crípticos (`UnpicklingError: invalid load key, 'v'.`). Implementar check al load del modelo en `core_management_api` (predictor) y `edge_device` (yolo). Si el archivo empieza con `version https://git-lfs...`, fallar con mensaje accionable que apunte a CLAUDE.md sección "Git LFS (requerido)". Prioridad media — no bloquea hoy pero ahorra horas de soporte futuro.
+ [ ] **C10.1** — Setup de dev: ~~documentar cómo correr tests fuera del container~~. **Parcialmente resuelto en C11**: `invoke setup-dev` automatiza la creación del venv y la instalación de pytest desde `requirements-dev.txt`. Pendiente: si en algún momento se decide correr tests dentro del container Docker, agregar un stage de build separado al Dockerfile. Por ahora, el flujo dev está cubierto. Prioridad: baja.
+ [x] **C10.2** — Vulnerabilidades npm en frontend_ui. `npm audit fix` conservador aplicado. Antes: 10 vulns (4 moderate + 6 high). Después: 0 vulnerabilidades. Solo `package-lock.json` modificado (291 ins / 243 del). Node v24.11.0 / npm 11.6.1. Sin `.nvmrc` (ver C10.2.2). Build no regresó — errores pre-existentes (ver C10.2.1).
+ [ ] **C10.2.1** — Build del frontend falla con errores TypeScript pre-existentes (no introducidos por C10.2). Tres tipos de error: (1) TS6133: imports `React` no usados en ~9 archivos .tsx (React 19 usa JSX transform automático, el import explícito es redundante); (2) TS2304: `global` no reconocido en 2 archivos de tests (.test.tsx) — falta tipado de entorno Vitest (`@vitest/globals` o `types` en tsconfig); (3) TS2769 en `vite.config.ts`: clave `test` no reconocida en el tipo `UserConfigExport` — falta `/// <reference types="vitest" />` o la importación correcta del plugin. Confirmado preexistente: `npm run build` fallaba idénticamente antes de C10.2. Prioridad media — bloquea el build de producción pero no el dev (`npm run dev`). Resolver antes de Fase 4b (CI/CD) o antes de defensa si se demuestra el build.
+ [ ] **C10.2.2** — Sin `.nvmrc` en `frontend_ui/`. El proyecto usa Node v24.11.0 localmente pero no hay fichero que lo fije. Riesgo: diferente versión de Node en CI/CD futuro puede producir comportamientos distintos. Agregar `.nvmrc` con `24` (o la versión exacta) antes de configurar CI en J6. Prioridad baja.
 
 BLOQUE D — Avance del lunes 4 (preparación)
 
@@ -115,7 +78,10 @@ Cada ítem es sesión separada de Claude Code.
  E15. Crear frontend_ui/Dockerfile multi-stage: build con node:20, serve con nginx:alpine. Agregarlo a docker-compose.yml como servicio frontend.
  E16. Verificar end-to-end: docker compose up levanta todo, podés hacer login, ver dashboard con datos de seed.
  E17. Commit final del bloque E: [Fase 2] Cimientos: alembic, seed, JWT, frontend configurable.
-
+[ ] **E18** — Crear modelo `VisionAggregateDB` en `cerebrovial_shared.database.models`. Schema alineado con `csv_repository.py`: timestamp, camera_id, street_monitored, conteos por clase, total, occupancy, flow_rate, avg_speed, avg_density, zone_id, duration_seconds. PK compuesta (id uuid, timestamp) para hypertable de TimescaleDB. FK camera_id → cameras. Generar migración Alembic.
+[ ] **E19** — Implementar `PostgresAggregateRepository(TrafficRepository)` en `edge_device/src/vision/infrastructure/persistence/postgres_repository.py`. Implementa el método `save(data: TrafficData)` escribiendo a `vision_aggregates`. Usa SQLAlchemy con la sesión configurada en `cerebrovial_shared.database`.
+[ ] **E20** — Configurar `pipeline_builder.py` para inyectar Postgres repo. Decidir: (a) reemplazar CSV por Postgres, (b) cascada (escribir a ambos). Recomendado: cascada con flag de configuración para mantener CSV como respaldo durante validación.
+[ ] **E21** — Verificación end-to-end de visión→BD. `invoke up`, una cámara procesa video real durante 5 minutos, query a `vision_aggregates` confirma filas insertadas con datos coherentes. Capturar query de ejemplo para defensa.
 
 BLOQUE F — Fase 3a: GRU básico funcional (objetivo: lunes 11, junto con E)
 Esta es la parte que más vamos a discutir en chat antes de delegar a Claude Code.
