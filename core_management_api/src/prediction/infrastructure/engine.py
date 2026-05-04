@@ -1,6 +1,7 @@
 import joblib
 import os
 import pandas as pd
+from cerebrovial_shared.lfs_check import assert_real_binary
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
@@ -69,6 +70,7 @@ class TrafficModelEngine:
             path_c = os.path.join(self.model_dir, f"traffic_rf_class_{h}.joblib")
             if os.path.exists(path_c):
                 try:
+                    assert_real_binary(path_c)
                     self.classifiers[h] = joblib.load(path_c)
                 except Exception as e:
                     logger.error(f"Failed to load classifier {h}: {e}")
@@ -77,6 +79,7 @@ class TrafficModelEngine:
             path_r = os.path.join(self.model_dir, f"traffic_rf_reg_{h}.joblib")
             if os.path.exists(path_r):
                 try:
+                    assert_real_binary(path_r)
                     self.regressors[h] = joblib.load(path_r)
                 except Exception as e:
                     logger.error(f"Failed to load regressor {h}: {e}")

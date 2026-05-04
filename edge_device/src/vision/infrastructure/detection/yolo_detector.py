@@ -9,6 +9,7 @@ from ...domain.entities import FrameAnalysis, DetectedVehicle
 from ...domain.protocols import VehicleDetector
 from cerebrovial_shared.logging import setup_logger, log_execution_time
 from cerebrovial_shared.exceptions import DetectionError
+from cerebrovial_shared.lfs_check import assert_real_binary
 
 class YoloDetector(VehicleDetector):
     """
@@ -25,6 +26,7 @@ class YoloDetector(VehicleDetector):
             device = 'cpu'
             
         print(f"[INFO] Using inference device: {device}")
+        assert_real_binary(model_path)
         self.model = YOLO(model_path)
         self.model.to(device)
         self.conf_threshold = conf_threshold
