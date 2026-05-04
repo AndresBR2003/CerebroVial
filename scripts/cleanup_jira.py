@@ -5,7 +5,8 @@ from requests.auth import HTTPBasicAuth
 # Configuración
 JIRA_URL = "https://cerebrovial.atlassian.net"
 EMAIL = "u202418685@upc.edu.pe"
-API_TOKEN = "TU_API_TOKEN_AQUÍ"
+import os
+API_TOKEN = os.getenv("JIRA_API_TOKEN", "REPLACE_WITH_YOUR_TOKEN")
 BOARD_ID = 34
 
 auth = HTTPBasicAuth(EMAIL, API_TOKEN)
