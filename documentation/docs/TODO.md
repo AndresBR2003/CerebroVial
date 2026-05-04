@@ -62,12 +62,29 @@ Cada ítem es una sesión separada de Claude Code, en plan mode primero.
   correr tests dentro del container Docker, agregar un stage de build
   separado al Dockerfile. Por ahora, el flujo dev está cubierto.
   Prioridad: baja.
- [ ] **C10.2** — Vulnerabilidades npm en frontend_ui. `npm install`
-  reporta 10 vulnerabilities (4 moderate, 6 high) en las dependencias
-  del frontend. Heredadas del refactor anterior, no introducidas en
-  Fase 1. Antes de defensa de tesis: correr `npm audit fix` o
-  actualización manual. Prioridad media-alta para defensa
-  (impresión profesional), baja para funcionalidad.
+ [x] **C10.2** — Vulnerabilidades npm en frontend_ui. `npm audit fix`
+  conservador aplicado. Antes: 10 vulns (4 moderate + 6 high).
+  Después: 0 vulnerabilidades. Solo `package-lock.json` modificado
+  (291 ins / 243 del). Node v24.11.0 / npm 11.6.1. Sin `.nvmrc`
+  (ver C10.2.2). Build no regresó — errores pre-existentes (ver C10.2.1).
+ [ ] **C10.2.1** — Build del frontend falla con errores TypeScript
+  pre-existentes (no introducidos por C10.2). Tres tipos de error:
+  (1) TS6133: imports `React` no usados en ~9 archivos .tsx (React 19
+  usa JSX transform automático, el import explícito es redundante);
+  (2) TS2304: `global` no reconocido en 2 archivos de tests (.test.tsx)
+  — falta tipado de entorno Vitest (`@vitest/globals` o `types` en
+  tsconfig); (3) TS2769 en `vite.config.ts`: clave `test` no reconocida
+  en el tipo `UserConfigExport` — falta `/// <reference types="vitest" />`
+  o la importación correcta del plugin. Confirmado preexistente:
+  `npm run build` fallaba idénticamente antes de C10.2. Prioridad media
+  — bloquea el build de producción pero no el dev (`npm run dev`).
+  Resolver antes de Fase 4b (CI/CD) o antes de defensa si se demuestra
+  el build.
+ [ ] **C10.2.2** — Sin `.nvmrc` en `frontend_ui/`. El proyecto usa Node
+  v24.11.0 localmente pero no hay fichero que lo fije. Riesgo: diferente
+  versión de Node en CI/CD futuro puede producir comportamientos
+  distintos. Agregar `.nvmrc` con `24` (o la versión exacta) antes de
+  configurar CI en J6. Prioridad baja.
 
 
 BLOQUE D — Avance del lunes 4 (preparación)
