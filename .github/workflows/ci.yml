@@ -31,7 +31,8 @@ jobs:
       - name: Run backend tests
         run: |
           cd core_management_api
-          pytest
+          export PYTHONPATH=$PYTHONPATH:.
+          pytest tests/
 
   frontend-checks:
     runs-on: ubuntu-latest
