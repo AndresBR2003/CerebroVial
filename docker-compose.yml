@@ -61,5 +61,21 @@ services:
         limits:
           memory: 2G
 
+  # ------------------------------------
+  # DOMINIO DE INTERFAZ
+  # ------------------------------------
+  frontend:
+    build:
+      context: ./frontend_ui
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - core_management_api
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
 volumes:
   db_data:

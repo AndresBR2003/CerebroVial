@@ -75,8 +75,8 @@ Cada ítem es sesión separada de Claude Code.
  E12. Crear LoginView.tsx en frontend, AuthContext con el JWT, apiClient axios con interceptor que agrega el token a cada request.
  E13. Reemplazar URLs hardcoded localhost:8000/localhost:8001 por import.meta.env.VITE_API_BASE_URL. Crear frontend_ui/.env.example.
  E14. Mover la API key de Gemini a core_management_api: crear endpoint POST /api/ai/chat que recibe el prompt y llama a Gemini con la key del .env del backend. Frontend llama a este endpoint, no directo a Gemini.
- E15. Crear frontend_ui/Dockerfile multi-stage: build con node:20, serve con nginx:alpine. Agregarlo a docker-compose.yml como servicio frontend.
- E16. Verificar end-to-end: docker compose up levanta todo, podés hacer login, ver dashboard con datos de seed.
+ [x] E15. Crear frontend_ui/Dockerfile multi-stage: build con node:20, serve con nginx:alpine. Agregarlo a docker-compose.yml como servicio frontend.
+ [x] E16. Verificar end-to-end: docker compose up levanta todo, podés hacer login, ver dashboard con datos de seed.
  E17. Commit final del bloque E: [Fase 2] Cimientos: alembic, seed, JWT, frontend configurable.
 [ ] **E18** — Crear modelo `VisionAggregateDB` en `cerebrovial_shared.database.models`. Schema alineado con `csv_repository.py`: timestamp, camera_id, street_monitored, conteos por clase, total, occupancy, flow_rate, avg_speed, avg_density, zone_id, duration_seconds. PK compuesta (id uuid, timestamp) para hypertable de TimescaleDB. FK camera_id → cameras. Generar migración Alembic.
 [ ] **E19** — Implementar `PostgresAggregateRepository(TrafficRepository)` en `edge_device/src/vision/infrastructure/persistence/postgres_repository.py`. Implementa el método `save(data: TrafficData)` escribiendo a `vision_aggregates`. Usa SQLAlchemy con la sesión configurada en `cerebrovial_shared.database`.

@@ -21,7 +21,7 @@
 
 | HU | SP | Prioridad | Título | Estado | Notas |
 |---|---|---|---|---|---|
-| HU019 | 5 | M | Consolidación de módulos y estabilización del repo | ❌ | Cubre: `shared/`, `src/main.py`, limpiar compose, requirements |
+| HU019 | 5 | M | Consolidación de módulos y estabilización del repo | ✅ | Cubre: `shared/`, `src/main.py`, limpiar compose, requirements |
 
 **Total Fase 1: 5 SP**
 
@@ -34,7 +34,7 @@
 | HU002 | 3 | M | Organización y estandarización de datos de tráfico | 🟡 | Schemas definidos; falta Alembic + seed de Miraflores |
 | HU014 | 5 | M | Implementación de mecanismos de acceso seguro | ❌ | JWT, roles (operador/analista/admin), `get_current_user` |
 | HU010 | 8 | M | Visualización en tiempo real del estado del tráfico | 🟡 | Dashboard + CameraDetail funcionan; coordenadas hardcodeadas, sin auth |
-| HU015 | 5 | M | Containerización Docker completa *(adaptado de "infra en nube")* | ❌ | Frontend Dockerfile multi-stage + docker compose up completo |
+| HU015 | 5 | M | Containerización Docker completa *(adaptado de "infra en nube")* | ✅ | Frontend Dockerfile multi-stage + docker compose up completo |
 | HU013 | 3 | S | Protección de datos sensibles | ❌ | Cerrar CORS, HTTPS en dev, `.env` fuera del repo *(iniciado)* |
 
 **Total Fase 2: 24 SP**

@@ -1,0 +1,11 @@
+**/node_modules
+**/__pycache__
+**/.venv
+**/dist
+**/.git
+**/.vscode
+*.log
+*.pyc
+*.pyo
+*.db
+.env
