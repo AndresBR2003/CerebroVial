@@ -11,6 +11,12 @@
 | D-003 | Cerrada | 2026-04-30 | Deploy: Docker local |
 | D-004 | Cerrada | 2026-04-30 | Pi física: demostración conceptual, no entrega |
 | D-005 | Cerrada | 2026-04-30 | Números de tesis: actualizar tras validación real |
+| D-006 | Cerrada | 2026-05-03 | Visión persiste agregados a BD via tabla nueva `vision_aggregates` |
+| D-007 | Cerrada | 2026-05-03 | `VisionTrackDB` y `VisionFlowDB` quedan modeladas pero vacías |
+| D-008 | Cerrada | 2026-05-03 | GRU se entrena con dataset sintético calibrado contra Waze + METR-LA |
+| D-009 | Cerrada | 2026-05-04 | Mecanismo de incidentes en F2 para asegurar 5 niveles de congestión |
+| D-010 | Pendiente | 2026-05-04 | Cap de class_weights a 30× en F3 |
+| D-011 | Cerrada | 2026-05-04 | `scaler_params.json` se trackea junto al modelo `.pt` en F3 |
 | D-PENDING-001 | Abierta | — | Modelo: reutilizar `time_then_space.py` o GRU desde cero |
 
 ---
@@ -74,6 +80,37 @@
 
 ---
 
+## D-006 — Visión persiste agregados a BD via tabla nueva `vision_aggregates`
+
+**Fecha:** 2026-05-03 · **Estado:** Cerrada · **Tarea:** E18-E21
+**Detalle completo:** ver [DATA_MODEL_AUDIT.md](DATA_MODEL_AUDIT.md)
+
+Crear `VisionAggregateDB` alineado con el schema de `csv_repository.py`.
+No refactorizar el pipeline de visión para mapear a `VisionTrackDB`/`VisionFlowDB`.
+
+---
+
+## D-007 — `VisionTrackDB` y `VisionFlowDB` quedan modeladas pero vacías
+
+**Fecha:** 2026-05-03 · **Estado:** Cerrada · **Tarea:** E2
+**Detalle completo:** ver [DATA_MODEL_AUDIT.md](DATA_MODEL_AUDIT.md)
+
+Las tablas `vision_tracks` y `vision_flows` se crean en la migración E2 pero
+permanecen vacías en el alcance actual. Documentar en README para defensa.
+
+---
+
+## D-008 — GRU se entrena con dataset sintético calibrado contra Waze + METR-LA
+
+**Fecha:** 2026-05-03 · **Estado:** Cerrada · **Tarea:** F2
+**Detalle completo:** ver [DATA_MODEL_AUDIT.md](DATA_MODEL_AUDIT.md)
+
+Sin acceso a API real de Waze ni datos históricos de Miraflores, el dataset
+sintético calibrado contra distribuciones Waze + METR-LA es académicamente
+defendible. `metr_la.h5` se mantiene en LFS como insumo de calibración.
+
+---
+
 ## D-PENDING-001 — Modelo: reutilizar `time_then_space.py` o GRU desde cero
 **Estado:** Abierta · **Bloquea:** Fase 3a (Bloque F del TODO)
 
@@ -87,4 +124,65 @@
 
 **Bloqueante:** decisión a tomar antes de iniciar el Bloque F del TODO. Probablemente con asesor en A2.
 
-**Cuando se cierre:** mover esta entrada a sección cerrada con ID `D-006` (o el siguiente disponible), agregar fecha y justificación.
+**Cuando se cierre:** mover esta entrada a sección cerrada con ID `D-012` (o el siguiente disponible, ya que D-006..D-011 están tomados), agregar fecha y justificación.
+
+---
+
+## D-009 — Mecanismo de incidentes en F2 para asegurar 5 niveles de congestión
+
+**Fecha:** 2026-05-04 · **Estado:** Cerrada · **Tarea:** F2
+
+**Decisión:** El script `generate_synthetic_data.py` aplica con probabilidad
+`INCIDENT_PROB = 0.003` por slot un override del ratio AR(1) muestreado de
+`U[0.02, 0.30]`, simulando incidentes viales puntuales.
+
+**Justificación:** sin este mecanismo, α=0.939 + `pattern_min=0.632`
+(METR-LA es freeway, no urbano) hace que el ratio nunca alcance umbrales
+de congestión severa, dejando clases 4-5 vacías y fallando la validación.
+
+**Riesgo en defensa:** clases 4-5 son sintéticas vía incidentes. Mitigación:
+documentar explícitamente y ofrecer subir `INCIDENT_PROB` (plan B en
+MODEL.md §5.10) si el jurado lo considera insuficiente.
+
+**Impacto:** distribución final con 5 niveles en train/val/test. Ver MODEL.md §5.9.
+
+---
+
+## D-010 — Cap de class_weights a 30× en F3
+
+**Fecha:** 2026-05-04 · **Estado:** Pendiente de aplicar (F3) · **Tarea:** F3
+
+**Decisión:** los pesos inversamente proporcionales a la frecuencia se capean
+a `WEIGHT_CAP = 30.0` antes de normalizar para `CrossEntropyLoss`.
+
+**Justificación:** clases 4-5 tienen ~0.14% y ~0.16% de soporte. Sin cap,
+los pesos crudos llegarían a ~407× entre clase 1 y clase 4, desestabilizando
+el entrenamiento. Cap=30 mantiene los pesos minoritarios ~100× mayores que los
+dominantes — suficiente señal para aprender sin inestabilidad numérica.
+
+**Alternativa rechazada:** focal loss. Más robusta teóricamente pero menos
+defendible para tesis. Cap es transparente y reproducible.
+
+**Impacto:** MODEL.md §6.2 actualizado con código del cap. F3 lo implementa
+al construir el `criterion`.
+
+---
+
+## D-011 — `scaler_params.json` se trackea junto al modelo `.pt` en F3, no en F2
+
+**Fecha:** 2026-05-04 · **Estado:** Cerrada · **Tarea:** F2/F3
+
+**Decisión:** los outputs de F2 (`synthetic_waze_jams.csv`,
+`dataset_stats.json`, `scaler_params.json`) NO se trackean en git.
+Son reproducibles vía `generate_synthetic_data.py --seed 42`.
+
+En F3, `scaler_params.json` se commiteará en paralelo con
+`gru_congestion_v1.pt` (forman un par versionado: el modelo necesita
+los mismos parámetros de normalización en serving que en training).
+
+**Justificación:** el CSV (~80 MB) infla el repo sin valor. El scaler
+solo tiene sentido commitearlo cuando hay un modelo asociado que lo
+necesite en serving.
+
+**Impacto:** `.gitignore` de F2-close cubre los tres outputs. F3 cambia
+la regla para `scaler_params.json` (commit explícito junto al `.pt`).

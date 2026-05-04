@@ -205,3 +205,9 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# F2 — synthetic training artifacts (reproducibles vía
+# scripts/generate_synthetic_data.py --seed 42; ver MODEL.md §5)
+data/synthetic_waze_jams.csv
+data/dataset_stats.json
+data/scaler_params.json

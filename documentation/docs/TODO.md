@@ -87,7 +87,8 @@ BLOQUE F — Fase 3a: GRU básico funcional (objetivo: lunes 11, junto con E)
 Esta es la parte que más vamos a discutir en chat antes de delegar a Claude Code.
 
  F1. Conmigo en chat: definir la especificación del modelo GRU. Inputs (ventana temporal de qué features), outputs (clasificación de 5 niveles de congestión a 15/30/45 min), arquitectura (capas, hidden size), función de pérdida, métricas. Salida: docs/MODEL.md.
- F2. Crear ia_prediction_service/scripts/generate_synthetic_data.py: genera dataset sintético para entrenar el GRU. Patrones realistas (hora pico AM/PM, fines de semana distintos, ruido). Output: CSV con la misma estructura que produce el módulo de visión.
+ [x] F2. Crear ia_prediction_service/scripts/generate_synthetic_data.py (cerrada 2026-05-04, commit b5223e5f — ver DECISIONS.md D-009/D-010/D-011, MODEL.md §5.9).
+ > **Notas para F3 (heredadas de F2):** aplicar `WEIGHT_CAP = 30` en class_weights (D-010, MODEL.md §6.2). Output esperado: par `(gru_congestion_v1.pt, scaler_params.json)` commiteado conjunto (D-011).
  F3. Crear ia_prediction_service/src/models/gru_model.py: clase CongestionGRU con PyTorch Lightning, nn.GRU interno, encoder/decoder lineales.
  F4. Adaptar ia_prediction_service/src/training/predictor.py (o crear nuevo) para entrenar el GRU sobre el dataset sintético.
  F5. Entrenar la primera versión. Métrica objetivo: accuracy ≥ 70% (luego iteramos para llegar al 80% del IE04). Guardar el .pt en ia_prediction_service/models/gru_v1.pt.
