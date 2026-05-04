@@ -6,7 +6,8 @@ from src.vision.domain.entities import DetectedVehicle
 
 @pytest.fixture
 def mock_yolo():
-    with patch("src.vision.infrastructure.detection.yolo_detector.YOLO") as mock:
+    with patch("src.vision.infrastructure.detection.yolo_detector.YOLO") as mock, \
+         patch("src.vision.infrastructure.detection.yolo_detector.assert_real_binary"):
         yield mock
 
 def test_yolo_detector_initialization(mock_yolo):
