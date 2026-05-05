@@ -58,7 +58,8 @@ export const TrafficHistoryWidget: React.FC<TrafficHistoryWidgetProps> = ({ came
         const fetchHistory = async () => {
             setLoadingHistory(true);
             try {
-                const response = await fetch(`http://localhost:8001/predictions/history/${cameraId}?interval=${interval}`);
+                const apiBaseUrl = (import.meta.env?.VITE_CORE_API_URL) || 'http://localhost:8001';
+                const response = await fetch(`${apiBaseUrl}/predictions/history/${cameraId}?interval=${interval}`);
                 if (!response.ok) throw new Error('Failed to fetch history');
 
                 const data: HistoryResponse = await response.json();

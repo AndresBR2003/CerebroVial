@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from '../../types';
+import type { Alert } from '../../types';
 
 import { AlertTriangle, Sparkles } from 'lucide-react';
 import { Card } from '../ui/Card';

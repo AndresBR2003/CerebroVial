@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert } from '../../types';
+import type { Alert } from '../../types';
 
 import { Sparkles, X, Loader2, Copy } from 'lucide-react';
 

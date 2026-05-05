@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert } from './types';
+import type { Alert } from './types';
 
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/layout/Header';

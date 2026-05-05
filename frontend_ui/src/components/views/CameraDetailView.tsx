@@ -39,7 +39,8 @@ export const CameraDetailView: React.FC<CameraDetailViewProps> = ({ cameraId, on
 
     // SSE Effect
     useEffect(() => {
-        const sseUrl = `http://localhost:8000/stream/${cameraId}`;
+        const edgeApiUrl = (import.meta.env?.VITE_EDGE_API_URL) || 'http://localhost:8000';
+        const sseUrl = `${edgeApiUrl}/stream/${cameraId}`;
         const eventSource = new EventSource(sseUrl);
 
         eventSource.addEventListener('analysis', (event) => {
@@ -103,7 +104,8 @@ export const CameraDetailView: React.FC<CameraDetailViewProps> = ({ cameraId, on
     };
 
     // Include type param
-    const streamUrl = `http://localhost:8000/video/${cameraId}?type=${streamType}&${getQualityParams()}`;
+    const edgeApiUrl = (import.meta.env?.VITE_EDGE_API_URL) || 'http://localhost:8000';
+    const streamUrl = `${edgeApiUrl}/video/${cameraId}?type=${streamType}&${getQualityParams()}`;
 
     const cameraName = cameraId === 'CAM_001' ? 'Av. Larco / Av. Benavides' :
         cameraId === 'CAM_002' ? 'Av. Pardo / Av. Espinar' :
