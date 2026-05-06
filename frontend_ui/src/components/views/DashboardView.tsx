@@ -31,25 +31,36 @@ export const DashboardView = ({ onSelectCamera }: { onSelectCamera: (id: string)
     const [error, setError] = useState<string | null>(null);
     const [realData, setRealData] = useState<Record<string, { speed: number, flow: number, status: string }>>({});
 
-    // Datos simulados de intersecciones con coordenadas reales de Miraflores
-    const intersections = [
-        { id: 'CAM_001', name: 'Av. Larco / Av. Benavides', speed: 45, flow: 120, status: 'moderate', prediction: 'Estable', lat: -12.126, lng: -77.028 },
-        { id: 'CAM_002', name: 'Av. Pardo / Av. Espinar', speed: 28, flow: 180, status: 'critical', prediction: 'Congestión', lat: -12.119, lng: -77.035 },
-        { id: 'CAM_003', name: 'Av. Arequipa / Av. Angamos', speed: 55, flow: 90, status: 'fluid', prediction: 'Fluido', lat: -12.112, lng: -77.031 },
-        { id: 'CAM_004', name: 'Ovalo Gutiérrez', speed: 32, flow: 150, status: 'moderate', prediction: 'Lento', lat: -12.114, lng: -77.042 },
-    ];
+    const [intersections, setIntersections] = useState<any[]>([]);
 
     const [mapCenter, setMapCenter] = useState<[number, number]>([-12.122, -77.028]);
     const [mapZoom, setMapZoom] = useState(14);
     const [viewMode, setViewMode] = useState<'leaflet' | 'waze'>('leaflet');
 
-    // Simulate data loading
+    // Fetch real data from database
     React.useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 800); // Small delay to show the spinner
+        const fetchIntersections = async () => {
+            try {
+                const apiBaseUrl = (import.meta.env?.VITE_CORE_API_URL) || 'http://localhost:8001';
+                const response = await fetch(`${apiBaseUrl}/api/intersections`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setIntersections(data);
+                } else {
+                    console.error("Failed to fetch intersections", response.statusText);
+                    setError("No se pudieron cargar las intersecciones desde la base de datos.");
+                }
+            } catch (err) {
+                console.error("Error fetching intersections:", err);
+                setError("Error de red al conectar con el servidor.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchIntersections();
+
         return () => {
-            clearTimeout(timer);
             setViewMode('leaflet');
         };
     }, []);
@@ -98,7 +109,7 @@ export const DashboardView = ({ onSelectCamera }: { onSelectCamera: (id: string)
             // Cleanup all connections when component unmounts
             eventSources.forEach(es => es.close());
         };
-    }, []); // Run once on mount
+    }, [intersections]); // Run when intersections are loaded
 
     const handleCameraSelect = (id: string) => {
         const camera = intersections.find(c => c.id === id);
