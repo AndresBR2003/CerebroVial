@@ -31,7 +31,17 @@ export const DashboardView = ({ onSelectCamera }: { onSelectCamera: (id: string)
     const [error, setError] = useState<string | null>(null);
     const [realData, setRealData] = useState<Record<string, { speed: number, flow: number, status: string }>>({});
 
-    const [intersections, setIntersections] = useState<any[]>([]);
+    interface IntersectionData {
+        id: string;
+        name: string;
+        speed: number;
+        flow: number;
+        status: string;
+        lat: number;
+        lng: number;
+    }
+
+    const [intersections, setIntersections] = useState<IntersectionData[]>([]);
 
     const [mapCenter, setMapCenter] = useState<[number, number]>([-12.122, -77.028]);
     const [mapZoom, setMapZoom] = useState(14);
