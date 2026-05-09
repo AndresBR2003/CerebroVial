@@ -35,12 +35,27 @@ Setup primer-uso:
 2. `cp .env.example .env` y completar valores.
 3. `pip install invoke`
 4. `invoke setup-dev` (crea venv local con deps de dev)
-5. `invoke up`
+5. `invoke up` (las tablas se crean solas — alembic corre en el entrypoint del core)
+6. `invoke seed` (carga datos iniciales de Miraflores)
 
-Día a día: `invoke up`, `invoke down`, `invoke logs`, `invoke test`.
+Día a día:
+- `invoke up` / `invoke down` / `invoke logs` / `invoke ps` / `invoke test`
+- `invoke up --service=<nombre>` para levantar un servicio suelto
+- `invoke up-dev` para hot-reload del core (usa docker-compose.dev.yml).
+  En este modo alembic NO corre automáticamente; usar `invoke migrate` a mano.
+- `invoke migrate` después de un git pull con migraciones nuevas (sin rebuild)
+- `invoke db-reset` cuando el schema cambió de forma incompatible
+- `invoke shell-api` / `invoke shell-db` para debugging interactivo
 
 NO usar `docker compose ...` directo — `invoke` agrega validaciones
-(check de LFS, etc.) que evitan errores crípticos.
+(check de LFS, .env presente) que evitan errores crípticos.
+
+Migraciones:
+- El entrypoint de core_management_api ([core_management_api/entrypoint.sh](core_management_api/entrypoint.sh))
+  corre `alembic upgrade head` antes de uvicorn. Apto para single-node.
+  En multi-instance habría que sacar las migraciones a un job separado.
+- `invoke up-dev` cancela ese entrypoint (override de docker-compose.dev.yml),
+  por eso ahí hay que migrar a mano con `invoke migrate`.
 
 ## Decisiones tomadas
 - **Arquitectura**: monolito modular, NO microservicios. Las carpetas separadas 

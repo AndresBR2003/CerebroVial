@@ -4,6 +4,7 @@ import {
     BarChart3,
     AlertTriangle,
     Settings,
+    SlidersHorizontal,
     Cpu,
     FileText
 } from 'lucide-react';
@@ -53,6 +54,13 @@ export const Sidebar = ({ activeTab, setActiveTab, setShowThesis }: SidebarProps
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${activeTab === 'admin' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/50' : 'hover:bg-slate-800 text-slate-400'}`}
                 >
                     <Settings size={20} /> <span className="hidden md:block">Administración</span>
+                </button>
+
+                <button
+                    onClick={() => setActiveTab('control')}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${activeTab === 'control' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/50' : 'hover:bg-slate-800 text-slate-400'}`}
+                >
+                    <SlidersHorizontal size={20} /> <span className="hidden md:block">Motor Adaptativo</span>
                 </button>
             </nav>
 

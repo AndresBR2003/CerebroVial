@@ -1,0 +1,40 @@
+# =============================================================================
+# Override de desarrollo — habilita hot-reload del backend
+# =============================================================================
+# Uso:
+#   invoke up-dev                                                 (recomendado)
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+#
+# Qué hace:
+#   - core_management_api:
+#       * Monta el código como volumen → editás .py y se refleja al instante
+#       * Reemplaza el ENTRYPOINT (que corría alembic + uvicorn) por uvicorn
+#         con --reload directamente. En modo dev, las migraciones NO corren
+#         automáticamente: usá `invoke migrate` cuando haya migración nueva.
+#
+#   - edge_device: NO se override acá. Su entrypoint usa Hydra para inicializar
+#       cámaras antes de uvicorn, así que un --reload simple rompería esa
+#       inicialización. Si necesitás iterar en código de visión, lo más rápido
+#       es correrlo local con venv: `cd edge_device && python scripts/run_server.py`.
+#
+#   - frontend: NO se override acá. Para iterar el frontend, parar el servicio
+#       (`docker compose stop frontend`) y correr `npm run dev` local — Vite
+#       tiene mejor HMR fuera de Docker que adentro.
+# =============================================================================
+services:
+  core_management_api:
+    entrypoint: []  # cancelar el entrypoint que corre alembic upgrade head
+    command:
+      - uvicorn
+      - src.main:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8001"
+      - --reload
+    volumes:
+      - ./core_management_api:/app
+      - ./shared:/shared
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
