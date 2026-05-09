@@ -26,7 +26,8 @@ _load_dotenv_file()
 
 # Replace docker service hostname with localhost for runs outside the container.
 _db_url = os.environ.get("DATABASE_URL", "")
-_db_url = _db_url.replace("@db:", "@localhost:")
+if not os.path.exists("/.dockerenv"):
+    _db_url = _db_url.replace("@db:", "@localhost:")
 
 from cerebrovial_shared.database import Base  # noqa: E402
 import cerebrovial_shared.database.models  # noqa: E402, F401
