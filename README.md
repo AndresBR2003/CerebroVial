@@ -238,9 +238,37 @@ Todos los comandos se invocan con `invoke <comando>`. Lista completa:
 
 | Comando | Qué hace |
 |---|---|
-| `invoke up-build` | Levantar con rebuild (después de tocar Dockerfile o requirements) |
-| `invoke rebuild` | Build sin cache, conserva volúmenes |
+| `invoke up-build` | Rebuild de **todas** las imágenes (con cache de capas) y levantar |
+| `invoke up-build --service=<nombre>` | Rebuild de **un solo** servicio (con cache) y levantar |
+| `invoke rebuild` | Build sin cache de **todos** los servicios, conserva volúmenes |
 | `invoke rebuild-clean` | ⚠ Build nuclear, borra DB |
+
+`up-build` usa cache de capas, así que `npm install` / `pip install` no
+re-descargan dependencias mientras no cambies `package*.json` /
+`requirements.txt`.
+
+Rebuild por servicio:
+
+```bash
+invoke up-build --service=frontend              # SPA Vite + nginx (build estático)
+invoke up-build --service=core_management_api   # FastAPI + alembic
+invoke up-build --service=edge_device           # visión (YOLO + tracking + SSE)
+invoke up-build --service=db                    # imagen de TimescaleDB (rara vez hace falta)
+invoke up-build                                 # rebuildea todos
+```
+
+Casos típicos:
+
+- Tocaste código del **frontend** (que se sirve como build estático con nginx,
+  no tiene HMR en el container): `invoke up-build --service=frontend`.
+- Cambiaste el `Dockerfile` o `requirements.txt` de un servicio:
+  `invoke up-build --service=<ese>`.
+- Cambiaste algo que afecta a varios servicios: `invoke up-build` (todos).
+
+> Para `core_management_api` y `edge_device`, si solo cambiaste `.py` (no
+> Dockerfile ni requirements), conviene `invoke up-dev` (hot-reload) en vez
+> de rebuildear. Para iterar el frontend, `npm run dev` con HMR es más rápido
+> que rebuildear la imagen. Ver [Modo desarrollo](#modo-desarrollo-hot-reload).
 
 ### Tests
 
@@ -270,7 +298,9 @@ Si el pull trae **cambios en Dockerfiles o requirements.txt**:
 
 ```bash
 git pull
-invoke up-build
+invoke up-build                            # rebuildea todos
+# o, si solo cambió un servicio:
+invoke up-build --service=core_management_api
 ```
 
 Si el pull trae un **cambio de schema incompatible** (raro, pero pasa cuando
@@ -453,6 +483,28 @@ Deuda conocida (ver `documentation/docs/TODO.md` C10.2). No bloquea funcionalida
 
 Estás en modo prod. Cambiate a `invoke up-dev` para hot-reload del backend, y
 usá `npm run dev` local para el frontend. Ver sección **Modo desarrollo**.
+
+### Cambié código y `invoke up` sigue mostrando el estado anterior
+
+`invoke up` solo arranca las imágenes ya construidas — no las rebuildea. Si
+tocaste código que se compila a la imagen (típicamente el **frontend**, que se
+sirve como build estático de Vite con nginx), necesitás rebuildear esa imagen.
+Usá el flag `--service` para rebuildear solo el que tocaste:
+
+```bash
+invoke up-build --service=frontend              # cambios en frontend_ui/
+invoke up-build --service=core_management_api   # cambios en core (sin up-dev) o requirements
+invoke up-build --service=edge_device           # cambios en edge_device/ o requirements
+invoke up-build --service=db                    # rara vez hace falta
+invoke up-build                                 # cambios que afectan a varios
+```
+
+Reusa la cache de capas (no re-descarga `node_modules` ni `pip install`
+mientras no cambien `package*.json` / `requirements.txt`) y solo recrea
+el container del servicio indicado. Para `core_management_api` el código se
+monta como volumen en `invoke up-dev` y los cambios se reflejan sin rebuild
+(ver sección **Modo desarrollo**). `edge_device` no tiene hot-reload en
+Docker — para iterar ahí lo más práctico es correrlo local con el venv.
 
 ---
 
