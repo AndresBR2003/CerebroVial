@@ -127,11 +127,29 @@ def up(c, service=None):
     print("Otros: invoke logs · invoke ps · invoke down")
 
 
-@task(pre=[check_lfs, check_env])
-def up_build(c):
-    """Levantar con rebuild de imágenes (después de tocar Dockerfile o requirements)."""
-    c.run("docker compose up -d --build --remove-orphans", pty=False)
-    print("\n✓ Sistema levantado (con rebuild).")
+@task(pre=[check_lfs, check_env], help={
+    "service": "Servicio único a rebuildear (db, core_management_api, edge_device, frontend). "
+               "Si se omite, rebuildea todos.",
+})
+def up_build(c, service=None):
+    """Levantar con rebuild de imágenes (usa cache de capas; no re-descarga deps).
+
+    Útil después de tocar Dockerfile, requirements.txt, package.json o el código
+    de un servicio servido como build estático (p.ej. el frontend, que sirve el
+    output de `npm run build` con nginx).
+
+    Ejemplos:
+      invoke up-build                       # rebuildea todos
+      invoke up-build --service=frontend    # solo frontend
+      invoke up-build --service=core_management_api
+    """
+    target = service or ""
+    c.run(f"docker compose up -d --build --remove-orphans {target}", pty=False)
+    print()
+    if service:
+        print(f"✓ Servicio '{service}' rebuildeado y levantado.")
+    else:
+        print("✓ Sistema levantado (con rebuild).")
 
 
 @task(pre=[check_lfs, check_env])
