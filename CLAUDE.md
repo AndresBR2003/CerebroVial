@@ -41,6 +41,9 @@ Setup primer-uso:
 Día a día:
 - `invoke up` / `invoke down` / `invoke logs` / `invoke ps` / `invoke test`
 - `invoke up --service=<nombre>` para levantar un servicio suelto
+- `invoke up-build` para rebuildear imágenes (con cache); acepta `--service=<nombre>`.
+  Necesario cuando cambia código que se compila al imagen (p.ej. el frontend,
+  servido como build estático con nginx) o cambian Dockerfile/requirements.
 - `invoke up-dev` para hot-reload del core (usa docker-compose.dev.yml).
   En este modo alembic NO corre automáticamente; usar `invoke migrate` a mano.
 - `invoke migrate` después de un git pull con migraciones nuevas (sin rebuild)

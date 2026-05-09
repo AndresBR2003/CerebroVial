@@ -1,7 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Play } from 'lucide-react';
 import { Card } from '../../ui/Card';
 import { PhaseEditor } from './PhaseEditor';
+import { Slider } from './Slider';
+import { PresetButtons } from './PresetButtons';
+import { PRESETS, type PresetConfig } from './controlTypes';
 import {
     RecommendationPanel,
     type RecommendationError,
@@ -16,8 +19,8 @@ import {
 } from '../../../services/controlService';
 
 const initialPhases: PhaseFlow[] = [
-    { phase_id: 'phase_1', flow: 600, saturation_flow: 1800, queue: 5, has_pedestrian: true },
-    { phase_id: 'phase_2', flow: 400, saturation_flow: 1800, queue: 3, has_pedestrian: false },
+    { phase_id: 'NS', flow: 600, saturation_flow: 1800, queue: 5, has_pedestrian: true },
+    { phase_id: 'EW', flow: 400, saturation_flow: 1800, queue: 3, has_pedestrian: false },
 ];
 
 interface UseRecommendControlState {
@@ -65,6 +68,21 @@ function useRecommendControl(): UseRecommendControlState {
     return { status, data, error, mutate, reset };
 }
 
+function presetMatches(p: PresetConfig, lostTime: number, phases: PhaseFlow[]): boolean {
+    if (p.lostTime !== lostTime) return false;
+    if (p.phases.length !== phases.length) return false;
+    return p.phases.every((pp, i) => {
+        const ph = phases[i];
+        return (
+            pp.phase_id === ph.phase_id &&
+            pp.flow === ph.flow &&
+            pp.saturation_flow === ph.saturation_flow &&
+            (pp.queue ?? 0) === (ph.queue ?? 0) &&
+            (pp.has_pedestrian ?? false) === (ph.has_pedestrian ?? false)
+        );
+    });
+}
+
 const formIsValid = (intersectionId: string, phases: PhaseFlow[]): boolean => {
     if (intersectionId.trim().length === 0) return false;
     if (phases.length === 0) return false;
@@ -82,7 +100,16 @@ export const ControlView = () => {
     const [intersectionId, setIntersectionId] = useState('INT_001');
     const [lostTime, setLostTime] = useState(8);
     const [phases, setPhases] = useState<PhaseFlow[]>(initialPhases);
-    const { status, data, error, mutate } = useRecommendControl();
+    const { status, data, error, mutate, reset } = useRecommendControl();
+
+    const metrics = useMemo(() => {
+        const flowTotal = phases.reduce((acc, p) => acc + (p.flow || 0), 0);
+        const Y = phases.reduce(
+            (acc, p) => acc + (p.saturation_flow > 0 ? p.flow / p.saturation_flow : 0),
+            0,
+        );
+        return { flowTotal, Y, isPeak: flowTotal > 1500 };
+    }, [phases]);
 
     const submit = () => {
         if (!formIsValid(intersectionId, phases)) return;
@@ -117,41 +144,49 @@ export const ControlView = () => {
 
     const canSubmit = formIsValid(intersectionId, phases) && status !== 'loading';
 
+    const activePresetName = useMemo(
+        () => PRESETS.find(p => presetMatches(p, lostTime, phases))?.name ?? null,
+        [lostTime, phases],
+    );
+
+    const applyPreset = (preset: PresetConfig) => {
+        setLostTime(preset.lostTime);
+        setPhases(preset.phases.map(p => ({ ...p })));
+    };
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
+                <PresetButtons activePresetName={activePresetName} onApply={applyPreset} />
                 <h2 className="text-white font-semibold text-lg mb-1">Estado de la intersección</h2>
                 <p className="text-xs text-slate-500 mb-4">
                     Define la demanda actual y los flujos de saturación. El motor decide entre Webster (off-peak) y
                     Max Pressure (peak) automáticamente.
                 </p>
 
-                <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="space-y-3 mb-4">
                     <div>
                         <label className="text-[11px] uppercase tracking-wide text-slate-500">
-                            Intersection ID
+                            Identificador de la intersección
                         </label>
                         <input
                             type="text"
                             value={intersectionId}
                             onChange={e => setIntersectionId(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-700 rounded-md px-2 py-1.5 text-sm text-slate-100 font-mono focus:outline-none focus:border-indigo-500"
+                            className="w-full bg-slate-900 border border-slate-700 rounded-md px-2 py-1.5 text-sm text-slate-100 font-mono focus:outline-none focus:border-indigo-500 mt-1"
                             placeholder="INT_001"
                         />
                     </div>
-                    <div>
-                        <label className="text-[11px] uppercase tracking-wide text-slate-500">
-                            Lost time (s)
-                        </label>
-                        <input
-                            type="number"
-                            min={0}
-                            step={0.5}
-                            value={lostTime}
-                            onChange={e => setLostTime(Number(e.target.value))}
-                            className="w-full bg-slate-900 border border-slate-700 rounded-md px-2 py-1.5 text-sm text-slate-100 font-mono focus:outline-none focus:border-indigo-500"
-                        />
-                    </div>
+                    <Slider
+                        label="Tiempo perdido por ciclo"
+                        hint="suma de amarillos + all-reds del ciclo"
+                        min={2}
+                        max={16}
+                        step={0.5}
+                        unit="s"
+                        value={lostTime}
+                        onChange={setLostTime}
+                    />
                 </div>
 
                 <PhaseEditor phases={phases} onChange={setPhases} />
@@ -167,7 +202,14 @@ export const ControlView = () => {
                 </button>
             </Card>
 
-            <RecommendationPanel status={status} data={data} error={error} onRetry={retry} />
+            <RecommendationPanel
+                status={status}
+                data={data}
+                error={error}
+                metrics={metrics}
+                onRetry={retry}
+                onReset={reset}
+            />
         </div>
     );
 };
