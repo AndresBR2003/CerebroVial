@@ -41,7 +41,7 @@ def main():
     cap.set(cv2.CAP_PROP_BUFFERSIZE, 60)
     
     frame_count = 0
-    start_time = time.time()
+    time.time()
     fps_start_time = time.time()
     fps_frame_count = 0
     

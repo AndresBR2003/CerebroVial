@@ -127,6 +127,10 @@ BLOQUE I — Fase 4a: HU pendientes priorizadas (semana del 19)
  I5. HU06 — Comparación antes/después: endpoint que compara métricas con y sin sistema (con datos sintéticos del simulador). Vista frontend con gráficos.
  I6. Frontend AdminView.tsx con datos reales (hoy también es 46 líneas mock): CRUD usuarios, panel de salud (GET /api/health).
  I7. Frontend AnalyticsView.tsx conectado a GET /api/traffic/history (TimescaleDB).
+ I7.1. Frontend: Lógica de colores dinámica para marcadores del mapa según nivel de tráfico (CA2).
+ I7.2. Frontend: Mecanismo de actualización automática (polling) para datos del dashboard (CA2).
+ I7.3. Frontend: Implementar estados de carga (spinners/skeletons) para cumplir con tiempos de respuesta (CA1/CA3).
+ I7.4. Frontend: Popups en mapa con datos reales de flujo y velocidad (CA1).
  I8. Commit: [Fase 4a] HU pendientes integradas.
 
 

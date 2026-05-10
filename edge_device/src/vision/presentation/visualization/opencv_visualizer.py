@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
-from typing import List, Tuple
-from ...domain.entities import Frame, FrameAnalysis, DetectedVehicle, ZoneVehicleCount
+from ...domain.entities import FrameAnalysis
 
 class OpenCVVisualizer:
     """

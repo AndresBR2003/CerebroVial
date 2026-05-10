@@ -24,7 +24,8 @@ export interface PredictionResult {
     message: string;
 }
 
-const API_URL = 'http://localhost:8001/predictions';
+const API_BASE_URL = (import.meta.env?.VITE_CORE_API_URL) || 'http://localhost:8001';
+const API_URL = `${API_BASE_URL}/predictions`;
 
 export const predictionService = {
     /**

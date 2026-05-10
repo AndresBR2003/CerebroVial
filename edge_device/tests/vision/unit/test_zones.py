@@ -1,5 +1,4 @@
 import pytest
-import numpy as np
 from src.vision.infrastructure.zones.zone_counter import ZoneCounter
 from src.vision.domain.entities import DetectedVehicle
 

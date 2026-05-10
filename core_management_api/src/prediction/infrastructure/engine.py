@@ -4,7 +4,7 @@ import pandas as pd
 from cerebrovial_shared.lfs_check import assert_real_binary
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score
 import logging
 
 logger = logging.getLogger(__name__)
@@ -107,7 +107,7 @@ class TrafficModelEngine:
                 pred_class = model.predict(row)[0]
                 pred_label = self.label_map.get(pred_class, "Unknown")
                 predictions[f"predicted_congestion_{name}"] = pred_label
-            except Exception as e:
+            except Exception:
                 predictions[f"predicted_congestion_{name}"] = "Error"
                 
         # Regression
@@ -115,7 +115,7 @@ class TrafficModelEngine:
             try:
                 pred_val = model.predict(row)[0]
                 predictions[f"predicted_vehicles_{name}"] = int(pred_val)
-            except Exception as e:
+            except Exception:
                 predictions[f"predicted_vehicles_{name}"] = -1
         
         return predictions

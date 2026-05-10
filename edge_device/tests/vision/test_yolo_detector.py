@@ -2,7 +2,6 @@ import pytest
 import numpy as np
 from unittest.mock import MagicMock, patch
 from src.vision.infrastructure.detection.yolo_detector import YoloDetector
-from src.vision.domain.entities import DetectedVehicle
 
 @pytest.fixture
 def mock_yolo():

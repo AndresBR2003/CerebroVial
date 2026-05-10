@@ -58,7 +58,8 @@ export const TrafficHistoryWidget: React.FC<TrafficHistoryWidgetProps> = ({ came
         const fetchHistory = async () => {
             setLoadingHistory(true);
             try {
-                const response = await fetch(`http://localhost:8001/predictions/history/${cameraId}?interval=${interval}`);
+                const apiBaseUrl = (import.meta.env?.VITE_CORE_API_URL) || 'http://localhost:8001';
+                const response = await fetch(`${apiBaseUrl}/predictions/history/${cameraId}?interval=${interval}`);
                 if (!response.ok) throw new Error('Failed to fetch history');
 
                 const data: HistoryResponse = await response.json();
@@ -86,7 +87,7 @@ export const TrafficHistoryWidget: React.FC<TrafficHistoryWidgetProps> = ({ came
                 // Add prediction points
                 if (data.prediction) {
                     const lastVal = slicedHistory[slicedHistory.length - 1]?.total_vehicles || 0;
-                    const p = data.prediction as any;
+                    const p = data.prediction;
 
                     // Use explicit values or fallback logic
                     const v15 = p.predicted_vehicles_15min ?? Math.max(0, lastVal + (p.predicted_congestion_15min === 'Heavy' ? 20 : -5));

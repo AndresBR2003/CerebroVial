@@ -30,11 +30,18 @@ describe('TrafficHistoryWidget', () => {
         global.fetch = vi.fn();
     });
 
-    it('renders loading state initially', () => {
+    it('renders loading state initially', async () => {
+        (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({ history: [] }),
+        });
+        
         render(<TrafficHistoryWidget cameraId={mockCameraId} />);
-        // Since we don't have an explicit loading indicator in the code provided, 
-        // it just renders the container. We can check if the title exists if logical.
-        // Actually the component fetches immediately.
+        
+        // Wait for the component to finish loading to avoid 'act' warnings
+        await waitFor(() => {
+            expect(screen.queryByText('Cargando datos...')).not.toBeInTheDocument();
+        });
     });
 
     it('fetches data on mount and renders chart', async () => {

@@ -12,7 +12,7 @@ from src.vision.presentation.api.routes import cameras
 
 @hydra.main(version_base=None, config_path="../conf", config_name="config")
 def main(cfg: DictConfig):
-    print(f"Configuration loaded.")
+    print("Configuration loaded.")
     
     vision_cfg = cfg.vision
     

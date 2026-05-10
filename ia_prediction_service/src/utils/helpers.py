@@ -5,7 +5,7 @@ Helper utilities for the project.
 import torch
 import numpy as np
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 import yaml
 
 

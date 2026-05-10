@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from typing import List, Optional
+from typing import Optional
 
 from ...application.predictor import CongestionPredictor
 from .schemas import PredictionInput, PredictionResponse, HistoryResponse

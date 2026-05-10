@@ -4,9 +4,7 @@ Data preprocessing utilities.
 
 import numpy as np
 import pandas as pd
-import torch
 from typing import Optional, Tuple
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 
 def fill_missing_values(

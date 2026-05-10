@@ -25,7 +25,6 @@ def delete_sprint(sprint_id):
     requests.delete(url, auth=auth)
 
 def move_to_backlog(issue_keys):
-    url = f"{JIRA_URL}/rest/api/3/issue/bulk" # No hay endpoint simple para mover a backlog via agile, pero podemos desvincular el sprint
     # En Jira Cloud, mover al backlog es poner sprint = null
     for key in issue_keys:
         u = f"{JIRA_URL}/rest/api/3/issue/{key}"

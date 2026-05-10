@@ -7,13 +7,11 @@ Usage:
 
 import argparse
 import yaml
-import logging
 from pathlib import Path
 import sys
 
 import torch
 import pytorch_lightning as pl
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -152,8 +150,8 @@ def main():
     # Load dataset
     logger.info("\n[1/4] Loading dataset...")
     data_loader = DatasetLoader(config['data'])
-    dataset = data_loader.load_dataset()
-    connectivity = data_loader.compute_connectivity()
+    data_loader.load_dataset()
+    data_loader.compute_connectivity()
     torch_dataset = data_loader.create_torch_dataset()
     
     dm = create_data_module(torch_dataset, config)

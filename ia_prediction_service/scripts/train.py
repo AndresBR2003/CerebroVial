@@ -2,13 +2,10 @@
 Training script for Spatiotemporal Graph Neural Network.
 """
 
-import argparse
 import yaml
-import logging
 from pathlib import Path
 import sys
 
-import torch
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 from pytorch_lightning.loggers import TensorBoardLogger
@@ -35,8 +32,8 @@ def main():
     
     # Load data
     data_loader = DatasetLoader(config['data'])
-    dataset = data_loader.load_dataset()
-    connectivity = data_loader.compute_connectivity()
+    data_loader.load_dataset()
+    data_loader.compute_connectivity()
     torch_dataset = data_loader.create_torch_dataset()
     
     # Create data module

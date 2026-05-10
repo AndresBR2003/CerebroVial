@@ -2,9 +2,8 @@ import cv2
 import time
 import numpy as np
 import supervision as sv
-from typing import List, Dict, Tuple, Any
-from shapely.geometry import Polygon, Point
-from ...domain.entities import DetectedVehicle, ZoneVehicleCount, FrameAnalysis
+from typing import List, Dict, Any
+from ...domain.entities import DetectedVehicle, ZoneVehicleCount
 
 class ZoneCounter:
     """

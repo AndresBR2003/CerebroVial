@@ -13,7 +13,6 @@ import sys
 import torch
 import pytorch_lightning as pl
 import pandas as pd
-import numpy as np
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -133,8 +132,8 @@ def main():
     # Load dataset
     logger.info("\n[1/3] Loading dataset...")
     data_loader = DatasetLoader(config['data'])
-    dataset = data_loader.load_dataset()
-    connectivity = data_loader.compute_connectivity()
+    data_loader.load_dataset()
+    data_loader.compute_connectivity()
     torch_dataset = data_loader.create_torch_dataset()
     
     dm = create_data_module(torch_dataset, config)

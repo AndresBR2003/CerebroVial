@@ -1,5 +1,5 @@
 from omegaconf import DictConfig
-from typing import Optional, Dict, List
+from typing import Optional, Dict
 
 from ...domain.protocols import FrameProducer, VehicleDetector, VehicleTracker, SpeedEstimator
 from ...infrastructure.detection.yolo_detector import YoloDetector
@@ -8,14 +8,12 @@ from ...infrastructure.tracking.supervision_tracker import SupervisionTracker
 from ...infrastructure.tracking.speed_estimator import SimpleSpeedEstimator
 from ...infrastructure.zones.zone_counter import ZoneCounter
 from ...infrastructure.persistence.csv_repository import CSVTrafficRepository
-from ..aggregators.sync_aggregator import TrafficDataAggregator
 from ..aggregators.async_aggregator import AsyncTrafficDataAggregator
 from ..processors import (
-    FrameProcessor, DetectionProcessor, TrackingProcessor, 
+    TrackingProcessor, 
     SpeedEstimationProcessor, ZoneProcessor, AggregationProcessor
 )
 from ..processors.smart_detection import SmartDetectionProcessor
-from ..pipelines.sync_pipeline import VisionPipeline
 from ..pipelines.async_pipeline import AsyncVisionPipeline
 from cerebrovial_shared.metrics import MetricsCollector
 

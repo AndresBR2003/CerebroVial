@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Car, TrendingDown, Activity, ShieldCheck, Video, AlertTriangle, Filter, Download } from 'lucide-react';
 import { Card } from '../ui/Card';
+import { LoadingOverlay } from '../ui/LoadingStates';
 import { MapContainer, TileLayer, Marker, Popup, useMap, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -9,7 +10,7 @@ import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
-let DefaultIcon = L.icon({
+const DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow,
     iconSize: [25, 41],
@@ -26,31 +27,106 @@ function MapUpdater({ center, zoom }: { center: [number, number], zoom: number }
 }
 
 export const DashboardView = ({ onSelectCamera }: { onSelectCamera: (id: string) => void }) => {
-    // Datos simulados de intersecciones con coordenadas reales de Miraflores
-    const intersections = [
-        { id: 'CAM_001', name: 'Av. Larco / Av. Benavides', speed: 45, flow: 120, status: 'moderate', prediction: 'Estable', lat: -12.126, lng: -77.028 },
-        { id: 'CAM_002', name: 'Av. Pardo / Av. Espinar', speed: 28, flow: 180, status: 'critical', prediction: 'Congestión', lat: -12.119, lng: -77.035 },
-        { id: 'CAM_003', name: 'Av. Arequipa / Av. Angamos', speed: 55, flow: 90, status: 'fluid', prediction: 'Fluido', lat: -12.112, lng: -77.031 },
-        { id: 'CAM_004', name: 'Ovalo Gutiérrez', speed: 32, flow: 150, status: 'moderate', prediction: 'Lento', lat: -12.114, lng: -77.042 },
-    ];
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [realData, setRealData] = useState<Record<string, { speed: number, flow: number, status: string }>>({});
+
+    interface IntersectionData {
+        id: string;
+        name: string;
+        speed: number;
+        flow: number;
+        status: string;
+        lat: number;
+        lng: number;
+    }
+
+    const [intersections, setIntersections] = useState<IntersectionData[]>([]);
 
     const [mapCenter, setMapCenter] = useState<[number, number]>([-12.122, -77.028]);
     const [mapZoom, setMapZoom] = useState(14);
     const [viewMode, setViewMode] = useState<'leaflet' | 'waze'>('leaflet');
 
-    // Reset state on mount to ensure fresh start
+    // Fetch real data from database
     React.useEffect(() => {
+        const fetchIntersections = async () => {
+            try {
+                const apiBaseUrl = (import.meta.env?.VITE_CORE_API_URL) || 'http://localhost:8001';
+                const response = await fetch(`${apiBaseUrl}/api/intersections`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setIntersections(data);
+                } else {
+                    console.error("Failed to fetch intersections", response.statusText);
+                    setError("No se pudieron cargar las intersecciones desde la base de datos.");
+                }
+            } catch (err) {
+                console.error("Error fetching intersections:", err);
+                setError("Error de red al conectar con el servidor.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchIntersections();
+
         return () => {
             setViewMode('leaflet');
         };
     }, []);
+
+    // Connect to all cameras via SSE
+    React.useEffect(() => {
+        const eventSources: EventSource[] = [];
+        const baseUrl = (import.meta.env?.VITE_EDGE_API_URL) || 'http://localhost:8000';
+
+        intersections.forEach(camera => {
+            const sseUrl = `${baseUrl}/stream/${camera.id}`;
+            const eventSource = new EventSource(sseUrl);
+
+            eventSource.addEventListener('analysis', (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    
+                    // Translate status from backend to frontend semantic
+                    let uiStatus = 'fluid';
+                    const congestion = data.congestion_level?.toLowerCase() || '';
+                    if (congestion === 'alto') uiStatus = 'critical';
+                    else if (congestion === 'moderado') uiStatus = 'moderate';
+                    else uiStatus = 'fluid';
+
+                    setRealData(prev => ({
+                        ...prev,
+                        [camera.id]: {
+                            speed: Math.round(data.avg_speed || 0),
+                            flow: data.total_vehicles || 0,
+                            status: uiStatus
+                        }
+                    }));
+                } catch (err) {
+                    console.error(`Error parsing SSE data for ${camera.id}:`, err);
+                }
+            });
+
+            eventSource.onerror = () => {
+                // Silently handle errors to avoid console spam when backend is down
+            };
+
+            eventSources.push(eventSource);
+        });
+
+        return () => {
+            // Cleanup all connections when component unmounts
+            eventSources.forEach(es => es.close());
+        };
+    }, [intersections]); // Run when intersections are loaded
 
     const handleCameraSelect = (id: string) => {
         const camera = intersections.find(c => c.id === id);
         if (camera) {
             setMapCenter([camera.lat, camera.lng]);
             setMapZoom(16);
-            if (viewMode === 'waze') setViewMode('leaflet'); // Switch to leaflet to show specific camera
+            if (viewMode === 'waze') setViewMode('leaflet'); 
             onSelectCamera(id);
         }
     };
@@ -138,6 +214,20 @@ export const DashboardView = ({ onSelectCamera }: { onSelectCamera: (id: string)
 
                     {/* Map Content */}
                     <div className="w-full h-full bg-slate-900 relative z-0">
+                        {loading && <LoadingOverlay message="Cargando mapa interactivo..." />}
+                        {error && (
+                            <div className="absolute inset-0 z-[500] flex flex-col items-center justify-center bg-slate-900/90 text-white p-6 text-center">
+                                <AlertTriangle size={48} className="text-rose-500 mb-4" />
+                                <h3 className="text-xl font-bold mb-2">Error de Conexión</h3>
+                                <p className="text-slate-400 mb-6 max-w-md">{error}</p>
+                                <button 
+                                    onClick={() => window.location.reload()}
+                                    className="bg-indigo-600 px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+                                >
+                                    Reintentar
+                                </button>
+                            </div>
+                        )}
                         {viewMode === 'leaflet' ? (
                             <MapContainer
                                 center={[-12.122, -77.028]}
@@ -152,13 +242,15 @@ export const DashboardView = ({ onSelectCamera }: { onSelectCamera: (id: string)
                                 <MapUpdater center={mapCenter} zoom={mapZoom} />
 
                                 {intersections.map((int) => {
-                                    // Determine color based on status
+                                    // Determine color based on real-time status
+                                    const currentStatus = realData[int.id]?.status || int.status;
                                     let colorClass = 'bg-emerald-500';
                                     let pulseClass = '';
-                                    if (int.status === 'critical') {
+                                    
+                                    if (currentStatus === 'critical') {
                                         colorClass = 'bg-red-500';
                                         pulseClass = 'animate-ping';
-                                    } else if (int.status === 'moderate') {
+                                    } else if (currentStatus === 'moderate') {
                                         colorClass = 'bg-amber-500';
                                     }
 
@@ -186,16 +278,32 @@ export const DashboardView = ({ onSelectCamera }: { onSelectCamera: (id: string)
                                                 <div className="text-center">
                                                     <div className="font-bold text-slate-900 text-xs">{int.name}</div>
                                                     <div className="text-[10px] text-slate-600">
-                                                        {int.speed} km/h • {int.flow} vpm
+                                                        {realData[int.id]?.speed ?? '--'} km/h • {realData[int.id]?.flow ?? '--'} vpm
                                                     </div>
                                                 </div>
                                             </Tooltip>
                                             <Popup className="custom-popup">
-                                                <div className="p-1">
+                                                <div className="p-1 min-w-[120px]">
                                                     <h4 className="font-bold text-slate-900 text-xs mb-1">{int.name}</h4>
-                                                    <div className="flex justify-between text-[10px] text-slate-600 gap-2">
-                                                        <span>Vel: {int.speed} km/h</span>
-                                                        <span>Flujo: {int.flow} vpm</span>
+                                                    <div className="flex flex-col text-[10px] text-slate-600 gap-1">
+                                                        <div className="flex justify-between border-b border-slate-100 pb-1">
+                                                            <span>Velocidad:</span>
+                                                            <span className="font-bold text-indigo-600">{realData[int.id]?.speed ?? int.speed} km/h</span>
+                                                        </div>
+                                                        <div className="flex justify-between border-b border-slate-100 pb-1">
+                                                            <span>Flujo:</span>
+                                                            <span className="font-bold text-indigo-600">{realData[int.id]?.flow ?? int.flow} vpm</span>
+                                                        </div>
+                                                        <div className="flex justify-between">
+                                                            <span>Estado:</span>
+                                                            <span className={`font-bold uppercase ${
+                                                                (realData[int.id]?.status || int.status) === 'critical' ? 'text-red-500' : 
+                                                                (realData[int.id]?.status || int.status) === 'moderate' ? 'text-amber-500' : 'text-emerald-500'
+                                                            }`}>
+                                                                {(realData[int.id]?.status || int.status) === 'critical' ? 'Crítico' : 
+                                                                 (realData[int.id]?.status || int.status) === 'moderate' ? 'Moderado' : 'Fluido'}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                     <button
                                                         onClick={() => onSelectCamera(int.id)}
@@ -238,21 +346,28 @@ export const DashboardView = ({ onSelectCamera }: { onSelectCamera: (id: string)
                             >
                                 <div className="flex justify-between items-start mb-2">
                                     <div className="flex items-center gap-2">
-                                        <div className={`w-2 h-2 rounded-full ${cam.status === 'critical' ? 'bg-red-500 animate-pulse' : cam.status === 'moderate' ? 'bg-yellow-500' : 'bg-emerald-500'}`}></div>
+                                        <div className={`w-2 h-2 rounded-full ${
+                                            (realData[cam.id]?.status || cam.status) === 'critical' ? 'bg-red-500 animate-pulse' : 
+                                            (realData[cam.id]?.status || cam.status) === 'moderate' ? 'bg-amber-500' : 'bg-emerald-500'
+                                        }`}></div>
                                         <span className="font-medium text-white text-sm">{cam.name}</span>
                                     </div>
-                                    <span className={`text-[10px] px-2 py-0.5 rounded-full ${cam.status === 'critical' ? 'bg-red-500/20 text-red-300' : cam.status === 'moderate' ? 'bg-yellow-500/20 text-yellow-300' : 'bg-emerald-500/20 text-emerald-300'}`}>
-                                        {cam.status === 'critical' ? 'Crítico' : cam.status === 'moderate' ? 'Moderado' : 'Fluido'}
+                                    <span className={`text-[10px] px-2 py-0.5 rounded-full ${
+                                        (realData[cam.id]?.status || cam.status) === 'critical' ? 'bg-red-500/20 text-red-300' : 
+                                        (realData[cam.id]?.status || cam.status) === 'moderate' ? 'bg-amber-500/20 text-amber-300' : 'bg-emerald-500/20 text-emerald-300'
+                                    }`}>
+                                        {(realData[cam.id]?.status || cam.status) === 'critical' ? 'Crítico' : 
+                                         (realData[cam.id]?.status || cam.status) === 'moderate' ? 'Moderado' : 'Fluido'}
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-2 gap-2 text-xs text-slate-400">
                                     <div className="flex items-center gap-1">
                                         <Activity size={12} />
-                                        <span>{cam.flow} vpm</span>
+                                        <span>{realData[cam.id]?.flow ?? '--'} vpm</span>
                                     </div>
                                     <div className="flex items-center gap-1">
                                         <AlertTriangle size={12} />
-                                        <span>{cam.speed} km/h</span>
+                                        <span>{realData[cam.id]?.speed ?? '--'} km/h</span>
                                     </div>
                                 </div>
                             </div>

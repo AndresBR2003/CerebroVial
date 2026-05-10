@@ -46,7 +46,7 @@ class YouTubeSource(OpenCVSource):
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(self.original_url, download=False)
                 stream_url = info['url']
-                print(f"Stream URL extracted via yt_dlp.")
+                print("Stream URL extracted via yt_dlp.")
                 
                 # Now initialize the OpenCV source with the stream URL
                 self.source = stream_url
