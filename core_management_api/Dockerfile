@@ -15,12 +15,14 @@ RUN pip install --no-cache-dir -e /shared
 COPY core_management_api/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia del codigo
+# Copia del codigo (incluye alembic/, entrypoint.sh)
 COPY core_management_api/ .
 
 # Variables de entorno
 ENV PYTHONPATH=/app
 EXPOSE 8001
 
-# Comando por defecto para la API
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8001"]
+# El entrypoint corre `alembic upgrade head` y luego uvicorn.
+# Apto para deploy local single-node. En multi-instance habría que mover
+# las migraciones a un job separado para evitar que dos réplicas migren a la vez.
+ENTRYPOINT ["./entrypoint.sh"]

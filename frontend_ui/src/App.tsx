@@ -8,6 +8,7 @@ import { CameraDetailView } from './components/views/CameraDetailView';
 import { AnalyticsView } from './components/views/AnalyticsView';
 import { AlertsView } from './components/views/AlertsView';
 import { AdminView } from './components/views/AdminView';
+import { ControlView } from './components/views/control/ControlView';
 import { ThesisModal } from './components/modals/ThesisModal';
 import { ReportModal } from './components/modals/ReportModal';
 import { AIChatWidget } from './components/widgets/AIChatWidget';
@@ -48,6 +49,7 @@ const CerebroVialApp = () => {
         {activeTab === 'analytics' && <AnalyticsView />}
         {activeTab === 'alerts' && <AlertsView setSelectedAlertForReport={setSelectedAlertForReport} />}
         {activeTab === 'admin' && <AdminView />}
+        {activeTab === 'control' && <ControlView />}
       </main>
 
       {showThesis && <ThesisModal onClose={() => setShowThesis(false)} />}
