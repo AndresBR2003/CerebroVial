@@ -1,0 +1,399 @@
+# Lean Inception — CerebroVial
+
+> Documento consolidado del Lean Inception realizado para el proyecto de tesis CerebroVial. Contiene los 7 artefactos generados durante el workshop adaptado al contexto académico.
+>
+> **Estado:** Versión 1.0, lista para Showcase con asesor.
+> **Fecha:** 2026-05-11 (semana 6 de 15).
+
+---
+
+## Índice
+
+1. Contexto y metodología aplicada
+2. Artefacto 1 — Objetivo del Producto
+3. Artefacto 2 — Product Vision
+4. Artefacto 3 — Matriz Es / No Es / Hace / No Hace
+5. Artefacto 4 — Objetivos del Producto
+6. Artefacto 5 — Personas
+7. Artefacto 6 — User Journeys
+8. Artefacto 7 — Feature Backlog (Brainstorming + Revisión)
+9. Artefacto 8 — Sequencer (MVP1 / MVP2 / MVP3)
+10. Artefacto 9 — MVP Canvas para MVP1
+11. Decisiones cerradas durante el Inception
+12. Parking lot — para conversación con asesor
+13. Próximos pasos
+
+---
+
+## 1. Contexto y metodología aplicada
+
+### Marco metodológico
+
+Se aplicó **Lean Inception** (Paulo Caroli, 2018) como marco metodológico para la definición de alcance del proyecto. La elección se justifica por:
+
+- Compatibilidad con la estructura de Incepción Ágil sugerida por el curso (Desarrollo_Agil.pdf).
+- Respaldo bibliográfico autorizado (Caroli, Fowler/Thoughtworks, Pichler).
+- Producción de artefactos concretos y defendibles.
+- Conexión natural con SCRUM como marco de ejecución posterior.
+
+La aplicación es **complementaria, no alternativa, a SCRUM**: Lean Inception define **qué construir** (alcance); SCRUM define **cómo construirlo** (ejecución).
+
+### Adaptaciones al contexto académico
+
+Lean Inception está pensado para workshops colaborativos de 5 días con equipos de producto y stakeholders comerciales. Se aplicaron tres adaptaciones explícitas (documentadas en LEAN_INCEPTION_INVESTIGACION.md, sección 4):
+
+1. **Equipo individual con asistencia de IA.** Las actividades colaborativas se sustituyeron por conversaciones estructuradas tesista–asistente, con validación posterior del asesor.
+2. **Inception retroactivo.** El proyecto no parte de cero; tiene 6 semanas de código previo. El Inception se aplica para validar coherencia retroactiva del alcance y redefinir lo que sea necesario.
+3. **MVP académico, no comercial.** El "MVP" es el subconjunto del producto que se sustenta en la defensa. Las hipótesis son académicas (validación de KPIs en simulación), no comerciales (adopción, retención).
+
+---
+
+## 2. Artefacto 1 — Objetivo del Producto
+
+> **"Reducir los tiempos de espera y la congestión vehicular en intersecciones del distrito de Miraflores, en beneficio de conductores, peatones y vecinos de la zona."**
+
+**Notas:**
+- Beneficiario directo: la ciudadanía (conductores, peatones, vecinos).
+- Alcance geográfico: Miraflores.
+- El objetivo no contiene la solución (no menciona "control adaptativo", "predicción" ni "semáforos"), lo cual permite que sobreviva cambios técnicos.
+
+---
+
+## 3. Artefacto 2 — Product Vision
+
+> **Para** la Municipalidad de Miraflores **que** requiere reducir los tiempos de espera y la congestión vehicular en sus intersecciones urbanas, **CerebroVial es un** sistema inteligente de control adaptativo de semáforos **que** ajusta dinámicamente los tiempos de luz verde anticipando la congestión y respondiendo al estado real del tráfico observado en la intersección. **A diferencia de** los sistemas de control fijo y de los sistemas actuados por sensores convencionales, **nuestro producto** integra predicción de congestión a corto plazo mediante aprendizaje profundo y selección automática entre múltiples estrategias de control según el estado predicho y observado.
+
+**Plantilla utilizada:** Geoffrey Moore (popularizada por Roman Pichler).
+
+**Notas:**
+- Cliente / adoptante: Municipalidad de Miraflores.
+- Beneficiario: la ciudadanía (declarado en Artefacto 1).
+- La Vision sí menciona el "cómo" (aprendizaje profundo, múltiples estrategias) porque describe el producto concreto.
+
+---
+
+## 4. Artefacto 3 — Matriz Es / No Es / Hace / No Hace
+
+### ES + HACE
+- Es un sistema de control adaptativo de semáforos.
+- Es un sistema de software, no hardware.
+- Es desplegable mediante Docker en infraestructura estándar.
+- Predice congestión a corto plazo (15 min) por intersección.
+- Selecciona dinámicamente entre Webster, MaxPressure y MTC.
+- Observa estado de la intersección mediante visión computacional.
+- Valida cuantitativamente su desempeño mediante simulación SUMO.
+- Provee dashboard de monitoreo en tiempo real.
+
+### NO ES
+- No es un sistema comercial productivizado (es prototipo académico).
+- No es SCATS, SCOOT ni un sistema propietario equivalente.
+- No es un sistema entrenado con datos reales de tráfico de Lima.
+- No es un sistema de control de múltiples intersecciones coordinadas.
+- No es una app para conductores ni para ciudadanos finales.
+- No es un sistema de detección de infracciones ni de fiscalización.
+
+### NO HACE
+- No controla semáforos físicos reales (solo simulados en SUMO).
+- No coordina ondas verdes entre intersecciones vecinas.
+- No detecta tipos específicos de vehículos para priorización.
+- No procesa datos reales de Waze ni de fuentes externas.
+- No reconoce placas ni rostros (visión es solo conteo y métricas agregadas).
+- No realiza optimización offline multi-día.
+- No envía notificaciones a conductores ni a vecinos.
+
+### ES PERO NO HACE
+- (Vacío.)
+
+---
+
+## 5. Artefacto 4 — Objetivos del Producto
+
+Los 4 objetivos del producto, en orden cronológico-causal:
+
+1. **Observar el estado actual del tráfico** en intersecciones urbanas, proporcionando visibilidad en tiempo real al operador.
+
+2. **Anticipar la congestión** mediante predicción de corto plazo basada en aprendizaje profundo.
+
+3. **Adaptar el control de semáforos** seleccionando dinámicamente entre estrategias de control según el estado observado y predicho.
+
+4. **Demostrar mejora cuantificable** mediante validación en simulación calibrada con la topología de la intersección de estudio, comparando el sistema propuesto contra control fijo.
+
+**Notas:**
+- Los 4 objetivos se alinean con los 4 módulos del sistema (visión, predicción GRU, motor adaptativo, validación SUMO).
+- La regla de Caroli es 3 objetivos; se justifica el cuarto por su naturaleza irreducible: cada objetivo representa una capa funcional distinta.
+- El orden es deliberado: cada objetivo habilita al siguiente.
+
+---
+
+## 6. Artefacto 5 — Personas
+
+### Persona 1: Operador de Tráfico Municipal
+
+| Rol | Detalles | Necesidad |
+|---|---|---|
+| **Operador de Tráfico Municipal** | Funcionario responsable del monitoreo en tiempo real del flujo vehicular en intersecciones del distrito. Trabaja desde un centro de operaciones con acceso a múltiples pantallas. Tiene formación técnica básica pero no es ingeniero ni programador. Su jornada incluye picos de actividad en horas pico (7-9am, 6-9pm). | • Visualizar el estado actual del tráfico en tiempo real • Anticipar congestiones antes de que escalen • Confiar en que el sistema toma decisiones de control acertadas sin intervención constante • Entender por qué el sistema tomó una decisión específica cuando algo va mal |
+
+### Persona 2: Gerente de Tránsito Municipal
+
+| Rol | Detalles | Necesidad |
+|---|---|---|
+| **Gerente de Tránsito Municipal** | Funcionario directivo del área de tránsito de la municipalidad. Responsable de evaluar el desempeño global del sistema de control de tráfico, justificar inversiones y reportar a niveles superiores. No opera el sistema en tiempo real; lo consulta para tomar decisiones estratégicas y reportar gestión. | • Evaluar la eficiencia del sistema de control de tráfico en periodos prolongados • Comparar el desempeño antes y después de la implementación • Justificar la inversión en el sistema con datos cuantitativos • Identificar tendencias o problemas recurrentes para planificación futura |
+
+### Persona 3: Administrador del Sistema
+
+| Rol | Detalles | Necesidad |
+|---|---|---|
+| **Administrador del Sistema** | Perfil técnico responsable de la configuración, mantenimiento y salud del sistema. A diferencia del Operador, no monitorea el tráfico — monitorea el sistema. Tiene formación en ingeniería de sistemas o software. Interviene de forma esporádica para configuraciones, ajustes de parámetros y supervisión técnica. | • Verificar que los componentes del sistema están operativos • Configurar parámetros del motor adaptativo (umbrales, pesos) • Consultar métricas de desempeño del modelo predictivo • Solicitar el reentrenamiento del modelo cuando los datos disponibles cambien significativamente |
+
+### Fuera de Personas (documentados aparte)
+
+- **Ciudadano de Miraflores** — beneficiario indirecto. No interactúa con el sistema. Documentado en Artefacto 1 (Objetivo) y Artefacto 2 (Vision).
+- **Comité Evaluador** — stakeholder del proyecto académico, no usuario del producto. Documentado en sección de Stakeholders del proyecto de tesis si la rúbrica lo exige.
+
+---
+
+## 7. Artefacto 6 — User Journeys
+
+### Journey 1: Operador — Turno de monitoreo en hora pico
+
+| # | Acción | Estado emocional | Touchpoint |
+|---|---|---|---|
+| 1 | Inicia turno y accede al dashboard | Atento | Login + landing |
+| 2 | Verifica el estado actual del tráfico | Atento a normalidad | Dashboard principal |
+| 3 | Observa la predicción de congestión | Anticipa problemas | Panel de predicción |
+| 4 | Identifica congestión próxima | Preocupación | Vista combinada |
+| 5 | Verifica estrategia activa del motor | Confianza/duda | Panel del motor |
+| 6 | Sistema cambia automáticamente de estrategia | Alivio | Notificación + log |
+| 7 | Observa evolución tras el cambio | Validación visual | Dashboard actualizado |
+| 8 | Registra incidencia *(fuera del sprint)* | Necesita reportar | Módulo de notas |
+
+### Journey 2: Gerente — Revisión semanal de desempeño
+
+| # | Acción | Estado emocional | Touchpoint |
+|---|---|---|---|
+| 1 | Accede al sistema | Atención al detalle | Login |
+| 2 | Selecciona periodo de análisis | Quiere comparar | Selector de periodo |
+| 3 | Consulta KPIs agregados | Necesita números | Dashboard ejecutivo |
+| 4 | Compara con periodos previos | Quiere tendencia | Vista comparativa |
+| 5 | Detecta variación importante *(fuera del sprint)* | Curiosidad | Vista detallada |
+| 6 | Exporta reporte *(fuera del sprint)* | Necesita formato | Exportación PDF/Excel |
+
+### Journey 3: Administrador — Verificación de salud del sistema
+
+| # | Acción | Estado emocional | Touchpoint |
+|---|---|---|---|
+| 1 | Accede al panel de administración | Inicia revisión | Login con permisos admin |
+| 2 | Verifica estado de componentes | Asegurar operatividad | Vista de health check |
+| 3 | Consulta métricas del modelo predictivo | Validar performance | Panel de métricas |
+| 4 | Identifica degradación *(fuera del sprint)* | Decisión técnica | Comparativa vs baseline |
+| 5 | Ajusta parámetros del motor | Configuración fina | Formulario de configuración |
+| 6 | Solicita reentrenamiento *(fuera del sprint)* | Acción crítica | Botón "reentrenar" |
+
+### Journey 4: Operador — Operación degradada por falla de componente
+
+| # | Acción | Estado emocional | Touchpoint |
+|---|---|---|---|
+| 1 | Está en turno normal | Atento | Dashboard normal |
+| 2 | Recibe alerta de degradación (nivel 1, 2 o 3) | Preocupación proporcional | Banner / indicador |
+| 3 | Consulta detalle del componente afectado | Necesita entender | Panel de estado |
+| 4 | Verifica modo de operación activo | Decide si interviene | Mensaje explicativo |
+| 5 | Observa que el sistema sigue operando con fallback | Confianza condicional | Indicación en cada panel |
+| 6 | Decide escalamiento al Admin *(fuera del sprint)* | Decisión operativa | Botón de escalamiento |
+| 7 | Continúa monitoreando hasta recuperación | Atención sostenida | Dashboard normal restaurado |
+
+**Niveles de degradación documentados:**
+
+| Nivel | Falla | Comportamiento |
+|---|---|---|
+| 1 | Falla visión | Motor adaptativo opera solo con predicción |
+| 2 | Falla modelo predictivo | Motor opera con baseline RandomForest |
+| 3 | Falla motor adaptativo | Sistema cae a tiempos fijos (Webster precalculado) |
+
+**Propiedad clave:** *"Nunca empeoramos el statu quo."* En el peor nivel de fallback, el sistema opera como los semáforos actuales de Lima (tiempos fijos).
+
+---
+
+## 8. Artefacto 7 — Feature Backlog
+
+Total: **35 features candidatas** identificadas por brainstorming a partir de Journeys.
+
+**Distribución por persona:**
+- Operador: 13 features
+- Gerente: 5 features
+- Administrador: 5 features
+- Sistema (transversal): 7 features
+- Que cruzan personas: 5
+
+**Lista completa con anotaciones de revisión Técnica / UX / Negocio:** ver hoja de revisión adjunta (Artefacto 7 detallado). Las features se clasifican en el siguiente artefacto (Sequencer).
+
+---
+
+## 9. Artefacto 8 — Sequencer (MVP1 / MVP2 / MVP3)
+
+### MVP1 — Sustentación de tesis (26 features, se construye)
+
+**Bloque A — Infraestructura mínima (4 features):**
+F01 Autenticación, F29 Roles y permisos, F30 Persistencia de estados, F31 Persistencia de decisiones.
+
+**Bloque B — Operador, monitoreo (9 features):**
+F02 Dashboard principal, F03 Flujo en tiempo real, F04 Cola por dirección, F05 Panel de predicción, F06 Vista combinada estado+predicción, F07 Panel del motor adaptativo, F08 Explicación de selección (nivel mínimo), F09 Notificación de cambio, F10 Log de decisiones.
+
+**Bloque C — Operador, degradación (6 features):**
+F22 Indicador de estado degradado, F23 Vista simplificada de componentes, F24 Mensaje explicativo, F25 Indicación por panel, F26 Lógica de fallback en cascada, F27 Configuración de tiempos fijos.
+
+**Bloque D — Administrador (3 features):**
+F17 Salud de componentes, F18 Métricas del modelo, F20 Configuración de parámetros del motor.
+
+**Bloque E — Componentes del sistema (4 features):**
+F33 Módulo de visión, F34 Módulo predictivo GRU, F35 Motor adaptativo, F32 Integración con SUMO.
+
+**Bloque F — Gerente (3 features):**
+F12 Dashboard ejecutivo, F13 Selector de periodo, F14 Vista comparativa entre periodos.
+
+### MVP2 — Product Backlog fuera del sprint (5 features, se documenta pero no se construye)
+
+- F11 — Módulo de notas del Operador.
+- F15 — Vista detallada de periodo específico.
+- F16 — Exportación de reportes a PDF/Excel.
+- F19 — Comparativa de métricas del modelo vs baseline.
+- F28 — Botón de escalamiento al Administrador.
+
+**Justificación:** estas features son legítimas del producto pero no caben en el cronograma. Se documentarán como HUs completas con criterios de aceptación, sin construirse. Esto demuestra madurez de análisis sin comprometer el cronograma.
+
+### MVP3 — Trabajo futuro (6 direcciones, no se documenta como HU)
+
+- Reentrenamiento del modelo (pipeline MLOps).
+- Reconocimiento de tipos de vehículos para priorización.
+- Coordinación de ondas verdes entre intersecciones vecinas (D-006).
+- Procesamiento de datos reales de Waze (D-008).
+- Despliegue real en Raspberry Pi (D-004).
+- Notificaciones push y monitoreo proactivo de cámaras.
+
+---
+
+## 10. Artefacto 9 — MVP Canvas para MVP1
+
+### Bloque 1 — Propuesta del MVP
+
+> CerebroVial MVP1 es un sistema integrado de control adaptativo de semáforos que observa el estado actual del tráfico, anticipa congestión a corto plazo mediante predicción con GRU, adapta dinámicamente la estrategia de control entre Webster, MaxPressure y MTC, y demuestra cuantitativamente su mejora frente a control fijo mediante simulación SUMO calibrada con la topología de una intersección de Miraflores. El sistema opera con degradación controlada en cascada ante falla de componentes, manteniendo siempre un comportamiento seguro y predecible.
+
+### Bloque 2 — Personas Segmentadas
+
+- **Personas:** Operador (principal), Administrador (técnico), Gerente (reportería).
+- **Segmentación de validación:** Una sola intersección de Miraflores en SUMO. Sin segmentación adicional por turno o subconjunto de operadores.
+
+### Bloque 3 — Jornadas
+
+Las 4 cerradas en Artefacto 6.
+
+### Bloque 4 — Features
+
+Las 26 del MVP1 organizadas en Bloques A-F (ver Artefacto 8).
+
+### Bloque 5 — Resultado Esperado
+
+**Resultado primario:** Demostrar que un sistema integrado de control adaptativo con predicción mediante GRU mejora cuantitativamente los KPIs de tráfico de una intersección urbana frente a control fijo (Webster precalculado), en condiciones de simulación calibrada.
+
+**Resultados secundarios:**
+- Viabilidad técnica de integración entre módulo de visión, modelo predictivo, motor adaptativo y simulación.
+- Operación con degradación controlada ante falla de componentes, sin empeorar el statu quo.
+- Producción de un Product Backlog completo (MVP1 implementado + MVP2 documentado).
+
+### Bloque 6 — Métricas para validar hipótesis
+
+**Métricas técnicas del sistema integrado (Obj. 4):**
+- Tiempo promedio de espera por vehículo (segundos).
+- Longitud máxima de cola por dirección (vehículos).
+- Throughput de la intersección (vehículos/hora).
+- Demora promedio acumulada en periodo de simulación.
+
+**Métricas del modelo predictivo (Obj. 2):**
+- MAE (Mean Absolute Error) y RMSE de la predicción de congestión.
+- Sobre escenarios SUMO no vistos en entrenamiento.
+
+**Métricas del módulo de visión (Obj. 1, validación independiente):**
+- Precisión, recall, mAP de detección sobre dataset etiquetado.
+
+**Métrica de robustez:**
+- El sistema continúa operando bajo los 3 niveles de fallback sin degradar KPIs por debajo del control fijo.
+
+**Criterio de éxito de la tesis:**
+- **Al menos 2 de las 4 métricas técnicas del sistema integrado mejoran significativamente frente a control fijo.**
+- **Ninguna de las 4 métricas empeora significativamente.**
+- Métricas del modelo predictivo dentro de rango aceptable según literatura comparable.
+
+### Bloque 7 — Costo y Cronograma
+
+**Costo:** Cero costo monetario directo. Recursos: tiempo del tesista, infraestructura local (Docker, sin cloud — D-003).
+
+**Cronograma:** 9 semanas (semana 6 a semana 15).
+
+| Semana | Hito |
+|---|---|
+| 6 (actual) | Cierre de Inception. Inicio SUMO en paralelo. |
+| 7 | SUMO funcional. Cierre Fase 2 (Autenticación). |
+| 8 | GRU entrenamiento sobre dataset SUMO. |
+| 9 | GRU integración + persistencia. |
+| 10 | Integración SUMO ↔ motor adaptativo. |
+| 11 | Validación con/sin sistema. |
+| 12 | Validación independiente del módulo de visión. |
+| 13 | Actualización del documento de tesis. |
+| 14 | Buffer + ensayo de defensa. |
+| 15 | Entrega final. |
+
+**Datos para validación disponibles al final de semana 11**, lo que da 4 semanas de margen para iterar el modelo o ajustar si los resultados son insuficientes.
+
+---
+
+## 11. Decisiones cerradas durante el Inception
+
+Las siguientes decisiones se tomaron y cerraron durante el Inception (sujetas a confirmación con asesor):
+
+1. **Alcance del producto:** Miraflores (no Lima en general).
+2. **Cliente / adoptante:** Municipalidad de Miraflores.
+3. **Beneficiario:** ciudadanía (conductores, peatones, vecinos), declarado pero no como persona del producto.
+4. **Tres personas del producto:** Operador, Gerente, Administrador.
+5. **Comité Evaluador NO es persona del producto** — es stakeholder del proyecto.
+6. **Ciudadano NO es persona del producto** — es beneficiario indirecto.
+7. **4 objetivos del producto** (no 3) — justificados por irreducibilidad funcional.
+8. **Operación degradada en 3 niveles** explícitamente diseñada.
+9. **F08 (explicación de selección):** nivel mínimo, texto predefinido por estrategia.
+10. **5 features quedan en MVP2** — documentadas pero no construidas.
+11. **Criterio de éxito:** al menos 2 de 4 métricas técnicas mejoran significativamente, ninguna empeora.
+
+---
+
+## 12. Parking lot — Para conversación con asesor
+
+Items identificados durante el Inception que requieren validación específica del asesor (o del PO si llega a existir):
+
+- ¿Opera sobre una intersección a la vez como definición de producto, o solo como alcance de validación?
+- ¿Pi como hardware desplegado cuenta como "es" del producto? D-004 lo deja conceptual.
+- ¿Autenticación multi-rol compleja, o login básico es suficiente para MVP1?
+- ¿Validación de campo en Miraflores es factible en algún horizonte? Si no, queda como trabajo futuro.
+- ¿Se debe incluir alguna jornada adicional (turno nocturno, fin de semana, Gerente preparando reunión)?
+- ¿La sección de "Stakeholders del proyecto" debe formar parte del documento de tesis?
+
+---
+
+## 13. Próximos pasos
+
+Tras validación del Showcase con el asesor:
+
+1. **Conversión de las 26 features de MVP1 a HUs en formato "Como X, quiero Y, para Z"** con criterios de aceptación Given-When-Then. Estimadas con Planning Poker y priorizadas con MoSCoW.
+
+2. **Conversión de las 5 features de MVP2 a HUs documentadas** con la misma estructura, marcadas como fuera del sprint.
+
+3. **Definición de Sprint Goals** para las 9 semanas, siguiendo el cronograma del Bloque 7 del MVP Canvas.
+
+4. **Inicio de SDD (Spec-Driven Development)** sobre las HUs prioritarias del sprint.
+
+---
+
+## Documentos relacionados
+
+- `DECISIONS.md` — Registro formal de decisiones técnicas (D-001 a D-008).
+- `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.
+- `LEAN_INCEPTION_INVESTIGACION.md` — Fundamentación del marco metodológico.
+- `documentation/docs/DISCOVERY_2026-05-10.md` — Auditoría inicial del repositorio.
+- `tesis/(2).docx` — Documento de tesis (requiere actualización del capítulo de alcance con el resultado del Inception).
