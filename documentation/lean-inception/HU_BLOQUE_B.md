@@ -1,0 +1,493 @@
+# Historias de Usuario — Bloque B (Cerradas)
+
+> Segunda entrega del Product Backlog del proyecto CerebroVial.
+>
+> **Estado:** Bloque B cerrado y aprobado. Bloque A previamente cerrado. Pendiente: Bloques C, D, E, F + MVP2 (HU-09 ya redactada dentro de este bloque).
+>
+> **Fecha de cierre:** 2026-05-13
+
+---
+
+## Contexto
+
+Este documento contiene las Historias de Usuario del **Bloque B — Operador, núcleo de monitoreo** del Sequencer del Lean Inception (ver `LEAN_INCEPTION_CEREBROVIAL.md`, sección 9, y `FEATURE_BACKLOG_DETALLADO.md`, Bloque B).
+
+Las HUs se redactan en el formato del documento de referencia académica (`Desarrollo_Agil.pdf`, Tablas 9 y 13): "Como X, quiero Y, para Z" con criterios de aceptación Given-When-Then.
+
+Las HUs del Bloque B siguen las reglas metodológicas establecidas y refinadas durante la redacción:
+
+- **DHU-001 a DHU-004** (del Bloque A): sujetos válidos, exclusión del Equipo de Desarrollo, TTH como categoría separada.
+- **DHU-005** (refinada en este bloque): principio de robustez ante interrupción de fuente, con Casos A y B.
+- **DHU-006:** HUs agnósticas a la implementación.
+- **DHU-007:** RNF declarados como tales en sección específica al final de cada HU.
+
+Ver `DECISIONS_HU.md` para fundamentación completa.
+
+---
+
+## Mapeo de features del Bloque B
+
+Las 10 features del Bloque B (F02 a F11) se mapearon a 8 HUs según el siguiente criterio (Nivel B de granularidad: una HU por elemento de información del dashboard):
+
+| HU | Título | Features que cubre |
+|---|---|---|
+| HU-02 | Monitoreo del estado actual de la intersección en tiempo real | F03 + F04 (F02 cubierto por composición) |
+| HU-03 | Visualización de predicción de congestión a corto plazo | F05 |
+| HU-04 | Vista combinada del estado actual y la predicción de tráfico | F06 |
+| HU-05 | Visualización de la estrategia de control activa | F07 |
+| HU-06 | Explicación de la razón de selección de estrategia | F08 |
+| HU-07 | Notificación de cambios de estrategia del motor | F09 |
+| HU-08 | Consulta del historial de decisiones del motor | F10 (+ F31 inglobada como CA) |
+| HU-09 | Registro de notas e incidencias del turno | F11 (MVP2) |
+
+**Total Bloque B:** 8 HUs (7 MVP1 + 1 MVP2). F02 (Dashboard principal) queda cubierto por la composición visual de HU-02, HU-03, HU-04, HU-05 y HU-06 en una vista única, sin generar HU propia (es contenedor, no funcionalidad independiente).
+
+---
+
+## HU-02 — Monitoreo del estado actual de la intersección en tiempo real
+
+| Campo | Contenido |
+|---|---|
+| **Como** | Operador de Tráfico Municipal |
+| **Quiero** | visualizar en tiempo real el flujo vehicular y la longitud de cola en cada acceso de la intersección |
+| **Para** | detectar de inmediato condiciones anómalas (congestión incipiente, colas excesivas, flujos desbalanceados) y reaccionar antes de que escalen a problemas mayores |
+
+**Tipo:** HU de Persona (Operador).
+**Feature(s) origen:** F03 (Visualización de flujo vehicular) + F04 (Visualización de cola por dirección). Componente visual integrador F02 cubierto por la composición con HU-03, HU-04 y HU-05.
+
+### Descripción
+
+El Operador necesita un panel de monitoreo que le muestre el estado actual del tráfico en la intersección sin tener que ejecutar consultas ni cambiar de vista. El panel se actualiza automáticamente a medida que llegan nuevas mediciones del tráfico. El Operador debe poder identificar de un vistazo si hay una dirección con flujo inusualmente alto o con una cola que está creciendo más rápido de lo habitual.
+
+El panel muestra dos elementos por cada acceso de la intersección:
+
+1. **Flujo vehicular** (vehículos por minuto en el último intervalo de medición).
+2. **Longitud de cola** (vehículos esperando en ese acceso, con indicador de nivel según umbrales configurables).
+
+### Criterios de aceptación
+
+- **CA-02.1:** Dado que el Operador ha iniciado sesión, cuando ingresa a la vista de monitoreo, entonces el sistema muestra, para cada acceso de la intersección, el flujo vehicular actual (en vehículos por minuto) y la longitud de cola actual (en número de vehículos).
+
+- **CA-02.2:** Dado que el Operador tiene la vista de monitoreo abierta, cuando llega una nueva medición del tráfico, entonces los valores mostrados se actualizan automáticamente sin necesidad de recargar la página, con una latencia máxima de 5 segundos desde que la medición se genera.
+
+- **CA-02.3:** Dado que el Operador está observando la longitud de cola en un acceso, cuando esa cola supera el umbral configurado como "alto", entonces el indicador visual asociado a ese acceso cambia a color rojo. Cuando está entre el umbral "medio" y "alto", se muestra en amarillo. Cuando está por debajo del umbral "medio", se muestra en verde.
+
+- **CA-02.4:** Dado que el sistema deja de recibir mediciones del tráfico (por cualquier causa), cuando el Operador está observando el panel, entonces el sistema mantiene en pantalla los últimos valores conocidos, los marca visualmente como "desactualizados" e indica el tiempo transcurrido desde la última actualización (DHU-005 Caso A).
+
+- **CA-02.5:** Dado que el Operador no ha iniciado sesión, cuando intenta acceder a la vista de monitoreo, entonces el sistema lo redirige a la pantalla de login.
+
+### Notas técnicas
+
+- **Origen de los datos del tráfico:** La HU es agnóstica a la fuente. En el entorno de operación real, las mediciones provienen de los componentes técnicos definidos en el Bloque E. En el entorno de validación académica, las mediciones se generan a partir del entorno de validación documentado en D-008. El frontend consume una API estable independiente del origen.
+- **Mecanismo de actualización:** SSE (Server-Sent Events) o WebSocket. Decisión técnica a cerrar en el sprint correspondiente.
+- **Umbrales de cola:** Los valores que disparan los colores verde/amarillo/rojo son parametrizables y se configuran a través de la HU del Bloque D que cubre la configuración del motor. Para MVP1 se aceptan valores por defecto, con la decisión documentada como "configurable en iteraciones futuras".
+- **Geometría de la intersección:** Las direcciones (4 accesos como caso típico) se definen en la configuración del sistema. El código debe soportar N accesos.
+
+### Candidatos a RNF (para futuro documento RF/RNF)
+
+- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-02.2).
+- **RNF de robustez:** comportamiento ante pérdida de fuente de datos (CA-02.4, DHU-005 Caso A).
+- **RNF de usabilidad:** umbrales de color verde/amarillo/rojo en indicador de cola (CA-02.3).
+
+---
+
+## HU-03 — Visualización de predicción de congestión a corto plazo
+
+| Campo | Contenido |
+|---|---|
+| **Como** | Operador de Tráfico Municipal |
+| **Quiero** | visualizar la predicción del nivel de congestión en los próximos minutos para cada acceso de la intersección |
+| **Para** | anticiparme a la formación de congestión y disponer de tiempo de reacción antes de que el problema se materialice |
+
+**Tipo:** HU de Persona (Operador).
+**Feature(s) origen:** F05 (Panel de predicción de congestión).
+
+### Descripción
+
+El Operador necesita ver no solo lo que pasa ahora (cubierto por HU-02), sino lo que el sistema anticipa que va a pasar en los próximos minutos. La predicción se expresa en una escala ordinal de nivel de congestión que va desde 0 (flujo libre) hasta 5 (vía cerrada), siguiendo el estándar de la industria documentado en D-009. Para cada acceso de la intersección, el panel muestra el nivel de congestión proyectado en el horizonte futuro configurado.
+
+Esta escala unificada permite que el sistema sea agnóstico a la fuente de datos: tanto el entorno de validación como una fuente de datos real producen la misma variable de estado, garantizando portabilidad sin reentrenamiento del modelo.
+
+### Criterios de aceptación
+
+- **CA-03.1:** Dado que el Operador ha iniciado sesión y existe un horizonte de predicción configurado, cuando ingresa a la vista de predicción, entonces el sistema muestra, para cada acceso de la intersección, el nivel de congestión predicho (en escala 0–5) proyectado hasta el horizonte configurado.
+
+- **CA-03.2:** Dado que el Operador tiene la vista de predicción abierta, cuando el sistema genera una nueva predicción, entonces los valores mostrados se actualizan automáticamente sin necesidad de recargar la página, con una latencia máxima de 5 segundos desde que la predicción se genera.
+
+- **CA-03.3:** Dado que el Operador está observando la predicción, cuando para algún acceso el nivel predicho supera el umbral configurado como "congestión" (por defecto, nivel ≥ 3), entonces ese acceso se resalta visualmente para alertar al Operador del problema anticipado.
+
+- **CA-03.4:** Dado que el sistema deja temporalmente de generar predicciones (por cualquier causa), cuando el Operador está observando el panel, entonces el sistema mantiene en pantalla las últimas predicciones conocidas, las marca visualmente como "no confirmadas" e indica el tiempo transcurrido desde la última confirmación (DHU-005 Caso B).
+
+- **CA-03.5:** Dado que el Operador no ha iniciado sesión, cuando intenta acceder a la vista de predicción, entonces el sistema lo redirige a la pantalla de login.
+
+### Notas técnicas
+
+- **Variable predicha:** nivel de congestión en escala 0–5, según el constructo definido en D-009. El sistema es agnóstico a la fuente de datos: en validación se calcula a partir de las mediciones del entorno de simulación, y en operación real desde el feed correspondiente.
+- **Granularidad temporal:** el sistema entrega la predicción como una proyección en el horizonte (puntos a intervalos o valor agregado del horizonte; decisión a cerrar en el sprint).
+- **Horizonte configurable:** parámetro de configuración del sistema; valor por defecto a cerrar en el sprint.
+- **Umbral de congestión:** configurable en la HU del Bloque D dedicada a configuración del motor; valor por defecto nivel ≥ 3.
+
+### Candidatos a RNF (para futuro documento RF/RNF)
+
+- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-03.2).
+- **RNF de robustez:** comportamiento ante interrupción de predicciones (CA-03.4, DHU-005 Caso B).
+- **RNF de calidad de predicción:** umbrales de error aceptable del modelo (MAE/RMSE sobre el ratio velocidad/free-flow). Pertenece al componente predictivo (Bloque E), no a la vista.
+
+---
+
+## HU-04 — Vista combinada del estado actual y la predicción de tráfico
+
+| Campo | Contenido |
+|---|---|
+| **Como** | Operador de Tráfico Municipal |
+| **Quiero** | ver en una sola pantalla el estado actual del tráfico y la predicción a corto plazo de manera integrada |
+| **Para** | comparar visualmente "lo que está pasando" con "lo que va a pasar" sin tener que cambiar de vista, y así detectar discrepancias o tendencias preocupantes antes de actuar |
+
+**Tipo:** HU de Persona (Operador).
+**Feature(s) origen:** F06 (Vista combinada estado actual + predicción).
+
+### Descripción
+
+Esta es la feature más distintiva del Operador, según el backlog detallado. El Operador necesita ver **simultáneamente** lo que está pasando (variables observadas de HU-02: flujo y cola) y lo que va a pasar (predicción de HU-03: nivel de congestión proyectado). La vista combinada permite al Operador detectar:
+
+- **Convergencia esperable:** el estado actual ya es malo y la predicción confirma que seguirá empeorando.
+- **Divergencia preocupante:** el estado actual parece estable pero la predicción anticipa congestión en breve.
+- **Divergencia tranquilizadora:** el estado actual parece tenso pero la predicción anticipa que se aliviará.
+
+La HU define el qué (las dos fuentes de información integradas y comparables) pero deja explícitamente abierto el diseño visual exacto, que se cierra mediante prototipado antes de implementar.
+
+### Criterios de aceptación
+
+- **CA-04.1:** Dado que el Operador ha iniciado sesión, cuando ingresa a la vista combinada, entonces el sistema muestra en una misma pantalla, para cada acceso de la intersección, el estado actual del tráfico (flujo y cola) y el nivel de congestión predicho en el horizonte configurado, organizados de manera que el Operador pueda comparar "ahora" y "futuro" de un vistazo.
+
+- **CA-04.2:** Dado que el Operador está observando la vista combinada, cuando para algún acceso el nivel de congestión predicho supera el umbral configurado pero el estado actual está dentro de la normalidad, entonces el sistema resalta visualmente esa discrepancia para llamar la atención del Operador sobre la divergencia.
+
+- **CA-04.3:** Dado que el Operador tiene la vista combinada abierta, cuando llega una nueva medición del estado actual o una nueva predicción, entonces los elementos correspondientes se actualizan automáticamente sin necesidad de recargar la página, con una latencia máxima de 5 segundos desde que el dato se genera, manteniendo la alineación temporal entre "ahora" y "futuro".
+
+- **CA-04.4:** Dado que el sistema deja temporalmente de recibir mediciones del estado actual, o deja temporalmente de generar predicciones, cuando el Operador está observando la vista combinada, entonces el sistema indica visualmente cuál de las dos fuentes está desactualizada o no confirmada e informa el tiempo transcurrido desde la última actualización de cada una de forma independiente (DHU-005 Caso A para mediciones, Caso B para predicciones).
+
+- **CA-04.5:** Dado que el Operador no ha iniciado sesión, cuando intenta acceder a la vista combinada, entonces el sistema lo redirige a la pantalla de login.
+
+### Notas técnicas
+
+- **Decisión de diseño visual:** El backlog detallado documenta tres opciones de wireframe (línea temporal continua con punto "ahora" marcado y proyección futura; dos paneles lado a lado con escalas alineadas; heatmap con tiempo y direcciones). La decisión final se cierra mediante prototipado en papel o Figma antes de codear, no es parte de la HU. La HU es agnóstica al diseño concreto.
+- **Composición sobre HU-02 y HU-03:** Esta vista reutiliza los componentes de monitoreo y predicción. No duplica fuentes de datos; consume las mismas APIs que las HUs anteriores. La integración es a nivel de presentación.
+- **Coherencia de escalas:** Si el diseño elegido alinea "ahora" y "futuro" en una serie temporal, la unidad de tiempo en el eje debe ser consistente. Si usa visualizaciones independientes (paneles lado a lado), las métricas mostradas pueden ser distintas (flujo y cola observados vs jam level predicho) pero la asociación visual entre ambos debe ser clara para el mismo acceso.
+- **Detección de discrepancia (CA-04.2):** La lógica que define "estado actual dentro de la normalidad" se basa en los mismos umbrales de cola usados en HU-02 (verde/amarillo/rojo). Si la cola está en verde o amarillo pero la predicción está en nivel ≥ 3, hay discrepancia y se resalta. La regla exacta se afina en el sprint, pero el principio queda anclado en la HU.
+
+### Candidatos a RNF (para futuro documento RF/RNF)
+
+- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s, independiente para cada fuente (CA-04.3).
+- **RNF de robustez:** comportamiento ante desconexión de cualquiera de las dos fuentes de forma independiente (CA-04.4).
+- **RNF de usabilidad:** alineación temporal entre estado actual y predicción debe ser visualmente inmediata (CA-04.1). Probablemente se valida con pruebas de usuario.
+
+---
+
+## HU-05 — Visualización de la estrategia de control activa
+
+| Campo | Contenido |
+|---|---|
+| **Como** | Operador de Tráfico Municipal |
+| **Quiero** | visualizar cuál es la estrategia de control que el sistema está aplicando actualmente en la intersección y los parámetros activos de esa estrategia |
+| **Para** | entender qué decisión de control automático está vigente en cada momento y poder evaluar si es coherente con el estado del tráfico que observo |
+
+**Tipo:** HU de Persona (Operador).
+**Feature(s) origen:** F07 (Panel del motor adaptativo — estrategia activa).
+
+### Descripción
+
+El sistema selecciona automáticamente entre múltiples estrategias de control semafórico según el estado predicho y observado del tráfico (esta es la naturaleza adaptativa del sistema, núcleo del Objetivo 3 del producto). Pero el Operador necesita saber **qué estrategia se está aplicando en este momento** y **con qué parámetros**, por dos razones operativas:
+
+1. **Trazabilidad de la operación:** si reporta un comportamiento anómalo del sistema, debe poder decir "en ese momento se estaba aplicando la estrategia X con tiempos Y".
+2. **Coherencia percibida:** si el Operador ve colas largas pero la estrategia activa es la que se usa para flujo libre, hay una incoherencia que debe poder identificar.
+
+El panel muestra el nombre de la estrategia vigente (sin exponer detalles internos del motor) y los parámetros activos: tiempos de verde asignados a cada acceso de la intersección. El panel también muestra cuándo se aplicó la estrategia actual, para que el Operador sepa cuánto tiempo lleva vigente.
+
+### Criterios de aceptación
+
+- **CA-05.1:** Dado que el Operador ha iniciado sesión y el sistema tiene una estrategia de control vigente, cuando ingresa al panel de la estrategia activa, entonces el sistema muestra el nombre de la estrategia actualmente aplicada y los tiempos de verde asignados a cada acceso de la intersección.
+
+- **CA-05.2:** Dado que el Operador está observando el panel de la estrategia activa, cuando el sistema muestra la estrategia vigente, entonces también indica el timestamp en que esa estrategia se activó, permitiendo al Operador conocer cuánto tiempo lleva aplicándose.
+
+- **CA-05.3:** Dado que el Operador tiene el panel abierto, cuando el sistema cambia la estrategia activa o ajusta sus parámetros, entonces los valores mostrados se actualizan automáticamente sin necesidad de recargar la página, con una latencia máxima de 5 segundos desde que el cambio se produce.
+
+- **CA-05.4:** Dado que el sistema no puede determinar la estrategia vigente por cualquier causa (por ejemplo, porque el motor adaptativo no está respondiendo), cuando el Operador está observando el panel, entonces el sistema mantiene en pantalla la última estrategia conocida, la marca visualmente como "no confirmada" e indica el tiempo transcurrido desde la última confirmación (DHU-005 Caso B).
+
+- **CA-05.5:** Dado que el Operador no ha iniciado sesión, cuando intenta acceder al panel de la estrategia activa, entonces el sistema lo redirige a la pantalla de login.
+
+### Notas técnicas
+
+- **Nombres de estrategias:** El conjunto de estrategias disponibles está definido en las decisiones técnicas del producto (D-001 y referencias del motor adaptativo). La HU no fija los nombres internos; el frontend muestra etiquetas legibles para el Operador. La asociación entre identificador interno y etiqueta visible se cierra en el sprint, pero el principio es que **el Operador ve nombres autoexplicativos**, no códigos técnicos.
+- **Estructura de parámetros:** Los tiempos de verde se muestran como una tabla o lista con un par "acceso → segundos". La unidad temporal es la misma para todos los accesos. Si en el futuro se agregan otros parámetros (por ejemplo, tiempo de amarillo, offset entre fases), el panel debe poder extenderse sin romper el diseño.
+- **Composición en el dashboard principal:** Este panel forma parte del dashboard único del Operador (composición visual F02). Su tamaño y posición exacta se definen en el prototipado del dashboard, no en esta HU.
+- **Relación con HU-06 (explicación) y HU-07 (notificación de cambio):** Esta HU cubre solo "qué estrategia está activa ahora". El "por qué" se cubre en HU-06. El "aviso de cambio" se cubre en HU-07. Las tres se entregan integradas pero son HUs distintas con CAs distintos.
+
+### Candidatos a RNF (para futuro documento RF/RNF)
+
+- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-05.3).
+- **RNF de robustez:** comportamiento ante caída del motor adaptativo (CA-05.4, DHU-005 Caso B). La alerta activa al Operador ante caída del componente es responsabilidad transversal del Bloque C.
+- **RNF de usabilidad:** los nombres de estrategias deben ser autoexplicativos para el Operador sin requerir entrenamiento técnico.
+
+---
+
+## HU-06 — Explicación de la razón de selección de estrategia
+
+| Campo | Contenido |
+|---|---|
+| **Como** | Operador de Tráfico Municipal |
+| **Quiero** | leer una explicación breve y comprensible de por qué el sistema seleccionó la estrategia de control que está aplicando actualmente |
+| **Para** | confiar en las decisiones automáticas del sistema y poder justificar ante terceros (supervisores, ciudadanos) por qué se está aplicando una determinada configuración de control |
+
+**Tipo:** HU de Persona (Operador).
+**Feature(s) origen:** F08 (Explicación de razón de selección de estrategia).
+
+### Descripción
+
+Un sistema que toma decisiones automáticas sin explicarlas erosiona la confianza del Operador y compromete la auditabilidad operativa. El Operador necesita entender, en lenguaje propio del dominio del tráfico (no técnico ni algorítmico), por qué el sistema eligió la estrategia que está vigente.
+
+El alcance de la explicación es deliberadamente **mínimo**: se trata de un texto breve, predefinido para cada combinación típica de estrategia y condición disparadora, con sustitución de variables del estado que motivaron la selección (por ejemplo, longitud de cola en una dirección específica). **No** se trata de explicabilidad de inteligencia artificial (XAI), interpretación de redes neuronales, ni análisis causal: es texto plantillado con valores observados, suficiente para que el Operador entienda la razón sin requerir conocimiento técnico del motor.
+
+Ejemplos del tipo de texto que se entrega (el catálogo exacto se cierra en el sprint):
+
+- *"Estrategia A activada porque la cola en la dirección Norte (38 vehículos) supera el umbral configurado de 25 vehículos."*
+- *"Estrategia B activada porque el flujo está balanceado entre las cuatro direcciones."*
+
+### Criterios de aceptación
+
+- **CA-06.1:** Dado que el Operador ha iniciado sesión y existe una estrategia vigente en la intersección, cuando ingresa al panel de explicación, entonces el sistema muestra un texto breve que describe la razón por la que la estrategia actual fue seleccionada, incluyendo los valores del estado del tráfico que dispararon esa selección.
+
+- **CA-06.2:** Dado que el Operador está observando la explicación, cuando el sistema cambia la estrategia activa, entonces la explicación se actualiza automáticamente para reflejar la razón de la nueva selección, con una latencia máxima de 5 segundos desde que el cambio se produce.
+
+- **CA-06.3:** Dado que el sistema selecciona una estrategia y no encuentra una plantilla de explicación que cubra esa combinación de estrategia y condición disparadora, cuando se muestra la explicación, entonces el sistema presenta un texto genérico que indica al menos la estrategia activa y los valores del estado relevantes, sin dejar el panel vacío.
+
+- **CA-06.4:** Dado que el componente que produce la explicación deja de responder por cualquier causa, cuando el Operador está observando el panel, entonces el sistema mantiene en pantalla la última explicación conocida, la marca visualmente como "no confirmada" e indica el tiempo transcurrido desde la última confirmación (DHU-005 Caso B).
+
+- **CA-06.5:** Dado que el Operador no ha iniciado sesión, cuando intenta acceder al panel de explicación, entonces el sistema lo redirige a la pantalla de login.
+
+### Notas técnicas
+
+- **Naturaleza del componente de explicación:** sistema de plantillas de texto con sustitución de variables. NO se usa procesamiento de lenguaje natural, NO se usa explicabilidad de IA, NO se usan modelos generativos. La decisión está cerrada y documentada en el backlog detallado.
+- **Catálogo de plantillas:** se define un conjunto acotado de plantillas (estimado en el backlog detallado: 5–10) que cubren los casos típicos de selección. Cubrir todos los casos posibles no es objetivo del MVP1.
+- **Fallback (CA-06.3):** la existencia de un texto genérico de respaldo garantiza que el Operador nunca vea un panel vacío. Esto protege frente a casos no anticipados durante el diseño del catálogo.
+- **Variables disponibles para sustitución:** las plantillas pueden referenciar los valores del estado que estaban presentes en el momento de la selección (cola por dirección, jam level, flujo, etc.). El conjunto exacto de variables disponibles se cierra en el sprint, pero el principio es que el texto debe ser **autocontenido**: el Operador no debería tener que mirar otros paneles para entender la explicación.
+- **Componente subyacente:** la explicación es producida por el motor adaptativo (o un componente asociado a él), pero la HU es agnóstica al diseño técnico: lo único relevante es que existe un endpoint que devuelve la explicación actual.
+
+### Candidatos a RNF (para futuro documento RF/RNF)
+
+- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-06.2).
+- **RNF de robustez:** comportamiento ante caída del componente de explicación (CA-06.4, DHU-005 Caso B).
+- **RNF de usabilidad:** la explicación debe ser comprensible por un Operador sin formación técnica en el motor adaptativo. Probablemente se valida con prueba de usuario.
+- **RNF de mantenibilidad:** el catálogo de plantillas debe ser extensible sin requerir cambios en el código del frontend ni del motor (debería poder agregarse una plantilla nueva como dato de configuración).
+
+---
+
+## HU-07 — Notificación de cambios de estrategia del motor
+
+| Campo | Contenido |
+|---|---|
+| **Como** | Operador de Tráfico Municipal |
+| **Quiero** | recibir una notificación visual inmediata cada vez que el sistema cambia la estrategia de control activa |
+| **Para** | enterarme del cambio en el momento exacto en que ocurre, aunque mi atención esté en otro panel del dashboard, y poder evaluar si la transición es coherente con lo que estoy observando del tráfico |
+
+**Tipo:** HU de Persona (Operador).
+**Feature(s) origen:** F09 (Notificación visual de cambio de estrategia).
+
+### Descripción
+
+Existe una diferencia operativa importante entre **consultar** el estado de la estrategia (HU-05, vista pasiva) y **enterarse** de que la estrategia cambió (HU-07, evento activo). Si el Operador está observando otra parte del dashboard cuando el motor decide cambiar de estrategia, sin una notificación activa podría no enterarse hasta varios minutos después, al volver al panel correspondiente. Esto retrasa cualquier evaluación del Operador sobre la decisión y degrada su capacidad de supervisión.
+
+La notificación es **temporal y poco intrusiva**: aparece cuando ocurre el cambio, contiene la información mínima para que el Operador entienda qué pasó, y desaparece sola tras unos segundos. No requiere acción del Operador para descartarla, pero permite acción si el Operador quiere profundizar (por ejemplo, abrir HU-05 o HU-06 para ver detalles).
+
+La notificación incluye al menos: hora del cambio, estrategia anterior, estrategia nueva, y una razón breve (la misma que HU-06 produciría para la nueva estrategia, en versión condensada).
+
+### Criterios de aceptación
+
+- **CA-07.1:** Dado que el Operador ha iniciado sesión y tiene una vista del sistema abierta, cuando el motor cambia la estrategia de control activa, entonces el sistema muestra una notificación visual temporal que indica la hora del cambio, la estrategia anterior, la estrategia nueva y una razón breve del cambio.
+
+- **CA-07.2:** Dado que se está mostrando una notificación de cambio de estrategia, cuando transcurre el tiempo configurado para auto-descarte (por defecto 10 segundos), entonces la notificación desaparece automáticamente sin requerir acción del Operador.
+
+- **CA-07.3:** Dado que el motor cambia de estrategia múltiples veces en un intervalo corto, cuando ocurre el segundo o subsiguiente cambio dentro de un mismo intervalo configurado (por defecto 30 segundos), entonces el sistema agrupa las notificaciones en una sola entrada acumulada en lugar de generar una notificación por cada cambio, para evitar saturar visualmente al Operador.
+
+- **CA-07.4:** Dado que el Operador está viendo cualquier vista del sistema (monitoreo, predicción, vista combinada, panel de estrategia, etc.), cuando se dispara una notificación, entonces se muestra de manera visible sin interferir con la lectura de los paneles principales (posición no central, sin bloquear contenido).
+
+- **CA-07.5:** Dado que el sistema no puede emitir notificaciones por cualquier causa (por ejemplo, el canal de eventos en tiempo real está caído), cuando el Operador está observando el sistema, entonces existe un indicador visual persistente que comunica que la entrega de notificaciones está degradada, para que el Operador no asuma que la ausencia de notificaciones significa ausencia de cambios (DHU-005 Caso B aplicado a canal de eventos).
+
+- **CA-07.6:** Dado que el Operador no ha iniciado sesión, cuando intenta acceder al sistema, entonces el sistema lo redirige a la pantalla de login (las notificaciones no se entregan a usuarios no autenticados).
+
+### Notas técnicas
+
+- **Naturaleza temporal de la notificación:** la notificación es efímera por diseño. No genera entrada permanente en el log de decisiones (eso lo cubre HU-08). Una notificación perdida (porque el Operador no estaba mirando en ese instante) no es un problema crítico: el cambio queda registrado en el log y la estrategia vigente se ve siempre en HU-05.
+- **Mecanismo de entrega:** Server-Sent Events (SSE) o WebSocket, sobre el mismo canal usado para actualizaciones de datos en tiempo real. Decisión técnica concreta a cerrar en el sprint.
+- **Tiempo de auto-descarte (CA-07.2):** valor por defecto 10 segundos según el backlog detallado. Parametrizable.
+- **Agrupamiento (CA-07.3):** la lógica exacta de agrupamiento (cuántos cambios juntan en una notificación, qué texto se muestra cuando son varios) se cierra en el sprint. El principio es: no abusar de la atención del Operador con notificaciones encadenadas.
+- **Estilo visual:** toast o banner en esquina superior derecha es el patrón estándar de la industria; la decisión visual exacta se cierra en el prototipado del dashboard.
+- **Razón breve (CA-07.1):** versión condensada de la explicación de HU-06. Si HU-06 entrega *"Estrategia B activada porque la cola en la dirección Norte (38 vehículos) supera el umbral de 25"*, la notificación puede mostrar *"Cola Norte alta (38 veh)"*.
+
+### Candidatos a RNF (para futuro documento RF/RNF)
+
+- **RNF de rendimiento:** latencia máxima entre cambio de estrategia y notificación visible ≤ 5 s (implícito en CA-07.1; conviene explicitar en el documento RF/RNF).
+- **RNF de usabilidad:** la notificación no debe interferir con la lectura de los paneles principales (CA-07.4). Probablemente se valida con prueba de usuario.
+- **RNF de robustez:** comportamiento ante caída del canal de notificaciones (CA-07.5).
+- **RNF de configurabilidad:** tiempo de auto-descarte e intervalo de agrupamiento deben ser parametrizables sin redeploy del sistema.
+
+---
+
+## HU-08 — Consulta del historial de decisiones del motor
+
+| Campo | Contenido |
+|---|---|
+| **Como** | Operador de Tráfico Municipal |
+| **Quiero** | consultar el historial cronológico de las decisiones que el sistema tomó en periodos pasados, con sus razones y parámetros |
+| **Para** | reconstruir lo que el sistema hizo durante mi turno o turnos anteriores, investigar incidentes reportados, y disponer de evidencia auditable de la operación |
+
+**Tipo:** HU de Persona (Operador). El Administrador también consulta este log para análisis técnico (referencia en backlog detallado F10).
+**Feature(s) origen:** F10 (Log de decisiones del motor adaptativo). Ingloba F31 (Persistencia de decisiones del motor) como CA, según regla cerrada en el Bloque A.
+
+### Descripción
+
+Las HUs anteriores (HU-05 a HU-07) cubren la operación **en tiempo presente**: qué estrategia está vigente ahora, por qué, y cómo enterarse de cambios cuando ocurren. Pero el Operador también necesita reconstruir lo que pasó **en el pasado**: durante un turno completo, en respuesta a un incidente, o para auditar una decisión cuestionada por terceros.
+
+La consulta opera sobre un registro persistente de cada decisión tomada por el motor. Cada entrada del registro contiene al menos: marca de tiempo, estrategia aplicada, razón de la selección (la misma plantilla que HU-06 produce en tiempo real), parámetros activos aplicados, y la estrategia anterior (si la hubo).
+
+El Operador accede al registro mediante una vista paginada con filtros básicos por rango de fechas y por estrategia, suficientes para reconstruir periodos de interés sin saturar la vista con todo el historial.
+
+### Criterios de aceptación
+
+- **CA-08.1:** Dado que el motor ha tomado decisiones durante un periodo, cuando el Operador consulta el historial de decisiones, entonces el sistema muestra una lista cronológica donde cada entrada contiene al menos la marca de tiempo de la decisión, la estrategia aplicada, la razón de la selección, los parámetros activos aplicados y la estrategia anterior. Esto presupone que el sistema persiste cada decisión del motor con esos campos en el momento en que la decisión se produce **(persistencia inglobada, F31)**.
+
+- **CA-08.2:** Dado que el volumen de decisiones registradas puede ser alto, cuando el Operador abre el historial, entonces los resultados se presentan paginados con un tamaño de página configurable (valor por defecto sugerido: 50 entradas por página), y el Operador puede navegar entre páginas sin cargar todo el historial en memoria.
+
+- **CA-08.3:** Dado que el Operador necesita acotar la búsqueda, cuando aplica un filtro por rango de fechas, por estrategia, o por ambos, entonces la lista mostrada se limita a las decisiones que cumplen el filtro, manteniendo el orden cronológico y la paginación.
+
+- **CA-08.4:** Dado que el Operador no ha modificado los filtros, cuando abre el historial por primera vez en su sesión, entonces el sistema muestra por defecto las decisiones del periodo más reciente (sugerencia: últimas 24 horas) ordenadas de la más reciente a la más antigua.
+
+- **CA-08.5:** Dado que el sistema persiste cada decisión, cuando ocurre un fallo temporal en la escritura al registro (por ejemplo, base de datos no disponible momentáneamente), entonces la decisión del motor se aplica de todas formas a la operación del semáforo y se registra en un mecanismo de respaldo (cola, archivo de fallback) para ser persistida cuando el registro vuelva a estar disponible. La operación del motor nunca se detiene por una falla del registro de auditoría.
+
+- **CA-08.6:** Dado que el Operador no ha iniciado sesión, cuando intenta acceder al historial de decisiones, entonces el sistema lo redirige a la pantalla de login.
+
+### Notas técnicas
+
+- **F31 inglobada en CA-08.1:** según la regla cerrada en el Bloque A, la persistencia de decisiones no se redacta como HU separada. CA-08.1 formaliza el requisito: la consulta solo es posible si el sistema persiste cada decisión en el momento en que se produce. El esquema de la tabla debe contener, como mínimo: timestamp, estrategia, razón (texto), parámetros (estructura serializada), estrategia anterior.
+- **Volumen esperado:** depende de la frecuencia de cambios del motor. En operación estable, decenas de decisiones por día. En periodos de alta variabilidad de tráfico, podría llegar a centenas. La paginación (CA-08.2) es obligatoria; no se acepta una vista sin paginación.
+- **Política de retención:** durante MVP1 se asume retención indefinida del registro (volumen acotado, no es crítico). Una política de purga o archivado se evalúa en MVP2 o trabajo futuro, no entra acá.
+- **Ordenamiento por defecto (CA-08.4):** "más reciente primero" es el patrón estándar para registros de auditoría, alineado con la práctica del Operador (lo más probable es que quiera ver lo último que pasó).
+- **CA-08.5 (resiliencia de persistencia):** este criterio refleja un principio operativo crítico: **un sistema de control de tráfico real no puede detener la operación del semáforo porque falle el log de auditoría**. La operación es prioritaria; la auditoría es complementaria. El mecanismo de respaldo (cola en memoria, archivo local, etc.) se elige en el sprint, pero el principio queda anclado en el CA.
+- **Exportación:** el backlog detallado menciona "considerar exportación a CSV en el futuro, no incluir en MVP1". La HU no incluye CA de exportación. Si más adelante se decide incluirla, entra como extensión.
+- **Acceso del Administrador:** el backlog detallado indica que el Administrador también consulta este historial para análisis. En MVP1 ambos roles ven la misma vista; en iteraciones futuras se pueden agregar capacidades adicionales para el Administrador (filtros avanzados, exportación, etc.). Por ahora, la HU cubre el caso del Operador y el Administrador hereda la misma vista por compartir el endpoint.
+
+### Candidatos a RNF (para futuro documento RF/RNF)
+
+- **RNF de rendimiento:** tiempo de respuesta para abrir una página del historial ≤ 2 s con volúmenes esperados de MVP1.
+- **RNF de persistencia / auditoría:** cada decisión del motor debe persistirse de forma durable en el momento en que se produce. La pérdida de decisiones por fallo de escritura es inaceptable (CA-08.5 cubre esto con mecanismo de respaldo).
+- **RNF de robustez:** la operación del motor no se detiene por fallos del registro de auditoría (CA-08.5).
+- **RNF de retención:** política de retención del registro, a cerrar en MVP2 o trabajo futuro.
+- **RNF de trazabilidad:** cada entrada del registro debe ser unívocamente identificable y no modificable después de ser escrita (inmutabilidad del log de auditoría).
+
+---
+
+## HU-09 — Registro de notas e incidencias del turno
+
+| Campo | Contenido |
+|---|---|
+| **Como** | Operador de Tráfico Municipal |
+| **Quiero** | registrar notas o incidencias durante mi turno, asociadas a un momento específico, y consultarlas posteriormente |
+| **Para** | dejar constancia escrita de eventos relevantes que observé durante la operación (accidentes, comportamientos inusuales del tráfico, decisiones del motor que llamaron mi atención) y poder revisarlas yo mismo o transmitirlas al siguiente turno |
+
+**Tipo:** HU de Persona (Operador).
+**Clasificación MVP:** **MVP2 — fuera del sprint del proyecto académico.** Documentada como HU completa pero no implementada. Decisión cerrada durante el Lean Inception.
+**Feature(s) origen:** F11 (Módulo de notas/incidencias del Operador).
+
+### Descripción
+
+Durante un turno de operación, el Operador observa eventos que no están capturados automáticamente por el sistema: accidentes en accesos cercanos a la intersección que afectan el flujo, decisiones del motor que parecen incoherentes con la situación observada, comportamientos inusuales (manifestaciones, eventos masivos, obras), o cualquier otra observación relevante. Sin un mecanismo de registro, estas observaciones se pierden o quedan en notas personales del Operador en papel.
+
+La HU provee un módulo simple de registro de notas asociadas a un momento. Cada nota contiene un texto libre y se persiste con la marca de tiempo de creación y la identidad del Operador que la registró. El Operador puede consultar el listado de notas (propias y de otros turnos) con filtros básicos.
+
+**Razón de la clasificación MVP2:** durante el Lean Inception se priorizó el núcleo del sistema (monitoreo, predicción, motor adaptativo) sobre el soporte operativo al Operador. Esta HU no realiza directamente ninguno de los 4 Objetivos del Producto; es soporte al trabajo del Operador. Queda documentada para preservar la visión completa del producto y para considerarla si hay holgura al final del cronograma.
+
+### Criterios de aceptación
+
+- **CA-09.1:** Dado que el Operador ha iniciado sesión, cuando crea una nota mediante un formulario que solicita un texto libre, entonces el sistema persiste la nota con su contenido, la marca de tiempo de creación y la identidad del Operador autor.
+
+- **CA-09.2:** Dado que existen notas registradas, cuando el Operador accede a la vista de notas, entonces el sistema muestra el listado en orden cronológico (más reciente primero) con paginación, mostrando para cada nota: marca de tiempo, autor, y el texto (truncado si excede un largo razonable, con opción de expandir).
+
+- **CA-09.3:** Dado que el Operador quiere acotar la búsqueda, cuando aplica un filtro por rango de fechas, por autor, o por ambos, entonces el listado se limita a las notas que cumplen el filtro, manteniendo el orden cronológico y la paginación.
+
+- **CA-09.4:** Dado que el Operador creó una nota con error tipográfico o información incorrecta, cuando edita la nota dentro de un periodo configurado posterior a su creación (sugerencia: 24 horas), entonces el sistema permite la edición y registra la marca de tiempo de modificación además de la original. Pasado ese periodo, la nota queda inmutable para preservar valor de auditoría.
+
+- **CA-09.5:** Dado que el sistema persiste cada nota, cuando ocurre un fallo temporal en la escritura, entonces el sistema informa al Operador que la nota no se guardó y permite reintentar sin perder el contenido escrito.
+
+- **CA-09.6:** Dado que el Operador no ha iniciado sesión, cuando intenta acceder al módulo de notas, entonces el sistema lo redirige a la pantalla de login.
+
+### Notas técnicas
+
+- **Esta HU NO se implementa en MVP1.** El equipo no asigna sprints ni puntos de historia a esta HU mientras el proyecto académico esté activo, salvo decisión explícita de cambio de alcance.
+- **Alcance mínimo:** texto libre. NO se incluyen en MVP2 categorías predefinidas, adjuntos de archivos, asociación explícita a una decisión específica del motor, ni vinculación geográfica a un acceso. Estas extensiones son trabajo futuro adicional.
+- **Política de edición (CA-09.4):** la ventana de edición es un compromiso entre flexibilidad (el Operador puede corregir errores recientes) y valor de auditoría (las notas no deben poder ser modificadas a discreción mucho después de su creación). El valor exacto (24 h sugerido) se cierra al implementar.
+- **Visibilidad entre Operadores:** todos los Operadores ven todas las notas (no hay notas privadas). Esto sostiene el caso de uso de transmisión entre turnos. Si en el futuro se considera privacidad por Operador, entra como extensión.
+- **Sin asociación automática a decisiones del motor:** aunque el backlog detallado lo mencionaba como pregunta abierta, el alcance MVP2 deja la nota como texto libre independiente. La asociación explícita con entradas del log de HU-08 queda como trabajo futuro si se prioriza.
+
+### Candidatos a RNF (para futuro documento RF/RNF)
+
+- **RNF de persistencia:** notas durables, no pueden perderse por fallo temporal del sistema (CA-09.5 cubre el caso del usuario; el RNF cubre la durabilidad de la BD).
+- **RNF de auditoría:** las notas no pueden eliminarse después de creadas (no hay CA explícito de "no borrado" porque no se contempla borrado en MVP2; conviene explicitarlo cuando se redacte el documento RF/RNF).
+- **RNF de rendimiento:** tiempo de respuesta para abrir el listado paginado ≤ 2 s con volúmenes esperados.
+- **RNF de inmutabilidad parcial:** las notas son editables solo dentro de una ventana temporal (CA-09.4); pasado ese periodo, inmutables.
+
+---
+
+## Resumen del Bloque B
+
+| HU | Título | Sujeto | Tipo | Feature(s) origen | Clasif. MVP |
+|---|---|---|---|---|---|
+| HU-02 | Monitoreo del estado actual de la intersección en tiempo real | Operador | Persona | F03 + F04 | MVP1 |
+| HU-03 | Visualización de predicción de congestión a corto plazo | Operador | Persona | F05 | MVP1 |
+| HU-04 | Vista combinada del estado actual y la predicción de tráfico | Operador | Persona | F06 | MVP1 |
+| HU-05 | Visualización de la estrategia de control activa | Operador | Persona | F07 | MVP1 |
+| HU-06 | Explicación de la razón de selección de estrategia | Operador | Persona | F08 | MVP1 |
+| HU-07 | Notificación de cambios de estrategia del motor | Operador | Persona | F09 | MVP1 |
+| HU-08 | Consulta del historial de decisiones del motor | Operador (+ Admin) | Persona | F10 (+ F31 inglobada) | MVP1 |
+| HU-09 | Registro de notas e incidencias del turno | Operador | Persona | F11 | MVP2 |
+
+**Total Bloque B: 8 HUs** (7 MVP1 + 1 MVP2).
+
+F02 (Dashboard principal) queda cubierto por la composición visual de las HUs anteriores en una vista única, sin generar HU propia.
+
+F31 (Persistencia de decisiones del motor) queda inglobada como CA-08.1 de HU-08, conforme a la regla del Bloque A.
+
+---
+
+## Decisiones que aplicaron a este bloque
+
+Durante la redacción del Bloque B se cerraron las siguientes decisiones formales:
+
+- **D-009** (técnica del producto, ver `DECISIONS.md`): adopción del constructo Waze "jam level" (0-5) como variable de estado predicha. Permite intercambiabilidad de fuente de datos sin reentrenamiento del modelo.
+- **DHU-005 refinada** (metodológica, ver `DECISIONS_HU.md`): principio de robustez ante interrupción de fuente, con Casos A (fuente externa de medición → "desactualizado") y Caso B (componente interno de decisión → "no confirmada").
+- **DHU-006** (metodológica, ver `DECISIONS_HU.md`): HUs agnósticas a la implementación. No se mencionan tecnologías específicas (SUMO, Waze, GRU, Webster, MaxPressure, MTC) en las HUs.
+- **DHU-007** (metodológica, ver `DECISIONS_HU.md`): RNF declarados como tales en sección específica al final de cada HU. Anticipa la creación de un documento RF/RNF formal en una sesión futura.
+
+---
+
+## Próximos pasos
+
+Esta sesión cierra el Bloque B. Los siguientes bloques se redactarán en sesiones futuras:
+
+1. **Bloque C — Operador, operación degradada** (F22, F23, F24, F25, F26, F27 → ~6-7 HUs).
+2. **Bloque D — Administrador, soporte técnico** (F17, F20, F21 → ~3-4 HUs).
+3. **Bloque E — Componentes centrales del sistema** (F32, F33, F34, F35 → ~4-5 HUs o TTH).
+4. **Bloque F — Gerente, reportería mínima** (F12, F13, F14 → ~3-5 HUs, incluye F30 inglobada).
+5. **MVP2 — HUs adicionales fuera del sprint** (F15, F16, F18, F19, F28 → ~5 HUs).
+
+Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs en un documento único aprobado, y se ejecutarán las ceremonias de **estimación (Planning Poker)** y **priorización (MoSCoW)** sobre el backlog completo.
+
+---
+
+## Documentos relacionados
+
+- `HU_BLOQUE_A.md` — Bloque A del Product Backlog (acceso al sistema, 1 HU).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-007).
+- `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 (autenticación), TTH-02 (Docker), TTH-03 (CI).
+- `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.
+- `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 35 features.
+- `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.
