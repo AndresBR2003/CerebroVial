@@ -7,7 +7,7 @@
 > **Relación con `DECISIONS.md`:** El documento `DECISIONS.md` registra decisiones técnicas del producto (arquitectura, modelo, datos). Este documento registra decisiones metodológicas sobre cómo se redacta el backlog. Los códigos no se solapan: `D-xxx` para técnicas, `DHU-xxx` para HUs.
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-13 (cierre del Bloque B)
+> **Última actualización:** 2026-05-13 (cierre del Bloque C: DHU-011 agregada).
 
 ---
 
@@ -22,6 +22,10 @@
 | DHU-005 | Principio de robustez ante interrupción de fuente de información | 2026-05-13 | Cerrada (refinada con Casos A y B durante Bloque B) |
 | DHU-006 | HUs agnósticas a la implementación | 2026-05-13 | Cerrada |
 | DHU-007 | RNF declarados como tales en sección específica | 2026-05-13 | Cerrada |
+| DHU-008 | Distinción arquitectónica entre componente caído, modo degradado y lógica de fallback | 2026-05-13 | Cerrada |
+| DHU-009 | Relación entre marca pasiva (Bloque B) y alerta activa (Bloque C) | 2026-05-13 | Cerrada |
+| DHU-010 | Criterios para clasificar trabajo del Bloque C como TTH | 2026-05-13 | Cerrada |
+| DHU-011 | Eliminación de HU-13 y cobertura de F25 por composición | 2026-05-13 | Cerrada |
 
 ---
 
@@ -222,12 +226,12 @@ Toda HU operativa que muestre información dependiente de una fuente externa de 
 
 ### Alcance de cada HU
 
-Cada HU operativa es responsable únicamente de **marcar pasivamente** su propio panel según el caso que corresponda (A o B). La **notificación activa al Operador** ante una caída de componente que afecta la operación general del sistema es responsabilidad de las HUs del Bloque C (operación degradada), que actúan de forma transversal a todas las vistas.
+Cada HU operativa es responsable únicamente de **marcar pasivamente** su propio panel según el caso que corresponda (A o B). La **notificación activa al Operador** ante una caída de componente que afecta la operación general del sistema es responsabilidad de las HUs del Bloque C (operación degradada), que actúan de forma transversal a todas las vistas. Esta separación se formaliza en DHU-009.
 
 Las HUs operativas **no duplican** esa lógica ni la referencian explícitamente; cada bloque cumple su responsabilidad:
 
 - **Bloque B (monitoreo):** marca pasiva en cada panel afectado.
-- **Bloque C (degradación):** alerta activa transversal sobre el estado degradado del sistema.
+- **Bloque C (degradación):** alerta activa transversal sobre el estado del sistema completo.
 
 ### Justificación
 
@@ -356,12 +360,285 @@ Este trabajo es una **sesión dedicada futura**, no se hace simultáneamente con
 
 ---
 
+## DHU-008 — Distinción arquitectónica entre componente caído, modo degradado y lógica de fallback
+
+**Fecha:** 2026-05-13.
+**Estado:** Cerrada.
+**Aplica a:** Bloque C — Operador, operación degradada.
+
+### Contexto
+
+Al cierre del Bloque B, DHU-005 quedó con una promesa abierta: "el Bloque C cubre la alerta activa transversal cuando un componente del sistema se cae". Al abrir el Bloque C para honrar esa promesa, se observó que el backlog detallado del Bloque C usa el término **"operación degradada"** en lugar de "componente caído". Son conceptos cercanos pero no idénticos, y mezclarlos genera HUs ambiguas.
+
+### Análisis
+
+Hay **tres conceptos distintos** que el Bloque C tiene que cubrir, y conviene separarlos explícitamente:
+
+**Concepto 1 — Componente caído (estado binario, hecho técnico):**
+Un componente específico del sistema dejó de responder. Ejemplos: el motor adaptativo no responde a solicitudes, el modelo predictivo no genera predicciones, la fuente de mediciones del tráfico no emite, la base de datos no acepta escrituras. Es atribuible a un componente específico y verificable por health check.
+
+**Concepto 2 — Modo degradado (estado del sistema completo, condición operativa):**
+El sistema como un todo está operando con capacidades reducidas. Ejemplos: "Sin predicción" (el sistema opera solo con estado observado), "Sin observación" (opera con histórico), "Modo seguro" (aplica tiempos fijos preconfigurados). Es un estado derivado de qué componentes están caídos y qué fallbacks se aplican.
+
+**Concepto 3 — Lógica de fallback en cascada (mecanismo interno):**
+Es la regla automatizada que decide qué hacer cuando un componente cae. Define la transición entre el estado normal y un modo degradado específico, o entre un modo degradado y una falla total si no hay fallback aplicable.
+
+### Relación entre los tres conceptos
+
+```
+Componente caído + Lógica de fallback aplicable  →  Modo degradado activo
+Componente caído + Sin fallback aplicable        →  Falla total
+Todos los componentes funcionando                →  Operación normal
+```
+
+El Operador necesita distinguir entre los tres estados resultantes:
+
+- **Operación normal:** no hay alerta.
+- **Modo degradado activo:** el sistema sigue operando pero con capacidades reducidas; el Operador debe saberlo.
+- **Falla total:** el sistema no está operando; el Operador debe escalar.
+
+### Decisión
+
+El Bloque C distingue explícitamente los tres conceptos en HUs y TTH separadas:
+
+| Concepto | Tipo de entrega | Features que cubre |
+|---|---|---|
+| Componente caído (estado técnico visible al Operador) | HU operativa (vista de estado de componentes) | F23 |
+| Modo degradado (alerta activa transversal y explicación) | HUs operativas (alerta + mensaje + indicación contextual) | F22, F24, F25 |
+| Lógica de fallback en cascada (mecanismo interno) | TTH (no HU; sin Persona beneficiaria directa) | F26 |
+| Configuración del modo seguro (parámetro del sistema) | TTH (no HU; valor parametrizable interno) | F27 |
+
+### Mapeo concreto
+
+**HUs operativas del Bloque C (4 HUs):**
+
+| HU | Cubre | Features |
+|---|---|---|
+| HU-10 | Alerta activa transversal cuando el sistema entra en modo degradado o falla total | F22 |
+| HU-11 | Vista detallada del estado de cada componente del sistema | F23 |
+| HU-12 | Explicación del modo degradado activo y sus implicaciones operativas | F24 |
+| HU-13 | Indicación contextual del modo degradado en cada panel afectado | F25 |
+
+**TTH del Bloque C (2 TTH):**
+
+| TTH | Cubre | Features |
+|---|---|---|
+| TTH-04 | Lógica de fallback en cascada del sistema | F26 |
+| TTH-05 | Configuración de tiempos fijos para modo seguro | F27 |
+
+### Justificación de las TTH
+
+F26 (lógica de fallback) y F27 (configuración de modo seguro) cumplen los criterios de DHU-004 para clasificar como TTH:
+
+- **F26:** mecanismo del backend que opera automáticamente sin participación del Operador. No tiene Persona del producto como beneficiaria directa (DHU-004 criterio 1). Su valor es instrumental (DHU-004 criterio 2). Su comportamiento es técnico estándar (DHU-004 criterio 3).
+- **F27:** es un conjunto de parámetros de configuración del sistema, no una funcionalidad operativa. No se entrega valor visible al usuario al completarla en aislamiento (DHU-004 criterio 4).
+
+### Lo que esta decisión deja abierto para la próxima sesión
+
+La decisión arquitectónica está cerrada, pero las HUs concretas del Bloque C todavía deben redactarse. Tres cosas se resuelven al redactar las HUs:
+
+1. **Niveles de severidad de la alerta activa.** ¿"Modo degradado" y "falla total" disparan la misma alerta o tienen estilos visuales distintos? Probablemente distintos.
+2. **Persistencia del estado de modo degradado.** ¿Se registra en BD para reporte ejecutivo del Gerente (Bloque F)? Probable que sí, pero la decisión se cierra en el Bloque F.
+3. **Capacidad del Operador de "reconocer" la alerta.** ¿Puede silenciarla mientras dura el modo degradado? Decisión de UX a cerrar en la redacción de HU-10.
+
+### Consecuencias
+
+- El Bloque C se redacta con esta estructura de 4 HUs + 2 TTH.
+- TTH-04 y TTH-05 se agregan al documento `TAREAS_TECNICAS_HABILITADORAS.md` cuando se redacten formalmente.
+- La promesa abierta en DHU-005 ("Bloque C cubre la alerta activa transversal") se cierra mediante HU-10 (ver DHU-009).
+
+---
+
+## DHU-009 — Relación entre marca pasiva (Bloque B) y alerta activa (Bloque C)
+
+**Fecha:** 2026-05-13.
+**Estado:** Cerrada.
+**Aplica a:** Coordinación entre Bloque B y Bloque C.
+
+### Contexto
+
+DHU-005 cubrió el principio de robustez ante interrupción de fuente con dos casos (A: fuente externa, B: componente interno), pero dejó implícita una pregunta: si tanto el Bloque B como el Bloque C se ocupan del comportamiento ante caídas, ¿cómo se distinguen sus responsabilidades sin duplicarse?
+
+DHU-008 estableció que el Bloque C cubre tres conceptos distintos, uno de ellos siendo la alerta activa transversal. Falta aclarar la relación entre la marca pasiva de cada panel (Bloque B) y la alerta activa transversal (Bloque C).
+
+### Decisión
+
+Las HUs del Bloque B y la HU-10 del Bloque C cumplen funciones complementarias, no duplicadas:
+
+**Bloque B — Marca pasiva en el panel propio:**
+- Notifica caída individual de la fuente o componente específico de ese panel.
+- Es contextual: solo aparece en el panel afectado.
+- Es pasiva: el Operador la descubre al mirar el panel.
+- Propósito: ayudar al Operador a interpretar **qué panel específico** está afectado.
+
+**Bloque C (HU-10) — Alerta activa transversal:**
+- Notifica el estado del sistema completo (modo degradado o falla total).
+- Es transversal: aparece en cualquier vista del sistema, independiente del panel que esté abierto.
+- Es activa: busca la atención del Operador, no espera a que mire.
+- Propósito: decirle al Operador **qué está haciendo el sistema completo** y si está operando con capacidades reducidas.
+
+### Por qué no es duplicación
+
+Un mismo evento físico (por ejemplo, motor adaptativo caído) puede disparar ambas señales legítimamente:
+
+- **HU-05 del Bloque B** marca el panel de estrategia como "no confirmada" (DHU-005 Caso B). Esto le dice al Operador: "este dato específico ya no podemos garantizarlo".
+- **HU-10 del Bloque C** dispara una alerta activa transversal "Modo seguro activo" cuando el fallback de TTH-04 aplica tiempos fijos. Esto le dice al Operador: "el sistema completo entró en modo seguro; sabelo aunque estés mirando otra pantalla".
+
+Las dos señales transportan **información distinta y útil al mismo tiempo**: la primera explica un panel específico; la segunda explica el estado del sistema completo. Eliminar una rompe una capacidad operativa real.
+
+### Reglas operativas
+
+1. **Las HUs del Bloque B no referencian explícitamente al Bloque C** en sus CAs. La marca pasiva del Bloque B es una responsabilidad autocontenida.
+
+2. **La HU-10 del Bloque C no duplica los detalles** que cada panel del Bloque B marca pasivamente. La HU-10 describe el estado del sistema completo en términos de modo activo (degradado, seguro, falla total), no de qué pasa en cada panel.
+
+3. **La HU-11 del Bloque C (vista de estado de componentes) sí muestra detalle por componente.** Es el lugar donde el Operador puede consultar específicamente qué componente está caído, sin tener que recorrer todos los paneles del Bloque B uno por uno.
+
+### Consecuencias
+
+- HU-10 del Bloque C se redacta como "alerta del estado del sistema completo", no como "alerta por cada componente".
+- HU-11 del Bloque C se redacta como "vista por componente", complementaria al Bloque B.
+- Las HUs del Bloque B se mantienen sin cambios (no necesitan referencia al Bloque C).
+- DHU-005 queda cerrada y completada con esta decisión.
+
+---
+
+## DHU-010 — Criterios para clasificar trabajo del Bloque C como TTH
+
+**Fecha:** 2026-05-13.
+**Estado:** Cerrada.
+**Aplica a:** Bloque C — Operador, operación degradada.
+
+### Contexto
+
+DHU-004 estableció criterios generales para clasificar trabajo como TTH (no HU). Al aplicarlos al Bloque C, dos features (F26 y F27) caen claramente en la categoría TTH. Esta decisión formaliza la aplicación específica al Bloque C, evitando ambigüedad futura.
+
+### Decisión
+
+Las features F26 (Lógica de fallback en cascada del backend) y F27 (Configuración de tiempos fijos para modo seguro) del Bloque C se modelan como Tareas Técnicas Habilitadoras (TTH-04 y TTH-05), no como HUs.
+
+### Aplicación de los criterios de DHU-004
+
+**F26 — Lógica de fallback en cascada del backend:**
+
+| Criterio DHU-004 | F26 cumple |
+|---|---|
+| 1. No tiene Persona del producto beneficiaria directa | Sí. Es lógica interna del backend que opera automáticamente. |
+| 2. Su valor es instrumental, no de negocio | Sí. Habilita los modos degradados pero no genera valor visible al Operador en aislamiento. |
+| 3. Comportamiento técnico estándar sin negociación de negocio | Sí. La regla "si X cae, aplicar Y" no requiere conversación con un Persona. |
+| 4. Sin valor visible al usuario en aislamiento | Sí. El Operador nunca interactúa con la lógica de fallback; interactúa con sus resultados (modo degradado). |
+
+**F27 — Configuración de tiempos fijos para modo seguro:**
+
+| Criterio DHU-004 | F27 cumple |
+|---|---|
+| 1. No tiene Persona del producto beneficiaria directa | Sí. Es un conjunto de parámetros del sistema. |
+| 2. Su valor es instrumental, no de negocio | Sí. Solo se usa cuando se activa el modo seguro. |
+| 3. Comportamiento técnico estándar | Sí. Configuración de valores numéricos, no negociable funcionalmente. |
+| 4. Sin valor visible al usuario en aislamiento | Sí. El Operador no usa F27 directamente; usa modo seguro cuando se activa. |
+
+### Lo que NO es TTH en el Bloque C
+
+Para evitar confusión, lo siguiente del Bloque C NO se clasifica como TTH:
+
+- **F22, F23, F24, F25** son funcionalidades visibles al Operador → son HUs (HU-10, HU-11, HU-12, HU-13).
+- **El comportamiento esperado del sistema cuando entra en modo degradado** desde la perspectiva del Operador → es HU (HU-10).
+- **La explicación del modo degradado** desde la perspectiva del Operador → es HU (HU-12).
+
+### Consecuencias
+
+- TTH-04 (Lógica de fallback en cascada del sistema) se agrega a `TAREAS_TECNICAS_HABILITADORAS.md` cuando se redacte formalmente.
+- TTH-05 (Configuración de tiempos fijos para modo seguro) se agrega a `TAREAS_TECNICAS_HABILITADORAS.md` cuando se redacte formalmente.
+- El Bloque C queda con 4 HUs + 2 TTH como composición final.
+
+---
+
+## DHU-011 — Eliminación de HU-13 y cobertura de F25 por composición
+
+**Fecha:** 2026-05-13.
+**Estado:** Cerrada.
+**Aplica a:** Bloque C — Operador, operación degradada.
+
+### Contexto
+
+DHU-008 estableció que el Bloque C cubriría tres conceptos distintos (componente caído, modo degradado, lógica de fallback) con un mapeo definitivo de 4 HUs operativas (HU-10 a HU-13) + 2 TTH (TTH-04, TTH-05). HU-13 estaba prevista para cubrir F25 (Indicación contextual en panel de modo degradado activo).
+
+Durante la redacción detallada del Bloque C, al diferenciar HU-13 de las marcas pasivas del Bloque B (DHU-005 Casos A y B) se identificó que HU-13 **no aporta valor incremental real al Operador** dado los fallbacks declarados en F26 y la cobertura existente del Bloque B.
+
+### Análisis
+
+Los fallbacks declarados en F26 producen tres efectos distintos sobre los paneles del Operador:
+
+| Nivel de fallback | Efecto sobre paneles del Operador | Cobertura existente |
+|---|---|---|
+| Nivel 1 (motor sin métricas de visión) | Los paneles que dependen de visión muestran datos viejos. | Marca pasiva DHU-005 Caso A en panel de visión. |
+| Nivel 2 (predictor de respaldo activo) | Panel de predicción muestra datos **vigentes** pero de menor precisión. | Sin cobertura específica; HU-13 hubiese cubierto este caso. |
+| Nivel 3 (tiempos preconfigurados) | Panel de estrategia activa congelado (no hay decisión nueva). | Marca pasiva DHU-005 Caso B en panel de estrategia. |
+
+HU-13 con alcance amplio tendría valor real únicamente en el nivel 2 (predictor de respaldo activo). Para los niveles 1 y 3, las marcas pasivas del Bloque B ya cubren la información necesaria al Operador sin agregar nada que el Operador no sepa ya.
+
+Mantener HU-13 con alcance acotado al nivel 2 sería redactar una HU completa para una única manifestación visual. Mantenerla con alcance amplio anticipando fallbacks futuros sería redactar una HU que en MVP1 sólo activa una etiqueta en un caso. Las dos opciones tienen baja relación valor/esfuerzo.
+
+### Análisis adicional del Operador
+
+Desde la perspectiva del Operador, la información que F25 buscaba comunicar ya está disponible por composición:
+
+1. **Que el sistema está en modo degradado** → comunicado por la alerta transversal de HU-10.
+2. **Qué componente específico falló** → consultable en la vista de HU-11.
+3. **Qué significa operativamente el modo activo** → explicado por el texto compuesto de HU-12.
+4. **Que un panel específico está afectado** → cubierto por la marca pasiva del Bloque B cuando el dato es viejo (Caso A o B según corresponda), y por la disponibilidad de las marcas en el panel afectado.
+
+El único hueco residual es comunicar, en el panel específico de predicción del nivel 2, que el dato vigente proviene del predictor de respaldo. Este hueco es lo suficientemente acotado como para no justificar una HU dedicada en el alcance del MVP1.
+
+### Decisión
+
+Se elimina HU-13 del backlog del Bloque C. F25 queda cubierta funcionalmente por la composición de:
+
+- HU-10 (alerta transversal del estado operativo).
+- HU-11 (vista de estado de componentes, con refinamiento de resalte visual aprobado en esta decisión).
+- HU-12 (explicación del modo degradado).
+- Las marcas pasivas existentes del Bloque B (DHU-005 Casos A y B).
+
+Refinamiento asociado a HU-11: se agrega un criterio de aceptación (CA-11.9) que declara explícitamente el resalte visual de las entradas de componentes en estado no-OK dentro de la vista de HU-11, para que el Operador pueda identificar de un vistazo qué componentes requieren atención. Este refinamiento absorbe el espíritu de F25 en la vista que ya tiene esa responsabilidad natural (HU-11), en lugar de crear una HU dedicada.
+
+### Por qué este patrón es coherente con el resto del backlog
+
+La cobertura por composición no es nueva en este Product Backlog. Ya se aplicó en:
+
+- **F02 (Dashboard principal)** del Bloque B: cubierto por la composición visual de HU-02, HU-03, HU-04, HU-05 y HU-06, sin generar HU propia. Documentado en el cierre del Bloque B.
+- **F30 (Persistencia de estados históricos)** del Bloque A: cubierto por inglobación como CA en HUs del Gerente (Bloque F). Documentado en el cierre del Bloque A.
+- **F31 (Persistencia de decisiones del motor)** del Bloque A: inglobada como CA-08.1 de HU-08. Documentado en el cierre del Bloque A.
+
+DHU-011 aplica el mismo principio a F25: cubrir una feature por composición de otras HUs cuando no se justifica una HU dedicada.
+
+### Consecuencias
+
+- HU-13 deja de existir en el Bloque C.
+- HU-11 se refina con CA-11.9 (resalte visual de componentes en estado no-OK), una nota técnica que documenta la decisión, y un RNF de usabilidad ampliado.
+- El Bloque C queda con composición final: **3 HUs operativas (HU-10, HU-11 refinada, HU-12) + 2 TTH (TTH-04, TTH-05)**.
+- Esta decisión actualiza el mapeo de DHU-008, que originalmente preveía 4 HUs.
+- F25 se documenta como "cubierta por composición" en la sección de mapeo del Bloque C.
+
+### Lo que NO cambia
+
+- DHU-008 sigue siendo válida en su separación conceptual de los tres conceptos (componente caído, modo degradado, lógica de fallback). DHU-011 solo refina el mapeo a HUs concretas.
+- DHU-009 sigue siendo válida en su separación entre marca pasiva del Bloque B y alerta activa del Bloque C.
+- DHU-010 sigue siendo válida en la clasificación de F26 y F27 como TTH.
+
+### Documentos relacionados
+
+- `HU_BLOQUE_C.md` — refleja la composición final 3 HUs + 2 TTH.
+- `DECISIONS_HU.md` (este documento) — sección DHU-011.
+
+---
+
 ## Resumen de impacto en los bloques redactados hasta la fecha
 
-| Bloque | HUs | Decisiones aplicadas |
-|---|---|---|
-| Bloque A | HU-01 | DHU-001, DHU-002, DHU-003, DHU-004, DHU-007 (retroactivo) |
-| Bloque B | HU-02 a HU-09 | DHU-003, DHU-005 (refinada con A y B), DHU-006, DHU-007 |
+| Bloque | HUs | TTH | Decisiones aplicadas |
+|---|---|---|---|
+| Bloque A | HU-01 | TTH-01, TTH-02, TTH-03 | DHU-001, DHU-002, DHU-003, DHU-004, DHU-007 (retroactivo) |
+| Bloque B | HU-02 a HU-09 | (ninguna nueva) | DHU-003, DHU-005 (refinada con A y B), DHU-006, DHU-007 |
+| Bloque C | HU-10, HU-11, HU-12 (HU-13 eliminada por DHU-011) | TTH-04, TTH-05 | DHU-005, DHU-006, DHU-007, DHU-008, DHU-009, DHU-010, DHU-011 |
 
 ---
 
@@ -369,7 +646,8 @@ Este trabajo es una **sesión dedicada futura**, no se hace simultáneamente con
 
 - `HU_BLOQUE_A.md` — Bloque A del Product Backlog (1 HU operativa).
 - `HU_BLOQUE_B.md` — Bloque B del Product Backlog (8 HUs, 7 MVP1 + 1 MVP2).
-- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01, TTH-02, TTH-03 transversales.
+- `HU_BLOQUE_C.md` — Bloque C del Product Backlog (3 HUs operativas: HU-10, HU-11, HU-12).
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-05.
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009). No se solapa con este documento.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Personas, journeys, MVP Canvas (insumos para identificar sujetos válidos).
 - `FEATURE_BACKLOG_DETALLADO.md` — Origen de las features que se mapean a HUs y TTH.
