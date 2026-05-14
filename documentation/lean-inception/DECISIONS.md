@@ -22,9 +22,9 @@
 ## D-001 — Arquitectura: monolito modular
 **Fecha:** 2026-04-30 · **Estado:** Cerrada
 
-**Decisión:** El sistema se organiza como un **monolito modular**, no como microservicios. Las carpetas `core_management_api/`, `edge_device/`, `ia_prediction_service/` se entienden como módulos del mismo sistema. Sprint 1 consolida la base común en `shared/` instalable como paquete pip local.
+**Decisión:** El sistema se organiza como un **monolito modular**, no como microservicios. Las carpetas `core_management_api/`, `edge_device/`, `ia_prediction_service/` se entienden como módulos del mismo sistema. La base común se consolida en `shared/` instalable como paquete pip local.
 
-**Justificación:** El refactor del commit `7b26edab` separó el código en carpetas que sugieren microservicios, pero (a) los `common/` de `core_management_api` y `edge_device` son byte-idénticos, (b) no existe API real entre ellos, (c) `ia_prediction_service` es pipeline ML offline, no servicio HTTP. Mantener tres servicios desplegables independientes agregaría complejidad sin valor en un proyecto de tesis con un equipo de dos.
+**Justificación:** El refactor previo separó el código en carpetas que sugieren microservicios, pero (a) los `common/` de `core_management_api` y `edge_device` son byte-idénticos, (b) no existe API real entre ellos, (c) `ia_prediction_service` es pipeline ML offline, no servicio HTTP. Mantener tres servicios desplegables independientes agregaría complejidad sin valor en un proyecto de tesis con un equipo de dos.
 
 **Impacto:** El docker-compose final tiene `db`, `core_management_api` (incluye prediction + control + vision-consumer), `edge_device` y `frontend_ui`. `ia_prediction_service` queda como herramienta de entrenamiento offline.
 
@@ -37,7 +37,7 @@
 
 **Justificación:** El documento de tesis declara una arquitectura RNN. Mantener el RandomForest como fallback evita que una falla de carga del modelo neuronal rompa el endpoint de predicción.
 
-**Impacto:** F3 del TODO implementa la RNN. Ver `D-006` para la materialización concreta (GRU univariado).
+**Impacto:** La implementación de la RNN es trabajo del equipo, materializada concretamente como GRU univariado según D-006.
 
 **Nota:** D-006 refina esta decisión especificando GRU como la familia de RNN a utilizar, descartando arquitecturas espacio-temporales (STGNN) por estar fuera del alcance.
 
@@ -50,12 +50,12 @@
 
 **Justificación:** El alcance de la tesis no incluye productivización. Los recursos disponibles (tiempo + cuenta cloud + presupuesto) no justifican el deploy en Azure. La "arquitectura desplegable en Pi/cloud" se demuestra arquitectónicamente y se documenta como plan de productivización en el README final.
 
-**Impacto:** El README de quickstart asume `docker compose up` + `npm run dev`. El Bloque K (defensa) prueba el sistema en máquina limpia, no en cloud.
+**Impacto:** El README de quickstart asume `docker compose up` + `npm run dev`. La defensa final prueba el sistema en máquina limpia, no en cloud.
 
 ---
 
 ## D-004 — Pi física: demostración conceptual, no entrega
-**Fecha:** 2026-04-30 · **Estado:** Cerrada · **Sujeta a confirmación con asesor (A2)**
+**Fecha:** 2026-04-30 · **Estado:** Cerrada · **Sujeta a confirmación con asesor**
 
 **Decisión:** No se entrega una Raspberry Pi física en la defensa. Se demuestra que la arquitectura **es desplegable** en Pi (separación de `edge_device` con dependencias mínimas, contenerización separada, comunicación por SSE/HTTP) sin entregar el hardware.
 
@@ -63,20 +63,20 @@
 
 **Impacto:** El demo final corre todo en una laptop. El documento de tesis y el video explican qué módulos correrían en Pi (edge_device) y cuáles en servidor central (core_management_api + frontend + db).
 
-**Pendiente:** Confirmar con asesor en llamada A2 del TODO.
+**Pendiente:** Confirmar con asesor.
 
 ---
 
 ## D-005 — Números de tesis: actualizar tras validación real
-**Fecha:** 2026-04-30 · **Estado:** Cerrada · **Sujeta a confirmación con asesor (A2)**
+**Fecha:** 2026-04-30 · **Estado:** Cerrada · **Sujeta a confirmación con asesor**
 
-**Decisión:** Los números declarados en el documento de tesis (88.2% accuracy de detección, 81.3% accuracy del predictor, latencia <2s) se **actualizan a los valores reales** medidos en el Bloque J de validación. Si la realidad es peor, se reporta la realidad.
+**Decisión:** Los números declarados en el documento de tesis (88.2% accuracy de detección, 81.3% accuracy del predictor, latencia <2s) se **actualizan a los valores reales** medidos durante la validación cuantitativa. Si la realidad es peor, se reporta la realidad.
 
 **Justificación:** Integridad académica. Reportar números que no se pueden reproducir en el demo es riesgo alto en preguntas de defensa. La tesis se defiende mejor con honestidad sobre limitaciones que con marketing inflado.
 
-**Impacto:** Bloque J4 del TODO marca explícitamente la actualización del documento. Si los números reales son peores, el README documenta limitaciones del demo (datos sintéticos, validación parcial, etc.).
+**Impacto:** La actualización del documento de tesis con los números reales es un entregable explícito del proyecto. Si los números reales son peores, el README documenta limitaciones del demo (datos sintéticos, validación parcial, etc.).
 
-**Pendiente:** Confirmar con asesor en llamada A2 del TODO.
+**Pendiente:** Confirmar con asesor.
 
 ---
 
@@ -88,13 +88,13 @@
 **Justificación:**
 
 1. **Alcance de validación.** El sistema se valida sobre **una sola intersección** de Miraflores. Una arquitectura espacio-temporal requiere múltiples nodos interrelacionados; no aplica al problema definido.
-2. **Cronograma realista.** Con 9 semanas hasta entrega final y dependencias pesadas (SUMO end-to-end, cierre Fase 2, integración completa), no hay margen para definir grafos espaciales, debuggear pipelines tsl/PyTorch Lightning y entrenar STGNN.
+2. **Cronograma realista.** Con 9 semanas hasta entrega final y dependencias pesadas (SUMO end-to-end e integración completa del sistema), no hay margen para definir grafos espaciales, debuggear pipelines tsl/PyTorch Lightning y entrenar STGNN.
 3. **Aporte central de tesis.** La contribución es el **sistema integrado** (predicción + control adaptativo + visión + validación cuantitativa), no la sofisticación arquitectónica del predictor aislado.
 4. **Defensa académica.** GRU univariado es estándar de la literatura para predicción de serie temporal de tráfico por sensor/intersección. Es justificable y reproducible.
 
 **Impacto:**
 
-- Bloque F del TODO se reescribe: crear `ia_prediction_service/src/models/gru_model.py` (GRU desde cero, simple).
+- Se crea `ia_prediction_service/src/models/gru_model.py` (GRU desde cero, simple).
 - `time_then_space.py` se mueve a `ia_prediction_service/src/models/legacy/` o se elimina (decisión en limpieza de repo).
 - Checkpoints en `ia_prediction_service/notebooks/logs/` se archivan o eliminan.
 - METR-LA deja de ser referencia de dataset; los datos vienen de SUMO (ver D-008).
@@ -104,7 +104,7 @@
 
 > *"Se selecciona GRU univariado por intersección dado que la validación del sistema se realiza sobre intersecciones tratadas independientemente. La incorporación de dependencia espacial entre intersecciones (mediante arquitecturas espacio-temporales tipo STGNN o atención sobre vecinos) se identifica como una extensión natural del trabajo y se declara como trabajo futuro, condicionada a validación a escala de red urbana."*
 
-**Pendiente:** Confirmar con asesor (reunión 2026-05-12).
+**Pendiente:** Confirmar con asesor.
 
 ---
 
@@ -126,7 +126,7 @@ El rol del módulo en la arquitectura del sistema es de **sensor de estado en ti
 
 - El módulo de visión (`edge_device/src/vision/`) se mantiene y se completa para demostración.
 - Validación del módulo: dataset etiquetado pequeño (≥200 frames), métricas de detección reportadas.
-- En el loop de validación cuantitativa (HU-17 comparación con/sin sistema), las métricas de estado las provee SUMO.
+- En el loop de validación cuantitativa del sistema integrado (comparación de KPIs con/sin sistema documentada en el capítulo de validación de la tesis), las métricas de estado las provee SUMO.
 - El video de demo muestra el módulo de visión operando sobre un stream/video grabado, sin ser parte del experimento cuantitativo.
 - El capítulo de validación de la tesis separa explícitamente "validación del módulo de visión" (métricas de detección) y "validación del sistema integrado" (KPIs SUMO).
 
@@ -134,7 +134,7 @@ El rol del módulo en la arquitectura del sistema es de **sensor de estado en ti
 
 > *"El módulo de visión computacional se implementa como sensor de estado en tiempo real del sistema. Su validación se realiza mediante métricas estándar de detección (precisión, recall, mAP) sobre un dataset etiquetado representativo. Para la validación cuantitativa del sistema integrado (predicción + control adaptativo), se utiliza simulación SUMO que provee directamente las métricas de estado que el módulo de visión proveería en operación. Esta separación asegura consistencia metodológica y aísla las fuentes de error del sistema integrado de las fuentes de error del módulo de detección."*
 
-**Pendiente:** Confirmar con asesor (reunión 2026-05-12).
+**Pendiente:** Confirmar con asesor.
 
 ---
 
@@ -160,7 +160,7 @@ Las particiones de entrenamiento y validación son **escenarios SUMO distintos**
 
 **Impacto:**
 
-- HU-16 (SUMO) sube de "validación al final" a **columna vertebral del sistema**. Empieza en semana 6.
+- La integración con SUMO (F32 del backlog, Bloque E del Sequencer) sube de "validación al final" a **columna vertebral del sistema**. Empieza en semana 6.
 - Cronograma: 1-2 semanas para topología de Miraflores en SUMO + escenarios de demanda + generación de dataset.
 - El modelo GRU se entrena sobre el dataset SUMO generado, no sobre METR-LA ni Waze.
 - El capítulo de alcance de la tesis declara explícitamente la naturaleza simulada de la validación.
@@ -170,7 +170,7 @@ Las particiones de entrenamiento y validación son **escenarios SUMO distintos**
 
 > *"La validación del sistema propuesto se realiza mediante simulación SUMO calibrada con la topología de la intersección de estudio en Miraflores. Tanto el dataset de entrenamiento del modelo predictivo como los escenarios de validación cuantitativa se generan a partir de SUMO con particiones independientes (distintos seeds y patrones de demanda) para evitar fuga de información. La obtención de datos de tráfico reales de la ciudad de Lima se identifica como una limitación reconocida del trabajo, y la calibración del modelo con datos reales mediante acuerdo con entidades municipales se declara como trabajo futuro."*
 
-**Pendiente:** Confirmar con asesor (reunión 2026-05-12).
+**Pendiente:** Confirmar con asesor.
 
 ---
 

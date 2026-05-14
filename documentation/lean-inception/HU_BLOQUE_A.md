@@ -148,11 +148,11 @@ Las features F30 (persistencia de estados históricos) y F31 (persistencia de de
 
 Esta sesión cerró el Bloque B. Los siguientes bloques se redactarán en sesiones futuras:
 
-1. **Bloque C — Operador, operación degradada** (~6-7 HUs).
-2. **Bloque D — Administrador, soporte técnico** (~3-4 HUs).
+1. **Bloque C — Operador, operación degradada** (3 HUs operativas + 2 TTH; ya cerrado).
+2. **Bloque D — Administrador, soporte técnico** (3 HUs operativas; estructura confirmada por DHU-013).
 3. **Bloque E — Componentes centrales del sistema** (~4-5 HUs o TTH).
 4. **Bloque F — Gerente, reportería mínima** (~3-5 HUs, incluye F30 inglobada).
-5. **MVP2 — HUs adicionales fuera del sprint** (~5 HUs adicionales; HU-09 del Bloque B ya redactada).
+5. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (~5 HUs adicionales; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
 
 Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs en un documento único aprobado, y se ejecutarán las ceremonias de **estimación (Planning Poker)** y **priorización (MoSCoW)** sobre el backlog completo.
 
@@ -167,5 +167,5 @@ Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcion
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.
 - `LEAN_INCEPTION_INVESTIGACION.md` — Fundamentación del marco metodológico.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.
-- `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 35 features.
+- `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features identificadas (29 MVP1 + 5 MVP2 + 7 Trabajos Futuros).
 - `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` — Documento futuro pendiente (DHU-007).

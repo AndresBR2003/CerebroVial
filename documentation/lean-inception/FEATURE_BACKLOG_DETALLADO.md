@@ -2,12 +2,13 @@
 
 > Documento complementario al `LEAN_INCEPTION_CEREBROVIAL.md` (Artefacto 7 y Artefacto 8).
 >
-> Contiene el detalle completo de las **35 features** identificadas durante el Feature Brainstorming, con su revisión Técnica / UX / Negocio, y la clasificación final en MVP1 / MVP2 / MVP3.
+> Contiene el detalle completo de las **41 features identificadas** del proyecto (35 originales del Brainstorming + 6 fichas livianas de Trabajos Futuros formalizadas en DHU-012), con su revisión Técnica / UX / Negocio y su clasificación final en MVP1 / MVP2 / Trabajos Futuros.
 >
 > **Pensado como insumo para:** (a) conversación con asesor durante el Showcase, (b) conversión posterior a Historias de Usuario en formato "Como X, quiero Y, para Z", (c) referencia técnica durante la ejecución de sprints.
 
-**Fecha:** 2026-05-11
-**Versión:** 1.0
+**Fecha del Brainstorming original:** 2026-05-11
+**Última actualización:** 2026-05-14 (DHU-012: agregadas fichas F36-F41, reclasificación de F21, renombrado de F27, ficha de F26 referencia a TTH-04 como fuente canónica)
+**Versión:** 1.1
 
 ---
 
@@ -22,9 +23,11 @@ Cada feature está descrita con la siguiente estructura:
 - **Revisión técnica:** complejidad y riesgos.
 - **Revisión UX:** claridad y consideraciones.
 - **Revisión de negocio:** objetivo del producto que realiza.
-- **Clasificación:** MVP1 / MVP2 / MVP3.
+- **Clasificación:** MVP1 / MVP2 / Trabajos Futuros.
 - **Estado actual en el repo** (si aplica).
 - **Notas adicionales** relevantes para implementación.
+
+**Sobre las fichas livianas de Trabajos Futuros (F36-F41):** estas fichas no tienen toda la estructura completa de una ficha MVP1 porque no se redactan como HU ni se construyen. Conservan los campos esenciales (descripción, persona, complejidad estimada, razón de salida del MVP) y omiten campos como "Revisión UX" o "Estado actual en el repo".
 
 ---
 
@@ -34,7 +37,8 @@ Cada feature está descrita con la siguiente estructura:
 |---|---|
 | **★** | Feature crítica para MVP1 (sin esto el producto no funciona) |
 | **◆** | Feature importante para MVP1 (entra si el cronograma lo permite) |
-| **○** | Feature deseable, MVP2 (documentada, no construida) |
+| **○** | Feature de MVP2 (documentada como HU, se construye condicional a holgura tras cerrar MVP1) |
+| **▷** | Feature de Trabajos Futuros (documentada como ficha, NO se redacta como HU, NO se construye) |
 | ✓ | Construida total o parcialmente en el repo actual |
 | ⚠ | Riesgo técnico identificado |
 | 🆕 | Por construir desde cero |
@@ -65,7 +69,7 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión técnica:**
 - **Complejidad:** Bajo.
 - **Stack:** JWT + bcrypt en backend FastAPI, formulario de login en frontend.
-- **Estado actual:** ✓ Backend tiene tabla `User` y modelo Alembic creado. Falta endpoint de login y dependency `get_current_user`. Pendiente en Fase 2 del PLAN.
+- **Estado actual:** ✓ Backend tiene tabla `User` y modelo Alembic creado. Falta endpoint de login y dependency `get_current_user`. Pendiente de implementación.
 - **Riesgos:** Ninguno significativo. Patrón estándar.
 
 **Revisión UX:** Claro. Formulario simple con usuario, contraseña, botón "Iniciar sesión", mensaje de error si las credenciales son incorrectas.
@@ -73,6 +77,8 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión de negocio:** Transversal — habilita el acceso al sistema. Sin esta feature ninguna otra es accesible.
 
 **Clasificación:** MVP1 — Bloque A.
+
+**Modelado:** Tarea Técnica Habilitadora (TTH-01) según DHU-001. Ver `TAREAS_TECNICAS_HABILITADORAS.md`.
 
 **Notas:** Considerar refresh tokens si se quiere sesiones largas. Para MVP1 basta con un token con expiración razonable (8 horas, por ejemplo).
 
@@ -97,6 +103,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque A.
 
+**Modelado:** HU-01 del Bloque A. Ver `HU_BLOQUE_A.md`.
+
 **Notas:** Para MVP1 los roles son fijos y se asignan al crear usuario en BD. No se implementa UI para gestión de roles (eso sería F adicional que no aparece en el backlog actual).
 
 ---
@@ -120,6 +128,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque A.
 
+**Modelado:** Persistencia inglobada como Criterios de Aceptación en HUs del Gerente (Bloque F), según regla cerrada en el Bloque A. No se redacta como HU dedicada.
+
 **Notas:** Discutir granularidad con asesor. Recomendación: agregar cada 30 segundos para validación; menor granularidad para producción hipotética.
 
 ---
@@ -142,6 +152,8 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión de negocio:** Habilitador del Objetivo 3 (adaptar el control). Permite trazabilidad y auditoría de decisiones automáticas.
 
 **Clasificación:** MVP1 — Bloque A.
+
+**Modelado:** Inglobada como CA-08.1 de HU-08 del Bloque B, según regla cerrada en el Bloque A.
 
 **Notas:** Es la base de datos del "explainability" del sistema. Cada decisión registrada con sus inputs permite reconstruir el "por qué" de cada cambio de estrategia.
 
@@ -168,6 +180,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque B.
 
+**Modelado:** Cubierto por composición visual de HU-02, HU-03, HU-04, HU-05 y HU-06 del Bloque B. No se redacta como HU dedicada (es contenedor visual, no funcionalidad independiente). Ver `HU_BLOQUE_B.md` resumen del bloque.
+
 **Notas:** Recomendación: prototipo en papel o Figma rápido antes de codear. El Operador pasa todo su turno en esta vista.
 
 ---
@@ -190,6 +204,8 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión de negocio:** Realiza el Objetivo 1.
 
 **Clasificación:** MVP1 — Bloque B.
+
+**Modelado:** Parte de HU-02 (Monitoreo del estado actual de la intersección) del Bloque B, combinada con F04.
 
 **Notas:** Considerar mostrar el flujo en 4 direcciones (Norte, Sur, Este, Oeste) o las que correspondan a la geometría real de la intersección de Miraflores que se elija.
 
@@ -214,6 +230,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque B.
 
+**Modelado:** Parte de HU-02 (Monitoreo del estado actual de la intersección) del Bloque B, combinada con F03.
+
 **Notas:** Los umbrales de "verde/amarillo/rojo" son parametrizables (entran en F20 — Configuración del motor).
 
 ---
@@ -236,6 +254,8 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión de negocio:** Realiza el Objetivo 2 (anticipar congestión).
 
 **Clasificación:** MVP1 — Bloque B.
+
+**Modelado:** HU-03 del Bloque B.
 
 **Notas:** Mantener la fachada del endpoint estable; el modelo detrás puede cambiar (RandomForest → GRU) sin que el frontend se entere.
 
@@ -263,6 +283,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque B.
 
+**Modelado:** HU-04 del Bloque B.
+
 **Notas:** Recomendación: hacer un prototipo simple (incluso en papel) antes de codear. Esta vista define la "cara" del sistema.
 
 ---
@@ -285,6 +307,8 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión de negocio:** Realiza el Objetivo 3 (adaptar el control).
 
 **Clasificación:** MVP1 — Bloque B.
+
+**Modelado:** HU-05 del Bloque B.
 
 **Notas:** Considerar agregar un timestamp de "última actualización de estrategia" para que el Operador sepa cuánto tiempo lleva la estrategia activa.
 
@@ -311,6 +335,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque B.
 
+**Modelado:** HU-06 del Bloque B.
+
 **Notas:** Definir un catálogo de 5-10 plantillas de texto que cubran los casos típicos de selección. No intentar cubrir todos los casos posibles.
 
 ---
@@ -333,6 +359,8 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión de negocio:** Realiza el Objetivo 3 con énfasis en feedback inmediato.
 
 **Clasificación:** MVP1 — Bloque B.
+
+**Modelado:** HU-07 del Bloque B.
 
 **Notas:** No abusar de notificaciones. Si el motor cambia muy frecuentemente, agrupar.
 
@@ -357,6 +385,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque B.
 
+**Modelado:** HU-08 del Bloque B (con F31 inglobada como CA-08.1).
+
 **Notas:** Considerar exportación a CSV en el futuro. No incluir en MVP1.
 
 ---
@@ -378,9 +408,11 @@ Cada feature está descrita con la siguiente estructura:
 
 **Revisión de negocio:** Soporte al Operador. No realiza directamente ninguno de los 4 objetivos.
 
-**Clasificación:** **MVP2 — fuera del sprint.** Documentada como HU completa, no implementada.
+**Clasificación:** **MVP2.** Documentada como HU completa (HU-09 del Bloque B); su construcción es condicional a la holgura del cronograma tras cerrar MVP1.
 
-**Notas:** Decisión tomada durante Inception: si hay tiempo al final del cronograma, se evalúa subirla a MVP1. Por defecto queda fuera.
+**Modelado:** HU-09 del Bloque B (ya redactada como HU MVP2).
+
+**Notas:** Decisión tomada durante Inception. Bajo la semántica refinada de MVP2 por DHU-012, esta feature entra al sprint si hay holgura tras cerrar las HUs MVP1. No se descarta a priori.
 
 ---
 
@@ -388,14 +420,14 @@ Cada feature está descrita con la siguiente estructura:
 
 ## F22 — Indicador visible de estado degradado ★
 
-**Descripción:** Banner o indicador prominente en la parte superior del dashboard que aparece cuando el sistema está operando en modo degradado. Indica el nivel de degradación (1, 2 o 3).
+**Descripción:** Banner o indicador prominente en la parte superior del dashboard que aparece cuando el sistema está operando en modo degradado. Indica el nivel de degradación (1, 2 o 3) o falla total.
 
 **Persona:** OP
 **Journey:** Journey 4, Paso 2.
 
 **Revisión técnica:**
 - **Complejidad:** Bajo.
-- **Stack:** Componente React condicional, color codificado por nivel (amarillo nivel 1, naranja nivel 2, rojo nivel 3).
+- **Stack:** Componente React condicional, color codificado por nivel (amarillo nivel 1, naranja nivel 2, rojo nivel 3, rojo intenso falla total).
 - **Estado actual:** 🆕 Por construir.
 - **Riesgos:** Ninguno.
 
@@ -405,7 +437,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque C.
 
-**Notas:** Considerar accesibilidad: el color no debe ser el único indicador (incluir ícono y texto).
+**Modelado:** HU-10 del Bloque C.
+
+**Notas:** Considerar accesibilidad: el color no debe ser el único indicador (incluir ícono y texto). El modelo de estados se refinó durante el Bloque C (DHU-008): 3 niveles de degradación + falla total. Ver `HU_BLOQUE_C.md`.
 
 ---
 
@@ -428,6 +462,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque C.
 
+**Modelado:** HU-11 del Bloque C (con CA-11.9 que absorbe el espíritu visual de F25 según DHU-011).
+
 **Notas:** Diferencia con F17: F23 es para el Operador (lenguaje no técnico), F17 es para el Administrador (lenguaje técnico, métricas).
 
 ---
@@ -446,15 +482,17 @@ Cada feature está descrita con la siguiente estructura:
 - **Riesgos:** Ninguno.
 
 **Revisión UX:** Claro. Ejemplos:
-- Nivel 1: *"El módulo de visión no está disponible. El sistema sigue prediciendo congestión pero sin información de cámaras."*
-- Nivel 2: *"El modelo predictivo principal no está disponible. El sistema usa un modelo de respaldo (RandomForest) con precisión menor."*
-- Nivel 3: *"El motor adaptativo no está disponible. El sistema opera con tiempos fijos preconfigurados para garantizar continuidad."*
+- Nivel 1: *"El componente periférico de detección de tráfico no está disponible. El sistema sigue prediciendo congestión pero sin información de detección en tiempo real."*
+- Nivel 2: *"El componente predictivo principal no está disponible. El sistema usa un predictor de respaldo de menor precisión."*
+- Nivel 3: *"El motor adaptativo no está disponible. El sistema opera con tiempos preconfigurados para garantizar continuidad."*
 
 **Revisión de negocio:** Soporte a robustez.
 
 **Clasificación:** MVP1 — Bloque C.
 
-**Notas:** Mantener catálogo pequeño (4-6 mensajes). No intentar cubrir todas las combinaciones posibles.
+**Modelado:** HU-12 del Bloque C.
+
+**Notas:** Mantener catálogo pequeño (4-6 mensajes). No intentar cubrir todas las combinaciones posibles. Los textos siguen vocabulario agnóstico a la implementación según DHU-006.
 
 ---
 
@@ -477,16 +515,15 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque C.
 
+**Modelado:** Cubierta por composición de HU-10 (alerta transversal) + HU-11 con CA-11.9 (resalte visual de componentes no-OK) + HU-12 (explicación compuesta) + marcas pasivas del Bloque B (DHU-005 Casos A y B). No se redacta como HU dedicada. Decisión documentada en DHU-011.
+
 **Notas:** Coherente con F22 y F24 — todas son piezas del sistema de comunicación de degradación.
 
 ---
 
 ## F26 — Lógica de fallback en cascada (backend) ★
 
-**Descripción:** Mecanismo backend que detecta fallas de componentes y aplica los 3 niveles de fallback documentados:
-- Nivel 1: Motor adaptativo opera sin métricas de visión (usa solo predicción).
-- Nivel 2: Motor adaptativo opera con RandomForest como predictor (en lugar de GRU).
-- Nivel 3: Sistema cae a tiempos fijos preconfigurados (modo seguro).
+**Descripción:** Mecanismo backend que detecta caídas de componentes del sistema y aplica fallbacks en cascada según la condición observada, transitando al sistema entre estados operativos (operación normal, degradado nivel 1, degradado nivel 2, degradado nivel 3, falla total).
 
 **Persona:** SYS (no expuesto directamente al usuario, pero su efecto sí)
 **Journey:** Habilitador transversal de Journey 4.
@@ -503,13 +540,15 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque C.
 
-**Notas:** Considerar usar Circuit Breaker pattern. Las transiciones entre modos deben ser explícitas y auditables (probablemente registradas en F31 — persistencia de decisiones).
+**Modelado:** Tarea Técnica Habilitadora (TTH-04) según DHU-010. El **contrato técnico canónico** del modelo de fallback en cascada vive en TTH-04 (criterios CT-04.1 a CT-04.10) del documento `TAREAS_TECNICAS_HABILITADORAS.md`, incluyendo los 5 estados operativos del sistema (normal, degradado nivel 1, degradado nivel 2, degradado nivel 3, falla total) y su lógica de transición. Esta ficha mantiene la descripción funcional de alto nivel; el detalle técnico vive en TTH-04.
+
+**Notas:** El patrón arquitectónico sugerido es Circuit Breaker, con orquestador central que agrega estados individuales en estado operativo global. Decisión final del patrón se cierra al implementar la TTH. Las transiciones entre modos son explícitas y auditables.
 
 ---
 
-## F27 — Configuración de tiempos fijos para modo seguro ◆
+## F27 — Configuración de tiempos fijos para degradado nivel 3 ◆
 
-**Descripción:** Formulario que permite al Administrador configurar los tiempos fijos de los semáforos que se aplicarán cuando el sistema entre en modo seguro (nivel 3).
+**Descripción:** Formulario que permite al Administrador configurar los tiempos fijos de los semáforos que se aplicarán cuando el sistema entre en degradado nivel 3.
 
 **Persona:** AD
 **Journey:** Configuración previa a Journey 4 (no es un paso de journey, es configuración).
@@ -522,11 +561,13 @@ Cada feature está descrita con la siguiente estructura:
 
 **Revisión UX:** Claro. Formulario con campos numéricos por dirección y por fase del semáforo.
 
-**Revisión de negocio:** Soporte a la propiedad de robustez. Permite que el Administrador calibre el modo seguro según la intersección.
+**Revisión de negocio:** Soporte a la propiedad de robustez. Permite que el Administrador calibre el estado degradado nivel 3 según la intersección.
 
 **Clasificación:** MVP1 — Bloque C.
 
-**Notas:** Para MVP1, una tabla única de tiempos es suficiente. La tabla por franja horaria queda como mejora futura (no en MVP2 explícitamente, pero documentable).
+**Modelado:** Tarea Técnica Habilitadora (TTH-05) según DHU-010. La reconsideración de TTH-05 a la luz del Bloque D se cerró en DHU-013: TTH-05 se mantiene íntegra (no se divide en TTH + HU del Administrador) porque mezclarla con F20 rompería la cohesión de esa HU. Ver `TAREAS_TECNICAS_HABILITADORAS.md`.
+
+**Notas:** Para MVP1, una tabla única de tiempos es suficiente. La tabla por franja horaria queda como mejora futura (no en MVP2 explícitamente, pero documentable). Nota: la palabra "modo seguro" se renombró a "degradado nivel 3" según DHU-012 para uniformidad del vocabulario.
 
 ---
 
@@ -551,6 +592,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque D.
 
+**Modelado:** HU del Administrador (a redactar en el Bloque D), según DHU-013. Consume el endpoint CT-04.5 de TTH-04 (`GET /system/components/status`), con presentación técnica distinta a la de HU-11 del Operador (que consume el mismo endpoint con presentación simplificada).
+
 **Notas:** Considerar usar el patrón `/health` y `/health/detailed` para que F23 (vista Operador) consuma `/health` simple y F17 (Admin) consuma `/health/detailed`.
 
 ---
@@ -574,6 +617,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque D.
 
+**Modelado:** HU del Administrador (a redactar en el Bloque D), según DHU-013. El sustrato técnico (registro de predicciones + cálculo de métricas agregadas) se ingloba como CAs dentro de la propia HU, siguiendo el patrón de F31 inglobada en HU-08. No se crea TTH adicional.
+
 **Notas:** Para SUMO la verdad ground truth está disponible (lo que SUMO efectivamente generó). Para producción hipotética, hay que esperar al siguiente periodo para tener el valor real.
 
 ---
@@ -595,7 +640,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Revisión de negocio:** Soporte avanzado al Objetivo 2.
 
-**Clasificación:** **MVP2 — fuera del sprint.**
+**Clasificación:** **MVP2.** Se documenta como HU completa en sesión MVP2 dedicada; su construcción es condicional a la holgura del cronograma tras cerrar MVP1.
+
+**Modelado:** HU MVP2 (pendiente de redacción en sesión dedicada). No entra al Bloque D MVP1.
 
 **Notas:** Razón de salida del MVP1: F18 ya cubre el caso de uso básico (saber si el modelo está bien). La comparativa vs baseline es valiosa pero no esencial para el MVP.
 
@@ -603,7 +650,7 @@ Cada feature está descrita con la siguiente estructura:
 
 ## F20 — Configuración de parámetros del motor adaptativo ◆
 
-**Descripción:** Formulario para que el Administrador configure los parámetros del motor: umbrales de cola, pesos entre estrategias, parámetros internos de Webster/MaxPressure/MTC.
+**Descripción:** Formulario para que el Administrador configure los parámetros del motor: umbrales de cola (referenciados en HU-02 CA-02.3 y HU-03 CA-03.3), umbral de congestión (default ≥ 3, atado a D-009), horizonte de predicción (referenciado en HU-03 CA-03.1), y otros parámetros internos del motor adaptativo.
 
 **Persona:** AD
 **Journey:** Journey 3, Paso 5.
@@ -620,30 +667,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque D.
 
-**Notas:** Recomendación: exponer solo los parámetros críticos (3-5 máximo) en MVP1. Los avanzados se dejan internos por ahora.
+**Modelado:** Una sola HU del Administrador (a redactar en el Bloque D), agnóstica a tecnologías según DHU-006 y DHU-013. El sustrato técnico (persistencia de parámetros + auditoría de cambios) se ingloba como CAs dentro de la propia HU.
 
----
-
-## F21 — Solicitud de reentrenamiento del modelo ○
-
-**Descripción:** Permite al Administrador solicitar el reentrenamiento del modelo predictivo con datos recientes. El reentrenamiento se ejecuta como tarea asíncrona.
-
-**Persona:** AD
-**Journey:** Journey 3, Paso 6.
-
-**Revisión técnica:**
-- **Complejidad:** ⚠ Alto.
-- **Stack:** Pipeline MLOps completo: cola de tareas (Celery o similar), worker que ejecuta el reentrenamiento, persistencia del nuevo modelo, swap del modelo en producción.
-- **Estado actual:** 🆕 Por construir desde cero. Requiere infraestructura adicional.
-- **Riesgos:** ⚠ Tema de tesis aparte. No cabe en el cronograma.
-
-**Revisión UX:** No definido en detalle. Botón "Reentrenar" + estado de la tarea en curso.
-
-**Revisión de negocio:** Soporte avanzado al Objetivo 2.
-
-**Clasificación:** **MVP2 — fuera del sprint.**
-
-**Notas:** Decisión cerrada durante Inception. Se documenta como HU completa, no se implementa. Mencionado en trabajo futuro del documento de tesis.
+**Notas:** Recomendación: exponer solo los parámetros críticos (3-5 máximo) en MVP1. Los avanzados se dejan internos por ahora. Parámetros mínimos a exponer: umbrales de cola verde/amarillo/rojo, umbral de congestión (jam level ≥ N), horizonte de predicción.
 
 ---
 
@@ -668,6 +694,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque E.
 
+**Modelado:** A determinar al redactar el Bloque E (probablemente TTH dado que no tiene Persona del producto beneficiaria directa).
+
 **Notas:** Ya trabajándose en proyecto Claude separado. Cuello de botella absoluto: si SUMO se atrasa, se atrasan F34 (GRU necesita dataset), F26 (fallback necesita validación), Bloque F (KPIs Gerente requieren datos).
 
 ---
@@ -691,7 +719,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque E.
 
-**Notas:** Validación independiente del módulo se hace con métricas estándar de detección (precisión, recall, mAP) sobre dataset etiquetado (ver D-007 y EVOLUCION_TESIS.md).
+**Modelado:** A determinar al redactar el Bloque E.
+
+**Notas:** Validación independiente del módulo se hace con métricas estándar de detección (precisión, recall, mAP) sobre dataset etiquetado (ver D-007 y `EVOLUCION_TESIS.md`).
 
 ---
 
@@ -713,6 +743,8 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión de negocio:** Realiza el Objetivo 2 (anticipar congestión).
 
 **Clasificación:** MVP1 — Bloque E.
+
+**Modelado:** A determinar al redactar el Bloque E.
 
 **Notas:** Decisión D-006 cerrada durante Inception: GRU univariado, no STGNN. Time-then-Space descartado.
 
@@ -736,6 +768,8 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión de negocio:** Realiza el Objetivo 3 (adaptar el control). Es el aporte de ingeniería central de la tesis.
 
 **Clasificación:** MVP1 — Bloque E.
+
+**Modelado:** A determinar al redactar el Bloque E.
 
 **Notas:** Lo que falta: integrar con F34 (predicciones reales del GRU, no del baseline), con F26 (fallback en cascada), y con F31 (persistencia de decisiones).
 
@@ -762,6 +796,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque F.
 
+**Modelado:** A determinar al redactar el Bloque F.
+
 **Notas:** Los KPIs son los mismos que se usan para validar la tesis (ver MVP Canvas, Bloque 6). Esto asegura coherencia.
 
 ---
@@ -784,6 +820,8 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión de negocio:** Realiza el Objetivo 4 con flexibilidad temporal.
 
 **Clasificación:** MVP1 — Bloque F.
+
+**Modelado:** A determinar al redactar el Bloque F.
 
 **Notas:** Considerar que el periodo seleccionado afecta a F12 y F14 simultáneamente.
 
@@ -808,6 +846,8 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque F.
 
+**Modelado:** A determinar al redactar el Bloque F.
+
 **Notas:** Si el cronograma aprieta, esta feature es candidata a bajar a MVP2.
 
 ---
@@ -829,7 +869,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Revisión de negocio:** Realiza el Objetivo 4 con profundidad investigativa.
 
-**Clasificación:** **MVP2 — fuera del sprint.**
+**Clasificación:** **MVP2.** Se documenta como HU completa en sesión MVP2 dedicada; su construcción es condicional a la holgura del cronograma tras cerrar MVP1.
+
+**Modelado:** HU MVP2 (pendiente de redacción en sesión dedicada).
 
 **Notas:** Razón de salida: F12-F13-F14 cubren el caso de uso esencial. El drill-down es valor agregado, no central.
 
@@ -852,13 +894,15 @@ Cada feature está descrita con la siguiente estructura:
 
 **Revisión de negocio:** Soporte al Objetivo 4.
 
-**Clasificación:** **MVP2 — fuera del sprint.**
+**Clasificación:** **MVP2.** Se documenta como HU completa en sesión MVP2 dedicada; su construcción es condicional a la holgura del cronograma tras cerrar MVP1.
+
+**Modelado:** HU MVP2 (pendiente de redacción en sesión dedicada).
 
 **Notas:** Razón de salida: complejidad técnica desproporcionada al valor académico. Los KPIs visibles en pantalla son suficientes para defensa.
 
 ---
 
-# Bloque transversal — Notas finales
+# Bloque transversal — Features adicionales
 
 ## F28 — Botón de escalamiento al Administrador ○
 
@@ -877,9 +921,170 @@ Cada feature está descrita con la siguiente estructura:
 
 **Revisión de negocio:** Soporte a la colaboración entre roles.
 
-**Clasificación:** **MVP2 — fuera del sprint.**
+**Clasificación:** **MVP2.** Se documenta como HU completa en sesión MVP2 dedicada; su construcción es condicional a la holgura del cronograma tras cerrar MVP1.
+
+**Modelado:** HU MVP2 (pendiente de redacción en sesión dedicada).
 
 **Notas:** Razón de salida: flujo entre roles no central a los 4 objetivos del producto. El Operador puede contactar al Administrador por canales externos (teléfono, email) si es necesario.
+
+---
+
+# Trabajos Futuros — Líneas declaradas fuera del alcance
+
+> Las features de esta sección fueron formalizadas como fichas en DHU-012 a partir de las direcciones declaradas en el Sequencer original del Inception y en `EVOLUCION_TESIS.md` sección 8. No se redactan como Historias de Usuario ni se construyen dentro del alcance del proyecto académico; se mencionan en el capítulo de trabajo futuro del documento de tesis.
+>
+> **Asimetría justificada:** F21 conserva ficha completa (originada en el Brainstorming del Inception); F36-F41 son fichas livianas (estructura reducida sin "Revisión UX" ni "Estado actual"), formalizadas posteriormente.
+
+## F21 — Solicitud de reentrenamiento del modelo ▷
+
+**Descripción:** Permite al Administrador solicitar el reentrenamiento del modelo predictivo con datos recientes. El reentrenamiento se ejecuta como tarea asíncrona.
+
+**Persona:** AD
+**Journey:** Journey 3, Paso 6 (declarado como "fuera del sprint" en el Journey).
+
+**Revisión técnica:**
+- **Complejidad:** ⚠ Alto.
+- **Stack:** Pipeline MLOps completo: cola de tareas (Celery o similar), worker que ejecuta el reentrenamiento, persistencia del nuevo modelo, swap del modelo en producción.
+- **Estado actual:** 🆕 Por construir desde cero. Requiere infraestructura adicional.
+- **Riesgos:** ⚠ Tema de tesis aparte. No cabe en el cronograma.
+
+**Revisión UX:** No definido en detalle. Botón "Reentrenar" + estado de la tarea en curso.
+
+**Revisión de negocio:** Soporte avanzado al Objetivo 2.
+
+**Clasificación:** **Trabajos Futuros.**
+
+**Modelado:** Ficha de feature solamente. NO se redacta como HU. NO se construye. Se menciona en el capítulo de trabajo futuro del documento de tesis. Reclasificación documentada en DHU-012 (de "MVP2 — fuera del sprint" en versión previa a "Trabajos Futuros" en versión actual, por incompatibilidad con la semántica refinada de MVP2: F21 no es "construible si hay holgura"; su complejidad Alta y la dependencia de infraestructura MLOps lo excluyen del alcance académico).
+
+**Notas:** Decisión cerrada durante Inception en versión original. Reclasificación a Trabajos Futuros en DHU-012 (2026-05-14) por refinamiento de la semántica de las categorías MVP. La ficha se conserva intacta como traza histórica del Brainstorming original.
+
+---
+
+## F36 — Reconocimiento de tipos de vehículos para priorización ▷
+
+**Descripción:** Extensión del módulo de visión computacional para reconocer tipos específicos de vehículos (emergencias, transporte público, vehículos pesados) y permitir al motor adaptativo priorizar el paso de ciertos tipos según política configurable.
+
+**Persona:** OP (lo consume vía mejor control), SYS (componente que la implementa)
+
+**Complejidad estimada:** Alto (requiere reentrenamiento del modelo de visión, definición de políticas de priorización, integración con motor adaptativo).
+
+**Stack tentativo:** YOLO entrenado con clases adicionales o modelo de clasificación de vehículos sobre detecciones existentes; lógica de prioridad en el motor adaptativo; UI de configuración de políticas para el Administrador.
+
+**Razón de salida del MVP:** Línea de investigación adicional fuera del alcance académico. El reconocimiento por tipo de vehículo es un tema de visión computacional complejo en sí mismo y la integración con el motor introduce decisiones de política que merecen estudio dedicado (¿cuánto se prioriza? ¿qué pasa con la equidad? ¿cómo se evita gaming del sistema?).
+
+**Revisión de negocio:** Mejora del Objetivo 3 (adaptar el control) incorporando priorización por tipo de usuario.
+
+**Clasificación:** **Trabajos Futuros.**
+
+**Notas:** Mencionada en el Sequencer original del Inception como dirección MVP3.
+
+---
+
+## F37 — Coordinación de ondas verdes entre intersecciones vecinas ▷
+
+**Descripción:** Extensión del sistema a múltiples intersecciones interrelacionadas, con coordinación de tiempos para producir "ondas verdes" en corredores urbanos. Implica una arquitectura espacio-temporal del modelo predictivo y un motor de control distribuido.
+
+**Persona:** OP (lo consume vía mejor flujo en el corredor), GE (lo consume vía mejores KPIs de red)
+
+**Complejidad estimada:** Alto (requiere arquitectura completamente distinta del modelo: STGNN o atención sobre vecinos; coordinación de decisiones entre intersecciones; validación a escala de red).
+
+**Stack tentativo:** Arquitectura espacio-temporal (STGNN, Graph Attention Networks o similar); orquestador de decisiones multi-intersección; topología de red expandida en SUMO; nuevos KPIs de red urbana (no solo de intersección individual).
+
+**Razón de salida del MVP:** El alcance de validación del trabajo se centra en una intersección individual (decisión D-006). Una arquitectura espacio-temporal requiere múltiples nodos interrelacionados; no aplica al problema definido para el MVP1. La exploración inicial de `time_then_space.py` durante el desarrollo del proyecto sustenta esta línea como extensión natural.
+
+**Revisión de negocio:** Realiza los 4 objetivos del producto a escala de red urbana (en lugar de intersección individual). Es la extensión natural de mayor valor del trabajo.
+
+**Decisión técnica relacionada:** D-006 (GRU univariado por intersección, descarta STGNN para el alcance actual).
+
+**Clasificación:** **Trabajos Futuros.**
+
+**Notas:** Mencionada en el Sequencer original del Inception y en `EVOLUCION_TESIS.md` sección 8 como dirección principal de extensión.
+
+---
+
+## F38 — Procesamiento de datos reales de Waze ▷
+
+**Descripción:** Adaptador que consume el feed real de Waze for Cities (formato CCP) y alimenta el sistema con datos de tráfico de Lima, en lugar de datos sintéticos de SUMO. Permite calibrar el modelo predictivo con condiciones reales y validar la transferibilidad de la simulación.
+
+**Persona:** SYS (adaptador de fuente de datos)
+
+**Complejidad estimada:** Medio (la arquitectura del sistema ya es agnóstica a la fuente de datos gracias a D-009 que usa jam level como variable de estado común; solo se requiere implementar el adaptador y obtener acceso al feed).
+
+**Stack tentativo:** Cliente del feed CCP de Waze (autenticación, parsing de JSON con `jams[]`), almacenamiento del histórico, adaptador que convierte Waze → variable de estado del sistema, calibración del modelo con datos reales.
+
+**Razón de salida del MVP:** No hay acceso a API key de Waze ni acuerdo con la municipalidad de Miraflores al momento de iniciar el proyecto académico. Depender de obtenerlo en 9 semanas es riesgo terminal. La incorporación se declara como trabajo futuro o bono académico si se obtienen los datos antes de la entrega.
+
+**Revisión de negocio:** Mejora del Objetivo 2 (anticipar congestión) con datos reales, no sintéticos. Habilita la validación de transferibilidad del modelo SUMO → mundo real.
+
+**Decisión técnica relacionada:** D-008 (SUMO end-to-end), D-009 (jam level Waze como variable de estado, lo cual ya hace la arquitectura compatible con esta extensión sin reentrenar).
+
+**Clasificación:** **Trabajos Futuros.**
+
+**Notas:** D-009 deja la arquitectura preparada para esta extensión: el modelo predice `jam_level`, y Waze ya emite `jam_level` directamente en su feed. Solo se requiere el adaptador, no se requiere reentrenamiento si los umbrales del constructo son coherentes.
+
+---
+
+## F39 — Despliegue real en Raspberry Pi como dispositivo de borde ▷
+
+**Descripción:** Despliegue físico del sistema en una arquitectura distribuida: módulo `edge_device` (visión + reporte de estado) corriendo en una Raspberry Pi físicamente conectada a una cámara en una intersección de Miraflores; módulo `core_management_api` + frontend + base de datos corriendo en un servidor central. Comunicación por SSE/HTTP entre Pi y servidor.
+
+**Persona:** SYS (infraestructura), AD (operación física)
+
+**Complejidad estimada:** Alto (logística de hardware, configuración de red en sitio, gestión de fallos físicos, calibración de cámara en condiciones reales, acuerdo con la municipalidad para instalación).
+
+**Stack tentativo:** Raspberry Pi 4 o superior con cámara, contenedor Docker del `edge_device` corriendo en ARM, túnel seguro hacia el servidor central, supervisión remota, plan de contingencia ante caída del enlace.
+
+**Razón de salida del MVP:** El alcance del proyecto académico no incluye productivización ni instalación física (D-003, D-004). La arquitectura se demuestra como desplegable (separación de `edge_device` con dependencias mínimas, contenerización separada, comunicación HTTP) sin entregar el hardware. La operación física en una intersección real requiere acuerdo con la municipalidad y permisos que exceden el cronograma.
+
+**Revisión de negocio:** Transición del producto de prototipo académico a sistema operativo real. Es la fase de productivización.
+
+**Decisión técnica relacionada:** D-004 (Pi como demostración conceptual, no entrega).
+
+**Clasificación:** **Trabajos Futuros.**
+
+**Notas:** Mencionada en el Sequencer original del Inception y en `EVOLUCION_TESIS.md` sección 8. La viabilidad arquitectónica se demuestra durante el proyecto académico; lo que queda como trabajo futuro es la operación física en una intersección real.
+
+---
+
+## F40 — Notificaciones push y monitoreo proactivo de cámaras ▷
+
+**Descripción:** Sistema de notificaciones push al Operador (vía app móvil o navegador) para eventos críticos del sistema (degradación, falla total, anomalías detectadas). Monitoreo proactivo de la salud de las cámaras (latencia, frame drops, calidad de imagen).
+
+**Persona:** OP (recibe notificaciones), AD (monitoreo proactivo de infraestructura)
+
+**Complejidad estimada:** Medio (notificaciones push requieren service workers o app móvil; monitoreo de cámaras requiere métricas adicionales del módulo de visión).
+
+**Stack tentativo:** Service Worker para notificaciones push web, FCM (Firebase Cloud Messaging) o similar para app móvil futura, métricas de salud de cámara en el módulo `edge_device` con umbrales configurables.
+
+**Razón de salida del MVP:** Línea de mejora UX y operativa. El MVP1 cubre el caso del Operador en su puesto de trabajo durante el turno; las notificaciones push son valor añadido para Operadores que no están frente a la pantalla en todo momento. No es central a los 4 objetivos del producto.
+
+**Revisión de negocio:** Mejora operativa del Operador y del Administrador.
+
+**Clasificación:** **Trabajos Futuros.**
+
+**Notas:** Mencionada en el Sequencer original del Inception como dirección MVP3.
+
+---
+
+## F41 — Integración cerrada del módulo de visión al loop de validación cuantitativa ▷
+
+**Descripción:** Incorporación del módulo de visión computacional al loop de validación cuantitativa del sistema integrado (no solo como sensor de estado, sino como fuente de métricas validadas contra ground truth). Requiere cámaras propias en una intersección de Miraflores y un dataset etiquetado representativo para validar las detecciones contra realidad observada.
+
+**Persona:** SYS (componente del sistema)
+
+**Complejidad estimada:** Alto (requiere acceso a cámaras propias o fuentes de video controlables y específicas de Miraflores; producción de dataset etiquetado de tamaño suficiente; integración del módulo de visión al loop de KPIs de validación).
+
+**Stack tentativo:** Cámara propia o stream confiable de Miraflores, pipeline de etiquetado (Roboflow o similar), métricas de detección validadas (precisión, recall, mAP) integradas al reporte de validación cuantitativa, lazo de retroalimentación entre la visión y el motor de control.
+
+**Razón de salida del MVP:** Decisión D-007 cerró el rol de la visión computacional como **componente demostrable con validación independiente**, separado del loop de validación cuantitativa. Los streams de YouTube actuales no son fiables ni representativos de Miraflores; no hay ground truth para validación cuantitativa. La integración cerrada requiere infraestructura (cámaras, datasets etiquetados) que excede el alcance temporal del proyecto.
+
+**Revisión de negocio:** Mejora del Objetivo 1 (observar el estado actual del tráfico) con validación cuantitativa del componente. Cierra el lazo completo del sistema integrado.
+
+**Decisión técnica relacionada:** D-007 (Visión como componente demostrable, no en loop de validación).
+
+**Clasificación:** **Trabajos Futuros.**
+
+**Notas:** Esta dirección aparece originalmente en `EVOLUCION_TESIS.md` sección 8 (no en el Sequencer del Inception). Se formaliza como ficha por DHU-012 para unificar la lista de Trabajos Futuros.
 
 ---
 
@@ -887,43 +1092,50 @@ Cada feature está descrita con la siguiente estructura:
 
 ## Distribución por clasificación
 
-| Clasificación | Cantidad | % |
+| Clasificación | Cantidad | % del total |
 |---|---|---|
-| MVP1 ★ Crítica | 15 | 43% |
-| MVP1 ◆ Importante | 11 | 31% |
-| MVP2 ○ Documentada, fuera del sprint | 5 | 14% |
-| MVP3 Trabajo futuro (no en este documento) | (4 mencionadas como referencia) | 11% |
-| **Total MVP1** | **26** | **74%** |
+| MVP1 ★ Crítica | 17 | 41% |
+| MVP1 ◆ Importante | 12 | 29% |
+| MVP2 ○ Candidata a holgura | 5 | 12% |
+| Trabajos Futuros ▷ | 7 | 17% |
+| **Total con ficha** | **41** | **100%** |
+
+**Total MVP1: 29 features (70%).** De esas 29:
+- **23 se modelan como HUs operativas** (HU-01 a HU-12 ya redactadas + las pendientes del Bloque D, E, F).
+- **3 se modelan como Tareas Técnicas Habilitadoras** (TTH-01 para F01, TTH-04 para F26, TTH-05 para F27).
+- **4 se modelan por composición o inglobación como CA** (F02, F30, F31, F25).
+
+**Nota sobre el conteo:** la versión 1.0 del Sequencer reportaba "26 features MVP1" en su título, lo cual resulta de un error aritmético al consolidar los bloques (4+9+6+3+4+3 = 29, no 26). El conteo correcto es 29 (DHU-012 subsección C).
 
 ## Distribución por persona
 
-| Persona | MVP1 | MVP2 | Total |
-|---|---|---|---|
-| Operador (OP) | 12 | 2 | 14 |
-| Gerente (GE) | 3 | 2 | 5 |
-| Administrador (AD) | 3 | 2 | 5 |
-| Sistema (SYS) | 8 | 0 | 8 |
-| Transversal | — | — | — |
-| **Total** | **26** | **6** | **32 + 3 MVP3 sin detalle** |
+| Persona | MVP1 | MVP2 | Trabajos Futuros | Total |
+|---|---|---|---|---|
+| Operador (OP) | 12 | 2 | 1 (F40 OP+AD) | 14-15* |
+| Gerente (GE) | 3 | 2 | 0 | 5 |
+| Administrador (AD) | 3 | 1 | 2 (F21, F40) | 6* |
+| Sistema (SYS) | 8 | 0 | 4 (F36, F37, F38, F39, F41) | 12-13* |
+| Transversal entre personas | 3 (F01, F29, transversales) | 1 (F28 OP→AD) | — | — |
 
-(Nota: F28 cuenta como OP por journey de origen aunque toque AD.)
+*Algunas features cruzan personas (F28 cuenta como OP por journey de origen; F40 toca OP y AD; F41 es SYS pero su valor llega a múltiples Personas). Los conteos exactos no suman 41 línealmente porque algunas se contabilizan en más de una fila.
 
 ## Distribución por objetivo del producto
 
 | Objetivo | Features que lo realizan |
 |---|---|
-| **Obj. 1 — Observar estado actual** | F02, F03, F04, F33, F23 |
-| **Obj. 2 — Anticipar congestión** | F05, F18, F34 |
-| **Obj. 3 — Adaptar control** | F07, F08, F09, F10, F20, F31, F35 |
+| **Obj. 1 — Observar estado actual** | F02, F03, F04, F33, F23, F41 (futuro) |
+| **Obj. 2 — Anticipar congestión** | F05, F18, F34, F21 (futuro), F38 (futuro) |
+| **Obj. 3 — Adaptar control** | F07, F08, F09, F10, F20, F31, F35, F36 (futuro), F37 (futuro) |
 | **Obj. 4 — Demostrar mejora cuantificable** | F12, F13, F14, F30, F32 |
-| **Soporte transversal** | F01, F06, F11, F15, F16, F17, F19, F21, F22, F24, F25, F26, F27, F28, F29 |
+| **Soporte transversal** | F01, F06, F11, F15, F16, F17, F19, F22, F24, F25, F26, F27, F28, F29, F39 (futuro), F40 (futuro) |
 
 ## Distribución por estado actual
 
 | Estado | Cantidad |
 |---|---|
 | ✓ Construido (total o parcial) | 6 |
-| 🆕 Por construir desde cero | 29 |
+| 🆕 Por construir desde cero | 28 |
+| ▷ Trabajos Futuros (fuera del alcance, no se construye) | 7 |
 
 **Las 6 ya construidas (parcial o totalmente):** F01 (parcial, falta endpoint login), F02 (parcial, falta integrar como dashboard único), F05 (backend listo con baseline), F07 (parcial), F33 (módulo visión funcional), F35 (motor adaptativo completo).
 
@@ -931,8 +1143,9 @@ Cada feature está descrita con la siguiente estructura:
 
 | Riesgo | Features |
 |---|---|
-| ⚠ Alto (cuellos de botella) | F32 (SUMO), F34 (GRU dependiente de F32), F21 (reentrenamiento — ya en MVP2) |
+| ⚠ Alto (cuellos de botella) | F32 (SUMO), F34 (GRU dependiente de F32) |
 | ⚠ Medio-Alto | F06 (UX combinada), F26 (fallback cascada), F08 (riesgo de scope creep si se hace mal) |
+| Trabajos Futuros con complejidad Alto declarada | F21 (MLOps), F36 (visión + políticas), F37 (STGNN multi-intersección), F39 (logística Pi), F41 (cámaras + ground truth) |
 | Resto | Bajo o Medio |
 
 ---
@@ -940,17 +1153,21 @@ Cada feature está descrita con la siguiente estructura:
 # Próximos pasos
 
 1. **Validar este backlog con el asesor** durante el Showcase.
-2. **Convertir cada feature MVP1 a Historia de Usuario** formato "Como X, quiero Y, para Z" con criterios de aceptación Given-When-Then.
-3. **Convertir cada feature MVP2 a Historia de Usuario** con la misma estructura, marcadas como fuera del sprint.
-4. **Estimar las HUs** con Planning Poker.
-5. **Priorizar** con MoSCoW (ver técnica en Desarrollo_Agil.pdf del profesor).
-6. **Asignar HUs a Sprints** según los Sprint Goals derivados de los 4 objetivos del producto.
+2. **Convertir cada feature MVP1 a Historia de Usuario, TTH o composición** según corresponda (ver columna "Modelado" de cada ficha). El backlog del MVP1 se redacta progresivamente por bloques: Bloque A, B, C cerrados; Bloque D, E, F pendientes.
+3. **Convertir cada feature MVP2 a Historia de Usuario** con la misma estructura, marcadas como candidatas a holgura del sprint. Se redactan en sesión MVP2 dedicada tras cerrar todos los bloques MVP1.
+4. **Las 7 fichas de Trabajos Futuros NO se convierten a Historia de Usuario.** Se mantienen como referencia y se mencionan en el capítulo de trabajo futuro del documento de tesis.
+5. **Estimar las HUs** con Planning Poker (solo HUs MVP1 y MVP2; las TTH se estiman directamente en horas/días).
+6. **Priorizar** con MoSCoW (ver técnica en Desarrollo_Agil.pdf del profesor).
+7. **Asignar HUs a Sprints** según los Sprint Goals derivados de los 4 objetivos del producto.
 
 ---
 
 # Documentos relacionados
 
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Documento principal del Inception (este es complementario).
-- `DECISIONS.md` — Decisiones técnicas referenciadas (D-001 a D-008).
-- `EVOLUCION_TESIS.md` — Narrativa de evolución del proyecto.
+- `DECISIONS.md` — Decisiones técnicas referenciadas (D-001 a D-009).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del backlog (DHU-001 a DHU-013).
+- `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md` — Product Backlog redactado por bloques.
+- `TAREAS_TECNICAS_HABILITADORAS.md` — Tareas Técnicas Habilitadoras transversales.
+- `EVOLUCION_TESIS.md` — Narrativa de evolución del proyecto; sección 8 contiene tabla referencial de Trabajos Futuros.
 - `LEAN_INCEPTION_INVESTIGACION.md` — Fundamentación bibliográfica del marco.

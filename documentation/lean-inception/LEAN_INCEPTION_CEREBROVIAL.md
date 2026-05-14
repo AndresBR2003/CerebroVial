@@ -2,8 +2,9 @@
 
 > Documento consolidado del Lean Inception realizado para el proyecto de tesis CerebroVial. Contiene los 7 artefactos generados durante el workshop adaptado al contexto académico.
 >
-> **Estado:** Versión 1.0, lista para Showcase con asesor.
-> **Fecha:** 2026-05-11 (semana 6 de 15).
+> **Estado:** Versión 1.1 — Inception ejecutado, refinado durante la redacción incremental del backlog.
+> **Fecha del workshop original:** 2026-05-11 (semana 6 de 15).
+> **Fecha de última actualización:** 2026-05-14 (refinamientos consolidados en DHU-012; ver "Cambios respecto a la versión 1.0" al pie del documento).
 
 ---
 
@@ -17,11 +18,12 @@
 6. Artefacto 5 — Personas
 7. Artefacto 6 — User Journeys
 8. Artefacto 7 — Feature Backlog (Brainstorming + Revisión)
-9. Artefacto 8 — Sequencer (MVP1 / MVP2 / MVP3)
+9. Artefacto 8 — Sequencer (MVP1 / MVP2 / Trabajos Futuros)
 10. Artefacto 9 — MVP Canvas para MVP1
 11. Decisiones cerradas durante el Inception
 12. Parking lot — para conversación con asesor
 13. Próximos pasos
+14. Cambios respecto a la versión 1.0
 
 ---
 
@@ -187,50 +189,55 @@ Los 4 objetivos del producto, en orden cronológico-causal:
 | 3 | Consulta métricas del modelo predictivo | Validar performance | Panel de métricas |
 | 4 | Identifica degradación *(fuera del sprint)* | Decisión técnica | Comparativa vs baseline |
 | 5 | Ajusta parámetros del motor | Configuración fina | Formulario de configuración |
-| 6 | Solicita reentrenamiento *(fuera del sprint)* | Acción crítica | Botón "reentrenar" |
+| 6 | Solicita reentrenamiento *(Trabajos Futuros)* | Acción crítica | Botón "reentrenar" |
 
 ### Journey 4: Operador — Operación degradada por falla de componente
 
 | # | Acción | Estado emocional | Touchpoint |
 |---|---|---|---|
 | 1 | Está en turno normal | Atento | Dashboard normal |
-| 2 | Recibe alerta de degradación (nivel 1, 2 o 3) | Preocupación proporcional | Banner / indicador |
-| 3 | Consulta detalle del componente afectado | Necesita entender | Panel de estado |
+| 2 | Recibe alerta de degradación (nivel 1, 2 o 3) o falla total | Preocupación proporcional | Banner / indicador transversal |
+| 3 | Consulta detalle del componente afectado | Necesita entender | Panel de estado de componentes |
 | 4 | Verifica modo de operación activo | Decide si interviene | Mensaje explicativo |
-| 5 | Observa que el sistema sigue operando con fallback | Confianza condicional | Indicación en cada panel |
+| 5 | Observa que el sistema sigue operando con fallback (o que ha cesado, en falla total) | Confianza condicional / escalamiento | Indicación en cada panel |
 | 6 | Decide escalamiento al Admin *(fuera del sprint)* | Decisión operativa | Botón de escalamiento |
 | 7 | Continúa monitoreando hasta recuperación | Atención sostenida | Dashboard normal restaurado |
 
-**Niveles de degradación documentados:**
+**Estados operativos del sistema (modelo refinado por DHU-008):**
 
-| Nivel | Falla | Comportamiento |
+| Estado | Disparador | Comportamiento del sistema |
 |---|---|---|
-| 1 | Falla visión | Motor adaptativo opera solo con predicción |
-| 2 | Falla modelo predictivo | Motor opera con baseline RandomForest |
-| 3 | Falla motor adaptativo | Sistema cae a tiempos fijos (Webster precalculado) |
+| Operación normal | Todos los componentes operativos | El sistema opera con capacidades completas |
+| Degradado nivel 1 | Componente periférico de detección de tráfico no responde | Motor adaptativo opera con el resto de información disponible (predicción + observaciones restantes) |
+| Degradado nivel 2 | Componente predictivo principal no responde | Sistema activa predictor de respaldo de menor precisión que sigue produciendo predicciones vigentes |
+| Degradado nivel 3 | Motor adaptativo no responde | Sistema aplica tiempos preconfigurados al semáforo |
+| Falla total | Condición sin fallback aplicable | Sistema no aplica decisiones nuevas al semáforo; el último estado conocido se mantiene hasta intervención del Administrador |
 
-**Propiedad clave:** *"Nunca empeoramos el statu quo."* En el peor nivel de fallback, el sistema opera como los semáforos actuales de Lima (tiempos fijos).
+**Propiedad clave:** *"Nunca empeoramos el statu quo."* En degradado nivel 3 (el peor estado con operación activa), el sistema opera como los semáforos actuales de Lima (tiempos fijos preconfigurados). En falla total, el sistema no degrada el estado del semáforo, lo mantiene.
+
+> *Nota: el modelo de estados fue refinado durante la redacción del Bloque C. La versión original del Inception describía 3 niveles de degradación con vocabulario técnico (Falla visión / Falla GRU / Falla motor adaptativo); el modelo actual añade "Falla total" como cuarto estado no normal (DHU-008) y usa vocabulario agnóstico a la implementación (DHU-006). El identificador interno técnico del nivel 3 es `degraded_3` (anteriormente `safe_3` / "modo seguro", renombrado por DHU-012). Detalle técnico en TTH-04 (CT-04.2) del documento `TAREAS_TECNICAS_HABILITADORAS.md`.*
 
 ---
 
 ## 8. Artefacto 7 — Feature Backlog
 
-Total: **35 features candidatas** identificadas por brainstorming a partir de Journeys.
+Total: **41 features candidatas** identificadas (35 originales del Brainstorming + 6 fichas livianas de Trabajos Futuros formalizadas en DHU-012).
 
-**Distribución por persona:**
-- Operador: 13 features
+**Distribución por persona (post-DHU-012):**
+- Operador: 14 features
 - Gerente: 5 features
 - Administrador: 5 features
-- Sistema (transversal): 7 features
-- Que cruzan personas: 5
+- Sistema (transversal): 8 features
+- Trabajos Futuros sin persona principal: 6 features (F36-F41)
+- Que cruzan personas: variable
 
-**Lista completa con anotaciones de revisión Técnica / UX / Negocio:** ver hoja de revisión adjunta (Artefacto 7 detallado). Las features se clasifican en el siguiente artefacto (Sequencer).
+**Lista completa con anotaciones de revisión Técnica / UX / Negocio:** ver hoja de revisión adjunta (Artefacto 7 detallado) en `FEATURE_BACKLOG_DETALLADO.md`. Las features se clasifican en el siguiente artefacto (Sequencer).
 
 ---
 
-## 9. Artefacto 8 — Sequencer (MVP1 / MVP2 / MVP3)
+## 9. Artefacto 8 — Sequencer (MVP1 / MVP2 / Trabajos Futuros)
 
-### MVP1 — Sustentación de tesis (26 features, se construye)
+### MVP1 — Sustentación de tesis (29 features, se construye)
 
 **Bloque A — Infraestructura mínima (4 features):**
 F01 Autenticación, F29 Roles y permisos, F30 Persistencia de estados, F31 Persistencia de decisiones.
@@ -239,7 +246,7 @@ F01 Autenticación, F29 Roles y permisos, F30 Persistencia de estados, F31 Persi
 F02 Dashboard principal, F03 Flujo en tiempo real, F04 Cola por dirección, F05 Panel de predicción, F06 Vista combinada estado+predicción, F07 Panel del motor adaptativo, F08 Explicación de selección (nivel mínimo), F09 Notificación de cambio, F10 Log de decisiones.
 
 **Bloque C — Operador, degradación (6 features):**
-F22 Indicador de estado degradado, F23 Vista simplificada de componentes, F24 Mensaje explicativo, F25 Indicación por panel, F26 Lógica de fallback en cascada, F27 Configuración de tiempos fijos.
+F22 Indicador de estado degradado, F23 Vista simplificada de componentes, F24 Mensaje explicativo, F25 Indicación por panel, F26 Lógica de fallback en cascada, F27 Configuración de tiempos fijos del nivel 3.
 
 **Bloque D — Administrador (3 features):**
 F17 Salud de componentes, F18 Métricas del modelo, F20 Configuración de parámetros del motor.
@@ -250,24 +257,35 @@ F33 Módulo de visión, F34 Módulo predictivo GRU, F35 Motor adaptativo, F32 In
 **Bloque F — Gerente (3 features):**
 F12 Dashboard ejecutivo, F13 Selector de periodo, F14 Vista comparativa entre periodos.
 
-### MVP2 — Product Backlog fuera del sprint (5 features, se documenta pero no se construye)
+> *Nota sobre el conteo (refinado por DHU-012): la versión original del Sequencer reportaba "26 features MVP1" en este título, lo cual resulta de un error de suma al consolidar los bloques. El conteo correcto es 29 (4+9+6+3+4+3). Algunas de esas 29 features se modelan como HU propia, otras como Criterios de Aceptación inglobados en otras HUs (F02 cubierta por composición visual del Bloque B; F30 inglobada en HUs del Bloque F; F31 inglobada en CA-08.1 de HU-08; F25 cubierta por composición de HU-10+HU-11+HU-12 según DHU-011), y otras como Tareas Técnicas Habilitadoras (F01 → TTH-01, F26 → TTH-04, F27 → TTH-05, además de TTH-02 y TTH-03 transversales). Ver `HU_BLOQUE_*.md` y `TAREAS_TECNICAS_HABILITADORAS.md` para el mapeo concreto.*
 
-- F11 — Módulo de notas del Operador.
+### MVP2 — Product Backlog candidato a holgura (5 features)
+
+> *Refinamiento de semántica MVP2 (DHU-012): estas features se documentan como HU completa con criterios de aceptación, y se construyen condicional a la holgura del cronograma tras cerrar las MVP1. No son entregables comprometidos del MVP1, pero tampoco descartadas a priori: si el cronograma permite, entran al sprint.*
+
+- F11 — Módulo de notas del Operador *(ya redactada como HU-09 del Bloque B)*.
 - F15 — Vista detallada de periodo específico.
 - F16 — Exportación de reportes a PDF/Excel.
 - F19 — Comparativa de métricas del modelo vs baseline.
 - F28 — Botón de escalamiento al Administrador.
 
-**Justificación:** estas features son legítimas del producto pero no caben en el cronograma. Se documentarán como HUs completas con criterios de aceptación, sin construirse. Esto demuestra madurez de análisis sin comprometer el cronograma.
+**Justificación de la clasificación:** estas features son legítimas del producto. Tienen complejidad razonable y bajo riesgo de scope creep individual, pero su valor no es esencial para sustentar los 4 Objetivos del Producto. Si hay holgura tras MVP1, son candidatas naturales a entrar al sprint.
 
-### MVP3 — Trabajo futuro (6 direcciones, no se documenta como HU)
+### Trabajos Futuros (7 direcciones, se documentan como fichas livianas, NO se construyen)
 
-- Reentrenamiento del modelo (pipeline MLOps).
-- Reconocimiento de tipos de vehículos para priorización.
-- Coordinación de ondas verdes entre intersecciones vecinas (D-006).
-- Procesamiento de datos reales de Waze (D-008).
-- Despliegue real en Raspberry Pi (D-004).
-- Notificaciones push y monitoreo proactivo de cámaras.
+> *Refinamiento de DHU-012: la categoría originalmente llamada "MVP3" se renombra a "Trabajos Futuros" para reflejar con precisión su naturaleza (direcciones declaradas fuera del alcance del proyecto académico, candidatas a futuras extensiones del producto o de la investigación). Todas tienen ficha en el backlog detallado; ninguna se redacta como HU ni se construye dentro del alcance de la tesis. Se mencionan en el capítulo de trabajo futuro del documento de tesis.*
+
+| ID | Título | Decisión técnica relacionada |
+|---|---|---|
+| F21 | Reentrenamiento del modelo predictivo (pipeline MLOps) | — |
+| F36 | Reconocimiento de tipos de vehículos para priorización | — |
+| F37 | Coordinación de ondas verdes entre intersecciones vecinas | D-006 |
+| F38 | Procesamiento de datos reales de Waze | D-008 |
+| F39 | Despliegue real en Raspberry Pi como dispositivo de borde | D-004 |
+| F40 | Notificaciones push y monitoreo proactivo de cámaras | — |
+| F41 | Integración cerrada del módulo de visión al loop de validación cuantitativa | D-007 |
+
+Ver fichas detalladas en `FEATURE_BACKLOG_DETALLADO.md`. Ver `EVOLUCION_TESIS.md` sección 8 para la conexión con el capítulo de trabajo futuro de la tesis.
 
 ---
 
@@ -288,7 +306,7 @@ Las 4 cerradas en Artefacto 6.
 
 ### Bloque 4 — Features
 
-Las 26 del MVP1 organizadas en Bloques A-F (ver Artefacto 8).
+Las 29 del MVP1 organizadas en Bloques A-F (ver Artefacto 8).
 
 ### Bloque 5 — Resultado Esperado
 
@@ -297,7 +315,7 @@ Las 26 del MVP1 organizadas en Bloques A-F (ver Artefacto 8).
 **Resultados secundarios:**
 - Viabilidad técnica de integración entre módulo de visión, modelo predictivo, motor adaptativo y simulación.
 - Operación con degradación controlada ante falla de componentes, sin empeorar el statu quo.
-- Producción de un Product Backlog completo (MVP1 implementado + MVP2 documentado).
+- Producción de un Product Backlog completo (MVP1 implementado + MVP2 documentado + Trabajos Futuros declarados).
 
 ### Bloque 6 — Métricas para validar hipótesis
 
@@ -331,7 +349,7 @@ Las 26 del MVP1 organizadas en Bloques A-F (ver Artefacto 8).
 | Semana | Hito |
 |---|---|
 | 6 (actual) | Cierre de Inception. Inicio SUMO en paralelo. |
-| 7 | SUMO funcional. Cierre Fase 2 (Autenticación). |
+| 7 | SUMO funcional. Cierre de autenticación. |
 | 8 | GRU entrenamiento sobre dataset SUMO. |
 | 9 | GRU integración + persistencia. |
 | 10 | Integración SUMO ↔ motor adaptativo. |
@@ -356,9 +374,9 @@ Las siguientes decisiones se tomaron y cerraron durante el Inception (sujetas a 
 5. **Comité Evaluador NO es persona del producto** — es stakeholder del proyecto.
 6. **Ciudadano NO es persona del producto** — es beneficiario indirecto.
 7. **4 objetivos del producto** (no 3) — justificados por irreducibilidad funcional.
-8. **Operación degradada en 3 niveles** explícitamente diseñada.
+8. **Operación degradada con estados explícitos** — diseño formalizado durante el Bloque C (DHU-008): 3 niveles de degradación + falla total. Ver Journey 4 y TTH-04.
 9. **F08 (explicación de selección):** nivel mínimo, texto predefinido por estrategia.
-10. **5 features quedan en MVP2** — documentadas pero no construidas.
+10. **5 features quedan en MVP2** — documentadas como HU completa; su construcción es condicional a la holgura del cronograma tras cerrar MVP1 (semántica refinada por DHU-012).
 11. **Criterio de éxito:** al menos 2 de 4 métricas técnicas mejoran significativamente, ninguna empeora.
 
 ---
@@ -380,20 +398,58 @@ Items identificados durante el Inception que requieren validación específica d
 
 Tras validación del Showcase con el asesor:
 
-1. **Conversión de las 26 features de MVP1 a HUs en formato "Como X, quiero Y, para Z"** con criterios de aceptación Given-When-Then. Estimadas con Planning Poker y priorizadas con MoSCoW.
+1. **Conversión de las 29 features de MVP1 a HUs en formato "Como X, quiero Y, para Z"** con criterios de aceptación Given-When-Then. Estimadas con Planning Poker y priorizadas con MoSCoW. Algunas features se modelan como Criterios de Aceptación inglobados o como Tareas Técnicas Habilitadoras según corresponda; ver `HU_BLOQUE_*.md` y `TAREAS_TECNICAS_HABILITADORAS.md`.
 
-2. **Conversión de las 5 features de MVP2 a HUs documentadas** con la misma estructura, marcadas como fuera del sprint.
+2. **Conversión de las 5 features de MVP2 a HUs documentadas** con la misma estructura, marcadas como candidatas a holgura del sprint.
 
-3. **Definición de Sprint Goals** para las 9 semanas, siguiendo el cronograma del Bloque 7 del MVP Canvas.
+3. **Documentación de las 7 direcciones de Trabajos Futuros** como fichas livianas en `FEATURE_BACKLOG_DETALLADO.md`. No se redactan como HU.
 
-4. **Inicio de SDD (Spec-Driven Development)** sobre las HUs prioritarias del sprint.
+4. **Definición de Sprint Goals** para las 9 semanas, siguiendo el cronograma del Bloque 7 del MVP Canvas.
+
+5. **Inicio de SDD (Spec-Driven Development)** sobre las HUs prioritarias del sprint.
+
+---
+
+## 14. Cambios respecto a la versión 1.0
+
+Esta sección documenta los refinamientos al Inception desde la versión 1.0 (workshop original del 2026-05-11). Todos los cambios están consolidados en DHU-012 (`DECISIONS_HU.md`).
+
+### Cambios sustantivos
+
+- **Renombrado de la categoría "MVP3" a "Trabajos Futuros"** en el Sequencer. Las direcciones de trabajo futuro ahora se documentan como fichas de feature (F21, F36-F41) en `FEATURE_BACKLOG_DETALLADO.md`, con asimetría justificada (F21 conserva ficha completa del Brainstorming original; F36-F41 son fichas livianas).
+
+- **Semántica de MVP2 refinada:** ahora se documenta como HU completa y se construye condicional a holgura del cronograma tras cerrar MVP1 (anteriormente: "se documenta pero no se construye").
+
+- **Conteo de features MVP1 corregido a 29** (anteriormente: 26 por error aritmético al consolidar los bloques del Sequencer).
+
+- **Conteo total de features actualizado a 41** (35 originales del Brainstorming + 6 fichas livianas de Trabajos Futuros F36-F41 agregadas para formalizar las direcciones que originalmente vivían como prosa).
+
+- **Journey 4 reescrito con 4 estados** (Degradado nivel 1, Degradado nivel 2, Degradado nivel 3, Falla total) y vocabulario agnóstico a la implementación, según DHU-006 y DHU-008. La versión original describía 3 niveles con vocabulario técnico (Falla visión / Falla modelo / Falla motor adaptativo).
+
+- **Renombrado uniforme "modo seguro" → "degradado nivel 3"** para cohesionar el vocabulario de niveles. Identificador interno técnico `safe_3` → `degraded_3`. Aplica a Journey 4 y a todas las referencias del backlog.
+
+### Cambios de higiene documental
+
+- **Eliminación de referencias al régimen previo al Inception:** se removieron menciones a `PLAN.md`, "Fase N del PLAN", "Bloque K/J/F del TODO" (no confundir con los Bloques A-F del Sequencer del Inception, que son legítimos).
+- **Conteo de decisiones técnicas actualizado:** "D-001 a D-008" → "D-001 a D-009" en la sección de Documentos relacionados.
+- **Eliminación de la referencia a `tesis/(2).docx`** (era copia temporal del documento de tesis; el documento final no se ha cerrado).
+
+### Cambios menores
+
+- Cabecera con versión 1.1, fecha del workshop original y fecha de última actualización.
+- Sección 14 (esta) agregada al pie del documento.
+- Decisión cerrada #10 (sección 11) actualizada para reflejar la nueva semántica de MVP2.
+- Decisión cerrada #8 (sección 11) actualizada para reflejar el modelo de 4 estados de DHU-008.
 
 ---
 
 ## Documentos relacionados
 
-- `DECISIONS.md` — Registro formal de decisiones técnicas (D-001 a D-008).
-- `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.
+- `DECISIONS.md` — Registro formal de decisiones técnicas (D-001 a D-009).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-013).
+- `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto; sección 8 contiene la tabla de Trabajos Futuros.
 - `LEAN_INCEPTION_INVESTIGACION.md` — Fundamentación del marco metodológico.
 - `documentation/docs/DISCOVERY_2026-05-10.md` — Auditoría inicial del repositorio.
-- `tesis/(2).docx` — Documento de tesis (requiere actualización del capítulo de alcance con el resultado del Inception).
+- `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features (29 MVP1 + 5 MVP2 + 7 Trabajos Futuros).
+- `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md` — Product Backlog redactado por bloques.
+- `TAREAS_TECNICAS_HABILITADORAS.md` — Tareas Técnicas Habilitadoras transversales.

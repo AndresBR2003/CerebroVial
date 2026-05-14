@@ -82,7 +82,7 @@ El proyecto pasó por **tres fases conceptuales** antes de llegar a su forma act
 - Documentación teórica en `motor_adaptativo_teoria.md` (552 líneas).
 - Tests unitarios y de integración pasando.
 
-**Reflexión sobre el orden de ejecución:** El motor adaptativo se construyó antes de cerrar Fase 2 del PLAN.md (autenticación, persistencia de visión). Esto rompe el orden formal del plan pero es defendible: el motor es el componente más visible y académicamente diferenciador del sistema; trabajarlo temprano permite estabilizarlo y testearlo con tiempo.
+**Reflexión sobre el orden de ejecución:** El motor adaptativo se construyó antes de cerrar el trabajo de autenticación y persistencia de visión. Esto rompe el orden formal originalmente planeado pero es defendible: el motor es el componente más visible y académicamente diferenciador del sistema; trabajarlo temprano permite estabilizarlo y testearlo con tiempo.
 
 **Aporte que sobrevive:** **Todo.** El motor adaptativo es el componente más maduro del sistema al momento del cierre arquitectónico y se mantiene como el corazón del sistema de control.
 
@@ -146,18 +146,26 @@ El siguiente texto puede servir como base para el capítulo de introducción/con
 
 ## 8. Líneas declaradas como trabajo futuro
 
-Estas líneas están explícitamente fuera del alcance del trabajo pero son extensiones naturales y se mencionan en el capítulo de trabajo futuro:
+Las direcciones naturales de extensión del trabajo están explícitamente fuera del alcance académico y se documentan como fichas de feature en `FEATURE_BACKLOG_DETALLADO.md` bajo la categoría **Trabajos Futuros** (renombrado desde "MVP3" según DHU-012). Estas direcciones se mencionan en el capítulo de trabajo futuro del documento de tesis. No se redactan como Historias de Usuario ni se construyen dentro del alcance del proyecto académico.
 
-1. **Extensión a múltiples intersecciones interrelacionadas** mediante arquitecturas espacio-temporales (STGNN, atención sobre vecinos). La exploración inicial de `time_then_space.py` durante el desarrollo sustenta esta línea.
-2. **Calibración del modelo predictivo con datos reales de tráfico de Lima** (vía acuerdo con la municipalidad para acceso a datos de Waze for Cities u otras fuentes).
-3. **Integración cerrada de visión computacional al loop de validación** (cuando se disponga de cámaras propias o fuentes de video controlables y de Miraflores).
-4. **Despliegue real en infraestructura distribuida** (Raspberry Pi en el borde + servidor central), del cual se demuestra la viabilidad arquitectónica pero no la operación física.
+| ID | Título | Decisión técnica relacionada |
+|---|---|---|
+| F21 | Reentrenamiento del modelo predictivo (pipeline MLOps) | — |
+| F36 | Reconocimiento de tipos de vehículos para priorización | — |
+| F37 | Coordinación de ondas verdes entre intersecciones vecinas (extensión a múltiples intersecciones interrelacionadas mediante arquitecturas espacio-temporales tipo STGNN) | D-006 |
+| F38 | Procesamiento de datos reales de Waze (calibración del modelo con datos reales de tráfico de Lima vía acuerdo con la municipalidad) | D-008 |
+| F39 | Despliegue real en infraestructura distribuida (Raspberry Pi como dispositivo de borde + servidor central) | D-004 |
+| F40 | Notificaciones push y monitoreo proactivo de cámaras | — |
+| F41 | Integración cerrada del módulo de visión al loop de validación cuantitativa (cuando se disponga de cámaras propias o fuentes de video controlables de Miraflores) | D-007 |
+
+Ver fichas detalladas en `FEATURE_BACKLOG_DETALLADO.md`. La asimetría entre F21 (ficha completa, originada en el Brainstorming del Inception) y F36-F41 (fichas livianas, formalizadas en DHU-012) es histórica y deliberada.
 
 ---
 
 ## 9. Documentos relacionados
 
-- `DECISIONS.md` — Registro formal de decisiones técnicas (D-001 a D-008).
+- `DECISIONS.md` — Registro formal de decisiones técnicas (D-001 a D-009).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-013).
+- `LEAN_INCEPTION_CEREBROVIAL.md` — Inception consolidado del proyecto.
+- `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features del backlog (MVP1 + MVP2 + Trabajos Futuros).
 - `documentation/docs/DISCOVERY_2026-05-10.md` — Auditoría completa del estado del repositorio.
-- `tesis/(2).docx` — Documento de tesis (requiere actualización del capítulo de alcance para reflejar el cierre arquitectónico de Fase 4).
-- `PLAN.md` — Plan de ejecución (requiere actualización del cronograma según semanas 6-15).

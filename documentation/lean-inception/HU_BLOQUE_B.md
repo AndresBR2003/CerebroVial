@@ -421,7 +421,7 @@ La HU provee un módulo simple de registro de notas asociadas a un momento. Cada
 
 ### Notas técnicas
 
-- **Esta HU NO se implementa en MVP1.** El equipo no asigna sprints ni puntos de historia a esta HU mientras el proyecto académico esté activo, salvo decisión explícita de cambio de alcance.
+- **Política de construcción MVP2 (refinada por DHU-012):** Esta HU se documenta como Historia de Usuario completa y se considera candidata a entrar al sprint condicional a la holgura del cronograma tras cerrar las HUs MVP1. No es entregable comprometido del MVP1, pero tampoco está descartada a priori. Si el cronograma permite, se asignan sprints y puntos de historia normalmente.
 - **Alcance mínimo:** texto libre. NO se incluyen en MVP2 categorías predefinidas, adjuntos de archivos, asociación explícita a una decisión específica del motor, ni vinculación geográfica a un acceso. Estas extensiones son trabajo futuro adicional.
 - **Política de edición (CA-09.4):** la ventana de edición es un compromiso entre flexibilidad (el Operador puede corregir errores recientes) y valor de auditoría (las notas no deben poder ser modificadas a discreción mucho después de su creación). El valor exacto (24 h sugerido) se cierra al implementar.
 - **Visibilidad entre Operadores:** todos los Operadores ven todas las notas (no hay notas privadas). Esto sostiene el caso de uso de transmisión entre turnos. Si en el futuro se considera privacidad por Operador, entra como extensión.
@@ -472,11 +472,11 @@ Durante la redacción del Bloque B se cerraron las siguientes decisiones formale
 
 Esta sesión cierra el Bloque B. Los siguientes bloques se redactarán en sesiones futuras:
 
-1. **Bloque C — Operador, operación degradada** (F22, F23, F24, F25, F26, F27 → ~6-7 HUs).
-2. **Bloque D — Administrador, soporte técnico** (F17, F20, F21 → ~3-4 HUs).
+1. **Bloque C — Operador, operación degradada** (F22, F23, F24, F25, F26, F27 → 3 HUs operativas + 2 TTH; ya cerrado con HU-10, HU-11, HU-12, TTH-04, TTH-05).
+2. **Bloque D — Administrador, soporte técnico** (F17, F18, F20 → 3 HUs operativas; estructura confirmada por DHU-013). F21 fue reclasificado a Trabajos Futuros por DHU-012.
 3. **Bloque E — Componentes centrales del sistema** (F32, F33, F34, F35 → ~4-5 HUs o TTH).
 4. **Bloque F — Gerente, reportería mínima** (F12, F13, F14 → ~3-5 HUs, incluye F30 inglobada).
-5. **MVP2 — HUs adicionales fuera del sprint** (F15, F16, F18, F19, F28 → ~5 HUs).
+5. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (F11, F15, F16, F19, F28 → ~5 HUs; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
 
 Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs en un documento único aprobado, y se ejecutarán las ceremonias de **estimación (Planning Poker)** y **priorización (MoSCoW)** sobre el backlog completo.
 
@@ -485,7 +485,7 @@ Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcion
 ## Documentos relacionados
 
 - `HU_BLOQUE_A.md` — Bloque A del Product Backlog (acceso al sistema, 1 HU).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-007).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-013).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 (autenticación), TTH-02 (Docker), TTH-03 (CI).
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.

@@ -39,7 +39,7 @@ Las 6 features del Bloque C (F22 a F27) se mapearon a 3 HUs operativas + 2 TTH s
 | HU-11 | Vista del estado operativo de los componentes del sistema | F23 (+ F25 absorbida en CA-11.9, ver DHU-011) |
 | HU-12 | Explicación del modo degradado activo y sus implicaciones operativas | F24 |
 | TTH-04 | Lógica de fallback en cascada del sistema | F26 |
-| TTH-05 | Configuración de tiempos preconfigurados para modo seguro | F27 |
+| TTH-05 | Configuración de tiempos preconfigurados para degradado nivel 3 | F27 |
 
 **Total Bloque C:** 3 HUs operativas + 2 TTH.
 
@@ -62,16 +62,16 @@ Las 6 features del Bloque C (F22 a F27) se mapearon a 3 HUs operativas + 2 TTH s
 
 Las HUs del Bloque B marcan pasivamente cada panel del dashboard cuando la fuente o el componente específico de ese panel deja de responder (DHU-005 Casos A y B). Esa marca pasiva responde la pregunta *"¿qué pasa con este dato específico que estoy mirando?"*. Pero existe una pregunta operativa distinta que ninguna HU del Bloque B responde: *"¿en qué estado está operando el sistema completo en este momento?"*. Esta HU cubre esa pregunta.
 
-El sistema puede encontrarse en uno de varios estados operativos según qué componentes están funcionando y qué mecanismos de fallback se han activado. Cuando todos los componentes operan, el sistema está en operación normal y no hay alerta. Cuando alguno falla, el sistema entra en un estado degradado (nivel 1, 2 o modo seguro nivel 3) o, si no hay fallback aplicable, en falla total. En cualquiera de esos estados no normales, el Operador necesita saberlo de forma inmediata y transversal: la información no puede depender de qué panel esté abierto en ese momento.
+El sistema puede encontrarse en uno de varios estados operativos según qué componentes están funcionando y qué mecanismos de fallback se han activado. Cuando todos los componentes operan, el sistema está en operación normal y no hay alerta. Cuando alguno falla, el sistema entra en un estado degradado (nivel 1, 2 o 3) o, si no hay fallback aplicable, en falla total. En cualquiera de esos estados no normales, el Operador necesita saberlo de forma inmediata y transversal: la información no puede depender de qué panel esté abierto en ese momento.
 
 La alerta se manifiesta como un banner persistente en la parte superior del dashboard, visible desde cualquier vista del sistema. El estilo visual del banner distingue cuatro estados:
 
 - **Degradado nivel 1** — color amarillo. El sistema opera con capacidades reducidas menores; típicamente un componente periférico no responde y el fallback aplicado preserva la mayoría de funcionalidades.
 - **Degradado nivel 2** — color naranja. El sistema opera con capacidades reducidas significativas; un componente principal no responde y el fallback aplicado degrada la calidad de la operación.
-- **Modo seguro nivel 3** — color rojo. El sistema opera pero al mínimo posible (tiempos preconfigurados, sin adaptación). Es el último escalón con operación.
+- **Degradado nivel 3** — color rojo. El sistema opera pero al mínimo posible (tiempos preconfigurados, sin adaptación). Es el último escalón con operación.
 - **Falla total** — estilo visual claramente distinto al de los tres anteriores (rojo intenso, ícono inequívoco, texto explícito tipo "Sistema fuera de operación"). Comunica que el sistema **no está operando** y requiere escalamiento del Operador.
 
-El banner es persistente (no desaparece solo) y permanece visible hasta que el sistema retorne a operación normal. El Operador puede **reconocer** la alerta en los estados degradados (nivel 1, nivel 2, modo seguro), lo que colapsa el banner a una forma discreta pero todavía visible (barra delgada o ícono fijo en cabecera). La alerta de falla total **no** es reconocible: permanece en forma prominente hasta que el sistema sea restablecido, porque la inacción del Operador en ese estado no es aceptable.
+El banner es persistente (no desaparece solo) y permanece visible hasta que el sistema retorne a operación normal. El Operador puede **reconocer** la alerta en los estados degradados (nivel 1, nivel 2, nivel 3), lo que colapsa el banner a una forma discreta pero todavía visible (barra delgada o ícono fijo en cabecera). La alerta de falla total **no** es reconocible: permanece en forma prominente hasta que el sistema sea restablecido, porque la inacción del Operador en ese estado no es aceptable.
 
 Cualquier escalada del estado operativo (por ejemplo, de degradado 1 a degradado 2, o de cualquier estado degradado a falla total) restaura el banner a su forma prominente automáticamente, independientemente de si el Operador había reconocido el estado anterior. Esto garantiza que el Operador no pierda visibilidad de un deterioro adicional por haber reconocido un estado previo.
 
@@ -81,7 +81,7 @@ La HU también declara que cada transición de estado operativo del sistema comp
 
 - **CA-10.1:** Dado que el Operador ha iniciado sesión y el sistema opera en estado normal, cuando el Operador está observando cualquier vista del sistema, entonces no se muestra ninguna alerta del estado operativo del sistema completo.
 
-- **CA-10.2:** Dado que el sistema transita desde operación normal a cualquier estado degradado (nivel 1, nivel 2 o modo seguro nivel 3), cuando la transición ocurre, entonces el sistema muestra una alerta visual persistente en la parte superior del dashboard, visible desde cualquier vista del sistema, con un estilo visual distintivo según el nivel (amarillo para nivel 1, naranja para nivel 2, rojo para modo seguro nivel 3) e incluye un texto identificable que comunica el estado actual.
+- **CA-10.2:** Dado que el sistema transita desde operación normal a cualquier estado degradado (nivel 1, nivel 2 o nivel 3), cuando la transición ocurre, entonces el sistema muestra una alerta visual persistente en la parte superior del dashboard, visible desde cualquier vista del sistema, con un estilo visual distintivo según el nivel (amarillo para nivel 1, naranja para nivel 2, rojo para nivel 3) e incluye un texto identificable que comunica el estado actual.
 
 - **CA-10.3:** Dado que el sistema transita a falla total, cuando la transición ocurre, entonces el sistema muestra una alerta visual persistente con un estilo claramente diferenciado de los estados degradados (combinación de color, ícono y texto inequívoca de "sistema fuera de operación"), visible desde cualquier vista del sistema. Esta alerta no se puede reconocer y permanece en forma prominente hasta que el sistema retorne a un estado operativo.
 
@@ -93,7 +93,7 @@ La HU también declara que cada transición de estado operativo del sistema comp
 
 - **CA-10.7:** Dado que el sistema cambia de estado operativo (entre normal, cualquiera de los estados degradados y falla total), cuando la transición ocurre, entonces el sistema persiste de forma durable la transición con al menos: marca de tiempo, estado anterior, estado nuevo y causa raíz (identificación del componente o condición que disparó la transición). Esto presupone que existe un registro durable de transiciones de estado operativo del sistema completo.
 
-- **CA-10.8:** Dado que el sistema necesita persistir una transición de estado operativo, cuando ocurre un fallo temporal en la escritura al registro, entonces la transición de estado se aplica de todos modos al sistema (por ejemplo, el sistema entra efectivamente en modo seguro) y se registra en un mecanismo de respaldo para ser persistida cuando el registro vuelva a estar disponible. La operación del sistema y la activación de fallbacks nunca se detiene por una falla del registro de auditoría.
+- **CA-10.8:** Dado que el sistema necesita persistir una transición de estado operativo, cuando ocurre un fallo temporal en la escritura al registro, entonces la transición de estado se aplica de todos modos al sistema (por ejemplo, el sistema entra efectivamente en degradado nivel 3) y se registra en un mecanismo de respaldo para ser persistida cuando el registro vuelva a estar disponible. La operación del sistema y la activación de fallbacks nunca se detiene por una falla del registro de auditoría.
 
 - **CA-10.9:** Dado que el componente responsable de determinar el estado operativo del sistema deja de responder por cualquier causa, cuando el Operador está observando el sistema, entonces se muestra de forma transversal una indicación de que el estado operativo del sistema no puede confirmarse en este momento, junto con el último estado conocido y el tiempo transcurrido desde la última confirmación (DHU-005 Caso B aplicado al monitor de estado operativo del sistema).
 
@@ -102,14 +102,14 @@ La HU también declara que cada transición de estado operativo del sistema comp
 ### Notas técnicas
 
 - **Relación con HUs del Bloque B (DHU-009):** esta HU **no duplica** la marca pasiva de los paneles del Bloque B. Un mismo evento físico puede disparar legítimamente ambas señales y son complementarias: la marca pasiva del Bloque B le dice al Operador *"este dato específico ya no podemos garantizarlo"*; la alerta transversal de HU-10 le dice *"el sistema completo está operando con capacidades reducidas, sabelo aunque estés mirando otra pantalla"*. Las dos transportan información distinta y útil al mismo tiempo.
-- **Relación con HU-11 (vista de estado de componentes):** HU-10 comunica el estado operativo del sistema completo en términos de modo activo (normal, degradado 1, degradado 2, modo seguro, falla total). HU-11 expone qué componente específico está caído. Es esperable que el banner de HU-10 ofrezca un enlace o acción "Ver detalle de componentes" que abra la vista de HU-11, pero esa integración se cierra en el sprint.
+- **Relación con HU-11 (vista de estado de componentes):** HU-10 comunica el estado operativo del sistema completo en términos de modo activo (normal, degradado 1, degradado 2, degradado 3, falla total). HU-11 expone qué componente específico está caído. Es esperable que el banner de HU-10 ofrezca un enlace o acción "Ver detalle de componentes" que abra la vista de HU-11, pero esa integración se cierra en el sprint.
 - **Relación con HU-12 (explicación del modo degradado):** HU-10 muestra el estado y su nivel; HU-12 explica qué significa operativamente. Igual que la relación HU-05/HU-06, el banner de HU-10 puede ofrecer un acceso directo a la explicación de HU-12.
 - **Origen del estado operativo:** la HU es agnóstica al mecanismo que determina el estado del sistema. La lógica que detecta caídas de componentes y aplica cascadas de fallback es responsabilidad de TTH-04. La HU sólo consume el estado actual y las transiciones que ese mecanismo expone.
 - **Forma colapsada (CA-10.4):** patrón típico es una barra delgada en la cabecera con color del estado, ícono y texto corto (por ejemplo *"Sistema en modo degradado nivel 1"*). El detalle exacto se define en el prototipado del dashboard. Lo importante es que **siga siendo visible y reconocible al ojo**; no es aceptable convertir el reconocimiento en una desaparición efectiva.
 - **Persistencia del reconocimiento (CA-10.4):** se persiste la identidad del Operador y el timestamp del reconocimiento para auditoría. Esto permite reconstruir más tarde quién estaba al tanto del estado degradado en cada momento. La consulta de ese histórico no entra en MVP1; el dato queda capturado para uso futuro.
 - **Mecanismo de entrega:** la alerta y sus transiciones se entregan al frontend por el mismo canal de eventos en tiempo real usado por otras notificaciones (SSE o WebSocket, decisión técnica concreta a cerrar en el sprint).
 - **Accesibilidad (referencia F22):** el color **no** es el único indicador de severidad. Cada estado se distingue también por ícono y por texto descriptivo. Esto preserva la usabilidad para Operadores con limitaciones de visión cromática y refuerza la legibilidad del estado a primera vista.
-- **Diferencia entre el registro de HU-10 y el registro de HU-08:** son dos registros distintos. HU-08 persiste decisiones del motor adaptativo (estrategia A → estrategia B). HU-10 persiste transiciones del estado de salud operativa del sistema (normal → degradado 1, degradado 1 → modo seguro, etc.). Ambos coexisten y son consultables por separado.
+- **Diferencia entre el registro de HU-10 y el registro de HU-08:** son dos registros distintos. HU-08 persiste decisiones del motor adaptativo (estrategia A → estrategia B). HU-10 persiste transiciones del estado de salud operativa del sistema (normal → degradado 1, degradado 1 → degradado 3, etc.). Ambos coexisten y son consultables por separado.
 - **Esquema mínimo del registro de transiciones:** `timestamp`, `estado_anterior` (enum), `estado_nuevo` (enum), `causa_raiz` (identificador interno del componente o condición disparadora). Campos adicionales (fallback aplicado, métricas del momento, etc.) se evalúan más adelante; el MVP1 sostiene la trazabilidad con los cuatro campos básicos.
 - **Texto humano de la causa raíz:** el `causa_raiz` del registro contiene el identificador técnico del componente o condición. El texto explicativo que ve el Operador (HU-12) se genera a partir de ese identificador con un catálogo de textos predefinidos similares a HU-06; no se almacena texto humano en el registro de transiciones.
 
@@ -120,7 +120,7 @@ La HU también declara que cada transición de estado operativo del sistema comp
 - **RNF de robustez:** comportamiento ante caída del componente que determina el estado operativo (CA-10.9, DHU-005 Caso B). En ese caso la HU declara que se muestra una indicación de "estado no confirmado" en lugar de asumir falsamente estado normal.
 - **RNF de persistencia / auditoría:** cada transición de estado operativo debe persistirse de forma durable en el momento en que se produce. La pérdida de transiciones por fallo de escritura es inaceptable (CA-10.8 cubre esto con mecanismo de respaldo).
 - **RNF de continuidad operativa:** la activación de fallbacks y la operación del sistema no se detiene por fallos del registro de auditoría (CA-10.8).
-- **RNF de usabilidad:** distinción visual entre los cuatro estados (degradado 1, degradado 2, modo seguro, falla total) debe ser inmediata, no requerir lectura detenida. Se valida con prueba de usuario.
+- **RNF de usabilidad:** distinción visual entre los cuatro estados (degradado 1, degradado 2, degradado 3, falla total) debe ser inmediata, no requerir lectura detenida. Se valida con prueba de usuario.
 - **RNF de accesibilidad:** el estado debe ser identificable sin depender exclusivamente del color (combinación color + ícono + texto). Probablemente conforme a WCAG 2.1 nivel AA.
 - **RNF de inmutabilidad:** las entradas del registro de transiciones de estado operativo no deben modificarse después de escritas (auditoría confiable). En línea con el RNF equivalente de HU-08.
 - **RNF de trazabilidad:** cada entrada del registro debe ser unívocamente identificable y referenciable desde otras partes del sistema (por ejemplo, desde el reporte ejecutivo del Gerente en el Bloque F).
@@ -172,7 +172,7 @@ La vista es accesible **siempre**, tanto desde un punto fijo del menú principal
 
 - **Relación con F17 (Bloque D, vista del Administrador):** las dos vistas comparten la lógica subyacente de health check de componentes (cuáles existen, cómo se monitorean, cómo se determina su estado), pero las **presentaciones son distintas**. La vista del Operador (HU-11) presenta únicamente nombre legible, estado cualitativo (OK/Degradado/Fuera de servicio) e impacto operativo. La vista del Administrador (F17, Bloque D) presenta detalle técnico (métricas de latencia, errores, logs, etc.). Es razonable que el backend exponga una API que sirva a ambas vistas y que cada frontend consuma lo que corresponde a su rol.
 - **Catálogo de componentes:** los componentes listados son aquellos cuyo estado tiene un efecto perceptible sobre lo que el Operador ve y opera. Componentes puramente internos sin impacto operativo perceptible (cachés, colas de mensajes, etc.) no aparecen en HU-11; pertenecen al detalle técnico del Administrador. La lista exacta se cierra en el sprint pero el principio queda anclado en esta HU.
-- **Mapeo entre estado de componente y estado operativo del sistema (HU-10):** el estado operativo global del sistema (operación normal / degradado 1 / degradado 2 / modo seguro / falla total) es derivado de los estados individuales de componentes vía la lógica de fallback en cascada (responsabilidad de TTH-04). La HU-11 no implementa esa derivación; sólo muestra los estados que la lógica de TTH-04 expone.
+- **Mapeo entre estado de componente y estado operativo del sistema (HU-10):** el estado operativo global del sistema (operación normal / degradado 1 / degradado 2 / degradado 3 / falla total) es derivado de los estados individuales de componentes vía la lógica de fallback en cascada (responsabilidad de TTH-04). La HU-11 no implementa esa derivación; sólo muestra los estados que la lógica de TTH-04 expone.
 - **Textos de impacto operativo (CA-11.3):** catálogo predefinido de textos breves, similar al patrón de HU-06 y HU-12. Se mantiene un texto por combinación de componente y estado degradado. No es generación dinámica.
 - **Distinción explícita respecto a HU-12:** los textos de CA-11.3 son una etiqueta por componente individual ("qué hace el sistema sin esta pieza"). HU-12 cubre la explicación compuesta del modo degradado del sistema completo, integrando componente disparador, fallback aplicado e implicación operativa. Las dos HUs son complementarias y no duplicadas.
 - **Nombres legibles vs identificadores internos:** los nombres mostrados al Operador son legibles (*"Detección de tráfico"*); los identificadores internos del componente (*"vision_service"*) viven en backend y en el registro de transiciones de HU-10. El mapeo entre uno y otro se cierra en el sprint.
@@ -205,7 +205,7 @@ La vista es accesible **siempre**, tanto desde un punto fijo del menú principal
 
 ### Descripción
 
-La alerta transversal de HU-10 comunica que el sistema entró en un estado operativo no normal y lo identifica por nivel (degradado 1, degradado 2, modo seguro nivel 3, falla total). La vista de componentes de HU-11 le permite al Operador localizar qué pieza específica está afectada. Pero ninguna de las dos cubre la pregunta operativa que el Operador necesita responderse para ajustar su forma de trabajar mientras dure la condición: *"¿qué significa este modo, qué está haciendo el sistema en respuesta, y qué tengo que cambiar en mi manera de supervisar?"*. Esta HU cubre esa pregunta.
+La alerta transversal de HU-10 comunica que el sistema entró en un estado operativo no normal y lo identifica por nivel (degradado 1, degradado 2, degradado 3, falla total). La vista de componentes de HU-11 le permite al Operador localizar qué pieza específica está afectada. Pero ninguna de las dos cubre la pregunta operativa que el Operador necesita responderse para ajustar su forma de trabajar mientras dure la condición: *"¿qué significa este modo, qué está haciendo el sistema en respuesta, y qué tengo que cambiar en mi manera de supervisar?"*. Esta HU cubre esa pregunta.
 
 La explicación es un texto compuesto que integra tres elementos:
 
@@ -219,9 +219,9 @@ La HU es independiente del componente que mostrará el texto en la UI. El texto 
 
 ### Criterios de aceptación
 
-- **CA-12.1:** Dado que el Operador ha iniciado sesión y el sistema está operando en un estado degradado (nivel 1, nivel 2 o modo seguro nivel 3) o en falla total, cuando el Operador accede a la explicación del modo degradado activo, entonces el sistema muestra un texto compuesto que integra: el componente o condición que disparó el modo actual, el fallback aplicado en respuesta, y la capacidad operativa perdida con su implicación para la supervisión.
+- **CA-12.1:** Dado que el Operador ha iniciado sesión y el sistema está operando en un estado degradado (nivel 1, nivel 2 o nivel 3) o en falla total, cuando el Operador accede a la explicación del modo degradado activo, entonces el sistema muestra un texto compuesto que integra: el componente o condición que disparó el modo actual, el fallback aplicado en respuesta, y la capacidad operativa perdida con su implicación para la supervisión.
 
-- **CA-12.2:** Dado que el sistema cambia entre estados operativos no normales (por ejemplo, escalada de degradado nivel 1 a degradado nivel 2, o de modo seguro a falla total), cuando la transición ocurre, entonces la explicación se actualiza automáticamente para reflejar el modo vigente, con una latencia máxima de 5 segundos desde que la transición se produce.
+- **CA-12.2:** Dado que el sistema cambia entre estados operativos no normales (por ejemplo, escalada de degradado nivel 1 a degradado nivel 2, o de degradado nivel 3 a falla total), cuando la transición ocurre, entonces la explicación se actualiza automáticamente para reflejar el modo vigente, con una latencia máxima de 5 segundos desde que la transición se produce.
 
 - **CA-12.3:** Dado que el sistema retorna desde un estado degradado o de falla total a operación normal, cuando la transición ocurre, entonces la explicación deja de mostrarse automáticamente, sin requerir acción del Operador.
 
@@ -276,7 +276,7 @@ Estas dos TTH **no son HUs** y se documentan en detalle en `TAREAS_TECNICAS_HABI
 | TTH | Título | Feature origen | Estado actual |
 |---|---|---|---|
 | TTH-04 | Lógica de fallback en cascada del sistema | F26 | Pendiente |
-| TTH-05 | Configuración de tiempos preconfigurados para modo seguro | F27 | Pendiente |
+| TTH-05 | Configuración de tiempos preconfigurados para degradado nivel 3 | F27 | Pendiente |
 
 ---
 
@@ -295,10 +295,10 @@ Durante la redacción del Bloque C se cerraron las siguientes decisiones formale
 
 Esta sesión cierra el Bloque C. Los siguientes bloques se redactarán en sesiones futuras:
 
-1. **Bloque D — Administrador, soporte técnico** (F17, F20, F21 → ~3-4 HUs).
+1. **Bloque D — Administrador, soporte técnico** (F17, F18, F20 → 3 HUs operativas; estructura confirmada por DHU-013). F21 fue reclasificado a Trabajos Futuros por DHU-012.
 2. **Bloque E — Componentes centrales del sistema** (F32, F33, F34, F35 → ~4-5 HUs o TTH).
 3. **Bloque F — Gerente, reportería mínima** (F12, F13, F14 → ~3-5 HUs, incluye F30 inglobada).
-4. **MVP2 — HUs adicionales fuera del sprint** (F15, F16, F18, F19, F28 → ~5 HUs).
+4. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (F11, F15, F16, F19, F28 → ~5 HUs; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
 
 Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs en un documento único aprobado, y se ejecutarán las ceremonias de **estimación (Planning Poker)** y **priorización (MoSCoW)** sobre el backlog completo.
 
@@ -308,9 +308,9 @@ Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcion
 
 - `HU_BLOQUE_A.md` — Bloque A del Product Backlog (acceso al sistema, 1 HU + 3 TTH).
 - `HU_BLOQUE_B.md` — Bloque B del Product Backlog (8 HUs: HU-02 a HU-09).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-011).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-013).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-05.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.
-- `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 35 features.
+- `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features identificadas (29 MVP1 + 5 MVP2 + 7 Trabajos Futuros).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.

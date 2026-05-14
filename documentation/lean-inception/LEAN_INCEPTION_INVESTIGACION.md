@@ -5,7 +5,7 @@
 > **Pensado como insumo para:** (a) el capítulo metodológico de la tesis, (b) base para ejecutar el Inception del proyecto en las próximas semanas, (c) sustento defendible ante el jurado de la elección del marco.
 
 **Fecha de redacción:** 2026-05-11
-**Versión:** 1.0
+**Versión:** 1.1 (actualizada 2026-05-14: eliminada sección 9 "Próximo paso inmediato", obsoleta tras la ejecución del Inception. Ver DHU-012 en `DECISIONS_HU.md`).
 
 ---
 
@@ -318,21 +318,4 @@ El documento del profesor (Desarrollo_Agil.pdf) muestra **exactamente esta secue
 | El MVP definido sigue siendo demasiado ambicioso | Alta | El Sequencer obliga a definir MVP1 mínimo. Si MVP1 no es defendible aislado, se rompe en MVPs más pequeños. |
 | Las personas y jornadas resultan artificiales por no tener usuarios reales | Media | Se documenta explícitamente que las personas son **arquetipos hipotéticos** para guiar el diseño, no usuarios validados empíricamente. Esto es honesto y defendible. |
 
----
 
-## 9. Próximo paso inmediato
-
-Ejecutar la **Actividad 2: Product Vision** del Lean Inception adaptado.
-
-Tenemos ya:
-
-- Objetivo del Producto (frase corta, decidido en conversación previa).
-- Beneficiario amplio (ciudadanía: conductores, peatones, vecinos).
-- Decisión de no acotar el producto a Miraflores (el caso de estudio sí, el producto no).
-
-Falta:
-
-- Redactar la frase completa de Product Vision usando plantilla Moore.
-- Validar coherencia con el Objetivo del Producto.
-
-Una vez cerrado eso, pasamos a Actividad 3: Es / No Es / Hace / No Hace.
