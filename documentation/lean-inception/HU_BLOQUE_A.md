@@ -2,11 +2,12 @@
 
 > Primera entrega del Product Backlog del proyecto CerebroVial.
 >
-> **Estado:** Bloque A cerrado y aprobado (versión 3, tras aplicación retroactiva de DHU-007). Pendiente: Bloques C, D, E, F + MVP2. Bloque B cerrado previamente.
+> **Estado:** Bloque A cerrado y aprobado (versión 4, tras higiene documental aplicada retroactivamente por DHU-012). Pendiente: Bloques D, E, F + MVP2. Los Bloques B y C se cerraron posteriormente a las versiones v2/v3 de este documento, en la misma jornada del 2026-05-13.
 >
 > **Fecha de cierre v1:** 2026-05-11
 > **Fecha de cierre v2:** 2026-05-13 (tras DHU-001 a DHU-004)
 > **Fecha de cierre v3:** 2026-05-13 (DHU-007 aplicada retroactivamente: sección Candidatos a RNF en HU-01)
+> **Fecha de cierre v4:** 2026-05-14 (higiene documental por extensión de DHU-012 a este documento: rangos DHU actualizados, residuo de copy-paste en "Próximos pasos" corregido, typos depurados)
 
 ---
 
@@ -23,6 +24,8 @@ Las HUs se redactan en el formato del documento de referencia académica (`Desar
 **Versión 2 (2026-05-13):** tras revisión metodológica documentada en `DECISIONS_HU.md` (decisiones DHU-001 a DHU-004), tres de esas HUs se reclasificaron como **Tareas Técnicas Habilitadoras** (TTH-01, TTH-02, TTH-03) y se trasladaron a `TAREAS_TECNICAS_HABILITADORAS.md`. La HU-02 original (acceso por rol) se reformuló con un valor de negocio más fuerte y quedó como única HU operativa del bloque.
 
 **Versión 3 (2026-05-13):** durante la redacción del Bloque B se aprobó DHU-007 (RNF declarados como tales en sección específica al final de cada HU). Esta versión aplica DHU-007 retroactivamente a HU-01, agregando la sección "Candidatos a RNF".
+
+**Versión 4 (2026-05-14):** higiene documental aplicada retroactivamente como extensión de DHU-012. La tabla de "Documentos afectados" original de DHU-012 (ver `DECISIONS_HU.md` subsección Documentos afectados) no incluyó este documento, lo que dejó pendientes algunos residuos detectados posteriormente en una revisión cruzada con los demás documentos del backlog. Los cambios v4 son: (a) actualización del rango de DHU referenciado en "Documentos relacionados" (DHU-001 a DHU-007 → DHU-001 a DHU-013), (b) corrección del residuo de copy-paste en "Próximos pasos" (la frase "Esta sesión cerró el Bloque B" pertenecía al cierre del Bloque B y se reemplaza por una redacción coherente con que este es el documento del Bloque A), (c) corrección de typo "inglogan" → "ingloban" en la sección "Persistencias movidas a otros bloques". El contenido sustantivo de HU-01 y de las reglas metodológicas declaradas en el documento se mantiene intacto.
 
 **Resumen del cambio v1 → v2:**
 
@@ -136,7 +139,7 @@ Estas tres TTH **no son HUs** y se documentan en detalle en `TAREAS_TECNICAS_HAB
 
 ## Persistencias movidas a otros bloques
 
-Las features F30 (persistencia de estados históricos) y F31 (persistencia de decisiones del motor) NO se redactan como HUs separadas, sino que se inglogan como criterios de aceptación de HUs de Personas reales:
+Las features F30 (persistencia de estados históricos) y F31 (persistencia de decisiones del motor) NO se redactan como HUs separadas, sino que se ingloban como criterios de aceptación de HUs de Personas reales:
 
 - **F30 (persistencia de estados históricos)** → criterios de aceptación en HUs del Gerente (Bloque F), específicamente en las HUs que derivan de F12 (dashboard ejecutivo) y F14 (comparativa entre periodos). Sin persistencia histórica, esas HUs no pueden ser implementadas — el criterio "el sistema debe persistir los estados cada N segundos para que esta consulta funcione" entra ahí.
 
@@ -146,13 +149,14 @@ Las features F30 (persistencia de estados históricos) y F31 (persistencia de de
 
 ## Próximos pasos
 
-Esta sesión cerró el Bloque B. Los siguientes bloques se redactarán en sesiones futuras:
+Este documento cierra el Bloque A. A la fecha actual, los Bloques B, C y D también están cerrados; los siguientes bloques se redactarán en sesiones futuras:
 
-1. **Bloque C — Operador, operación degradada** (3 HUs operativas + 2 TTH; ya cerrado).
-2. **Bloque D — Administrador, soporte técnico** (3 HUs operativas; estructura confirmada por DHU-013).
-3. **Bloque E — Componentes centrales del sistema** (~4-5 HUs o TTH).
-4. **Bloque F — Gerente, reportería mínima** (~3-5 HUs, incluye F30 inglobada).
-5. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (~5 HUs adicionales; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
+1. **Bloque B — Operador, núcleo de monitoreo** (8 HUs: HU-02 a HU-09; ya cerrado). Ver `HU_BLOQUE_B.md`.
+2. **Bloque C — Operador, operación degradada** (3 HUs operativas + 2 TTH; ya cerrado). Ver `HU_BLOQUE_C.md`.
+3. **Bloque D — Administrador, soporte técnico** (3 HUs operativas; ya cerrado). Ver `HU_BLOQUE_D.md`.
+4. **Bloque E — Componentes centrales del sistema** (~4-5 HUs o TTH).
+5. **Bloque F — Gerente, reportería mínima** (~3-5 HUs, incluye F30 inglobada).
+6. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (~5 HUs adicionales; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
 
 Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs en un documento único aprobado, y se ejecutarán las ceremonias de **estimación (Planning Poker)** y **priorización (MoSCoW)** sobre el backlog completo.
 
@@ -161,8 +165,10 @@ Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcion
 ## Documentos relacionados
 
 - `HU_BLOQUE_B.md` — Bloque B del Product Backlog (8 HUs: HU-02 a HU-09).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre redacción de HUs (DHU-001 a DHU-007). **Lectura obligatoria** antes de redactar nuevas HUs.
-- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01, TTH-02, TTH-03 transversales.
+- `HU_BLOQUE_C.md` — Bloque C del Product Backlog (3 HUs operativas: HU-10, HU-11, HU-12).
+- `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre redacción de HUs (DHU-001 a DHU-014). **Lectura obligatoria** antes de redactar nuevas HUs.
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01, TTH-02, TTH-03 transversales; TTH-04 y TTH-05 del Bloque C; TTH-06 Trabajos Futuros.
 - `DECISIONS.md` — Registro formal de decisiones técnicas del producto (D-001 a D-009).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.
 - `LEAN_INCEPTION_INVESTIGACION.md` — Fundamentación del marco metodológico.

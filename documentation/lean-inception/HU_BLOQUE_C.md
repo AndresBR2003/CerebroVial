@@ -293,9 +293,9 @@ Durante la redacción del Bloque C se cerraron las siguientes decisiones formale
 
 ## Próximos pasos
 
-Esta sesión cierra el Bloque C. Los siguientes bloques se redactarán en sesiones futuras:
+Esta sesión cierra el Bloque C. A la fecha actual, el Bloque D también está cerrado; los siguientes bloques se redactarán en sesiones futuras:
 
-1. **Bloque D — Administrador, soporte técnico** (F17, F18, F20 → 3 HUs operativas; estructura confirmada por DHU-013). F21 fue reclasificado a Trabajos Futuros por DHU-012.
+1. **Bloque D — Administrador, soporte técnico** (F17, F18, F20 → 3 HUs operativas; ya cerrado con HU-13, HU-14, HU-15). Ver `HU_BLOQUE_D.md`. F21 fue reclasificado a Trabajos Futuros por DHU-012.
 2. **Bloque E — Componentes centrales del sistema** (F32, F33, F34, F35 → ~4-5 HUs o TTH).
 3. **Bloque F — Gerente, reportería mínima** (F12, F13, F14 → ~3-5 HUs, incluye F30 inglobada).
 4. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (F11, F15, F16, F19, F28 → ~5 HUs; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
@@ -308,9 +308,10 @@ Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcion
 
 - `HU_BLOQUE_A.md` — Bloque A del Product Backlog (acceso al sistema, 1 HU + 3 TTH).
 - `HU_BLOQUE_B.md` — Bloque B del Product Backlog (8 HUs: HU-02 a HU-09).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-013).
+- `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-014).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
-- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-05.
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-06.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.
 - `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features identificadas (29 MVP1 + 5 MVP2 + 7 Trabajos Futuros).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.

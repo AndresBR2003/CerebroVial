@@ -5,7 +5,7 @@
 > **Pensado como insumo para:** (a) el capítulo metodológico de la tesis, (b) base para ejecutar el Inception del proyecto en las próximas semanas, (c) sustento defendible ante el jurado de la elección del marco.
 
 **Fecha de redacción:** 2026-05-11
-**Versión:** 1.1 (actualizada 2026-05-14: eliminada sección 9 "Próximo paso inmediato", obsoleta tras la ejecución del Inception. Ver DHU-012 en `DECISIONS_HU.md`).
+**Versión:** 1.1 (actualizada 2026-05-14: eliminada sección 9 "Próximo paso inmediato", obsoleta tras la ejecución del Inception; renombrado de "MVP3 (trabajo futuro)" a "Trabajos Futuros" en la fila 9 de la tabla del plan de ejecución de la sección 5, para alinear con la semántica nueva definida en DHU-012. Las referencias a "MVP3" en las secciones 3 y 4.3 del documento describen el método genérico de Caroli en su forma original y se preservan intactas).
 
 ---
 
@@ -250,7 +250,7 @@ A continuación, el plan concreto de **cómo vamos a ejecutar Lean Inception** e
 | 6 | User Journeys | Jornadas para cada persona relevante | Una jornada por persona |
 | 7 | Feature Brainstorming | Lista de features ancladas a personas + jornadas | Lista de ~10-15 features |
 | 8 | Revisión Técnica / UX / Negocio | Auto-revisión + validación con asesor | Features anotadas |
-| 9 | Sequencer | MVP1 (tesis defendible) + MVP2 (mejoras) + MVP3 (trabajo futuro) | Diagrama |
+| 9 | Sequencer | MVP1 (tesis defendible) + MVP2 (mejoras candidatas a holgura) + Trabajos Futuros (fuera del alcance del proyecto académico) | Diagrama |
 | 10 | MVP Canvas | Un canvas por MVP, métricas = métricas académicas | 2-3 canvas |
 | 11 | Showcase | Presentación al asesor del plan completo | Reunión + acta |
 

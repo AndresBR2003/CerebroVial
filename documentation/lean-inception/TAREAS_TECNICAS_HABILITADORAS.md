@@ -2,16 +2,16 @@
 
 > Trabajo técnico de infraestructura necesario para que las HUs del Product Backlog puedan ser implementadas. **Este documento NO contiene Historias de Usuario.** Las TTH no siguen el formato "Como X, quiero Y, para Z" ni Given-When-Then.
 >
-> **Fundamento metodológico:** Ver `DECISIONS_HU.md`, decisiones DHU-001, DHU-003, DHU-004 (Bloque A), DHU-010 (Bloque C) y DHU-013 (Bloque D).
+> **Fundamento metodológico:** Ver `DECISIONS_HU.md`, decisiones DHU-001, DHU-003, DHU-004 (Bloque A), DHU-010 (Bloque C), DHU-013 (clasificación HU/TTH del Bloque D) y DHU-014 (decisiones de redacción del Bloque D).
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-14 (DHU-012: renombrado uniforme "modo seguro" → "degradado nivel 3", identificador interno `safe_3` → `degraded_3`. DHU-013: cierre de la pregunta abierta sobre división de TTH-05 a favor de mantenerla íntegra).
+> **Última actualización:** 2026-05-14 (DHU-012: renombrado uniforme "modo seguro" → "degradado nivel 3", identificador interno `safe_3` → `degraded_3`. DHU-013: cierre de la pregunta abierta sobre división de TTH-05 a favor de mantenerla íntegra. **Cierre del Bloque D (DHU-014):** ampliación de CT-04.5 dentro de TTH-04 para cubrir los campos técnicos adicionales que HU-13 requiere; creación de TTH-06 como Trabajos Futuros).
 
 ---
 
 ## Contexto
 
-Durante el cierre del Bloque A se identificó que tres trabajos originalmente redactados como HUs no cumplen los criterios para ser HUs (no tienen Persona del producto como beneficiaria, su valor es instrumental, son técnicos estándar). Siguiendo el principio metodológico de no disfrazar tareas técnicas como HUs (Lullabot, Scrum.org, SAFe Enabler Stories), se trasladaron a este documento. Durante el cierre del Bloque C, dos features adicionales (F26 y F27) se clasificaron como TTH por aplicación de DHU-010. Durante la preparación del Bloque D (DHU-013), se confirmó que no se crean TTH adicionales (las 3 features F17, F18, F20 se modelan como HUs operativas) y se cerró a favor de mantener íntegra a TTH-05 (no dividir entre TTH instrumental y HU del Administrador).
+Durante el cierre del Bloque A se identificó que tres trabajos originalmente redactados como HUs no cumplen los criterios para ser HUs (no tienen Persona del producto como beneficiaria, su valor es instrumental, son técnicos estándar). Siguiendo el principio metodológico de no disfrazar tareas técnicas como HUs (Lullabot, Scrum.org, SAFe Enabler Stories), se trasladaron a este documento. Durante el cierre del Bloque C, dos features adicionales (F26 y F27) se clasificaron como TTH por aplicación de DHU-010. Durante la preparación del Bloque D (DHU-013), se confirmó que no se crean TTH adicionales por las features F17, F18 y F20 (las 3 se modelan como HUs operativas) y se cerró a favor de mantener íntegra a TTH-05 (no dividir entre TTH instrumental y HU del Administrador). Durante la redacción del Bloque D (DHU-014) se introdujo **TTH-06** (capa de DTOs transversal al backend) como mejora técnica clasificada como Trabajos Futuros, identificada durante la discusión sobre el patrón de consumo del endpoint compartido por HU-11 y HU-13.
 
 Las TTH son entregables del proyecto y son evaluables, pero su naturaleza es distinta a las HUs:
 
@@ -28,13 +28,14 @@ Las TTH son entregables del proyecto y son evaluables, pero su naturaleza es dis
 
 ## Índice de TTH
 
-| Código | Título | Bloque que habilita | Estado actual |
-|---|---|---|---|
-| TTH-01 | Implementación de autenticación JWT con bcrypt | A (transversal a todos) | Pendiente |
-| TTH-02 | Arquitectura Docker Compose multi-servicio | A (transversal a todos) | Parcial |
-| TTH-03 | Repositorio Git y pipeline CI con cobertura completa | A (transversal a todos) | Parcial |
-| TTH-04 | Lógica de fallback en cascada del sistema | C | Pendiente |
-| TTH-05 | Configuración de tiempos preconfigurados para degradado nivel 3 | C | Pendiente |
+| Código | Título | Bloque que habilita | Clasificación | Estado actual |
+|---|---|---|---|---|
+| TTH-01 | Implementación de autenticación JWT con bcrypt | A (transversal a todos) | MVP1 | Pendiente |
+| TTH-02 | Arquitectura Docker Compose multi-servicio | A (transversal a todos) | MVP1 | Parcial |
+| TTH-03 | Repositorio Git y pipeline CI con cobertura completa | A (transversal a todos) | MVP1 | Parcial |
+| TTH-04 | Lógica de fallback en cascada del sistema | C (consumida también por HU-13 del Bloque D) | MVP1 | Pendiente |
+| TTH-05 | Configuración de tiempos preconfigurados para degradado nivel 3 | C | MVP1 | Pendiente |
+| TTH-06 | Capa de DTOs transversal al backend | Transversal (mejora técnica) | **Trabajos Futuros** | No se construye en MVP1 |
 
 ---
 
@@ -185,7 +186,16 @@ La lógica opera de forma autónoma sin intervención del Operador. El Operador 
 
 - **CT-04.4:** El estado operativo actual del sistema está expuesto a la capa de presentación mediante un endpoint estable del backend (por ejemplo, `GET /system/operational-state`) que retorna al menos: estado actual, timestamp de entrada al estado actual, componente o condición disparadora (si no es operación normal), y nivel de degradación si aplica. Este endpoint es consumido por HU-10 (banner transversal) y como referencia por HU-12 (explicación compuesta).
 
-- **CT-04.5:** El estado individual de cada componente está expuesto mediante un endpoint del backend (por ejemplo, `GET /system/components/status`) que retorna la lista de componentes con su nombre legible, su estado cualitativo (OK / Degradado / Fuera de servicio), su timestamp de último cambio y un identificador interno. Este endpoint es consumido por HU-11 (vista de estado de componentes) y por la HU del Administrador equivalente a F17 del Bloque D, con la presentación adaptada en cada caso (DHU-013).
+- **CT-04.5:** El estado individual de cada componente está expuesto mediante un endpoint del backend (por ejemplo, `GET /system/components/status`) que retorna la lista de componentes con los siguientes campos por componente:
+  1. **Nombre legible** (consumido por HU-11 y HU-13).
+  2. **Estado cualitativo** (OK / Degradado / Fuera de servicio; consumido por HU-11 y HU-13).
+  3. **Timestamp de último cambio de estado** (consumido por HU-11 y HU-13).
+  4. **Identificador interno técnico del componente** (consumido por HU-13).
+  5. **Latencia de respuesta del componente en la última evaluación de salud, en milisegundos** (consumido por HU-13). Si el componente no respondió en la última evaluación, este campo se reporta como "no aplicable" o el valor especial documentado para ese caso, no como cero (cero indica respuesta instantánea válida, no ausencia de respuesta).
+  6. **Indicador de fallos recientes** definido como número de evaluaciones fallidas en una ventana temporal configurable, por defecto los últimos 5 minutos (consumido por HU-13).
+  7. **Timestamp de la última evaluación de salud exitosa** (consumido por HU-13). Distinto del timestamp de último cambio de estado: el primero refleja "cuándo respondió bien por última vez"; el segundo refleja "cuándo cambió su estado cualitativo por última vez".
+
+  Este endpoint es consumido por HU-11 (vista de estado de componentes del Operador) y por HU-13 (vista técnica de salud de componentes del Administrador), con la presentación adaptada en cada caso (DHU-013): HU-11 muestra los campos 1, 2 y 3 con resalte visual; HU-13 muestra los 7 campos. Los campos adicionales 4 a 7 se ampliaron al contrato original de CT-04.5 al cerrar HU-13 (cierre del Bloque D, DHU-014). Los campos técnicos adicionales no son sensibles; viajan en el wire incluso a consumidores con otros roles, pero el RBAC impide el acceso a las rutas que los renderizan.
 
 - **CT-04.6:** La activación de un fallback no se detiene ni se posterga por fallos del registro de auditoría. Si la escritura del evento de transición (CT-04.3) falla momentáneamente, la transición de estado se aplica de todos modos a la operación del sistema y se registra en un mecanismo de respaldo (cola en memoria, archivo local, según se cierre en el sprint) para ser persistida cuando el registro vuelva a estar disponible. Esta resiliencia satisface CA-10.8 de HU-10.
 
@@ -211,10 +221,10 @@ La lógica opera de forma autónoma sin intervención del Operador. El Operador 
 | HU / TTH que depende | Cómo depende |
 |---|---|
 | HU-10 | Consume endpoint de estado operativo (CT-04.4). Persistencia de transiciones inglobada en CA-10.7 y CA-10.8 es responsabilidad de CT-04.3 y CT-04.6. Resiliencia ante caída del monitor (CA-10.9) es CT-04.8. |
-| HU-11 | Consume endpoint de estado de componentes (CT-04.5). |
+| HU-11 | Consume endpoint de estado de componentes (CT-04.5), campos 1 a 3 (nombre, estado cualitativo, timestamp de último cambio). Ignora los campos técnicos adicionales 4 a 7. |
 | HU-12 | Consume causa raíz (componente disparador y nivel) del endpoint de CT-04.4 para producir explicación compuesta. |
+| HU-13 (Bloque D) | Consume el endpoint de estado de componentes (CT-04.5), los 7 campos. Misma fuente que HU-11 con presentación técnica distinta (DHU-013). |
 | TTH-05 | TTH-04 consume la configuración de tiempos preconfigurados provista por TTH-05 al activar el nivel 3. |
-| HU del Administrador equivalente a F17 (Bloque D) | Consume endpoint de estado de componentes (CT-04.5) con presentación técnica distinta a la de HU-11 (DHU-013). |
 
 ---
 
@@ -272,6 +282,64 @@ El alcance funcional de la configuración para MVP1 es deliberadamente simple: u
 
 ---
 
+## TTH-06 — Capa de DTOs transversal al backend
+
+**Origen:** Identificada durante la redacción de HU-13 (Bloque D) en la discusión sobre el patrón de consumo del endpoint compartido de CT-04.5 por HU-11 (Operador) y HU-13 (Administrador). Formalizada en DHU-014.
+
+**Habilita a:** mejora transversal de mantenibilidad y estabilidad del contrato API del backend. **No bloquea ninguna HU del MVP1.**
+
+**Clasificación: Trabajos Futuros.** No se construye dentro del alcance del proyecto académico. Se menciona en el capítulo de trabajo futuro del documento de tesis si se considera relevante.
+
+**Decisiones técnicas relacionadas:** D-001 (Monolito modular). DHU-014 (consolidación de decisiones del Bloque D, sección sobre creación de TTH-06).
+
+### Descripción
+
+La práctica actual del proyecto, observable en el código existente al cierre del Bloque D, es serializar directamente el modelo de dominio en algunos endpoints del backend (típicamente mediante respuestas que reflejan la estructura interna de los objetos persistidos). Esta práctica es funcional pero acopla el contrato de la API al modelo de dominio: cualquier evolución del modelo se propaga al contrato observable por los consumidores (frontend, otros servicios).
+
+TTH-06 propone introducir una capa explícita de DTOs (Data Transfer Objects) entre el modelo de dominio y el contrato de la API. Cada endpoint del backend respondería con un DTO específico definido como tipo separado del modelo de dominio, con tres beneficios principales:
+
+1. **Estabilidad del contrato:** el modelo de dominio puede evolucionar (refactorización, agregar campos internos, optimizaciones de persistencia) sin romper a los consumidores, mientras el DTO mantenga su contrato.
+
+2. **Filtrado controlado:** si en el futuro aparecen campos sensibles en el modelo de dominio (información personal, IPs, logs internos), el DTO los excluye por construcción en lugar de depender de filtrado en el frontend o de configuración por rol del token.
+
+3. **Documentación implícita:** los DTOs son la documentación más fiel del contrato de la API; un nuevo desarrollador entiende qué consume y qué expone cada endpoint con solo leer los tipos.
+
+### Por qué se clasifica como Trabajos Futuros y no MVP2
+
+Aplicando los criterios de DHU-012 sobre la semántica de MVP2 (HU completa documentada, construcción condicional a holgura tras MVP1):
+
+1. **TTH-06 no realiza ningún Objetivo del Producto.** Los 4 Objetivos del Producto (observar, anticipar, adaptar, demostrar mejora) se cumplen con o sin esta capa. La introducción de DTOs es higiene técnica de mantenibilidad, no funcionalidad de valor.
+
+2. **El alcance es transversal a todo el backend.** No es "una capa en un endpoint"; es refactor amplio que toca todos los endpoints del sistema. El costo de hacerlo "si hay holgura" es difícil de acotar.
+
+3. **Naturalmente pertenece a la productivización del sistema.** En una iteración de producto real, donde el backend evoluciona y se expone a múltiples consumidores externos, la capa DTO se justifica claramente. En el alcance académico, donde el backend tiene un consumidor único (frontend propio) y vida útil acotada, el costo/beneficio es desfavorable.
+
+4. **El sistema sin TTH-06 sigue siendo defendible académicamente.** La ausencia de capa DTO no es un defecto que el jurado vaya a observar; es una decisión razonable para un proyecto de tesis con alcance limitado.
+
+Si se decidiera en el futuro construir TTH-06 (por ejemplo, en una iteración postacadémica del sistema para productivización), los criterios técnicos de terminado quedarían como esbozo:
+
+### Criterios técnicos de terminado (esbozo, no se ejecuta en MVP1)
+
+- **CT-06.1:** Cada endpoint del backend (de todos los routers) responde con un DTO Pydantic explícito, definido en un módulo separado del modelo de dominio. Ningún endpoint serializa directamente un modelo SQLAlchemy.
+- **CT-06.2:** Para los endpoints de consulta (GET), los DTOs declaran explícitamente qué campos del modelo de dominio se exponen. Campos del modelo no listados en el DTO no aparecen en la respuesta.
+- **CT-06.3:** Para los endpoints de mutación (POST, PUT, PATCH), los DTOs declaran explícitamente qué campos puede modificar el cliente. Campos del modelo no listados en el DTO no se aceptan en el body.
+- **CT-06.4:** Existe documentación del patrón en el README técnico del backend, con un ejemplo guía para cada tipo de endpoint y los criterios de cuándo crear un DTO nuevo vs reutilizar uno existente.
+- **CT-06.5:** Existen tests que verifican que los DTOs no exponen campos no declarados, incluso si el modelo de dominio cambia.
+
+### Notas técnicas
+
+- **No introduce TTH bloqueante:** todas las HUs y TTH del MVP1 son construibles sin TTH-06. La ausencia de DTOs no impide implementar HU-11, HU-13, HU-14, HU-15 ni cualquier otra HU del backlog.
+- **No reabre decisiones de HUs del MVP1:** las HUs ya redactadas no mencionan DTOs en sus criterios de aceptación (son agnósticas a la implementación, DHU-006). La decisión sobre si el backend usa DTOs o no es 100% técnica y vive en este documento.
+- **Relación con HU-13:** la discusión sobre el patrón de consumo de CT-04.5 (un endpoint, dos consumidores con presentación distinta) motivó identificar TTH-06 pero no la requiere. Para los campos técnicos adicionales que HU-13 expone (latencia, fallos recientes, identificador interno), se evaluó que **no son sensibles**, por lo cual no se justifica DTO específico ni filtrado en backend según el rol del token; el RBAC a nivel de ruta es suficiente.
+
+### Trazabilidad con HUs y otras TTH
+
+| HU / TTH que depende | Cómo depende |
+|---|---|
+| (ninguna del MVP1) | TTH-06 no es prerrequisito de ninguna HU ni TTH del MVP1. |
+
+---
+
 ## Relación con el Plan de Ejecución
 
 Las TTH **no se estiman con Planning Poker** ni se priorizan con MoSCoW (ambas técnicas son para HUs con valor de negocio). Las TTH se planifican como trabajo técnico directo en el cronograma del proyecto, con estimaciones en horas/días.
@@ -281,18 +349,20 @@ Sin embargo, las TTH **sí son prerrequisitos de bloques completos de HUs**:
 - TTH-01 (Autenticación) es prerrequisito de toda HU operativa.
 - TTH-02 (Docker) es prerrequisito de toda HU (no se desarrolla nada sin entorno).
 - TTH-03 (CI) es prerrequisito para considerar cualquier HU "Done" con calidad asegurada.
-- TTH-04 (Lógica de fallback) es prerrequisito de toda HU del Bloque C (HU-10, HU-11, HU-12).
+- TTH-04 (Lógica de fallback) es prerrequisito de toda HU del Bloque C (HU-10, HU-11, HU-12) y de HU-13 del Bloque D.
 - TTH-05 (Configuración de tiempos preconfigurados para degradado nivel 3) es prerrequisito del nivel 3 de TTH-04.
+- TTH-06 (Capa de DTOs) **no es prerrequisito de ninguna HU del MVP1**. Clasificada como Trabajos Futuros.
 
-Por tanto, las TTH se ejecutan en la primera fase del proyecto, antes o en paralelo con las HUs operativas. Las TTH-04 y TTH-05 específicamente deben estar disponibles antes de comenzar el sprint del Bloque C.
+Por tanto, las TTH se ejecutan en la primera fase del proyecto, antes o en paralelo con las HUs operativas. Las TTH-04 y TTH-05 específicamente deben estar disponibles antes de comenzar el sprint del Bloque C. TTH-06 queda documentada pero no entra al cronograma del proyecto académico.
 
 ---
 
 ## Documentos relacionados
 
-- `DECISIONS_HU.md` — Decisiones metodológicas (DHU-001 a DHU-013) que fundamentan la creación y clasificación de cada TTH.
+- `DECISIONS_HU.md` — Decisiones metodológicas (DHU-001 a DHU-014) que fundamentan la creación y clasificación de cada TTH.
 - `HU_BLOQUE_A.md` — Bloque A del Product Backlog tras la reestructuración.
 - `HU_BLOQUE_B.md` — Bloque B del Product Backlog (HU-02 a HU-09).
 - `HU_BLOQUE_C.md` — Bloque C del Product Backlog (HU-10 a HU-12).
+- `HU_BLOQUE_D.md` — Bloque D del Product Backlog (HU-13, HU-14, HU-15).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 Monolito modular, D-003 Deploy Docker local, D-008 SUMO end-to-end, D-009 jam level Waze).
 - `FEATURE_BACKLOG_DETALLADO.md` — Features de origen (F01 autenticación, F26 lógica de fallback, F27 configuración de tiempos preconfigurados para degradado nivel 3, F29 RBAC, y habilitadores transversales).

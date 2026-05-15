@@ -7,7 +7,7 @@
 > **Relación con `DECISIONS.md`:** El documento `DECISIONS.md` registra decisiones técnicas del producto (arquitectura, modelo, datos). Este documento registra decisiones metodológicas sobre cómo se redacta el backlog. Los códigos no se solapan: `D-xxx` para técnicas, `DHU-xxx` para HUs.
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-14 (auditoría de coherencia documental: DHU-012 y DHU-013 agregadas).
+> **Última actualización:** 2026-05-14 (auditoría de coherencia documental: DHU-012 y DHU-013 agregadas; tabla "Documentos afectados por DHU-012" ampliada el mismo día con `HU_BLOQUE_A.md` y notas en `HU_BLOQUE_B.md` y `LEAN_INCEPTION_INVESTIGACION.md` tras revisión cruzada posterior al pase original. **Cierre del Bloque D el 2026-05-14: DHU-014 agregada.**)
 
 ---
 
@@ -28,6 +28,7 @@
 | DHU-011 | Eliminación de HU-13 y cobertura de F25 por composición | 2026-05-13 | Cerrada |
 | DHU-012 | Auditoría de coherencia documental: semántica de MVP, eliminación de MVP3, corrección de conteos, alineación de vocabulario, limpieza de residuo pre-Inception | 2026-05-14 | Cerrada |
 | DHU-013 | Clasificación HU/TTH de las features del Bloque D | 2026-05-14 | Cerrada |
+| DHU-014 | Decisiones de redacción del Bloque D (numeración, dashboard, parámetros, métricas, concurrencia, ventana temporal, TTH-06) | 2026-05-14 | Cerrada |
 
 ---
 
@@ -773,19 +774,22 @@ El estado originalmente denominado "modo seguro" se renombra uniformemente a **"
 
 ### Documentos afectados por DHU-012
 
-Esta decisión genera modificaciones en los siguientes 8 documentos del proyecto:
+Esta decisión genera modificaciones en los siguientes 9 documentos del proyecto:
 
 | Documento | Tipo de cambio |
 |---|---|
 | `DECISIONS_HU.md` (este documento) | Agregar DHU-012 (esta decisión) y DHU-013 (clasificación HU/TTH del Bloque D); nota en DHU-008; renombrado de vocabulario en DHU-008, DHU-009 y DHU-010. |
 | `DECISIONS.md` | Limpieza completa de residuo del régimen pre-Inception; contenido sustantivo preservado. |
-| `LEAN_INCEPTION_CEREBROVIAL.md` | Renombrado MVP3 → Trabajos Futuros; conteo MVP1 = 29; Journey 4 reescrito; limpieza de residuo PLAN; versión 1.1 con nota de cambios. |
-| `LEAN_INCEPTION_INVESTIGACION.md` | Sección 9 eliminada; versión 1.1. |
+| `LEAN_INCEPTION_CEREBROVIAL.md` | Renombrado MVP3 → Trabajos Futuros; conteo MVP1 = 29; Journey 4 reescrito; limpieza de residuo PLAN; versión 1.1 con nota de cambios. Nota agregada en pase de higiene cruzada: aclaración sobre la convención del conteo del Bloque B (9 MVP1 vs 10 con F11 MVP2). |
+| `LEAN_INCEPTION_INVESTIGACION.md` | Sección 9 eliminada; versión 1.1. Nota agregada en pase de higiene cruzada: renombrado de "MVP3 (trabajo futuro)" → "Trabajos Futuros" en la fila 9 de la tabla del plan de ejecución de la sección 5 (la referencia residual al término MVP3 en la versión adaptada a CerebroVial). Las referencias a "MVP3" en las secciones 3 y 4.3 del documento describen el método genérico de Caroli y se preservan intactas. |
 | `EVOLUCION_TESIS.md` | Sección 8 reescrita como tabla referencial; limpieza de residuo PLAN. |
 | `FEATURE_BACKLOG_DETALLADO.md` | Agregar fichas F36-F41; reclasificar F21 como Trabajos Futuros; recalcular tablas; renombrado vocabulario; limpieza de residuo PLAN; referencia ficha F26 a TTH-04; conteo D-001 a D-009. |
-| `HU_BLOQUE_B.md` | Próximos pasos actualizados; nota técnica de HU-09 suavizada. |
+| `HU_BLOQUE_A.md` | **Agregado retroactivamente el 2026-05-14 (pase de higiene cruzada con los demás documentos del backlog).** Cambios v3 → v4: (a) rango de DHU referenciado en "Documentos relacionados" actualizado de DHU-001 a DHU-007 → DHU-001 a DHU-013; (b) corrección del residuo de copy-paste en "Próximos pasos" (la frase "Esta sesión cerró el Bloque B" se reemplaza por una redacción coherente con que el documento es del Bloque A, y se actualiza el listado de bloques pendientes para reflejar que Bloque B y Bloque C también están cerrados); (c) corrección de typo "inglogan" → "ingloban" en la sección "Persistencias movidas a otros bloques"; (d) referencia a `HU_BLOQUE_C.md` agregada en "Documentos relacionados"; (e) ampliación de "TTH-01, TTH-02, TTH-03 transversales" para incluir TTH-04 y TTH-05 del Bloque C. El contenido sustantivo de HU-01 y de las reglas metodológicas se mantiene intacto. |
+| `HU_BLOQUE_B.md` | Próximos pasos actualizados; nota técnica de HU-09 suavizada. Nota agregada en pase de higiene cruzada: corrección del conteo total de features en "Documentos relacionados" (35 → 41); aclaración sobre la convención de conteo del Bloque B (10 features con F11 MVP2 por afinidad temática vs 9 features MVP1 del Sequencer); referencia a `HU_BLOQUE_C.md` agregada en "Documentos relacionados"; ampliación de "TTH-01, TTH-02, TTH-03" para incluir TTH-04 y TTH-05. |
 | `HU_BLOQUE_C.md` | Próximos pasos del Bloque D actualizados; renombrado de vocabulario en HU-10, HU-11, HU-12, CAs y notas. |
 | `TAREAS_TECNICAS_HABILITADORAS.md` | Título de TTH-05 actualizado; renombrado de vocabulario en TTH-04 y TTH-05; identificador `safe_3` → `degraded_3`; nota de línea 262 cerrada por DHU-013; limpieza de residuo PLAN. |
+
+**Nota sobre el alcance temporal de DHU-012:** la decisión se cerró el 2026-05-14. El pase original cubrió 8 documentos. Una revisión cruzada posterior detectó tres residuos no resueltos en `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md` y `LEAN_INCEPTION_INVESTIGACION.md` que se resolvieron en el mismo día como extensión natural del alcance de DHU-012 (no se abrió DHU separada porque los cambios son estrictamente de higiene documental y no involucran decisiones nuevas).
 
 ### Lo que NO cambia con DHU-012
 
@@ -925,6 +929,131 @@ DHU-013 cierra esta pregunta a favor de **mantener TTH-05 íntegra**, sin dividi
 
 ---
 
+## DHU-014 — Decisiones de redacción del Bloque D (numeración, dashboard, parámetros, métricas, concurrencia, ventana temporal, TTH-06)
+
+**Fecha:** 2026-05-14.
+**Estado:** Cerrada.
+**Aplica a:** Bloque D — Administrador, soporte técnico.
+
+### Contexto
+
+DHU-013 cerró la clasificación HU/TTH de las features del Bloque D (F17, F18, F20 son HUs operativas; sin TTH nuevas) y la decisión sobre TTH-05 (no se divide). Quedaron pendientes varias decisiones menores de redacción que debían cerrarse antes o durante la redacción de las HUs concretas del bloque. DHU-014 consolida esas decisiones en un acto único, evitando la dispersión que hubiera resultado de cerrarlas por separado.
+
+### Decisiones consolidadas
+
+#### A. Numeración del Bloque D
+
+La HU-13 original del Bloque C fue eliminada por DHU-011 antes de ser redactada formalmente. El número HU-13 no quedó "ocupado" en ningún documento vigente del backlog.
+
+**Decisión:** el Bloque D reutiliza el número HU-13 para F17 (compactación de la numeración del Product Backlog), con HU-14 = F18 y HU-15 = F20. La traza histórica de la HU-13 eliminada vive en DHU-011, no en la numeración del backlog. Dejar un hueco en la numeración para preservar memoria es contaminar el backlog con metadata que pertenece a otro documento.
+
+**Numeración final del Bloque D:**
+
+| HU | Feature origen |
+|---|---|
+| HU-13 | F17 — Panel de salud de componentes del sistema (vista del Administrador) |
+| HU-14 | F18 — Panel de métricas del modelo predictivo |
+| HU-15 | F20 — Configuración de parámetros operativos del sistema |
+
+#### B. Sin HU dedicada de dashboard del Administrador
+
+**Decisión:** el Bloque D **no** introduce una HU equivalente a F02 del Bloque B (dashboard principal del Operador). Las tres HUs del Administrador (HU-13, HU-14, HU-15) se acceden desde la navegación del Administrador como tres vistas separadas, sin componerlas visualmente en un dashboard integrador.
+
+**Justificación:** el Operador trabaja en tiempo real sobre un único objeto (la intersección), lo cual justifica un dashboard que muestre distintas caras del mismo objeto simultáneamente (F02 cubierto por composición de HU-02 a HU-06). El Administrador trabaja sobre objetos distintos en momentos distintos (consulta de componentes, análisis de métricas, ajuste de configuración); integrarlos visualmente no aporta valor cognitivo y agregaría una HU sin propósito claro.
+
+Esta decisión queda registrada como decisión documental del Bloque D (DHU-014) y como nota técnica de cada HU del Bloque D. No requiere DHU separada por ser de UX/IA y no introducir regla metodológica nueva.
+
+#### C. Selección concreta de parámetros de F20 en MVP1
+
+**Decisión:** HU-15 (F20) cubre en MVP1 los siguientes parámetros, organizados en tres familias funcionales:
+
+| Familia | Parámetros | Referencias cruzadas |
+|---|---|---|
+| Visualización del estado del tráfico | Umbrales de cola verde/amarillo/rojo | CA-02.3 de HU-02 |
+| Predicción y evaluación del modelo | Horizonte de predicción | CA-03.1 de HU-03 |
+| Predicción y evaluación del modelo | Umbral de congestión (default ≥ 3) | CA-03.3 de HU-03 + D-009 |
+| Predicción y evaluación del modelo | Ventana temporal de cálculo de métricas | CA-14.4 de HU-14 (ver subsección F) |
+| Monitor de salud del sistema | Frecuencia de evaluación de salud de componentes | CT-04.1 de TTH-04 |
+
+**Fuera de MVP1 (parámetros internos del motor):** los parámetros internos de las estrategias de control del motor adaptativo (parámetros que afectan cómo cada estrategia decide los tiempos del semáforo) quedan **internos al sistema en MVP1**. Su exposición al Administrador requeriría conocimiento profundo de ingeniería de tráfico que excede el perfil de la Persona declarada y agregaría riesgo operativo sin valor proporcional. Su inclusión es trabajo futuro condicionado a (a) necesidad concreta de calibración fina, y (b) un Administrador con perfil técnico apropiado.
+
+#### D. Métricas exactas en HU-14
+
+**Decisión:** HU-14 (F18) cubre en MVP1 cuatro métricas de evaluación del modelo predictivo:
+
+1. **MAE (Error Absoluto Medio)** sobre el ratio continuo.
+2. **RMSE (Raíz del Error Cuadrático Medio)** sobre el ratio continuo.
+3. **Accuracy (Exactitud)** sobre el nivel discreto 0-5.
+4. **Matriz de confusión 6×6** del nivel discreto.
+
+Cada una con **ícono de ayuda activable** que despliega una explicación breve de cómo interpretar la métrica.
+
+**Convención de la matriz:** filas = nivel real observado, columnas = nivel predicho por el modelo (convención académica estándar, equivalente a la del módulo de métricas de scikit-learn). Declarada explícitamente en CA-14.8 y en el tooltip de la matriz.
+
+**Presentación de la matriz:** valores absolutos (conteos) con totales de fila y columna, y un control toggle visible que permite alternar a porcentajes por fila para neutralizar el desbalance natural de clases. La diagonal principal (aciertos) es identificable visualmente respecto a las celdas fuera de la diagonal (errores).
+
+**Justificación de incluir la matriz pese a su densidad visual:** la matriz aporta información que las tres métricas escalares no capturan (perfil de errores por nivel, no solo magnitud agregada), su costo de implementación es bajo, y los tooltips integrados mitigan la barrera cognitiva sin contaminar la vista con texto permanente.
+
+#### E. Concurrencia entre Administradores en HU-15
+
+**Decisión:** la concurrencia entre Administradores en la modificación de parámetros de HU-15 se resuelve con **last-write-wins con advertencia explícita al segundo Administrador** (mecanismo de control de concurrencia optimista con marca de versión).
+
+Comportamiento detallado en CA-15.11: la primera modificación en guardarse se persiste normalmente; cuando el segundo Administrador intenta guardar, el sistema detecta que la configuración cambió desde su lectura inicial, le muestra una advertencia con detalles de la modificación intermedia (autor, timestamp, parámetros), y le ofrece confirmar la sobrescritura o cancelar y recargar para reevaluar. El registro de auditoría preserva ambas modificaciones, no solo la última.
+
+**Justificación:** patrón estándar, bajo costo de implementación, suficiente para el escenario MVP1 donde la concurrencia será rara. Cumple el principio inegociable de no perder modificaciones silenciosamente.
+
+#### F. Ventana temporal de cálculo de métricas de HU-14 inglobada en HU-15
+
+**Contexto:** HU-14 (F18) declara una ventana temporal sobre la cual se calculan las métricas del modelo (CA-14.4, default sugerido 24 h). La nota técnica de HU-14 dejaba abierta la cuestión de si esta ventana se ajusta solo por configuración interna o se expone al Administrador.
+
+**Decisión:** la ventana temporal se incluye como un parámetro configurable en HU-15, dentro de la familia "Predicción y evaluación del modelo".
+
+**Justificación:** si el Administrador es responsable de evaluar el modelo (HU-14) y de configurar el sistema (HU-15), no tiene sentido que un parámetro central de la evaluación sea ajustable solo por variable de entorno. El costo marginal de agregar un parámetro más a HU-15 es bajo y cierra un cabo suelto sin abrir nuevos.
+
+#### G. Creación de TTH-06 — Capa de DTOs transversal al backend
+
+**Contexto:** durante la discusión sobre el patrón de consumo del endpoint compartido CT-04.5 por HU-11 (Operador) y HU-13 (Administrador), se evaluaron tres patrones posibles para manejar la diferencia de campos visibles: (1) un endpoint y un DTO completo, frontend filtra; (2) un endpoint con dos DTOs vía query parameter; (3) dos endpoints separados con dos DTOs.
+
+**Decisión sobre el patrón de consumo concreto (CT-04.5):** patrón (1), un endpoint y los campos completos del DTO, frontend filtra según la vista. Los campos técnicos adicionales no son sensibles (son métricas operativas del propio sistema, no datos personales ni credenciales), por lo cual no se justifica un endpoint separado ni filtrado en backend según el rol del token; el RBAC a nivel de ruta es suficiente.
+
+**Decisión transversal (TTH-06):** la cuestión más amplia de "introducir una capa explícita de DTOs en el backend o no" es una decisión transversal de arquitectura, no de HU-13. Se formaliza como **TTH-06 — Capa de DTOs transversal al backend**, clasificada como **Trabajos Futuros** (no se construye dentro del alcance del proyecto académico).
+
+**Justificación de Trabajos Futuros y no MVP2:** TTH-06 no realiza ningún Objetivo del Producto; es higiene técnica de mantenibilidad. El alcance es transversal a todo el backend (no a un endpoint), lo cual hace difícil acotar el costo "si hay holgura". Naturalmente pertenece a la productivización del sistema, fuera del alcance académico. El sistema sin TTH-06 sigue siendo defendible académicamente.
+
+#### H. Ampliación de CT-04.5 dentro de TTH-04
+
+**Contexto:** el contrato original de CT-04.5 cubría nombre legible, estado cualitativo, timestamp del último cambio e identificador interno. HU-13 requiere campos adicionales no cubiertos: latencia de la última evaluación de salud, indicador de fallos recientes, timestamp de la última evaluación de salud exitosa.
+
+**Decisión:** el contrato de CT-04.5 se amplía dentro de TTH-04 para cubrir los 7 campos requeridos por HU-13. HU-11 continúa consumiendo solo los campos básicos (1 a 3) e ignora los adicionales sin contradecir su contrato previo.
+
+**No es TTH nueva ni decisión metodológica:** es refinamiento del contrato del endpoint existente. La modificación se documenta como ampliación de CT-04.5 dentro de TTH-04 y se cierra al cerrar el Bloque D.
+
+### Documentos afectados por DHU-014
+
+| Documento | Tipo de cambio |
+|---|---|
+| `HU_BLOQUE_D.md` (nuevo) | Documento nuevo con HU-13, HU-14, HU-15 redactadas. |
+| `TAREAS_TECNICAS_HABILITADORAS.md` | Ampliación de CT-04.5 dentro de TTH-04 (subsección H); agregar TTH-06 (subsección G); actualización del índice y de la tabla de trazabilidad de TTH-04. |
+| `DECISIONS_HU.md` (este documento) | Agregar DHU-014; actualizar índice, tabla de impacto en bloques y documentos relacionados. |
+| `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md` | Próximos pasos actualizados: Bloque D ya cerrado; restan Bloques E, F y MVP2. |
+| `FEATURE_BACKLOG_DETALLADO.md` | Fichas de F17, F18 y F20 actualizan su columna "Modelado" para apuntar a HU-13, HU-14 y HU-15 respectivamente (estaban como "a redactar en el Bloque D"). |
+| `LEAN_INCEPTION_CEREBROVIAL.md` | Documentos relacionados actualizado (referencia a `HU_BLOQUE_D.md`). |
+
+### Lo que NO cambia con DHU-014
+
+- **Las decisiones DHU-001 a DHU-013 mantienen su contenido sustantivo.** DHU-014 las cita pero no las reabre.
+- **El alcance del producto** (Personas, Objetivos, Journeys, Visión) se mantiene intacto.
+- **Las HUs del MVP1 redactadas en bloques previos** (HU-01 a HU-12) no se reabren; sus referencias a parámetros configurables (CA-02.3, CA-03.1, CA-03.3) ya apuntan al sistema de configuración que HU-15 ahora formaliza.
+- **Las TTH previas (TTH-01 a TTH-05)** mantienen su contenido. TTH-04 recibe una ampliación de CT-04.5 (no contradice el contrato previo, solo lo extiende).
+
+### Documentos relacionados
+
+- `HU_BLOQUE_D.md` — Bloque D del Product Backlog.
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-04 ampliada y TTH-06 nueva.
+- `DECISIONS_HU.md` (este documento) — sección DHU-014.
+
+---
+
 ## Resumen de impacto en los bloques redactados hasta la fecha
 
 | Bloque | HUs | TTH | Decisiones aplicadas |
@@ -932,7 +1061,7 @@ DHU-013 cierra esta pregunta a favor de **mantener TTH-05 íntegra**, sin dividi
 | Bloque A | HU-01 | TTH-01, TTH-02, TTH-03 | DHU-001, DHU-002, DHU-003, DHU-004, DHU-007 (retroactivo) |
 | Bloque B | HU-02 a HU-09 | (ninguna nueva) | DHU-003, DHU-005 (refinada con A y B), DHU-006, DHU-007 |
 | Bloque C | HU-10, HU-11, HU-12 (HU-13 eliminada por DHU-011) | TTH-04, TTH-05 | DHU-005, DHU-006, DHU-007, DHU-008, DHU-009, DHU-010, DHU-011 |
-| Bloque D | (pendiente) | (ninguna nueva) | DHU-013 (cierre de clasificación) |
+| Bloque D | HU-13, HU-14, HU-15 | (ninguna nueva del MVP1); TTH-06 agregada como Trabajos Futuros; CT-04.5 de TTH-04 ampliada | DHU-013 (clasificación), DHU-014 (decisiones de redacción) |
 | Transversal | — | — | DHU-012 (auditoría de coherencia documental, aplica a todos los bloques y documentos relacionados) |
 
 ---
@@ -942,8 +1071,8 @@ DHU-013 cierra esta pregunta a favor de **mantener TTH-05 íntegra**, sin dividi
 - `HU_BLOQUE_A.md` — Bloque A del Product Backlog (1 HU operativa).
 - `HU_BLOQUE_B.md` — Bloque B del Product Backlog (8 HUs, 7 MVP1 + 1 MVP2).
 - `HU_BLOQUE_C.md` — Bloque C del Product Backlog (3 HUs operativas: HU-10, HU-11, HU-12).
-- `HU_BLOQUE_D.md` — Bloque D del Product Backlog (pendiente de redacción; 3 HUs MVP1 según DHU-013).
-- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-05.
+- `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-06.
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009). No se solapa con este documento.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Personas, journeys, MVP Canvas (insumos para identificar sujetos válidos).
 - `FEATURE_BACKLOG_DETALLADO.md` — Origen de las features que se mapean a HUs y TTH.

@@ -242,8 +242,10 @@ Total: **41 features candidatas** identificadas (35 originales del Brainstorming
 **Bloque A — Infraestructura mínima (4 features):**
 F01 Autenticación, F29 Roles y permisos, F30 Persistencia de estados, F31 Persistencia de decisiones.
 
-**Bloque B — Operador, monitoreo (9 features):**
+**Bloque B — Operador, monitoreo (9 features MVP1):**
 F02 Dashboard principal, F03 Flujo en tiempo real, F04 Cola por dirección, F05 Panel de predicción, F06 Vista combinada estado+predicción, F07 Panel del motor adaptativo, F08 Explicación de selección (nivel mínimo), F09 Notificación de cambio, F10 Log de decisiones.
+
+> *Nota sobre la afinidad temática de F11 con este bloque:* F11 (Módulo de notas del Operador) no entra en el conteo MVP1 del Bloque B (es MVP2, ver subsección siguiente del Sequencer) pero pertenece temáticamente al Bloque B por ser soporte al monitoreo del Operador. Los documentos del backlog (`HU_BLOQUE_B.md`, `FEATURE_BACKLOG_DETALLADO.md`) la ubican dentro del Bloque B y la mapean a HU-09; el Sequencer la lista aparte porque cuenta features por su clasificación MVP, no por afinidad temática. Las dos convenciones son consistentes.
 
 **Bloque C — Operador, degradación (6 features):**
 F22 Indicador de estado degradado, F23 Vista simplificada de componentes, F24 Mensaje explicativo, F25 Indicación por panel, F26 Lógica de fallback en cascada, F27 Configuración de tiempos fijos del nivel 3.
@@ -440,13 +442,14 @@ Esta sección documenta los refinamientos al Inception desde la versión 1.0 (wo
 - Sección 14 (esta) agregada al pie del documento.
 - Decisión cerrada #10 (sección 11) actualizada para reflejar la nueva semántica de MVP2.
 - Decisión cerrada #8 (sección 11) actualizada para reflejar el modelo de 4 estados de DHU-008.
+- **Aclaración sobre el conteo del Bloque B** (agregada en pase de higiene cruzada con los documentos del backlog): en el Sequencer, Bloque B = 9 features MVP1 (F02 a F10). F11 (Módulo de notas del Operador) pertenece temáticamente a este bloque por ser soporte al monitoreo del Operador, pero no entra en el conteo MVP1 porque está clasificada como MVP2 (ver subsección MVP2 más abajo). Los documentos del backlog (`HU_BLOQUE_B.md`, `FEATURE_BACKLOG_DETALLADO.md`) la ubican dentro del Bloque B; el Sequencer la lista aparte. Ambas convenciones son consistentes.
 
 ---
 
 ## Documentos relacionados
 
 - `DECISIONS.md` — Registro formal de decisiones técnicas (D-001 a D-009).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-013).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-014).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto; sección 8 contiene la tabla de Trabajos Futuros.
 - `LEAN_INCEPTION_INVESTIGACION.md` — Fundamentación del marco metodológico.
 - `documentation/docs/DISCOVERY_2026-05-10.md` — Auditoría inicial del repositorio.

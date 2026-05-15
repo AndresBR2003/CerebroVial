@@ -29,6 +29,8 @@ Ver `DECISIONS_HU.md` para fundamentación completa.
 
 Las 10 features del Bloque B (F02 a F11) se mapearon a 8 HUs según el siguiente criterio (Nivel B de granularidad: una HU por elemento de información del dashboard):
 
+> **Nota sobre el conteo del Bloque B:** existen dos formas válidas de contar las features de este bloque que conviven en la documentación. (a) El **Sequencer del Inception** (`LEAN_INCEPTION_CEREBROVIAL.md` sección 9) declara *"Bloque B — Operador, monitoreo (9 features): F02 a F10"*, porque el Sequencer cuenta únicamente features MVP1 dentro de cada bloque y F11 está clasificada como MVP2. (b) Los documentos del backlog (`HU_BLOQUE_B.md`, `FEATURE_BACKLOG_DETALLADO.md`) cuentan 10 features (F02 a F11), porque agrupan las features por **afinidad temática** independientemente de su clasificación MVP1/MVP2: F11 (Módulo de notas del Operador) es soporte al monitoreo del Operador y pertenece temáticamente a este bloque, aunque su construcción está condicionada a la holgura del cronograma. Las dos convenciones son consistentes; este documento adopta la convención (b) y marca explícitamente cada HU con su clasificación MVP en el resumen del bloque.
+
 | HU | Título | Features que cubre |
 |---|---|---|
 | HU-02 | Monitoreo del estado actual de la intersección en tiempo real | F03 + F04 (F02 cubierto por composición) |
@@ -470,10 +472,10 @@ Durante la redacción del Bloque B se cerraron las siguientes decisiones formale
 
 ## Próximos pasos
 
-Esta sesión cierra el Bloque B. Los siguientes bloques se redactarán en sesiones futuras:
+Esta sesión cierra el Bloque B. A la fecha actual, los Bloques C y D también están cerrados; los siguientes bloques se redactarán en sesiones futuras:
 
-1. **Bloque C — Operador, operación degradada** (F22, F23, F24, F25, F26, F27 → 3 HUs operativas + 2 TTH; ya cerrado con HU-10, HU-11, HU-12, TTH-04, TTH-05).
-2. **Bloque D — Administrador, soporte técnico** (F17, F18, F20 → 3 HUs operativas; estructura confirmada por DHU-013). F21 fue reclasificado a Trabajos Futuros por DHU-012.
+1. **Bloque C — Operador, operación degradada** (F22, F23, F24, F25, F26, F27 → 3 HUs operativas + 2 TTH; ya cerrado con HU-10, HU-11, HU-12, TTH-04, TTH-05). Ver `HU_BLOQUE_C.md`.
+2. **Bloque D — Administrador, soporte técnico** (F17, F18, F20 → 3 HUs operativas; ya cerrado con HU-13, HU-14, HU-15). Ver `HU_BLOQUE_D.md`. F21 fue reclasificado a Trabajos Futuros por DHU-012.
 3. **Bloque E — Componentes centrales del sistema** (F32, F33, F34, F35 → ~4-5 HUs o TTH).
 4. **Bloque F — Gerente, reportería mínima** (F12, F13, F14 → ~3-5 HUs, incluye F30 inglobada).
 5. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (F11, F15, F16, F19, F28 → ~5 HUs; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
@@ -485,9 +487,11 @@ Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcion
 ## Documentos relacionados
 
 - `HU_BLOQUE_A.md` — Bloque A del Product Backlog (acceso al sistema, 1 HU).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-013).
+- `HU_BLOQUE_C.md` — Bloque C del Product Backlog (3 HUs operativas: HU-10, HU-11, HU-12).
+- `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-014).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
-- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 (autenticación), TTH-02 (Docker), TTH-03 (CI).
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 (autenticación), TTH-02 (Docker), TTH-03 (CI), TTH-04 (fallback en cascada), TTH-05 (tiempos preconfigurados degradado nivel 3), TTH-06 (capa DTOs, Trabajos Futuros).
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.
-- `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 35 features.
+- `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features (29 MVP1 + 5 MVP2 + 7 Trabajos Futuros).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.

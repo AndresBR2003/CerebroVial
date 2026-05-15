@@ -592,7 +592,7 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque D.
 
-**Modelado:** HU del Administrador (a redactar en el Bloque D), según DHU-013. Consume el endpoint CT-04.5 de TTH-04 (`GET /system/components/status`), con presentación técnica distinta a la de HU-11 del Operador (que consume el mismo endpoint con presentación simplificada).
+**Modelado:** HU-13 del Bloque D, según DHU-013 y DHU-014. Consume el endpoint CT-04.5 de TTH-04 (`GET /system/components/status`), con presentación técnica distinta a la de HU-11 del Operador (que consume el mismo endpoint con presentación simplificada). El contrato de CT-04.5 se amplió al cerrar HU-13 para cubrir los campos técnicos adicionales que HU-13 requiere (latencia, indicador de fallos recientes, timestamp de última evaluación exitosa).
 
 **Notas:** Considerar usar el patrón `/health` y `/health/detailed` para que F23 (vista Operador) consuma `/health` simple y F17 (Admin) consuma `/health/detailed`.
 
@@ -617,7 +617,7 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque D.
 
-**Modelado:** HU del Administrador (a redactar en el Bloque D), según DHU-013. El sustrato técnico (registro de predicciones + cálculo de métricas agregadas) se ingloba como CAs dentro de la propia HU, siguiendo el patrón de F31 inglobada en HU-08. No se crea TTH adicional.
+**Modelado:** HU-14 del Bloque D, según DHU-013 y DHU-014. El sustrato técnico (registro de predicciones + cálculo de métricas agregadas) se ingloba como CAs dentro de la propia HU, siguiendo el patrón de F31 inglobada en HU-08. No se crea TTH adicional. HU-14 expone MAE, RMSE, accuracy y matriz de confusión 6×6 con tooltips de ayuda integrados.
 
 **Notas:** Para SUMO la verdad ground truth está disponible (lo que SUMO efectivamente generó). Para producción hipotética, hay que esperar al siguiente periodo para tener el valor real.
 
@@ -667,7 +667,7 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque D.
 
-**Modelado:** Una sola HU del Administrador (a redactar en el Bloque D), agnóstica a tecnologías según DHU-006 y DHU-013. El sustrato técnico (persistencia de parámetros + auditoría de cambios) se ingloba como CAs dentro de la propia HU.
+**Modelado:** HU-15 del Bloque D — una sola HU del Administrador, agnóstica a tecnologías según DHU-006, DHU-013 y DHU-014. El sustrato técnico (persistencia de parámetros + auditoría de cambios) se ingloba como CAs dentro de la propia HU. Cubre en MVP1 tres familias de parámetros: visualización del estado del tráfico (umbrales de cola), predicción y evaluación del modelo (horizonte, umbral de congestión, ventana de cálculo de métricas de HU-14), y monitor de salud del sistema (frecuencia de evaluación). Los parámetros internos de las estrategias del motor quedan fuera de MVP1.
 
 **Notas:** Recomendación: exponer solo los parámetros críticos (3-5 máximo) en MVP1. Los avanzados se dejan internos por ahora. Parámetros mínimos a exponer: umbrales de cola verde/amarillo/rojo, umbral de congestión (jam level ≥ N), horizonte de predicción.
 
@@ -1153,7 +1153,7 @@ Cada feature está descrita con la siguiente estructura:
 # Próximos pasos
 
 1. **Validar este backlog con el asesor** durante el Showcase.
-2. **Convertir cada feature MVP1 a Historia de Usuario, TTH o composición** según corresponda (ver columna "Modelado" de cada ficha). El backlog del MVP1 se redacta progresivamente por bloques: Bloque A, B, C cerrados; Bloque D, E, F pendientes.
+2. **Convertir cada feature MVP1 a Historia de Usuario, TTH o composición** según corresponda (ver columna "Modelado" de cada ficha). El backlog del MVP1 se redacta progresivamente por bloques: Bloque A, B, C, D cerrados; Bloque E y F pendientes.
 3. **Convertir cada feature MVP2 a Historia de Usuario** con la misma estructura, marcadas como candidatas a holgura del sprint. Se redactan en sesión MVP2 dedicada tras cerrar todos los bloques MVP1.
 4. **Las 7 fichas de Trabajos Futuros NO se convierten a Historia de Usuario.** Se mantienen como referencia y se mencionan en el capítulo de trabajo futuro del documento de tesis.
 5. **Estimar las HUs** con Planning Poker (solo HUs MVP1 y MVP2; las TTH se estiman directamente en horas/días).
@@ -1166,7 +1166,7 @@ Cada feature está descrita con la siguiente estructura:
 
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Documento principal del Inception (este es complementario).
 - `DECISIONS.md` — Decisiones técnicas referenciadas (D-001 a D-009).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del backlog (DHU-001 a DHU-013).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del backlog (DHU-001 a DHU-014).
 - `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md` — Product Backlog redactado por bloques.
 - `TAREAS_TECNICAS_HABILITADORAS.md` — Tareas Técnicas Habilitadoras transversales.
 - `EVOLUCION_TESIS.md` — Narrativa de evolución del proyecto; sección 8 contiene tabla referencial de Trabajos Futuros.
