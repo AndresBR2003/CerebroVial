@@ -128,9 +128,13 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque A.
 
-**Modelado:** Persistencia inglobada como Criterios de Aceptación en HUs del Gerente (Bloque F), según regla cerrada en el Bloque A. No se redacta como HU dedicada.
+**Modelado:** Inglobada como CA-16.1 a CA-16.3 de HU-16 del Bloque F, conforme a la regla cerrada en el Bloque A y a DHU-016 subsección B. No se redacta como HU dedicada ni como TTH separada. Patrón equivalente al de F31 inglobada en CA-08.1 de HU-08, sustrato de F18 inglobado en CA-14.1 a CA-14.4 de HU-14, sustrato de F20 inglobado en CA-15.1 a CA-15.4 y CA-15.8 de HU-15.
 
-**Notas:** Discutir granularidad con asesor. Recomendación: agregar cada 30 segundos para validación; menor granularidad para producción hipotética.
+**Notas:**
+- **Granularidad cerrada por DHU-016 subsección E:** treinta segundos por intersección y por dirección. No se expone como parámetro configurable al Administrador en MVP1.
+- **Retención cerrada por DHU-016 subsección E:** sin política de retención automática en MVP1. El histórico se acumula durante el alcance académico.
+- **Fuente operacional en MVP1 (DHU-016 subsección C):** la persistencia se alimenta de la fuente de estado vigente del sistema en cada momento, sin nombrarla en las HUs (DHU-006). En MVP1 la fuente vigente son las corridas de validación cuantitativa en el entorno simulado de la intersección. En operación hipotética posterior al alcance académico, sería la salida del módulo sensor de estado. La transición es transparente para HU-16 porque su contrato es agnóstico a la fuente.
+- **Independencia de otros registros (CA-16.1):** la persistencia de F30 es operacional independiente respecto a TTH-07 CT-07.3 (dataset de entrenamiento offline), TTH-08 CT-08.5 (métricas del módulo sensor), TTH-09 CT-09.5 (predicciones del modelo), HU-08 CA-08.1 / TTH-10 CT-10.9 (decisiones del motor) y TTH-04 CT-04.3 (transiciones de estado operativo). Cada registro tiene su propio esquema, su propio ciclo de escritura y sus propios consumidores.
 
 ---
 
@@ -796,9 +800,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque F.
 
-**Modelado:** A determinar al redactar el Bloque F.
+**Modelado:** F12 (Dashboard ejecutivo) fusionada con F13 (Selector de periodo) en **HU-16** del Bloque F conforme a DHU-016 subsección I, con F30 inglobada como CAs adicionales. Los cuatro KPIs se materializan como CAs específicos de cálculo (CA-16.9 a CA-16.12) con definiciones operacionales cerradas por DHU-016 subsección D.
 
-**Notas:** Los KPIs son los mismos que se usan para validar la tesis (ver MVP Canvas, Bloque 6). Esto asegura coherencia.
+**Notas:** Los KPIs son los mismos que se usan para validar la tesis (ver MVP Canvas, Bloque 6). Esto asegura coherencia. **Definiciones operacionales cerradas por DHU-016 subsección D:** (1) **Tiempo promedio de espera por vehículo** — media aritmética del tiempo con velocidad por debajo de un umbral bajo (sugerencia 0.1 m/s, cierre al implementar), agregado total y por dirección; (2) **Longitud máxima de cola por dirección** — máximo observado en cada dirección durante el periodo, sin agregación al total; (3) **Throughput de la intersección** — total de vehículos cruzando, normalizado a veh/hora, agregado sin disgregación por dirección; (4) **Demora promedio acumulada** — media aritmética de la diferencia respecto al tiempo de cruce a velocidad libre del acceso (`longitud_acceso / max_speed_acceso`), agregado total.
 
 ---
 
@@ -821,9 +825,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque F.
 
-**Modelado:** A determinar al redactar el Bloque F.
+**Modelado:** Fusionada con F12 (Dashboard ejecutivo) en **HU-16** del Bloque F conforme a DHU-016 subsección I (el selector no entrega valor en aislamiento; gobierna el dashboard). El comportamiento del selector se materializa en CA-16.4 a CA-16.8 de HU-16.
 
-**Notas:** Considerar que el periodo seleccionado afecta a F12 y F14 simultáneamente.
+**Notas:** El periodo seleccionado afecta a F12 (HU-16) y F14 (HU-17) simultáneamente; el estado del selector se comparte entre las dos vistas durante la sesión activa, sin persistencia entre sesiones (CA-17.1, CA-17.3 de HU-17). **Presets cerrados por DHU-016 subsección F:** "Esta semana" (lunes 00:00 al momento actual), "Semana anterior" (lunes a domingo 23:59:59 de la semana previa), "Este mes" (día 1 del mes al momento actual), "Mes anterior" (día 1 al último día del mes previo), y "Rango personalizado" (date picker). Semana inicia los lunes (ISO 8601); mes natural calendario; zona horaria del despliegue (Lima, Perú). **El periodo "trimestre" mencionado en el título original NO se incluye en MVP1** (ambigüedad de definición: calendario natural Q1/Q2/Q3/Q4 vs últimos 90 días); se evalúa como mejora si surge necesidad concreta.
 
 ---
 
@@ -846,9 +850,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque F.
 
-**Modelado:** A determinar al redactar el Bloque F.
+**Modelado:** **HU-17** del Bloque F. Reutiliza el sustrato técnico de HU-16 (persistencia del histórico y definiciones operacionales de los cuatro indicadores); no introduce TTH ni CAs de sustrato nuevos.
 
-**Notas:** Si el cronograma aprieta, esta feature es candidata a bajar a MVP2.
+**Notas:** Si el cronograma aprieta, esta feature es candidata a bajar a MVP2 (clasificación importante ◆, no crítica ★). **Definición de "periodo previo equivalente" cerrada por DHU-016 subsección G:** periodo del mismo tipo inmediatamente anterior al actual. Para "esta semana" → "semana anterior"; para "este mes" → "mes anterior"; para "semana anterior" → dos semanas atrás; para "mes anterior" → dos meses atrás; para "rango personalizado" → rango de igual duración inmediatamente anterior. Patrón estándar de herramientas analíticas (Google Analytics, Tableau). **Semántica visual de variación (CA-17.7):** el código de color comunica dirección de **mejora o empeoramiento del desempeño**, no signo aritmético del cambio (tiempo de espera, cola y demora mejoran al disminuir; throughput mejora al aumentar). **Sin disgregación por dirección en la comparativa:** la asimetría con HU-16 (que sí admite disgregación con toggle) es intencional para no saturar dos periodos comparados simultáneamente; el drill-down detallado es F15 (MVP2).
 
 ---
 
@@ -1166,7 +1170,7 @@ Cada feature está descrita con la siguiente estructura:
 
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Documento principal del Inception (este es complementario).
 - `DECISIONS.md` — Decisiones técnicas referenciadas (D-001 a D-009).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del backlog (DHU-001 a DHU-015).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del backlog (DHU-001 a DHU-016).
 - `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md` — Product Backlog redactado por bloques.
 - `TAREAS_TECNICAS_HABILITADORAS.md` — Tareas Técnicas Habilitadoras transversales.
 - `EVOLUCION_TESIS.md` — Narrativa de evolución del proyecto; sección 8 contiene tabla referencial de Trabajos Futuros.

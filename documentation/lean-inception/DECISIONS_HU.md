@@ -7,7 +7,7 @@
 > **Relación con `DECISIONS.md`:** El documento `DECISIONS.md` registra decisiones técnicas del producto (arquitectura, modelo, datos). Este documento registra decisiones metodológicas sobre cómo se redacta el backlog. Los códigos no se solapan: `D-xxx` para técnicas, `DHU-xxx` para HUs.
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-15 (**Cierre del Bloque E el 2026-05-15: DHU-015 agregada.** Cubre clasificación HU/TTH de las features del Bloque E con resultado de 5 TTH operativas (TTH-07 a TTH-11) y 0 HUs operativas. La numeración del backlog de HUs no avanza con el Bloque E; última HU operativa cerrada sigue siendo HU-15 del Bloque D.)
+> **Última actualización:** 2026-05-16 (**Cierre del Bloque F el 2026-05-16: DHU-016 agregada.** Consolida las decisiones de redacción del Bloque F en diez subsecciones (A a J), con resultado de 2 HUs operativas (HU-16 y HU-17) y 0 TTH nuevas. Con el cierre del Bloque F, las 15 HUs operativas (HU-01 a HU-17) y las 11 TTH (TTH-01 a TTH-11) del MVP1 quedan redactadas y aprobadas. Resta sesión MVP2 dedicada.)
 
 ---
 
@@ -30,6 +30,7 @@
 | DHU-013 | Clasificación HU/TTH de las features del Bloque D | 2026-05-14 | Cerrada |
 | DHU-014 | Decisiones de redacción del Bloque D (numeración, dashboard, parámetros, métricas, concurrencia, ventana temporal, TTH-06) | 2026-05-14 | Cerrada |
 | DHU-015 | Clasificación HU/TTH de las features del Bloque E (con ampliación 4 → 5 TTH durante la redacción) | 2026-05-15 | Cerrada |
+| DHU-016 | Decisiones de redacción del Bloque F (numeración, F30 inglobada, fuente del histórico en MVP1, KPIs operacionales, granularidad, periodos, comparativa, concurrencia, dashboard integrador, robustez) | 2026-05-16 | Cerrada |
 
 ---
 
@@ -1221,6 +1222,230 @@ Por dependencias técnicas, con TTH-11 incorporada:
 
 ---
 
+## DHU-016 — Decisiones de redacción del Bloque F (numeración, F30 inglobada, fuente del histórico en MVP1, KPIs operacionales, granularidad, periodos, comparativa, concurrencia, dashboard integrador, robustez)
+
+**Fecha:** 2026-05-16.
+**Estado:** Cerrada.
+**Aplica a:** Bloque F — Gerente, reportería mínima.
+
+### Contexto
+
+DHU-015 cerró el Bloque E con 5 TTH operativas (TTH-07 a TTH-11) y 0 HUs operativas, dejando como próximo bloque pendiente el Bloque F — Gerente, reportería mínima. Las tres features que el Sequencer del Inception asigna a este bloque son F12 (Dashboard ejecutivo con KPIs agregados), F13 (Selector de periodo) y F14 (Vista comparativa entre periodos). Adicionalmente, la regla cerrada en el Bloque A determina que F30 (Persistencia de estados históricos) se ingloba como Criterios de Aceptación dentro de las HUs del Gerente, sin redactarse como HU dedicada.
+
+Antes de iniciar la redacción de las HUs concretas del Bloque F era necesario cerrar un conjunto de decisiones de detalle que la sola aplicación de DHU-001 a DHU-015 no determina por sí misma. DHU-016 consolida esas decisiones en un acto único, siguiendo el patrón establecido por DHU-014 (decisiones consolidadas de redacción del Bloque D).
+
+A diferencia de DHU-013 y DHU-015, esta decisión no requiere una sub-decisión de clasificación HU/TTH formal sobre las tres features del Bloque F: las tres tienen al Gerente como Persona beneficiaria directa (Journey 2, pasos 2 a 4) y cumplen las cuatro condiciones de HU operativa (DHU-004). La discusión metodológica sobre HU vs TTH para este bloque se cierra implícitamente al confirmar que las tres son HUs operativas y que F30 se mantiene como persistencia inglobada según la regla del Bloque A.
+
+### Decisiones consolidadas
+
+#### A. Numeración del Bloque F
+
+El Bloque D cerró en HU-15. El Bloque E no avanzó la numeración de HUs (0 HUs operativas, según DHU-015). La numeración del Bloque F continúa secuencial desde HU-16.
+
+**Decisión:** la numeración del Bloque F comienza en HU-16 (compactación secuencial desde el cierre del Bloque D, conforme a DHU-014 subsección A que estableció el principio de "no dejar huecos en la numeración para preservar memoria de HUs no redactadas o eliminadas; la traza histórica vive en `DECISIONS_HU.md`, no en el backlog").
+
+La numeración final del Bloque F queda determinada por la subsección I (fusión F12 + F13 en una sola HU):
+
+| HU | Feature(s) origen |
+|---|---|
+| HU-16 | F12 (Dashboard ejecutivo) + F13 (Selector de periodo) fusionadas, con F30 inglobada como CAs |
+| HU-17 | F14 (Vista comparativa entre periodos), con consumo del histórico declarado por HU-16 |
+
+#### B. F30 inglobada como Criterios de Aceptación, no como TTH del Bloque F
+
+La regla cerrada en el Bloque A estableció que F30 (Persistencia de estados históricos) se modela como persistencia inglobada en HUs del Gerente, no como HU dedicada. La pregunta abierta para DHU-016 era si el cumplimiento de esa regla podía mantenerse en la forma de inglobación como CAs (patrón equivalente al de F31 en CA-08.1 de HU-08), o si la complejidad técnica de la persistencia histórica justificaba escalarla a TTH separada del Bloque F.
+
+**Decisión:** F30 se ingloba como Criterios de Aceptación dentro de HU-16, no se extrae como TTH separada del Bloque F.
+
+**Justificación:**
+
+1. **Patrón previo equivalente.** F31 (persistencia de decisiones del motor) está inglobada en CA-08.1 de HU-08 y declarada como tal en su nota técnica. El sustrato técnico de F18 (registro de predicciones y cálculo de métricas) está inglobado en CA-14.1 a CA-14.4 de HU-14, sin TTH separada, conforme a DHU-013. El sustrato técnico de F20 (persistencia y auditoría de parámetros) está inglobado en CA-15.1 a CA-15.4 y CA-15.8 de HU-15. F30 sigue el mismo patrón.
+
+2. **Criterio de "consumidores múltiples" no aplica.** TTH-04 fue justificada como TTH separada porque su salida (estado operativo del sistema) es consumida por HU-10, HU-11, HU-12 y HU-13: una pieza de lógica autónoma consumida por múltiples HUs heterogéneas. El histórico de F30 es consumido exclusivamente por las HUs del Bloque F (HU-16 y HU-17), que son cohesivas y comparten propósito (reportería ejecutiva al Gerente). No hay justificación de extracción por reuso.
+
+3. **Complejidad técnica no justifica TTH.** La persistencia histórica es una tabla append-only de baja complejidad arquitectónica según la ficha F30 (complejidad Medio), comparable a la complejidad de los registros ya inglobados en HUs (predicciones de CA-14.1, parámetros de CA-15.1, decisiones del motor de CA-08.1). El umbral para extraer TTH no es la complejidad técnica sino la presencia de consumidores múltiples heterogéneos.
+
+#### C. Fuente del histórico de F30 en MVP1
+
+La ficha de F30 declara que la persistencia almacena "flujo, cola, velocidad, densidad por intersección y dirección, con timestamp". El sistema ya posee otros registros similares cerrados durante el Bloque E:
+
+| Registro existente | Qué persiste | Origen |
+|---|---|---|
+| TTH-08 CT-08.5 | Métricas de estado observado (conteo, cola, flujo, densidad por dirección con timestamp) | Salida del módulo de visión |
+| TTH-07 CT-07.3 | Dataset tabular del entorno simulado (velocidad, vehículos, cola, ratio, jam level) con marcas de seed/patrón/timestamp simulado | Generación offline de SUMO |
+| TTH-09 CT-09.5 | Predicciones del modelo (timestamp, dirección, paso futuro, ratio, nivel) | Modelo predictivo |
+| HU-08 CA-08.1 + TTH-10 CT-10.9 | Decisiones del motor (estrategia, razón, tiempos aplicados) | Motor adaptativo |
+| TTH-04 CT-04.3 | Transiciones de estado operativo del sistema | Monitor de salud |
+
+El registro de TTH-08 se solapa parcialmente con lo que F30 necesita persistir. Sin embargo, en MVP1 el módulo de visión no está en el loop de validación cuantitativa (D-007), y la cámara no corre continuamente en operación real durante el desarrollo académico. El dataset de TTH-07 sí contiene datos comparables, pero es offline (se genera por corridas reproducibles del script de CT-07.3), está pensado para entrenar TTH-09, y mezcla múltiples patrones de demanda y seeds, lo cual no es semánticamente una "operación histórica" del sistema sobre una intersección viva.
+
+Se evaluaron tres opciones para resolver de dónde salen los datos de F30 en MVP1:
+
+| Opción | Descripción | Consecuencia |
+|---|---|---|
+| A | F30 es persistencia operacional separada y agnóstica a la fuente, alimentada por la fuente de estado vigente del sistema en cada momento | Coherente con DHU-006 (HUs agnósticas a fuente). Independencia explícita respecto a TTH-07/TTH-08. En MVP1 la fuente vigente son corridas de validación cuantitativa en SUMO; el demo al jurado consulta el histórico generado en esas corridas. No se nombra a SUMO en las HUs. |
+| B | F30 reusa CT-08.5 (persistencia de visión) y el Bloque F consume directamente de ahí | Ata el Bloque F a la salida de visión, que en MVP1 está fuera del loop por D-007. En MVP1 no habría datos para reportar. |
+| C | F30 reusa el dataset de TTH-07 | Rompe la semántica: el dataset es offline para entrenamiento, no operacional para reportería; mezcla múltiples patrones y seeds. |
+
+**Decisión:** se adopta la Opción A.
+
+**Detalle de la decisión:**
+
+1. F30 vive como persistencia operacional independiente, declarada como CAs dentro de HU-16. Su esquema mínimo incluye: marca de tiempo, identificador de intersección, dirección, y las cuatro variables observadas (flujo, longitud de cola, velocidad media, densidad). La persistencia es append-only, durable, y no se borra automáticamente en MVP1.
+
+2. En MVP1, la fuente operacional vigente que alimenta F30 son las corridas de validación cuantitativa del sistema integrado en el entorno simulado de la intersección. Las HUs del Bloque F no nombran esta fuente (DHU-006); las notas técnicas y `TAREAS_TECNICAS_HABILITADORAS.md` la documentan.
+
+3. La independencia de F30 respecto a TTH-07/TTH-08/TTH-09/HU-08/TTH-04 se declara explícitamente como nota técnica en HU-16, siguiendo la fórmula que CT-09.5 usa para declarar la independencia de TTH-09 respecto a TTH-04 y HU-08.
+
+4. La conexión técnica entre F30 y la fuente vigente (cómo el sistema escribe a la tabla de F30 cuando corre una simulación de validación) es responsabilidad de implementación. No requiere TTH nueva: el comportamiento se declara en CAs de HU-16 y la implementación se resuelve al construir.
+
+5. En operación hipotética posterior al alcance académico, la fuente vigente sería la salida del módulo de visión (TTH-08). La transición es transparente para las HUs del Bloque F porque su contrato es agnóstico a la fuente.
+
+#### D. Definiciones operacionales de los 4 KPIs
+
+El MVP Canvas (Bloque 6) cerró los 4 KPIs técnicos del sistema integrado: tiempo promedio de espera por vehículo, longitud máxima de cola por dirección, throughput de la intersección, demora promedio acumulada en periodo de simulación. La ficha de F12 identifica como riesgo "definir los KPIs específicos y su cálculo". DHU-016 cierra las definiciones operacionales para que HU-16 quede autocontenida:
+
+| KPI | Definición operacional cerrada para MVP1 |
+|---|---|
+| Tiempo promedio de espera por vehículo | Media aritmética del tiempo, en segundos, que cada vehículo pasa con velocidad por debajo de un umbral bajo (sugerencia operativa: 0.1 m/s, cierre al implementar) durante su paso por la intersección. Agregado sobre todos los vehículos del periodo seleccionado, por dirección y total. |
+| Longitud máxima de cola por dirección | Máximo de la longitud de cola, en número de vehículos, observado en cada dirección durante el periodo seleccionado. Se reporta por dirección, sin agregación al total de la intersección (el máximo de un agregado no es el agregado de los máximos). |
+| Throughput de la intersección | Número total de vehículos que cruzan la intersección durante el periodo seleccionado, normalizado a vehículos por hora dividiendo por la duración del periodo. Agregado total, sin disgregación por dirección en la vista principal. |
+| Demora promedio acumulada | Media aritmética, por vehículo, de la diferencia entre el tiempo real de paso del vehículo y el tiempo que tardaría en condiciones de free-flow (recorrido a velocidad libre sin detenciones). Agregado sobre todos los vehículos del periodo. |
+
+**Decisión específica:** las cuatro definiciones se materializan como CAs específicos de cálculo en HU-16, y cada KPI lleva un tooltip de ayuda activable en la vista que despliega la definición operacional al Gerente (patrón establecido en CA-14.7 de HU-14 para las métricas del modelo predictivo).
+
+**Detalles cerrados:**
+
+1. **Cálculo: media aritmética, no percentiles.** Los promedios son aritméticos. Los percentiles (p50, p95) son trabajo futuro si se justifica.
+
+2. **Disgregación por dirección.** Tiempo promedio de espera y longitud máxima de cola se reportan también por dirección de entrada. Throughput y demora promedio acumulada se reportan agregados a la intersección, sin disgregación por dirección en la vista principal (el agregado es lo que valida la tesis).
+
+3. **Unidades:** segundos para tiempos, vehículos para conteos, vehículos/hora para throughput, segundos para demora acumulada por vehículo.
+
+4. **Free-flow para demora:** se calcula como tiempo de cruce a velocidad libre del acceso (`longitud_acceso / max_speed_acceso`), tomando max_speed del archivo de red de la intersección, congruente con la nota técnica de TTH-07 sobre el mapeo SUMO → jam level.
+
+#### E. Granularidad temporal del histórico persistido
+
+La ficha de F30 deja abierto "¿estados cada 1s, 10s, 1min?" y sugiere 30 segundos para validación. Sin política de retención clara.
+
+**Decisión:** la granularidad de agregación del histórico persistido es de 30 segundos por intersección y por dirección. No hay política de retención automática en MVP1: el histórico se acumula durante el alcance académico sin borrado programado.
+
+**Justificación de los 30 segundos:** equilibra (a) resolución suficiente para reconstruir tendencias en periodos semanales y mensuales, (b) volumen razonable de filas para una intersección durante el alcance académico (aproximadamente 2880 filas por dirección y por día), (c) coherencia con la frecuencia típica de actualización de la vista del Operador (HU-02 actualiza en tiempo casi-real, no requiere persistir cada segundo).
+
+**Exposición al Administrador:** la granularidad **no se expone** como parámetro configurable en HU-15 en MVP1. Cambiar la granularidad históricamente acumulada introduce complejidad de migración (filas de granularidad mixta) que no aporta valor en el alcance académico. Si en el futuro se justifica exposición, se evalúa entonces; no es trabajo del Bloque F.
+
+#### F. Periodos predefinidos del selector
+
+La ficha de F13 sugiere "esta semana, semana anterior, este mes, mes anterior + rango personalizado". DHU-016 cierra la lista exacta y las convenciones de cálculo.
+
+**Decisión:** el selector ofrece cuatro presets más un rango personalizado:
+
+1. **Esta semana** — desde el lunes 00:00 hasta el momento actual.
+2. **Semana anterior** — desde el lunes de la semana previa 00:00 hasta el domingo previo 23:59:59.
+3. **Este mes** — desde el día 1 del mes actual 00:00 hasta el momento actual.
+4. **Mes anterior** — desde el día 1 del mes previo 00:00 hasta el último día del mes previo 23:59:59.
+5. **Rango personalizado** — el Gerente selecciona fecha de inicio y fecha de fin mediante un componente date picker.
+
+**Convenciones cerradas:**
+
+- Semana inicia los **lunes** (convención ISO 8601, predominante en contexto académico peruano y latinoamericano).
+- Mes natural calendario (no rolling 30 días).
+- Zona horaria del sistema (la del despliegue del servidor; en MVP1 se asume zona horaria de Lima, Perú).
+- El periodo "trimestre" mencionado en el título original de F13 **no se incluye en MVP1**: tres meses requieren especificación adicional (¿trimestre calendario natural Q1/Q2/Q3/Q4? ¿últimos 90 días?) que excede el alcance mínimo. Se evalúa como mejora si surge necesidad concreta.
+
+#### G. Definición de "periodo previo equivalente" en HU-17
+
+La ficha de F14 identifica como riesgo "decidir qué considera periodo previo equivalente". DHU-016 cierra:
+
+**Decisión:** el periodo previo equivalente de la vista comparativa (HU-17) es el periodo del mismo tipo inmediatamente anterior al actual:
+
+- Si el periodo seleccionado es "esta semana" → comparativo es "semana anterior".
+- Si el periodo seleccionado es "este mes" → comparativo es "mes anterior".
+- Si el periodo seleccionado es "semana anterior" → comparativo es "dos semanas atrás".
+- Si el periodo seleccionado es "mes anterior" → comparativo es "dos meses atrás".
+- Si el periodo seleccionado es "rango personalizado" → comparativo es el rango de igual duración inmediatamente anterior al rango actual (por ejemplo: si el rango actual es del 1 al 15 de marzo, el comparativo es del 14 al 28 de febrero).
+
+**Justificación:** patrón estándar de herramientas analíticas (Google Analytics, Mixpanel, Tableau usan la misma convención). Bajo riesgo de implementación. Cubre los cuatro casos del selector sin agregar UI nueva.
+
+#### H. Concurrencia entre Gerentes
+
+**Diagnóstico:** las HUs del Bloque F son **read-only**. El Gerente consulta KPIs y comparativas, no edita configuración ni datos. Múltiples Gerentes consultando simultáneamente es un caso de carga, no de concurrencia funcional.
+
+**Decisión:** las HUs del Bloque F no incluyen mecanismo de control de concurrencia (no hay last-write-wins porque no hay write). La concurrencia entre Gerentes se documenta explícitamente como **no aplicable** en una nota técnica de HU-16 para evitar ambigüedad.
+
+**Justificación:** análoga a por qué HU-02 y HU-03 (consulta en tiempo real del Operador) no incluyen mecanismo de control de concurrencia, a diferencia de HU-15 (configuración de parámetros del Administrador) que sí lo requiere (CA-15.11).
+
+#### I. Dashboard integrador del Gerente y composición de HUs
+
+**Contexto:** el Sequencer del Inception lista tres features para el Bloque F (F12, F13, F14). Si cada feature se modela como HU separada, el Bloque F tendría tres HUs operativas (estimación inicial del usuario al iniciar la sesión).
+
+**Análisis:** el selector de periodo (F13) no entrega valor en aislamiento; su único propósito es gobernar lo que muestra el dashboard ejecutivo (F12) y la comparativa (F14). Una HU dedicada al selector violaría el principio de cohesión de Mike Cohn ("una HU = un valor entregable autocontenido"). El selector no es una pieza de funcionalidad autónoma sino un componente de control sobre las vistas que sí entregan valor.
+
+A diferencia del Administrador (DHU-014 subsección B), el Gerente sí trabaja sobre un único objeto compuesto: los KPIs del periodo seleccionado. F12 y F13 son altamente acoplados: la consulta de KPIs sin selector es un dashboard estático, y el selector sin KPIs es un componente vacío. F14 sí es separable: la comparativa es una vista distinta que reutiliza el periodo seleccionado, pero entrega un valor diferenciado (tendencia, no estado).
+
+**Decisión:** el Bloque F se redacta con **2 HUs operativas, no 3**:
+
+- **HU-16** fusiona F12 (Dashboard ejecutivo) y F13 (Selector de periodo) en una sola HU "Consulta de KPIs operativos sobre periodo seleccionable". El selector y el dashboard viven como CAs distintos dentro de la misma HU. F30 se ingloba como CAs adicionales en esta misma HU.
+
+- **HU-17** mantiene F14 (Vista comparativa entre periodos) como HU separada. Reutiliza el selector definido en HU-16 (la selección de periodo es estado compartido entre las dos vistas del Gerente) y entrega valor diferenciado (comparativa con periodo previo equivalente).
+
+**Sin HU dedicada de dashboard integrador.** Análogamente a DHU-014 subsección B (sin HU dedicada de dashboard del Administrador), el Gerente no requiere HU dedicada de "dashboard integrador" análoga a F02 del Bloque B. La navegación del Gerente da acceso a HU-16 (consulta principal) y HU-17 (comparativa), y eso es suficiente. La diferencia respecto al Operador es que el Gerente no monitorea en tiempo real: el valor agregado de un dashboard integrador único como F02 viene del simultaneismo del tiempo real, que no aplica al Gerente.
+
+**Consecuencia formal:** el Bloque F cierra con **2 HUs operativas + 0 TTH nuevas**, no 3 HUs. La estimación inicial de "~3 HUs MVP1" en el mensaje de arranque queda revisada por DHU-016 a "2 HUs MVP1". La compactación preserva la cobertura funcional de las tres features y mejora la cohesión semántica de las HUs.
+
+#### J. Aplicación de DHU-005 al Bloque F (robustez ante interrupción de fuente)
+
+DHU-005 declara dos casos: Caso A (fuente externa de medición) y Caso B (componente interno de decisión). El Bloque F no opera en tiempo real, pero las HUs del Gerente dependen de que la persistencia histórica de F30 y el motor de cálculo de KPIs estén disponibles.
+
+**Decisión:** las HUs del Bloque F aplican **DHU-005 Caso B** al motor de cálculo de KPIs y al subsistema de consulta del histórico:
+
+- Cuando la persistencia de F30 deja de responder, la vista muestra los últimos KPIs calculados marcados como "no actualizados", indicando el timestamp del último cálculo exitoso.
+- Cuando el motor de cálculo de KPIs no puede completar el cálculo del periodo solicitado, la vista comunica explícitamente la indisponibilidad temporal en lugar de mostrar KPIs en cero (que podrían confundirse con un periodo de tráfico cero, valor distinto a "no se pudo calcular").
+
+**Patrón previo:** CA-14.12 de HU-14 aplica el mismo principio al motor de cálculo de métricas del modelo predictivo. Las HUs del Bloque F lo aplican análogamente al motor de cálculo de KPIs.
+
+**Manejo de caso degenerado (sin datos en el periodo):** si el periodo seleccionado no contiene datos persistidos (por ejemplo, el Gerente selecciona "semana anterior" pero el sistema aún no estaba operativo entonces), la vista comunica explícitamente "no hay datos en el periodo seleccionado" en lugar de mostrar KPIs calculados sobre cero filas. Patrón análogo a CA-14.11 de HU-14.
+
+### Decisión final
+
+**Bloque F MVP1: 2 HUs operativas + 0 TTH nuevas.**
+
+| Feature | Modelado como | Identificador |
+|---|---|---|
+| F12 (Dashboard ejecutivo) + F13 (Selector de periodo) | HU fusionada del Gerente | **HU-16** |
+| F30 (Persistencia de estados históricos) | Inglobada como CAs en HU-16 | (CAs específicos) |
+| F14 (Vista comparativa entre periodos) | HU del Gerente | **HU-17** |
+
+**Total Bloque F:** 2 HUs operativas + 0 TTH nuevas. F30 inglobada en CAs de HU-16, conforme a la regla del Bloque A y al patrón establecido para F31 en CA-08.1 de HU-08.
+
+### Lo que NO cambia con DHU-016
+
+- **Las decisiones DHU-001 a DHU-015 mantienen su contenido sustantivo.** DHU-016 las cita y aplica al Bloque F sin reabrir ninguna.
+- **El alcance del producto** (Personas, Objetivos, Journeys, Visión) se mantiene intacto.
+- **Las HUs MVP1 redactadas en bloques previos (HU-01 a HU-15)** no se reabren. F30 inglobada en HU-16 es persistencia operacional independiente respecto a TTH-07, TTH-08, TTH-09, HU-08 CA-08.1 y TTH-04 CT-04.3; ninguno de esos registros se ve modificado.
+- **Las TTH previas (TTH-01 a TTH-11)** mantienen su contenido. El cálculo de KPIs del Bloque F sobre el histórico persistido por F30 no requiere reabrir ningún CT.
+- **Los 4 KPIs del MVP Canvas Bloque 6** se mantienen como base de validación cuantitativa. Las definiciones operacionales de la subsección D refinan su cálculo sin alterar su selección.
+
+### Documentos afectados por DHU-016
+
+| Documento | Tipo de cambio |
+|---|---|
+| `HU_BLOQUE_F.md` (nuevo) | Documento nuevo con HU-16 (F12 + F13 fusionadas + F30 inglobada) y HU-17 (F14). |
+| `DECISIONS_HU.md` (este documento) | Agregar DHU-016; actualizar índice, tabla de impacto en bloques y documentos relacionados. |
+| `FEATURE_BACKLOG_DETALLADO.md` | Fichas de F12, F13, F14 y F30 actualizan su columna "Modelado" para apuntar a HU-16, HU-17 y CAs específicos. La ficha de F13 incorpora la decisión sobre presets cerrados (subsección F) y la exclusión de "trimestre" en MVP1. La ficha de F14 incorpora la definición de "periodo previo equivalente" (subsección G). La ficha de F30 incorpora la granularidad cerrada y la independencia respecto a otros registros (subsecciones C y E). La ficha de F12 incorpora las definiciones operacionales de los 4 KPIs (subsección D). |
+| `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md`, `HU_BLOQUE_E.md` | Próximos pasos actualizados: Bloque F ya cerrado; resta MVP2. |
+| `LEAN_INCEPTION_CEREBROVIAL.md` | Documentos relacionados actualizado (referencia a `HU_BLOQUE_F.md`). |
+
+### Documentos relacionados
+
+- `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17).
+- `DECISIONS_HU.md` (este documento) — sección DHU-016.
+- `LEAN_INCEPTION_CEREBROVIAL.md` — Persona Gerente, Journey 2, MVP Canvas Bloque 6 (KPIs).
+- `FEATURE_BACKLOG_DETALLADO.md` — fichas F12, F13, F14, F30.
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-07/CT-07.3, TTH-08/CT-08.5, TTH-09/CT-09.5 (registros operacionales preexistentes; F30 declara independencia explícita respecto a estos).
+
+---
+
 ## Resumen de impacto en los bloques redactados hasta la fecha
 
 | Bloque | HUs | TTH | Decisiones aplicadas |
@@ -1230,6 +1455,7 @@ Por dependencias técnicas, con TTH-11 incorporada:
 | Bloque C | HU-10, HU-11, HU-12 (HU-13 eliminada por DHU-011) | TTH-04, TTH-05 | DHU-005, DHU-006, DHU-007, DHU-008, DHU-009, DHU-010, DHU-011 |
 | Bloque D | HU-13, HU-14, HU-15 | (ninguna nueva del MVP1); TTH-06 agregada como Trabajos Futuros; CT-04.5 de TTH-04 ampliada | DHU-013 (clasificación), DHU-014 (decisiones de redacción) |
 | Bloque E | (ninguna HU operativa) | TTH-07, TTH-08, TTH-09, TTH-10, TTH-11 | DHU-015 (clasificación HU/TTH del Bloque E con ampliación 4 → 5 TTH durante la redacción) |
+| Bloque F | HU-16, HU-17 (F12+F13 fusionadas con F30 inglobada; F14) | (ninguna nueva) | DHU-016 (decisiones consolidadas de redacción del Bloque F en diez subsecciones) |
 | Transversal | — | — | DHU-012 (auditoría de coherencia documental, aplica a todos los bloques y documentos relacionados) |
 
 ---
@@ -1241,6 +1467,7 @@ Por dependencias técnicas, con TTH-11 incorporada:
 - `HU_BLOQUE_C.md` — Bloque C del Product Backlog (3 HUs operativas: HU-10, HU-11, HU-12).
 - `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11 y decisiones tomadas durante la redacción).
+- `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-11.
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009). No se solapa con este documento.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Personas, journeys, MVP Canvas (insumos para identificar sujetos válidos).

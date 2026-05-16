@@ -2,7 +2,7 @@
 
 > Primera entrega del Product Backlog del proyecto CerebroVial.
 >
-> **Estado:** Bloque A cerrado y aprobado (versión 4, tras higiene documental aplicada retroactivamente por DHU-012). Bloques B, C, D y E posteriormente cerrados. Pendiente: Bloque F + MVP2. Los Bloques B y C se cerraron posteriormente a las versiones v2/v3 de este documento, en la misma jornada del 2026-05-13; el Bloque D se cerró el 2026-05-14; el Bloque E se cerró el 2026-05-15.
+> **Estado:** Bloque A cerrado y aprobado (versión 4, tras higiene documental aplicada retroactivamente por DHU-012). Bloques B, C, D, E y F posteriormente cerrados. **Con el cierre del Bloque F el 2026-05-16 (DHU-016), el MVP1 redactado queda completo: 15 HUs operativas + 11 TTH.** Pendiente: MVP2. Los Bloques B y C se cerraron posteriormente a las versiones v2/v3 de este documento, en la misma jornada del 2026-05-13; el Bloque D se cerró el 2026-05-14; el Bloque E se cerró el 2026-05-15; el Bloque F se cerró el 2026-05-16.
 >
 > **Fecha de cierre v1:** 2026-05-11
 > **Fecha de cierre v2:** 2026-05-13 (tras DHU-001 a DHU-004)
@@ -149,16 +149,16 @@ Las features F30 (persistencia de estados históricos) y F31 (persistencia de de
 
 ## Próximos pasos
 
-Este documento cierra el Bloque A. A la fecha actual, los Bloques B, C, D y E también están cerrados; los siguientes bloques se redactarán en sesiones futuras:
+Este documento cierra el Bloque A. A la fecha actual, los Bloques B, C, D, E y F también están cerrados; **con el cierre del Bloque F el 2026-05-16 (DHU-016), la redacción del MVP1 del Product Backlog queda completa: 15 HUs operativas (HU-01 a HU-17) y 11 TTH (TTH-01 a TTH-11).** Los siguientes pasos del proyecto, en sesiones futuras:
 
 1. **Bloque B — Operador, núcleo de monitoreo** (8 HUs: HU-02 a HU-09; ya cerrado). Ver `HU_BLOQUE_B.md`.
 2. **Bloque C — Operador, operación degradada** (3 HUs operativas + 2 TTH; ya cerrado). Ver `HU_BLOQUE_C.md`.
 3. **Bloque D — Administrador, soporte técnico** (3 HUs operativas; ya cerrado). Ver `HU_BLOQUE_D.md`.
 4. **Bloque E — Componentes centrales del sistema** (0 HUs operativas + 5 TTH: TTH-07 a TTH-11; ya cerrado el 2026-05-15 por DHU-015). Ver `HU_BLOQUE_E.md`.
-5. **Bloque F — Gerente, reportería mínima** (~3 HUs MVP1, incluye F30 inglobada).
-6. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (~5 HUs adicionales; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
+5. **Bloque F — Gerente, reportería mínima** (F12 + F13 fusionadas en HU-16 con F30 inglobada, F14 en HU-17 → 2 HUs operativas + 0 TTH nuevas; ya cerrado el 2026-05-16 por DHU-016). Ver `HU_BLOQUE_F.md`.
+6. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (~5 HUs adicionales: F11, F15, F16, F19, F28; HU-09 del Bloque B ya redactada como única HU MVP2 anticipada). Semántica refinada por DHU-012.
 
-Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs en un documento único aprobado, y se ejecutarán las ceremonias de **estimación (Planning Poker)** y **priorización (MoSCoW)** sobre el backlog completo.
+Tras cerrar todos los bloques (ya hecho con el cierre del Bloque F), se generará el **documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs en un documento único aprobado, y se ejecutarán las ceremonias de **estimación (Planning Poker)** y **priorización (MoSCoW)** sobre el backlog completo.
 
 ---
 
@@ -168,7 +168,8 @@ Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcion
 - `HU_BLOQUE_C.md` — Bloque C del Product Backlog (3 HUs operativas: HU-10, HU-11, HU-12).
 - `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11 y decisiones tomadas durante la redacción).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre redacción de HUs (DHU-001 a DHU-015). **Lectura obligatoria** antes de redactar nuevas HUs.
+- `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre redacción de HUs (DHU-001 a DHU-016). **Lectura obligatoria** antes de redactar nuevas HUs.
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01, TTH-02, TTH-03 transversales; TTH-04 y TTH-05 del Bloque C; TTH-06 Trabajos Futuros; TTH-07 a TTH-11 del Bloque E.
 - `DECISIONS.md` — Registro formal de decisiones técnicas del producto (D-001 a D-009).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.

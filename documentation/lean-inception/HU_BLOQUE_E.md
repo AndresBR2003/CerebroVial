@@ -2,7 +2,7 @@
 
 > Quinta entrega del Product Backlog del proyecto CerebroVial.
 >
-> **Estado:** Bloque E cerrado y aprobado. Bloques A, B, C y D previamente cerrados. Pendiente: Bloque F + HUs adicionales MVP2.
+> **Estado:** Bloque E cerrado y aprobado. Bloques A, B, C, D y F cerrados. **Con el cierre del Bloque F el 2026-05-16 (DHU-016), el MVP1 redactado queda completo: 15 HUs operativas + 11 TTH.** Pendiente: HUs adicionales MVP2.
 >
 > **Fecha de cierre:** 2026-05-15
 
@@ -176,13 +176,15 @@ Durante la redacción del Bloque E se cerró la siguiente decisión formal (en `
 
 ## Próximos pasos
 
-Esta sesión cierra el Bloque E. Los siguientes bloques se redactarán en sesiones futuras:
+Esta sesión cerró el Bloque E. A la fecha actual, el Bloque F también está cerrado (el 2026-05-16 por DHU-016, con 2 HUs operativas HU-16 y HU-17). **Con el cierre del Bloque F, la redacción del MVP1 del Product Backlog queda completa: 15 HUs operativas (HU-01 a HU-17) y 11 TTH (TTH-01 a TTH-11).** Los siguientes pasos del proyecto, en sesiones futuras:
 
-1. **Bloque F — Gerente, reportería mínima** (F12 dashboard ejecutivo, F13 selector de periodo, F14 vista comparativa → ~3 HUs MVP1, incluye F30 inglobada en CAs según regla del Bloque A).
+1. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (F11, F15, F16, F19, F28 → ~5 HUs; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
 
-2. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (F11, F15, F16, F19, F28 → ~5 HUs; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
+2. **Documento de Requisitos Funcionales y No Funcionales (RF/RNF).** Pendiente desde DHU-007: consolidar los "Candidatos a RNF" de todas las HUs en un documento único aprobado, numerando cada RNF y reemplazando los umbrales hardcodeados en las HUs por referencias al documento formal.
 
-Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs en un documento único aprobado, y se ejecutarán las ceremonias de **estimación (Planning Poker)** y **priorización (MoSCoW)** sobre el backlog completo.
+3. **Ceremonias de estimación (Planning Poker) y priorización (MoSCoW)** sobre el backlog completo (MVP1 + MVP2 + RF/RNF).
+
+4. **Implementación SCRUM del MVP1**, conforme al cronograma del Bloque 7 del MVP Canvas del Inception.
 
 ---
 
@@ -192,7 +194,8 @@ Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcion
 - `HU_BLOQUE_B.md` — Bloque B del Product Backlog (8 HUs: HU-02 a HU-09).
 - `HU_BLOQUE_C.md` — Bloque C del Product Backlog (3 HUs operativas: HU-10, HU-11, HU-12).
 - `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-015).
+- `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-016).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009). Particularmente D-006, D-007, D-008, D-009 fundamentan el Bloque E.
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-11 (incluye las 5 TTH del Bloque E).
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.
