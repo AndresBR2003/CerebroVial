@@ -449,10 +449,10 @@ Esta sección documenta los refinamientos al Inception desde la versión 1.0 (wo
 ## Documentos relacionados
 
 - `DECISIONS.md` — Registro formal de decisiones técnicas (D-001 a D-009).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-014).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-015).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto; sección 8 contiene la tabla de Trabajos Futuros.
 - `LEAN_INCEPTION_INVESTIGACION.md` — Fundamentación del marco metodológico.
 - `documentation/docs/DISCOVERY_2026-05-10.md` — Auditoría inicial del repositorio.
 - `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features (29 MVP1 + 5 MVP2 + 7 Trabajos Futuros).
-- `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md` — Product Backlog redactado por bloques.
-- `TAREAS_TECNICAS_HABILITADORAS.md` — Tareas Técnicas Habilitadoras transversales.
+- `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md`, `HU_BLOQUE_E.md` — Product Backlog redactado por bloques (Bloque E cerrado el 2026-05-15 sin HUs operativas, con 5 TTH; ver DHU-015).
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH transversales (TTH-01 a TTH-03), del Bloque C (TTH-04, TTH-05), Trabajos Futuros (TTH-06) y del Bloque E (TTH-07 a TTH-11).

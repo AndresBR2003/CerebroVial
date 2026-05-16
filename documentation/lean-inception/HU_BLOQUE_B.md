@@ -2,7 +2,7 @@
 
 > Segunda entrega del Product Backlog del proyecto CerebroVial.
 >
-> **Estado:** Bloque B cerrado y aprobado. Bloque A previamente cerrado. Pendiente: Bloques C, D, E, F + MVP2 (HU-09 ya redactada dentro de este bloque).
+> **Estado:** Bloque B cerrado y aprobado. Bloques A, C, D y E previamente cerrados. Pendiente: Bloque F + MVP2 (HU-09 ya redactada dentro de este bloque).
 >
 > **Fecha de cierre:** 2026-05-13
 
@@ -472,12 +472,12 @@ Durante la redacción del Bloque B se cerraron las siguientes decisiones formale
 
 ## Próximos pasos
 
-Esta sesión cierra el Bloque B. A la fecha actual, los Bloques C y D también están cerrados; los siguientes bloques se redactarán en sesiones futuras:
+Esta sesión cierra el Bloque B. A la fecha actual, los Bloques C, D y E también están cerrados; los siguientes bloques se redactarán en sesiones futuras:
 
 1. **Bloque C — Operador, operación degradada** (F22, F23, F24, F25, F26, F27 → 3 HUs operativas + 2 TTH; ya cerrado con HU-10, HU-11, HU-12, TTH-04, TTH-05). Ver `HU_BLOQUE_C.md`.
 2. **Bloque D — Administrador, soporte técnico** (F17, F18, F20 → 3 HUs operativas; ya cerrado con HU-13, HU-14, HU-15). Ver `HU_BLOQUE_D.md`. F21 fue reclasificado a Trabajos Futuros por DHU-012.
-3. **Bloque E — Componentes centrales del sistema** (F32, F33, F34, F35 → ~4-5 HUs o TTH).
-4. **Bloque F — Gerente, reportería mínima** (F12, F13, F14 → ~3-5 HUs, incluye F30 inglobada).
+3. **Bloque E — Componentes centrales del sistema** (F32, F33, F34, F35 → 0 HUs operativas + 5 TTH: TTH-07 a TTH-11; ya cerrado el 2026-05-15 por DHU-015). Ver `HU_BLOQUE_E.md`.
+4. **Bloque F — Gerente, reportería mínima** (F12, F13, F14 → ~3 HUs MVP1, incluye F30 inglobada).
 5. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (F11, F15, F16, F19, F28 → ~5 HUs; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
 
 Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs en un documento único aprobado, y se ejecutarán las ceremonias de **estimación (Planning Poker)** y **priorización (MoSCoW)** sobre el backlog completo.
@@ -489,9 +489,10 @@ Tras cerrar todos los bloques, se generará el **documento de Requisitos Funcion
 - `HU_BLOQUE_A.md` — Bloque A del Product Backlog (acceso al sistema, 1 HU).
 - `HU_BLOQUE_C.md` — Bloque C del Product Backlog (3 HUs operativas: HU-10, HU-11, HU-12).
 - `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-014).
+- `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11 y decisiones tomadas durante la redacción).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-015).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
-- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 (autenticación), TTH-02 (Docker), TTH-03 (CI), TTH-04 (fallback en cascada), TTH-05 (tiempos preconfigurados degradado nivel 3), TTH-06 (capa DTOs, Trabajos Futuros).
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 (autenticación), TTH-02 (Docker), TTH-03 (CI), TTH-04 (fallback en cascada), TTH-05 (tiempos preconfigurados degradado nivel 3), TTH-06 (capa DTOs, Trabajos Futuros), TTH-07 (SUMO), TTH-08 (visión), TTH-09 (GRU), TTH-10 (motor adaptativo), TTH-11 (spike de hiperparámetros temporales).
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.
 - `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features (29 MVP1 + 5 MVP2 + 7 Trabajos Futuros).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.

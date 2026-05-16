@@ -7,7 +7,7 @@
 > **Pensado como insumo para:** (a) conversación con asesor durante el Showcase, (b) conversión posterior a Historias de Usuario en formato "Como X, quiero Y, para Z", (c) referencia técnica durante la ejecución de sprints.
 
 **Fecha del Brainstorming original:** 2026-05-11
-**Última actualización:** 2026-05-14 (DHU-012: agregadas fichas F36-F41, reclasificación de F21, renombrado de F27, ficha de F26 referencia a TTH-04 como fuente canónica)
+**Última actualización:** 2026-05-15 (DHU-015: fichas F32, F33, F34, F35 actualizadas — columna "Modelado" apunta a TTH-07, TTH-08, TTH-09, TTH-10 respectivamente; F32 actualiza estado a "Por construir desde cero"; F33 actualiza estado a "Por reconstruir desde cero como parte del refactor del Bloque E"; F35 ajusta descripción a "2 estrategias adaptativas + 1 capa de reglas duras MTC" conforme a la arquitectura real cerrada en TTH-10. Última actualización previa: 2026-05-14 — DHU-012: agregadas fichas F36-F41, reclasificación de F21, renombrado de F27, ficha de F26 referencia a TTH-04 como fuente canónica.)
 **Versión:** 1.1
 
 ---
@@ -685,7 +685,7 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión técnica:**
 - **Complejidad:** ⚠ Alto.
 - **Stack:** SUMO + TraCI (Python API), configuración de red (NETEDIT u OpenStreetMap → netconvert), escenarios de demanda, integración con el motor adaptativo vía API.
-- **Estado actual:** 🆕 Por construir desde cero. Cero SUMO en el repo actual.
+- **Estado actual:** 🆕 Por construir desde cero. Cero SUMO en el repositorio actual. Exploración previa no entra como entregable, conforme a TTH-07 estado actual (DHU-015, 2026-05-15).
 - **Riesgos:** ⚠⚠ La feature de mayor riesgo cronológico del MVP1. Sin experiencia previa en SUMO, hay curva de aprendizaje real. Decisión D-008 le dio rol central.
 
 **Revisión UX:** No aplica (no expuesto al usuario directamente).
@@ -694,9 +694,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque E.
 
-**Modelado:** A determinar al redactar el Bloque E (probablemente TTH dado que no tiene Persona del producto beneficiaria directa).
+**Modelado:** **TTH-07** (Integración con SUMO para simulación del entorno). Ver `TAREAS_TECNICAS_HABILITADORAS.md`. Clasificación cerrada en DHU-015 (2026-05-15).
 
-**Notas:** Ya trabajándose en proyecto Claude separado. Cuello de botella absoluto: si SUMO se atrasa, se atrasan F34 (GRU necesita dataset), F26 (fallback necesita validación), Bloque F (KPIs Gerente requieren datos).
+**Notas:** Cuello de botella absoluto: si SUMO se atrasa, se atrasan TTH-09 (GRU necesita dataset), TTH-04 (fallback necesita validación end-to-end), Bloque F (KPIs Gerente requieren datos).
 
 ---
 
@@ -710,7 +710,7 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión técnica:**
 - **Complejidad:** Medio.
 - **Stack:** YOLO + OpenCV + lógica de tracking, exposición de métricas vía API.
-- **Estado actual:** ✓ Construido parcialmente. Hay módulo funcional. Falta integración con BD para persistir métricas y exposición estandarizada.
+- **Estado actual:** 🆕 Por reconstruir desde cero como parte del refactor del Bloque E (DHU-015, 2026-05-15). Existe código predecesor en `edge_device/src/vision/` originado en Fase 1 del proyecto que validó conceptualmente el pipeline con streams de YouTube; ese código no se preserva arquitectónicamente, queda como referencia histórica. El refactor se justifica por (a) outputs estructurados nuevos (numérico + visual con tracker) que no estaban en el código predecesor, (b) asignación direccional por polígonos ROI, (c) persistencia estandarizada de métricas.
 - **Riesgos:** Las decisiones de D-007 ya cierran los riesgos principales (no se valida cuantitativamente, no participa en loop de KPIs).
 
 **Revisión UX:** No aplica (es backend).
@@ -719,9 +719,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque E.
 
-**Modelado:** A determinar al redactar el Bloque E.
+**Modelado:** **TTH-08** (Módulo de visión computacional que produce métricas de estado). Ver `TAREAS_TECNICAS_HABILITADORAS.md`. Clasificación cerrada en DHU-015 (2026-05-15).
 
-**Notas:** Validación independiente del módulo se hace con métricas estándar de detección (precisión, recall, mAP) sobre dataset etiquetado (ver D-007 y `EVOLUCION_TESIS.md`).
+**Notas:** Validación independiente del módulo se hace con métricas estándar de detección (precisión, recall, mAP) sobre dataset etiquetado propio mínimo de 200 frames (ver D-007, TTH-08 CT-08.9 y `EVOLUCION_TESIS.md`).
 
 ---
 
@@ -735,8 +735,8 @@ Cada feature está descrita con la siguiente estructura:
 **Revisión técnica:**
 - **Complejidad:** ⚠ Medio-Alto.
 - **Stack:** PyTorch / TensorFlow para GRU, FastAPI para servir, integración con SUMO para generar dataset (D-008), pipeline de entrenamiento.
-- **Estado actual:** 🆕 Por construir. Hoy hay RandomForest baseline funcionando.
-- **Riesgos:** ⚠ Depende de F32 (sin dataset SUMO, no hay entrenamiento). RandomForest se mantiene como fallback (Nivel 2 de F26).
+- **Estado actual:** 🆕 Por construir como GRU. Hoy hay RandomForest baseline funcionando, que TTH-09 preserva como predictor de respaldo invocado por TTH-04 en Nivel 2 de la cascada (DHU-015, 2026-05-15).
+- **Riesgos:** ⚠ Depende de F32 (sin dataset SUMO, no hay entrenamiento). RandomForest se mantiene como fallback (Nivel 2 de TTH-04).
 
 **Revisión UX:** No aplica (es backend).
 
@@ -744,22 +744,22 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque E.
 
-**Modelado:** A determinar al redactar el Bloque E.
+**Modelado:** **TTH-09** (Modelo predictivo GRU servido vía API). Ver `TAREAS_TECNICAS_HABILITADORAS.md`. Clasificación cerrada en DHU-015 (2026-05-15). Durante la redacción se identificó la necesidad de **TTH-11** (Spike de calibración de hiperparámetros temporales del modelo predictivo) como prerrequisito documental.
 
-**Notas:** Decisión D-006 cerrada durante Inception: GRU univariado, no STGNN. Time-then-Space descartado.
+**Notas:** Decisión D-006 cerrada durante Inception: GRU univariado, no STGNN. Time-then-Space descartado. TTH-09 declara objetivo aspiracional accuracy ≥ 80% sobre nivel discreto 0-5, no bloqueante (alineado con D-005).
 
 ---
 
 ## F35 — Motor adaptativo (Webster + MaxPressure + MTC) ★
 
-**Descripción:** Motor que implementa las tres estrategias de control (Webster, MaxPressure, MTC) y selecciona dinámicamente cuál aplicar según el estado predicho y observado de la intersección.
+**Descripción:** Motor que implementa la pipeline de control adaptativo de dos etapas: Etapa 1 selecciona entre **dos estrategias adaptativas** (Webster, Max Pressure) según el estado predicho y observado de la intersección; Etapa 2 aplica la **capa de reglas duras MTC** que corrige los tiempos calculados para cumplir el marco normativo peruano (R.D. N.° 26-2024-MTC/18) antes de aplicarlos al semáforo. La arquitectura "2 estrategias adaptativas + 1 capa de reglas duras" se cerró durante la redacción de TTH-10 (DHU-015) y está documentada en `motor_adaptativo_teoria.md`. El título preserva la mención a MTC por trazabilidad histórica; la descripción ajusta el rol real de cada componente.
 
 **Persona:** SYS (componente central)
 **Journey:** Habilitador del Objetivo 3.
 
 **Revisión técnica:**
 - **Complejidad:** Bajo (relativo) — la mayor parte ya está construida.
-- **Stack:** Python, lógica de selección, integración con predictor (F34) y métricas de estado (F33 o SUMO).
+- **Stack:** Python, lógica de selección, integración con predictor (F34/TTH-09) y métricas de estado (F33/TTH-08 o SUMO/TTH-07).
 - **Estado actual:** ✓✓ Construido. `core_management_api/src/control/` contiene Webster + MaxPressure + MTC + AdaptiveEngine. Tests pytest pasando.
 - **Riesgos:** Bajo. La pieza más madura del sistema.
 
@@ -769,9 +769,9 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** MVP1 — Bloque E.
 
-**Modelado:** A determinar al redactar el Bloque E.
+**Modelado:** **TTH-10** (Motor adaptativo de control semafórico). Ver `TAREAS_TECNICAS_HABILITADORAS.md`. Clasificación cerrada en DHU-015 (2026-05-15).
 
-**Notas:** Lo que falta: integrar con F34 (predicciones reales del GRU, no del baseline), con F26 (fallback en cascada), y con F31 (persistencia de decisiones).
+**Notas:** Lo que falta: integrar con TTH-09 (predicciones reales del GRU, no del baseline), con TTH-04 (fallback en cascada, Nivel 3 invoca TTH-05 cuando el motor cae), con TTH-07 (entorno de simulación SUMO end-to-end vía TraCI para validación cuantitativa), consumir parámetros configurables de HU-15, y ampliar persistencia de decisiones según TTH-10 CT-10.9. F31 (persistencia de decisiones) está inglobada en CA-08.1 de HU-08, con sustrato técnico en TTH-10.
 
 ---
 
@@ -1166,7 +1166,7 @@ Cada feature está descrita con la siguiente estructura:
 
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Documento principal del Inception (este es complementario).
 - `DECISIONS.md` — Decisiones técnicas referenciadas (D-001 a D-009).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del backlog (DHU-001 a DHU-014).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del backlog (DHU-001 a DHU-015).
 - `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md` — Product Backlog redactado por bloques.
 - `TAREAS_TECNICAS_HABILITADORAS.md` — Tareas Técnicas Habilitadoras transversales.
 - `EVOLUCION_TESIS.md` — Narrativa de evolución del proyecto; sección 8 contiene tabla referencial de Trabajos Futuros.

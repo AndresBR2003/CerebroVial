@@ -9,7 +9,7 @@
 
 ## 1. Resumen ejecutivo
 
-CerebroVial es un sistema integrado de control adaptativo de tráfico urbano que combina **predicción de congestión mediante GRU**, **observación de estado mediante visión computacional**, y **selección adaptativa de estrategia de control** (Webster, MaxPressure, MTC) según el estado predicho y observado. La validación cuantitativa se realiza mediante simulación SUMO comparando el sistema propuesto contra control fijo.
+CerebroVial es un sistema integrado de control adaptativo de tráfico urbano que combina **predicción de congestión mediante GRU**, **observación de estado mediante visión computacional**, y **selección adaptativa de estrategia de control** (Webster o Max Pressure según condiciones, con una capa de reglas duras MTC que asegura cumplimiento normativo) según el estado predicho y observado. La validación cuantitativa se realiza mediante simulación SUMO comparando el sistema propuesto contra control fijo.
 
 El proyecto pasó por **tres fases conceptuales** antes de llegar a su forma actual. Esta narrativa documenta esa evolución porque cada fase aportó un componente que sobrevive en el sistema final, y porque entender el recorrido es relevante para sustentar la coherencia del alcance final.
 
@@ -69,18 +69,20 @@ El proyecto pasó por **tres fases conceptuales** antes de llegar a su forma act
 
 **Periodo aproximado:** Semanas previas al cierre arquitectónico (commits del 7-9 de mayo 2026).
 
-**Hipótesis:** El valor del sistema no está solo en predecir congestión, sino en **actuar sobre esa predicción**. Un motor que selecciona dinámicamente entre estrategias de control clásicas (Webster, MaxPressure, MTC) según el estado predicho y observado es el aporte central de ingeniería del trabajo.
+**Hipótesis:** El valor del sistema no está solo en predecir congestión, sino en **actuar sobre esa predicción**. Un motor que combina **dos estrategias adaptativas de control clásicas (Webster, Max Pressure)** seleccionadas dinámicamente según el estado predicho y observado, **con una capa de reglas duras (MTC) que asegura cumplimiento del marco normativo peruano**, es el aporte central de ingeniería del trabajo.
 
 **Lo que se construyó:**
 
-- Implementación de tres estrategias de control en `core_management_api/src/control/`:
-  - **Webster:** asignación de tiempos de verde proporcional a la demanda histórica.
-  - **MaxPressure:** estrategia descentralizada basada en presión de colas.
-  - **MTC (Multi-Threshold Control):** control por umbrales sobre el estado actual.
-- **AdaptiveEngine:** selector que escoge la estrategia según el estado del sistema.
+- Implementación de **dos estrategias adaptativas + una capa de reglas duras** en `core_management_api/src/control/`:
+  - **Webster (estrategia adaptativa, modo off-peak):** asignación de tiempos de verde proporcional a la demanda histórica.
+  - **Max Pressure (estrategia adaptativa, modo peak):** estrategia descentralizada basada en presión de colas.
+  - **Capa MTC (Manual de Tránsito MTC peruano, reglas duras):** corrige los tiempos calculados por la estrategia activa para cumplir el marco normativo (R.D. N.° 26-2024-MTC/18). No decide tiempos adaptativos; corrige los decididos por Etapa 1 y compone la secuencia final aplicada al semáforo.
+- **AdaptiveEngine:** pipeline de dos etapas. Etapa 1 selecciona la estrategia adaptativa según `flow_total` (umbral parametrizable, default 1500 veh/h); Etapa 2 aplica las correcciones de la capa MTC.
 - Frontend completo de visualización del motor (`views/control/`, 9 archivos, 1034 líneas).
 - Documentación teórica en `motor_adaptativo_teoria.md` (552 líneas).
 - Tests unitarios y de integración pasando.
+
+> *Nota agregada el 2026-05-15 al cerrar TTH-10 (DHU-015): la descripción original de Fase 3 hablaba de "tres estrategias de control" (Webster, MaxPressure, MTC). La revisión arquitectónica de TTH-10 clarificó que MTC no es una estrategia adaptativa intercambiable con las otras dos, sino una **capa de reglas duras post-procesamiento**. La arquitectura real es de dos etapas (estrategia adaptativa + capa MTC), no un selector tripartita. El componente construido es el mismo; cambia solo la descripción para coherencia con `motor_adaptativo_teoria.md` y TTH-10. Ver DHU-015 en `DECISIONS_HU.md`.*
 
 **Reflexión sobre el orden de ejecución:** El motor adaptativo se construyó antes de cerrar el trabajo de autenticación y persistencia de visión. Esto rompe el orden formal originalmente planeado pero es defendible: el motor es el componente más visible y académicamente diferenciador del sistema; trabajarlo temprano permite estabilizarlo y testearlo con tiempo.
 
@@ -124,7 +126,7 @@ El siguiente texto puede servir como base para el capítulo de introducción/con
 >
 > *En una segunda fase se exploraron arquitecturas espacio-temporales (STGNN) para la predicción, en línea con la literatura reciente del área. Esta exploración —que se documenta como sustento del trabajo futuro— se acotó al constatar que el alcance de validación del trabajo se centra en una intersección individual, condición bajo la cual la componente espacial no aplica directamente. En su lugar, se adoptó GRU univariado como modelo predictivo, manteniendo RandomForest como baseline de comparación.*
 >
-> *Paralelamente se desarrolló el componente central del sistema: un motor adaptativo que selecciona dinámicamente entre estrategias de control clásicas (Webster, MaxPressure, Multi-Threshold Control) según el estado predicho por el modelo y el estado observado por el módulo de visión. Este motor constituye el aporte de ingeniería principal del trabajo.*
+> *Paralelamente se desarrolló el componente central del sistema: un motor adaptativo que selecciona dinámicamente entre dos estrategias de control clásicas (Webster y Max Pressure) según el estado predicho por el modelo y el estado observado, complementado por una capa de cumplimiento normativo basada en el Manual de Dispositivos de Control del Tránsito Automotor del Ministerio de Transportes y Comunicaciones del Perú (R.D. N.° 26-2024-MTC/18). Este motor constituye el aporte de ingeniería principal del trabajo.*
 >
 > *El sistema final integra los tres componentes (visión, predicción GRU, motor adaptativo) y se valida cuantitativamente mediante simulación SUMO, comparando los KPIs de tráfico bajo el sistema propuesto contra los obtenidos con control fijo (Webster). Tanto el dataset de entrenamiento del modelo predictivo como los escenarios de validación se generan en SUMO con particiones independientes, asegurando consistencia metodológica. La calibración del modelo con datos reales de tráfico urbano y la extensión a redes de múltiples intersecciones interrelacionadas se declaran como las dos líneas naturales de trabajo futuro."*
 
@@ -137,7 +139,7 @@ El siguiente texto puede servir como base para el capítulo de introducción/con
 | Fase 1 (visión inicial) | Módulo de visión con YOLO | Sensor de estado / componente demostrable (D-007) |
 | Fase 2 (exploración predicción) | RandomForestPredictor | Baseline de comparación en validación |
 | Fase 2 (exploración predicción) | Revisión literatura STGNN | Fundamentación de trabajo futuro |
-| Fase 3 (motor adaptativo) | Webster + MaxPressure + MTC + AdaptiveEngine | Componente central del sistema (aporte de ingeniería) |
+| Fase 3 (motor adaptativo) | Webster + Max Pressure (estrategias adaptativas) + capa MTC (reglas duras) + AdaptiveEngine | Componente central del sistema (aporte de ingeniería) |
 | Fase 3 (motor adaptativo) | Frontend control (`views/control/`) | Visualización del estado del sistema |
 | Fase 4 (cierre) | GRU univariado | Modelo predictivo final (D-006) |
 | Fase 4 (cierre) | SUMO end-to-end | Columna vertebral de datos y validación (D-008) |
@@ -165,7 +167,7 @@ Ver fichas detalladas en `FEATURE_BACKLOG_DETALLADO.md`. La asimetría entre F21
 ## 9. Documentos relacionados
 
 - `DECISIONS.md` — Registro formal de decisiones técnicas (D-001 a D-009).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-014).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-015).
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception consolidado del proyecto.
 - `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features del backlog (MVP1 + MVP2 + Trabajos Futuros).
 - `documentation/docs/DISCOVERY_2026-05-10.md` — Auditoría completa del estado del repositorio.

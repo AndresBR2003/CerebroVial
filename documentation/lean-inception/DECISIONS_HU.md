@@ -7,7 +7,7 @@
 > **Relación con `DECISIONS.md`:** El documento `DECISIONS.md` registra decisiones técnicas del producto (arquitectura, modelo, datos). Este documento registra decisiones metodológicas sobre cómo se redacta el backlog. Los códigos no se solapan: `D-xxx` para técnicas, `DHU-xxx` para HUs.
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-14 (auditoría de coherencia documental: DHU-012 y DHU-013 agregadas; tabla "Documentos afectados por DHU-012" ampliada el mismo día con `HU_BLOQUE_A.md` y notas en `HU_BLOQUE_B.md` y `LEAN_INCEPTION_INVESTIGACION.md` tras revisión cruzada posterior al pase original. **Cierre del Bloque D el 2026-05-14: DHU-014 agregada.**)
+> **Última actualización:** 2026-05-15 (**Cierre del Bloque E el 2026-05-15: DHU-015 agregada.** Cubre clasificación HU/TTH de las features del Bloque E con resultado de 5 TTH operativas (TTH-07 a TTH-11) y 0 HUs operativas. La numeración del backlog de HUs no avanza con el Bloque E; última HU operativa cerrada sigue siendo HU-15 del Bloque D.)
 
 ---
 
@@ -29,6 +29,7 @@
 | DHU-012 | Auditoría de coherencia documental: semántica de MVP, eliminación de MVP3, corrección de conteos, alineación de vocabulario, limpieza de residuo pre-Inception | 2026-05-14 | Cerrada |
 | DHU-013 | Clasificación HU/TTH de las features del Bloque D | 2026-05-14 | Cerrada |
 | DHU-014 | Decisiones de redacción del Bloque D (numeración, dashboard, parámetros, métricas, concurrencia, ventana temporal, TTH-06) | 2026-05-14 | Cerrada |
+| DHU-015 | Clasificación HU/TTH de las features del Bloque E (con ampliación 4 → 5 TTH durante la redacción) | 2026-05-15 | Cerrada |
 
 ---
 
@@ -1054,6 +1055,172 @@ Comportamiento detallado en CA-15.11: la primera modificación en guardarse se p
 
 ---
 
+## DHU-015 — Clasificación HU/TTH de las features del Bloque E (con ampliación 4 → 5 TTH durante la redacción)
+
+**Fecha:** 2026-05-15.
+**Estado:** Cerrada.
+**Aplica a:** Bloque E — Componentes centrales del sistema.
+
+### Contexto
+
+DHU-010 y DHU-013 cerraron la clasificación HU/TTH para los Bloques C y D respectivamente, aplicando los criterios de DHU-004 a las features de cada bloque. Esta decisión hace lo equivalente para el Bloque E, aplicando los mismos criterios a las cuatro features que lo componen según el Sequencer del Inception. Durante la redacción del bloque, al cerrar las decisiones arquitectónicas del modelo predictivo (TTH-09), se identificó la necesidad de una quinta TTH (TTH-11, spike de investigación de hiperparámetros temporales del modelo predictivo) que se incorporó como ampliación de esta decisión.
+
+**Composición del Bloque E MVP1 (Sequencer del Inception, sin cambios desde el cierre del workshop original):**
+
+- **F32** — Integración con SUMO para simulación del entorno.
+- **F33** — Módulo de visión que produce métricas de estado.
+- **F34** — Módulo predictivo GRU servido vía API.
+- **F35** — Motor adaptativo (Webster + MaxPressure + MTC).
+
+Las cuatro features están clasificadas como MVP1 y declaradas explícitamente con `Persona: SYS` en sus fichas (`FEATURE_BACKLOG_DETALLADO.md`), es decir, infraestructura/componentes del sistema sin Persona del producto beneficiaria directa.
+
+### Análisis feature por feature
+
+#### F32 — Integración con SUMO para simulación del entorno
+
+| Criterio DHU-004 | F32 cumple |
+|---|---|
+| 1. Sin Persona beneficiaria directa | Sí. La ficha F32 declara `Persona: SYS` y la Revisión UX dice "no aplica (no expuesto al usuario directamente)". SUMO es infraestructura de validación cuantitativa y fuente del dataset de entrenamiento (D-008), no funcionalidad operativa visible. |
+| 2. Valor instrumental, no de negocio | Sí. SUMO habilita el Objetivo 4 (demostrar mejora cuantificable) y habilita F34 (generación de dataset), pero no genera valor visible al Operador, Gerente ni Administrador en aislamiento. |
+| 3. Comportamiento técnico estándar sin negociación de negocio | Sí. Cargar topología, generar escenarios de demanda, ejecutar simulación vía TraCI: son tareas técnicas sin negociación funcional con ninguna Persona. |
+| 4. Sin valor visible al usuario en aislamiento | Sí. Ninguna Persona interactúa con SUMO. Su salida alimenta otras TTH (F34 dataset, validación del motor) y al capítulo de validación de la tesis. |
+
+**Diagnóstico:** F32 cumple 4 de 4 criterios. Es **TTH (TTH-07)**.
+
+#### F33 — Módulo de visión que produce métricas de estado
+
+| Criterio DHU-004 | F33 cumple |
+|---|---|
+| 1. Sin Persona beneficiaria directa | Sí. Ficha F33 declara `Persona: SYS`. El Operador consume **derivadas funcionales** (flujo, cola observados) vía HU-02, pero HU-02 es agnóstica a la fuente (DHU-006); en MVP1 esa fuente es SUMO (D-007 + D-008), no visión. Visión es sensor en operación hipotética, no en el loop de validación cuantitativa (D-007). |
+| 2. Valor instrumental, no de negocio | Sí. Habilita el Objetivo 1 en operación hipotética, pero su validación es independiente (métricas de detección sobre dataset etiquetado), no contribuye al loop de KPIs del sistema integrado. |
+| 3. Comportamiento técnico estándar sin negociación de negocio | Sí. YOLO + tracking + exposición de métricas vía API son tareas técnicas estándar de visión computacional. Las decisiones de qué métricas exponer derivan de las HUs ya cerradas (HU-02, agnósticamente), no de una negociación abierta con la Persona. |
+| 4. Sin valor visible al usuario en aislamiento | Sí. El Operador nunca interactúa con el módulo de visión directamente; consume sus derivadas funcionales cuando el sistema decide alimentarse de visión en operación. En MVP1 esas derivadas vienen de SUMO. |
+
+**Diagnóstico:** F33 cumple 4 de 4 criterios. Es **TTH (TTH-08)**.
+
+**Nota sobre el rol demostrativo:** F33 se modela como TTH porque HU-02 ya entrega el valor al Operador y HU-02 es agnóstica a la fuente. F33 es el sustrato técnico que en operación hipotética podría alimentar a HU-02. La separación arquitectónica de D-007 (visión demostrable, no en loop de validación cuantitativa) refuerza esta clasificación: la validación cuantitativa del sistema integrado se hace por SUMO; la validación de F33 se hace independientemente con métricas de detección.
+
+#### F34 — Módulo predictivo GRU servido vía API
+
+| Criterio DHU-004 | F34 cumple |
+|---|---|
+| 1. Sin Persona beneficiaria directa | Sí. Ficha F34 declara `Persona: SYS`. El Operador consume predicciones vía HU-03 (agnóstica al modelo); el Administrador consume métricas vía HU-14 (también agnóstica al modelo, declara MAE/RMSE/accuracy/matriz de confusión sin nombrar GRU). HU-03 y HU-14 son las consumidoras; el modelo es el sustrato. |
+| 2. Valor instrumental, no de negocio | Sí. Habilita el Objetivo 2 (anticipar congestión), pero el valor al Operador llega vía HU-03 y al Administrador vía HU-14. El modelo en aislamiento es solo un endpoint que escupe números. |
+| 3. Comportamiento técnico estándar sin negociación de negocio | Sí. GRU univariado por intersección (D-006), entrenado sobre dataset SUMO (D-008), prediciendo ratio continuo discretizable a jam level 0-5 (D-009): las tres decisiones técnicas que definen el modelo están cerradas. No queda negociación funcional con una Persona. |
+| 4. Sin valor visible al usuario en aislamiento | Sí. Una Persona consume las predicciones presentadas por HU-03 o las métricas presentadas por HU-14; no consume el endpoint `/predictions/predict` directamente. |
+
+**Diagnóstico:** F34 cumple 4 de 4 criterios. Es **TTH (TTH-09)**.
+
+#### F35 — Motor adaptativo
+
+| Criterio DHU-004 | F35 cumple |
+|---|---|
+| 1. Sin Persona beneficiaria directa | Sí. Ficha F35 declara `Persona: SYS / componente central`. El Operador consume la estrategia activa vía HU-05, su explicación vía HU-06, sus notificaciones vía HU-07, el historial vía HU-08; el Administrador configura parámetros vía HU-15. El motor es el sustrato; cinco HUs operativas ya cubren la superficie visible al usuario. |
+| 2. Valor instrumental, no de negocio | Discutible pero diagnóstico claro. El valor al usuario llega vía HU-05/06/07/08 y HU-15, ya redactadas. El motor en aislamiento es lógica de decisión que escupe estrategia activa + parámetros aplicados al semáforo. El valor de negocio (aporte de ingeniería central de la tesis, según `EVOLUCION_TESIS.md`) se mide en el capítulo de validación, no como funcionalidad operativa visible. |
+| 3. Comportamiento técnico estándar sin negociación de negocio | Sí. Las dos estrategias adaptativas (Webster, Max Pressure) y la capa de reglas duras MTC están en el código construido; la selección entre estrategias es lógica determinista según estado predicho + observado. La negociación con la Persona ya ocurrió al redactar HU-05/06/07/08 (qué ve, cómo se explica) y HU-15 (qué parámetros expone). |
+| 4. Sin valor visible al usuario en aislamiento | Sí. El motor sin las HUs del Operador es un componente que toma decisiones invisibles. |
+
+**Diagnóstico:** F35 cumple 4 de 4 criterios. Es **TTH (TTH-10)**.
+
+**Nota sobre la arquitectura real del motor:** Durante la redacción de TTH-10 se clarificó la arquitectura real del motor según `motor_adaptativo_teoria.md`: el motor es una **pipeline de dos etapas** (selección entre Webster y Max Pressure como estrategias adaptativas; aplicación de MTC como capa de reglas duras post-procesamiento), no un selector tripartita entre tres estrategias. Esta clarificación implica ajustes de coherencia documental en `EVOLUCION_TESIS.md` Fase 3 y, residualmente, en la descripción de F35 en `FEATURE_BACKLOG_DETALLADO.md`. No reabre decisiones técnicas previas; refina la descripción para coherencia con el código y el documento teórico.
+
+**Nota sobre el aporte central:** Que F35 sea el aporte de ingeniería principal del trabajo no implica que deba modelarse como HU. La importancia académica de una pieza no determina su clasificación HU/TTH; la determina la presencia o ausencia de Persona del producto beneficiaria directa (DHU-004). El aporte central se documenta en el capítulo de validación de la tesis y en el video de demo, no en una HU operativa.
+
+### Ampliación durante la redacción: TTH-11 (spike de hiperparámetros temporales)
+
+Durante la redacción de TTH-09 se cerraron las decisiones arquitectónicas del modelo predictivo:
+
+- Arquitectura multi-output (un GRU univariado por dirección, cada uno produce un vector de predicciones a múltiples horizontes en una sola inferencia).
+- Cuatro modelos GRU univariados (uno por dirección de entrada de la intersección genérica de cuatro accesos).
+- Endpoint devuelve ambos: ratio continuo + nivel discreto 0-5 derivado en backend.
+
+Estas decisiones no atan los **hiperparámetros temporales** del modelo: paso de muestreo (Δt_in), ventana de entrada (lookback), horizonte de predicción, frecuencia de re-inferencia del endpoint. Los cuatro son hiperparámetros acoplados (cambiar uno afecta la interpretación de los otros) y merecen sustentación bibliográfica explícita para defensa académica.
+
+**Decisión durante la redacción:** abrir **TTH-11** como spike de investigación con entregable documental, prerrequisito documental de TTH-09. El documento entregable se ubicará en `documentation/docs/` (sugerencia de nombre: `INVESTIGACION_HIPERPARAMETROS_TEMPORALES.md`). TTH-11 es **TTH**, no HU, conforme a DHU-004 (no tiene Persona beneficiaria directa; su valor es instrumental para reducir incertidumbre técnica). TTH-11 puede cerrar con su parte bibliográfica completa aun si TTH-07 sufre retrasos; la parte empírica se agrega como complemento del documento cuando TTH-07 esté disponible.
+
+**Consecuencia formal:** DHU-015 se amplía de **4 TTH (TTH-07 a TTH-10) a 5 TTH (TTH-07 a TTH-11)**. El orden de redacción ajustado por dependencias técnicas es: TTH-07 → TTH-11 → TTH-09 → TTH-10 → TTH-08.
+
+### Decisión final
+
+**Bloque E MVP1: 0 HUs operativas + 5 TTH nuevas.**
+
+| Feature | Modelado como | Identificador |
+|---|---|---|
+| F32 — Integración con SUMO | TTH | **TTH-07** |
+| F33 — Módulo de visión | TTH | **TTH-08** |
+| F34 — Módulo predictivo GRU | TTH | **TTH-09** |
+| F35 — Motor adaptativo | TTH | **TTH-10** |
+| (Derivada de TTH-09, sin feature asociada) | TTH | **TTH-11** |
+
+### Granularidad: una TTH por componente, no agrupación
+
+Cada feature del Bloque E se modela como TTH independiente, no como TTH compuesta ni agrupada. Justificación:
+
+1. **Ciclos de implementación distintos.** F32 (SUMO) parte de cero con curva de aprendizaje real (ficha F32: "🆕 Por construir desde cero"); F33 (visión) se reconstruye desde cero como parte del refactor; F34 (GRU) parte de cero pero con RandomForest baseline preservado; F35 (motor) está significativamente construido. Agruparlas oscurece el plan de trabajo y dificulta el reporte de avance.
+
+2. **Dependencias asimétricas.** F32 es prerrequisito de F34 (dataset de entrenamiento, D-008) y entrega los escenarios de validación que consumen F34 y F35. F33 es independiente del eje crítico. Una TTH compuesta no podría declarar correctamente estas dependencias internas.
+
+3. **Validaciones independientes.** F32 (funcional, fidelidad de topología y simulación end-to-end), F33 (métricas de detección sobre dataset etiquetado independiente, D-007), F34 (MAE/RMSE/accuracy sobre escenarios SUMO no vistos, D-008), F35 (funcional con integraciones, validación cuantitativa en capítulo de tesis): cuatro criterios de Done independientes con instrumentación distinta.
+
+4. **Precedente del backlog.** TTH-04 y TTH-05 del Bloque C son TTH separadas a pesar de que TTH-05 alimenta a TTH-04 internamente. El patrón "una TTH por componente con dependencia declarada en la sección de trazabilidad" ya está establecido.
+
+### Orden de redacción aplicado
+
+Por dependencias técnicas, con TTH-11 incorporada:
+
+1. **TTH-07 (SUMO).** Prerrequisito de TTH-09 (dataset) y de la validación que TTH-10 consume.
+2. **TTH-11 (Spike de hiperparámetros temporales).** Prerrequisito documental de TTH-09.
+3. **TTH-09 (GRU).** Consume dataset de TTH-07 y sustentación de TTH-11.
+4. **TTH-10 (Motor adaptativo).** Consume predicciones de TTH-09 y estado observado de TTH-07 en validación.
+5. **TTH-08 (Visión).** Independiente del eje crítico; redactada al final por dependencia menor en MVP1.
+
+### Validación de cada TTH
+
+| TTH | Tipo de validación | Detalle |
+|---|---|---|
+| TTH-07 | Funcional | Topología cargada + simulación end-to-end vía TraCI + dataset generado + integración con motor adaptativo demostrable end-to-end. |
+| TTH-08 | Independiente, métricas de detección | Precisión, recall, mAP sobre dataset etiquetado propio ≥200 frames. Objetivo aspiracional accuracy ≥ 80%. NO entra al loop de validación cuantitativa del sistema integrado (D-007). |
+| TTH-09 | Funcional + cuantitativo de modelo | Endpoint sirviendo predicciones + cuatro métricas de HU-14 (MAE, RMSE sobre ratio continuo; accuracy, matriz de confusión sobre nivel discreto 0-5). **Objetivo aspiracional accuracy ≥ 80% sobre el nivel discreto 0-5, no bloqueante.** Si la realidad medida es peor, se reporta conforme a D-005. |
+| TTH-10 | Funcional | Las dos estrategias adaptativas operan correctamente, AdaptiveEngine selecciona según criterios, MTC aplica reglas duras documentadas, integración con TTH-09/TTH-07/TTH-04 funciona end-to-end. La validación cuantitativa del sistema (mejora vs control fijo) pertenece al capítulo de validación de la tesis, no al Done de TTH-10. |
+| TTH-11 | Documental | Documento entregable en `documentation/docs/` con revisión bibliográfica (mínimo 5 fuentes), exploración empírica mínima (3 combinaciones), recomendación final consolidada. |
+
+### Consecuencias
+
+- El Bloque E se redacta con 5 TTH y 0 HUs operativas. Numeración TTH-07 a TTH-11.
+- El documento `HU_BLOQUE_E.md` se crea para mantener el patrón de un documento por bloque; su contenido principal es: mapeo de features → TTH, justificación de la ausencia de HUs operativas, decisiones tomadas durante la redacción, y referencias cruzadas a las TTH agregadas en `TAREAS_TECNICAS_HABILITADORAS.md`.
+- `TAREAS_TECNICAS_HABILITADORAS.md` se actualiza con TTH-07 a TTH-11.
+- La numeración de HUs del backlog no avanza con el Bloque E: la última HU operativa cerrada es HU-15 del Bloque D; la próxima HU operativa será HU-16 en el Bloque F (Gerente) o en sesión MVP2 dedicada.
+- No se reabre ninguna decisión cerrada de los Bloques A, B, C ni D. HU-02 a HU-15 mantienen su contenido intacto; sus referencias agnósticas a "fuente de medición", "componente predictivo", "componente decisor" se materializan correctamente en TTH-07 a TTH-10.
+
+### Lo que NO cambia con DHU-015
+
+- **Las decisiones DHU-001 a DHU-014 mantienen su contenido sustantivo.** DHU-015 las aplica al Bloque E sin reabrirlas.
+- **Las HUs ya redactadas (HU-01 a HU-15)** mantienen su contenido. Sus referencias a fuentes, componentes y modelos agnósticos se materializan en las TTH del Bloque E sin necesidad de modificar las HUs.
+- **Las TTH previas (TTH-01 a TTH-06)** mantienen su contenido. TTH-04 (lógica de fallback) recibe referencias cruzadas adicionales desde TTH-09 (Nivel 2: predictor de respaldo es el RandomForest preservado por TTH-09) y TTH-10 (Nivel 3 y falla total invocan TTH-05 cuando TTH-10 cae), pero su contenido sustantivo no se reabre.
+
+### Documentos afectados por DHU-015
+
+| Documento | Tipo de cambio |
+|---|---|
+| `HU_BLOQUE_E.md` (nuevo) | Documento nuevo con mapeo de features F32-F35 → TTH-07 a TTH-11 y justificación de 0 HUs operativas. |
+| `TAREAS_TECNICAS_HABILITADORAS.md` | Agregar TTH-07, TTH-08, TTH-09, TTH-10, TTH-11; actualización del índice. Referencias cruzadas adicionales en TTH-04 desde TTH-09 (Nivel 2 invoca RandomForest preservado por TTH-09) y TTH-10 (Nivel 3 invoca TTH-05 cuando TTH-10 cae). |
+| `DECISIONS_HU.md` (este documento) | Agregar DHU-015; actualizar índice, tabla de impacto en bloques y documentos relacionados. |
+| `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md` | Próximos pasos actualizados: Bloque E ya cerrado; restan Bloque F y MVP2. |
+| `FEATURE_BACKLOG_DETALLADO.md` | Fichas de F32, F33, F34 y F35 actualizan su columna "Modelado" para apuntar a TTH-07, TTH-08, TTH-09 y TTH-10 respectivamente (estaban como "A determinar al redactar el Bloque E"). Ajuste residual en la descripción de F35 para reflejar la arquitectura real del motor (2 estrategias + capa MTC). |
+| `EVOLUCION_TESIS.md` | Fase 3 actualizada para reflejar la arquitectura real del motor (2 estrategias adaptativas + 1 capa de reglas duras), no "3 estrategias de control". Ajuste de coherencia documental. |
+| `LEAN_INCEPTION_CEREBROVIAL.md` | Documentos relacionados actualizado (referencia a `HU_BLOQUE_E.md`). |
+
+### Documentos relacionados
+
+- `HU_BLOQUE_E.md` — Bloque E del Product Backlog (cierre de mapeo y decisiones).
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-07 a TTH-11 nuevas.
+- `DECISIONS_HU.md` (este documento) — sección DHU-015.
+- `DECISIONS.md` — D-006, D-007, D-008, D-009 fundamentan las decisiones técnicas internas de cada TTH del Bloque E.
+- `EVOLUCION_TESIS.md` — Fase 4 (cierre arquitectónico) describe los cuatro componentes con roles separados.
+- `motor_adaptativo_teoria.md` — Sustentación teórica del motor adaptativo (consumido por TTH-10).
+
+---
+
 ## Resumen de impacto en los bloques redactados hasta la fecha
 
 | Bloque | HUs | TTH | Decisiones aplicadas |
@@ -1062,6 +1229,7 @@ Comportamiento detallado en CA-15.11: la primera modificación en guardarse se p
 | Bloque B | HU-02 a HU-09 | (ninguna nueva) | DHU-003, DHU-005 (refinada con A y B), DHU-006, DHU-007 |
 | Bloque C | HU-10, HU-11, HU-12 (HU-13 eliminada por DHU-011) | TTH-04, TTH-05 | DHU-005, DHU-006, DHU-007, DHU-008, DHU-009, DHU-010, DHU-011 |
 | Bloque D | HU-13, HU-14, HU-15 | (ninguna nueva del MVP1); TTH-06 agregada como Trabajos Futuros; CT-04.5 de TTH-04 ampliada | DHU-013 (clasificación), DHU-014 (decisiones de redacción) |
+| Bloque E | (ninguna HU operativa) | TTH-07, TTH-08, TTH-09, TTH-10, TTH-11 | DHU-015 (clasificación HU/TTH del Bloque E con ampliación 4 → 5 TTH durante la redacción) |
 | Transversal | — | — | DHU-012 (auditoría de coherencia documental, aplica a todos los bloques y documentos relacionados) |
 
 ---
@@ -1072,9 +1240,11 @@ Comportamiento detallado en CA-15.11: la primera modificación en guardarse se p
 - `HU_BLOQUE_B.md` — Bloque B del Product Backlog (8 HUs, 7 MVP1 + 1 MVP2).
 - `HU_BLOQUE_C.md` — Bloque C del Product Backlog (3 HUs operativas: HU-10, HU-11, HU-12).
 - `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
-- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-06.
+- `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11 y decisiones tomadas durante la redacción).
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-11.
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009). No se solapa con este documento.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Personas, journeys, MVP Canvas (insumos para identificar sujetos válidos).
 - `FEATURE_BACKLOG_DETALLADO.md` — Origen de las features que se mapean a HUs y TTH.
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto; sección 8 contiene tabla de Trabajos Futuros.
+- `motor_adaptativo_teoria.md` — Sustentación teórica del motor adaptativo (consumido por TTH-10).
 - `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` — Documento futuro pendiente (DHU-007).

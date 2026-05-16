@@ -2,16 +2,16 @@
 
 > Trabajo técnico de infraestructura necesario para que las HUs del Product Backlog puedan ser implementadas. **Este documento NO contiene Historias de Usuario.** Las TTH no siguen el formato "Como X, quiero Y, para Z" ni Given-When-Then.
 >
-> **Fundamento metodológico:** Ver `DECISIONS_HU.md`, decisiones DHU-001, DHU-003, DHU-004 (Bloque A), DHU-010 (Bloque C), DHU-013 (clasificación HU/TTH del Bloque D) y DHU-014 (decisiones de redacción del Bloque D).
+> **Fundamento metodológico:** Ver `DECISIONS_HU.md`, decisiones DHU-001, DHU-003, DHU-004 (Bloque A), DHU-010 (Bloque C), DHU-013 (clasificación HU/TTH del Bloque D), DHU-014 (decisiones de redacción del Bloque D) y DHU-015 (clasificación HU/TTH del Bloque E con ampliación 4 → 5 TTH).
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-14 (DHU-012: renombrado uniforme "modo seguro" → "degradado nivel 3", identificador interno `safe_3` → `degraded_3`. DHU-013: cierre de la pregunta abierta sobre división de TTH-05 a favor de mantenerla íntegra. **Cierre del Bloque D (DHU-014):** ampliación de CT-04.5 dentro de TTH-04 para cubrir los campos técnicos adicionales que HU-13 requiere; creación de TTH-06 como Trabajos Futuros).
+> **Última actualización:** 2026-05-15 (**Cierre del Bloque E (DHU-015):** TTH-07, TTH-08, TTH-09, TTH-10 y TTH-11 agregadas. Referencias cruzadas en TTH-04 actualizadas: Nivel 1 ante caída de TTH-08 contractualmente preservado; Nivel 2 invoca RandomForest baseline preservado por TTH-09; Nivel 3 invoca TTH-05 cuando TTH-10 cae. Última actualización previa: 2026-05-14, cierre del Bloque D, DHU-013 y DHU-014.)
 
 ---
 
 ## Contexto
 
-Durante el cierre del Bloque A se identificó que tres trabajos originalmente redactados como HUs no cumplen los criterios para ser HUs (no tienen Persona del producto como beneficiaria, su valor es instrumental, son técnicos estándar). Siguiendo el principio metodológico de no disfrazar tareas técnicas como HUs (Lullabot, Scrum.org, SAFe Enabler Stories), se trasladaron a este documento. Durante el cierre del Bloque C, dos features adicionales (F26 y F27) se clasificaron como TTH por aplicación de DHU-010. Durante la preparación del Bloque D (DHU-013), se confirmó que no se crean TTH adicionales por las features F17, F18 y F20 (las 3 se modelan como HUs operativas) y se cerró a favor de mantener íntegra a TTH-05 (no dividir entre TTH instrumental y HU del Administrador). Durante la redacción del Bloque D (DHU-014) se introdujo **TTH-06** (capa de DTOs transversal al backend) como mejora técnica clasificada como Trabajos Futuros, identificada durante la discusión sobre el patrón de consumo del endpoint compartido por HU-11 y HU-13.
+Durante el cierre del Bloque A se identificó que tres trabajos originalmente redactados como HUs no cumplen los criterios para ser HUs (no tienen Persona del producto como beneficiaria, su valor es instrumental, son técnicos estándar). Siguiendo el principio metodológico de no disfrazar tareas técnicas como HUs (Lullabot, Scrum.org, SAFe Enabler Stories), se trasladaron a este documento. Durante el cierre del Bloque C, dos features adicionales (F26 y F27) se clasificaron como TTH por aplicación de DHU-010. Durante la preparación del Bloque D (DHU-013), se confirmó que no se crean TTH adicionales por las features F17, F18 y F20 (las 3 se modelan como HUs operativas) y se cerró a favor de mantener íntegra a TTH-05 (no dividir entre TTH instrumental y HU del Administrador). Durante la redacción del Bloque D (DHU-014) se introdujo **TTH-06** (capa de DTOs transversal al backend) como mejora técnica clasificada como Trabajos Futuros. Durante el cierre del Bloque E (DHU-015), las cuatro features del bloque (F32, F33, F34, F35) se clasificaron como TTH por aplicación de DHU-004 (las cuatro cumplen los cuatro criterios simultáneamente: sin Persona beneficiaria directa, valor instrumental, comportamiento técnico estándar, sin valor visible al usuario en aislamiento). Adicionalmente, durante la redacción del Bloque E se identificó la necesidad de **TTH-11** (spike de investigación de hiperparámetros temporales del modelo predictivo) como prerrequisito documental de TTH-09, ampliando DHU-015 de 4 a 5 TTH.
 
 Las TTH son entregables del proyecto y son evaluables, pero su naturaleza es distinta a las HUs:
 
@@ -36,6 +36,11 @@ Las TTH son entregables del proyecto y son evaluables, pero su naturaleza es dis
 | TTH-04 | Lógica de fallback en cascada del sistema | C (consumida también por HU-13 del Bloque D) | MVP1 | Pendiente |
 | TTH-05 | Configuración de tiempos preconfigurados para degradado nivel 3 | C | MVP1 | Pendiente |
 | TTH-06 | Capa de DTOs transversal al backend | Transversal (mejora técnica) | **Trabajos Futuros** | No se construye en MVP1 |
+| TTH-07 | Integración con SUMO para simulación del entorno | E (consumida también por TTH-09 y TTH-10) | MVP1 | Pendiente |
+| TTH-08 | Módulo de visión computacional que produce métricas de estado | E | MVP1 | Pendiente (refactor desde cero) |
+| TTH-09 | Modelo predictivo GRU servido vía API | E (consumida por HU-03, HU-04, HU-14 y TTH-10) | MVP1 | Pendiente |
+| TTH-10 | Motor adaptativo de control semafórico | E (consumida por HU-05, HU-06, HU-07, HU-08, HU-15) | MVP1 | Construido, integración pendiente |
+| TTH-11 | Spike de calibración de hiperparámetros temporales del modelo predictivo | E (prerrequisito documental de TTH-09) | MVP1 | Pendiente |
 
 ---
 
@@ -225,6 +230,9 @@ La lógica opera de forma autónoma sin intervención del Operador. El Operador 
 | HU-12 | Consume causa raíz (componente disparador y nivel) del endpoint de CT-04.4 para producir explicación compuesta. |
 | HU-13 (Bloque D) | Consume el endpoint de estado de componentes (CT-04.5), los 7 campos. Misma fuente que HU-11 con presentación técnica distinta (DHU-013). |
 | TTH-05 | TTH-04 consume la configuración de tiempos preconfigurados provista por TTH-05 al activar el nivel 3. |
+| TTH-08 (Bloque E) | TTH-04 detecta caída del módulo de visión (vía health check de CT-04.1) y activa Nivel 1 de la cascada. Esta cascada es contractualmente preservada en MVP1 pero no se ejercita operativamente en validación cuantitativa, conforme a D-007 (visión no entra al loop cuantitativo). |
+| TTH-09 (Bloque E) | TTH-04 detecta caída del modelo predictivo GRU (vía health check de CT-04.1) y activa Nivel 2 de la cascada, invocando al **RandomForest baseline preservado** por TTH-09 como predictor de respaldo. El RandomForest no es TTH propia; es componente preexistente preservado con rol declarado en TTH-09 nota técnica. |
+| TTH-10 (Bloque E) | TTH-04 detecta caída del motor adaptativo (vía health check de CT-04.1 o por respuesta HTTP 422 `webster_infeasible` de CT-10.5) y activa Nivel 3 de la cascada, invocando los tiempos preconfigurados de TTH-05. |
 
 ---
 
@@ -337,6 +345,443 @@ Si se decidiera en el futuro construir TTH-06 (por ejemplo, en una iteración po
 | HU / TTH que depende | Cómo depende |
 |---|---|
 | (ninguna del MVP1) | TTH-06 no es prerrequisito de ninguna HU ni TTH del MVP1. |
+
+---
+
+## TTH-07 — Integración con SUMO para simulación del entorno
+
+**Origen:** Reemplaza a F32 (Integración con SUMO para simulación del entorno). Clasificada como TTH por aplicación de los criterios de DHU-004 al Bloque E, formalizada en DHU-015.
+
+**Habilita a:** TTH-09 (provee dataset de entrenamiento), TTH-10 (provee escenarios de validación y entorno de simulación end-to-end al motor adaptativo) y al capítulo de validación cuantitativa de la tesis (provee los KPIs comparativos con/sin sistema). Sin esta TTH, ni el modelo predictivo puede entrenarse sobre dataset propio (D-008), ni el motor adaptativo puede validarse cuantitativamente, ni el documento de tesis tiene resultados experimentales que reportar.
+
+**Decisiones técnicas relacionadas:** D-001 (Monolito modular: el componente SUMO vive como módulo del sistema, no como servicio independiente). D-005 (Números de tesis: reportar la realidad medida en validación, no las cifras de relleno). D-006 (GRU univariado por intersección: dictado por SUMO sobre una sola intersección). D-008 (SUMO como columna vertebral del sistema de datos: dataset de entrenamiento y escenarios de validación). D-009 (jam level Waze como variable predicha: el mapeo SUMO → jam_level vive aquí). DHU-015 (clasificación de F32 como TTH del Bloque E).
+
+### Descripción
+
+Implementar la integración del sistema con SUMO (Simulation of Urban MObility) como columna vertebral de datos del proyecto, conforme a D-008. La integración cubre tres responsabilidades técnicas distintas pero relacionadas, las tres internas al sistema y sin Persona del producto beneficiaria directa:
+
+1. **Topología de la intersección de estudio** cargada en SUMO como red de simulación válida.
+2. **Escenarios de demanda** que reproducen condiciones de tráfico distintas (al menos hora pico AM, hora pico PM, valle, fin de semana), con seeds reproducibles, para alimentar tanto la generación del dataset de entrenamiento del modelo predictivo (consumido por TTH-09) como los escenarios de validación cuantitativa del sistema integrado.
+3. **Integración bidireccional vía TraCI** con el motor adaptativo (TTH-10): el motor consume el estado observado de la simulación (flujo, velocidad, longitud de cola por dirección, derivables al jam level 0-5 según D-009) y emite decisiones de fase del semáforo que la simulación ejecuta sobre el semáforo virtual.
+
+El componente no es expuesto a ninguna Persona del producto directamente. Su salida se materializa en (a) el dataset persistido que TTH-09 consume, (b) el entorno de simulación que TTH-10 consume durante validación, y (c) los KPIs comparativos que se reportan en el capítulo de validación de la tesis.
+
+**Alcance MVP1 sobre la intersección de estudio.** La intersección específica de Miraflores que se simula **no está elegida al momento de redactar esta TTH**. El alcance MVP1 declara una **topología genérica de cuatro accesos** con parámetros típicos de una intersección urbana semaforizada de Miraflores (carriles por acceso, velocidad de flujo libre, longitudes de aproximación). La calibración contra una intersección específica identificable se evalúa como ajuste posterior si surge en el cronograma; no condiciona la conclusión del MVP1. El capítulo de validación de la tesis declara explícitamente este alcance.
+
+**Alcance MVP1 sobre datos reales.** Los datos reales de Waze sobre la intersección de estudio no son insumo de esta TTH en MVP1 (D-008). Quedan como posibilidad de validación adicional condicional a un acuerdo con la municipalidad de Miraflores, documentada como nota técnica al final de esta TTH y como trabajo futuro asociado a F38.
+
+### Criterios técnicos de terminado
+
+- **CT-07.1:** Existe una topología SUMO de una intersección genérica de cuatro accesos semaforizada, cargable por SUMO sin errores. La topología declara explícitamente al menos: número de carriles por acceso, longitud de cada acceso, velocidad máxima por carril (interpretable como velocidad de flujo libre para el mapeo de D-009), conexiones de giro permitidas y el programa del semáforo (fases, duraciones iniciales). Los parámetros utilizados son típicos de una intersección urbana semaforizada de Miraflores y están documentados en un archivo de configuración legible (no hardcodeados en un único script).
+
+- **CT-07.2:** Existen al menos **cuatro patrones de demanda** definidos como escenarios SUMO independientes, correspondientes a: (a) hora pico de la mañana, (b) hora pico de la tarde, (c) periodo valle, (d) condiciones de fin de semana. Cada patrón declara explícitamente: distribución de flujos vehiculares por dirección y por giro, duración del escenario en tiempo simulado, y rango de seeds reproducibles. Los flujos elegidos son tales que **al menos un patrón** genera condiciones de congestión observables (jam level alcanzando valores ≥3 según D-009) y al menos un patrón mantiene condiciones de flujo libre o congestión baja (jam level ≤2). Esta diversidad es necesaria para que el dataset de entrenamiento de TTH-09 cubra todo el rango de la variable predicha.
+
+- **CT-07.3:** Existe un mecanismo automatizado de generación del dataset de entrenamiento de TTH-09, ejecutable como script reproducible, que: (a) corre múltiples seeds por cada patrón de demanda de CT-07.2; (b) registra a frecuencia configurable (cierre por TTH-11: ver nota técnica de granularidad del dataset) las variables observadas por dirección y por carril relevantes para construir series temporales (al menos velocidad media, número de vehículos, longitud de cola); (c) calcula el ratio velocidad/free-flow y el jam level 0-5 derivado según el mapeo de D-009; (d) persiste el resultado en un formato tabular estable (CSV, Parquet o equivalente) con un esquema documentado. El dataset resultante incluye marca de seed, marca de patrón y marca de tiempo simulado en cada registro, lo cual permite particiones reproducibles de entrenamiento/validación por TTH-09.
+
+- **CT-07.4:** Las particiones que TTH-09 utilizará para entrenamiento y validación se generan con **seeds distintos y, preferentemente, patrones de demanda con distinta combinación**, conforme a D-008 ("escenarios SUMO distintos para evitar fuga de información"). El script de generación del dataset declara explícitamente qué seeds y patrones componen cada partición; ningún seed aparece en ambas particiones.
+
+- **CT-07.5:** Existe una integración bidireccional con SUMO vía TraCI accesible desde el motor adaptativo (TTH-10): (a) el motor puede consultar el estado observado de la simulación en tiempo de simulación (al menos velocidad media, número de vehículos y longitud de cola por dirección, suficiente para derivar el jam level según D-009); (b) el motor puede emitir decisiones de fase del semáforo y la simulación las ejecuta sobre el semáforo virtual en el paso correspondiente. La integración es funcional end-to-end: una corrida demostrable enciende SUMO, el motor adaptativo consume estado, el motor decide fase, la simulación responde, y los KPIs resultantes son capturables al final de la corrida.
+
+- **CT-07.6:** El conjunto de KPIs comparativos del capítulo de validación de la tesis es producible mediante el componente. Mínimo: tiempo medio de viaje por vehículo, longitud máxima y media de cola por dirección, demora acumulada en la intersección, throughput (vehículos por unidad de tiempo). Los KPIs son capturables tanto para corridas "con sistema integrado" (motor adaptativo activo) como para corridas "control fijo" (programa Webster fijo o equivalente declarado en la tesis), con la misma topología y los mismos patrones de demanda, para permitir comparación cuantitativa.
+
+- **CT-07.7:** Existe documentación técnica reproducible del componente, incluyendo: (a) cómo cargar la topología, (b) cómo ejecutar cada patrón de demanda, (c) cómo regenerar el dataset de entrenamiento, (d) cómo ejecutar una corrida end-to-end con el motor adaptativo conectado, (e) cómo ejecutar una corrida de control fijo para comparación. La documentación está en el repositorio (README técnico del módulo SUMO o equivalente) y permite a un tercero familiarizado con SUMO reproducir todos los resultados sin asistencia del autor.
+
+- **CT-07.8:** Existen tests de integración mínimos: (a) la topología se carga sin errores; (b) cada patrón de demanda corre N pasos sin errores; (c) la integración TraCI con el motor adaptativo ejecuta una corrida corta end-to-end sin errores (motor consume estado, decide fase, simulación responde, KPIs capturados). Los tests no validan calidad de resultados (eso pertenece al capítulo de validación), solo que la mecánica end-to-end funciona.
+
+### Estado actual
+
+🆕 **Por construir desde cero.** No hay código SUMO ni topología cargada en el repositorio al momento de redactar esta TTH (mayo 2026). Se ha realizado exploración inicial de la herramienta SUMO sin entregables aún en el proyecto; el avance exploratorio no se considera material entregable y la TTH se redacta como si partiera de cero.
+
+Esta TTH es el **cuello de botella cronológico declarado del MVP1** según la ficha F32. Su inicio temprano en el cronograma es prerrequisito de la conclusión del MVP1.
+
+### Notas técnicas
+
+- **Topología genérica como alcance MVP1.** La decisión de operar sobre una topología genérica de 4 accesos en lugar de calibrar contra una intersección específica es deliberada y conservadora para MVP1. Razones: (a) no hay decisión cerrada sobre qué intersección específica de Miraflores es la unidad de análisis; (b) el alcance académico (D-008) no requiere fidelidad geográfica fina; requiere consistencia metodológica y reproducibilidad; (c) mantener la topología genérica desacopla esta TTH de dependencias administrativas que pueden no concretarse en el cronograma.
+
+- **Mapeo SUMO → jam level.** El mapeo concreto vive dentro de esta TTH como utilidad: `mean_speed_mps / max_speed_mps → ratio → jam_level (0-5)` según los umbrales declarados en D-009 (90%, 70%, 50%, 30%, 0%, con anclajes documentados en el paper JamVis). El máximo `max_speed_mps` se obtiene en MVP1 de `traci.lane.getMaxSpeed` o del archivo de red como aproximación inicial; la calibración fina del percentil 85/95 sobre histórico queda como mejora posterior, no bloqueante para MVP1.
+
+- **Granularidad del dataset (frecuencia de muestreo).** La frecuencia de muestreo del dataset (CT-07.3) se cierra con la salida de TTH-11 (spike de hiperparámetros temporales). Hasta que TTH-11 cierre, el valor provisional a usar es **60 segundos simulados por muestra**, consistente con el Δt_in provisional declarado en TTH-09 CT-09.2. La frecuencia definitiva la confirma o ajusta TTH-11 antes del cierre del MVP1.
+
+- **Reproducibilidad por seed.** El uso de seeds explícitos por escenario es lo que permite que TTH-09 declare particiones independientes sin riesgo de fuga de información. El script de generación del dataset documenta los seeds utilizados y las particiones resultantes son recreables byte-a-byte ante una nueva ejecución.
+
+- **No hay validación cualitativa de "plausibilidad" como CT.** Se evaluó incluir un CT del tipo "los KPIs producidos son plausibles según criterio cualitativo de ingeniería de tráfico". La decisión fue **no** incluirlo como CT formal porque el criterio es subjetivo y la plausibilidad se evaluará naturalmente durante la calibración del trabajo y durante el capítulo de validación de la tesis. Si durante la implementación se detecta que los escenarios producen KPIs claramente aberrantes (cola infinita, tiempos de viaje absurdos), se ajustan los parámetros de demanda antes de generar el dataset final.
+
+- **Datos reales de Waze como bono futuro.** D-008 menciona la posibilidad de obtener datos reales de Waze sobre la intersección de estudio mediante acuerdo con la municipalidad de Miraflores. Esta TTH **no depende** de obtener esos datos y su Done no se condiciona a su disponibilidad. Si los datos se obtienen durante o después del cierre del MVP1, su incorporación se aplica como (a) validación adicional del modelo entrenado en SUMO frente a una distribución real y (b) calibración fina de los umbrales del jam level y de los parámetros de demanda de SUMO. La conversación con el PO de la municipalidad se realiza después de tener el componente construido, no antes. Declarado como F38 / Trabajos Futuros.
+
+- **Estado actual del motor adaptativo y consecuencias para CT-07.5.** El motor adaptativo (TTH-10) está significativamente construido al momento de redactar esta TTH según `EVOLUCION_TESIS.md` Fase 3. La integración TraCI declarada en CT-07.5 requiere coordinación con TTH-10 para definir la interfaz exacta de consumo. La decisión concreta entre adaptador externo y modificación del motor para consumir TraCI directamente se cierra al implementar las dos TTH juntas.
+
+- **No se documenta el motor de control fijo como TTH separada.** CT-07.6 menciona corridas de "control fijo" para comparación cuantitativa. La implementación del control fijo es parte de esta TTH o del setup del experimento de validación; no se modela como TTH separada porque es un baseline trivial sin valor instrumental propio fuera del experimento de validación de la tesis.
+
+### Trazabilidad con HUs y otras TTH
+
+| HU / TTH que depende | Cómo depende |
+|---|---|
+| TTH-09 (Bloque E) | Consume el dataset persistido producido por CT-07.3, con particiones definidas por CT-07.4. Sin TTH-07 no hay dataset propio sobre el cual entrenar el modelo (D-008). |
+| TTH-10 (Bloque E) | Consume el entorno de simulación end-to-end vía TraCI según CT-07.5. Sin TTH-07 el motor no tiene contra qué probarse cuantitativamente. |
+| TTH-11 (Bloque E) | La parte empírica del spike (CT-11.4) consume el dataset producido por TTH-07. La parte bibliográfica es independiente. |
+| HU-02 (monitoreo, Bloque B) | No depende directamente de TTH-07 en su contrato (HU-02 es agnóstica a la fuente según DHU-006). En MVP1, la fuente de medición que HU-02 consume es funcionalmente el estado de SUMO derivado a flujo/cola/jam level (D-008); en operación hipotética, sería TTH-08 (visión). El contrato de HU-02 no se modifica por TTH-07. |
+| HU-03 (predicción, Bloque B), HU-04 (vista combinada) | Consumen indirectamente, vía TTH-09: las predicciones que HU-03 muestra al Operador provienen del modelo entrenado sobre el dataset que TTH-07 genera. |
+| HU-14 (métricas del modelo, Bloque D) | Consume indirectamente, vía TTH-09: las métricas que el Administrador ve son las del modelo entrenado y evaluado sobre el dataset de TTH-07. |
+| Capítulo de validación de la tesis | Consume directamente los KPIs comparativos producidos por CT-07.6. |
+
+---
+
+## TTH-08 — Módulo de visión computacional que produce métricas de estado
+
+**Origen:** Reemplaza a F33 (Módulo de visión que produce métricas de estado). Clasificada como TTH por aplicación de los criterios de DHU-004 al Bloque E, formalizada en DHU-015.
+
+**Habilita a:** El módulo de visión es **componente demostrable del sistema, no participa en el loop de validación cuantitativa del sistema integrado** conforme a D-007. Su validación es independiente mediante métricas estándar de detección sobre dataset etiquetado representativo. En operación hipotética alimentaría a HU-02 (monitoreo del Operador) con métricas de flujo y cola observados; en MVP1, HU-02 es agnóstica a la fuente (DHU-006) y se alimenta funcionalmente del estado producido por TTH-07. Por tanto, **ninguna HU operativa del backlog consume directamente TTH-08 en MVP1**; el rol del módulo es demostrar la viabilidad arquitectónica del sensor de estado en tiempo real.
+
+**Decisiones técnicas relacionadas:** D-001 (Monolito modular: el módulo de visión vive como módulo del sistema, en `edge_device/` según la separación arquitectónica que distingue dispositivo de borde y servidor central, D-004). D-004 (Pi física como demostración conceptual: el módulo de visión es el componente arquetípico que correría en el dispositivo de borde en una operación real). D-005 (Números de tesis: reportar la realidad medida en validación, no las cifras de relleno). D-007 (Módulo de visión como componente demostrable, no en loop de validación cuantitativa). DHU-015 (clasificación de F33 como TTH del Bloque E).
+
+### Descripción
+
+Implementar el módulo de visión computacional del sistema CerebroVial como sensor de estado en tiempo real, capaz de procesar video de la intersección de estudio y producir dos outputs complementarios: un **output numérico** (métricas de estado por dirección) que en operación hipotética alimentaría al motor adaptativo, y un **output visual** (stream de frames procesados con bounding boxes y velocidad estimada por vehículo) que demuestra cualitativamente la viabilidad del componente.
+
+El módulo opera sobre la base de una **arquitectura de tres etapas**:
+
+**Etapa 1 — Detección por frame.** Cada frame del video se procesa con un modelo de detección de objetos (familia YOLO) que identifica vehículos y produce bounding boxes con etiquetas de clase básica (auto, bus, camión, etc.) heredadas de las clases nativas del modelo entrenado.
+
+**Etapa 2 — Tracking entre frames.** Los vehículos detectados se asocian a identidades persistentes a través de frames consecutivos mediante un tracker de objetos (SORT, ByteTrack, BoT-SORT u otro algoritmo equivalente, decidido al implementar). El tracker permite (a) evitar doble conteo del mismo vehículo, (b) estimar la velocidad de cada vehículo individual midiendo su desplazamiento entre frames consecutivos en relación al tiempo transcurrido y a la escala espacial del frame.
+
+**Etapa 3 — Asignación direccional y agregación de métricas.** Cada vehículo detectado y tracked se asigna a una de las direcciones de la intersección (norte, sur, este, oeste para una intersección genérica de cuatro accesos según TTH-07 CT-07.1) mediante **regiones de interés (ROI) configuradas como polígonos al desplegar**. Las métricas de estado por dirección (conteo, cola estimada, flujo, densidad) se derivan agregando los vehículos asignados a cada polígono.
+
+El módulo se reconstruye desde cero como parte del refactor del Bloque E. Existe código predecesor en `edge_device/src/vision/` que sirvió como exploración funcional durante la Fase 1 del proyecto (`EVOLUCION_TESIS.md`) y que validó conceptualmente la viabilidad del pipeline de detección con streams de YouTube. Ese código no se preserva arquitectónicamente; queda como referencia histórica.
+
+La validación del módulo es **independiente del loop de validación cuantitativa del sistema integrado** conforme a D-007. Se reportan métricas estándar de detección (precisión, recall, mAP) sobre dataset etiquetado representativo de tráfico vehicular en perspectiva de cámara de intersección. Los KPIs de tráfico del sistema integrado (tiempo de viaje, demora, longitud de cola) se miden sobre SUMO con métricas producidas por TTH-07, no por este módulo.
+
+### Criterios técnicos de terminado
+
+- **CT-08.1:** Existe un componente de detección de objetos basado en YOLO (versión a cerrar al implementar; YOLOv8 o YOLOv11 son candidatos defendibles) que: (a) consume frames de video provistos por la fuente configurada (CT-08.7), (b) produce bounding boxes con coordenadas, score de confianza y etiqueta de clase para cada vehículo detectado, (c) filtra detecciones con confidence inferior a un umbral configurable (default propuesto: 0.5), (d) soporta las clases vehiculares nativas del modelo entrenado (auto, motocicleta, autobús, camión). La clasificación detallada por tipo de vehículo para priorización operativa está fuera del alcance de MVP1 y se trata en F36 como Trabajos Futuros.
+
+- **CT-08.2:** Existe un componente de tracking de objetos que asocia detecciones consecutivas a identidades persistentes (track_id) y estima la velocidad de cada vehículo tracked. El algoritmo concreto (SORT, ByteTrack, BoT-SORT u otro) se cierra al implementar; el CT solo declara que el tracker debe (a) producir track_id estable para un mismo vehículo a través de frames consecutivos, (b) estimar velocidad de cada vehículo en metros por segundo o kilómetros por hora derivada del desplazamiento del centroide del bounding box entre frames consecutivos, considerando el tiempo transcurrido entre frames y una escala espacial calibrada por intersección, (c) manejar grácil pérdidas temporales de tracking sin asignar track_id nuevo si el vehículo reaparece dentro de una ventana razonable de frames.
+
+- **CT-08.3:** El módulo soporta configuración de regiones de interés (ROI) por intersección. Para una intersección genérica de cuatro accesos conforme a TTH-07 CT-07.1, la configuración declara cuatro polígonos sobre el frame de referencia, uno por cada dirección de entrada (norte, sur, este, oeste). Los polígonos se configuran como archivo de configuración del backend al desplegar (manualmente sobre un frame de referencia del video que se use en el demo, sin UI dedicada en MVP1). Cada vehículo detectado se asigna a la dirección cuyo polígono contiene el centroide de su bounding box. Vehículos cuyos centroides caen fuera de cualquier polígono configurado se reportan como "fuera de zona".
+
+- **CT-08.4:** El módulo produce métricas de estado agregadas por dirección, derivadas de los vehículos asignados a cada polígono de ROI mediante CT-08.3. Las métricas mínimas son: (a) **conteo** de vehículos presentes en el polígono de la dirección en el frame procesado, (b) **cola estimada** definida como número de vehículos detectados con velocidad estimada por debajo de un umbral configurable (default propuesto: 5 km/h), (c) **flujo** definido como vehículos por unidad de tiempo que ingresan al polígono, derivado del tracking entre frames consecutivos, (d) **densidad** definida como conteo del polígono dividido por la longitud configurada del acceso. Las métricas se actualizan a una frecuencia configurable consistente con la frecuencia de procesamiento de frames del módulo.
+
+- **CT-08.5:** Las métricas de estado producidas por CT-08.4 se persisten de forma durable en la base de datos con al menos: timestamp, identificador de intersección, dirección, valor de cada métrica (conteo, cola estimada, flujo, densidad). La frecuencia de persistencia es configurable y consistente con la frecuencia de producción de métricas. Esta persistencia es independiente de la persistencia del dataset de TTH-07 (CT-07.3) y de la persistencia de predicciones de TTH-09 (CT-09.5).
+
+- **CT-08.6:** Existe un endpoint del backend **`GET /vision/state`** (path canónico; alternativa `GET /vision/metrics` aceptable al implementar) que retorna las métricas de estado actuales por dirección, con al menos: timestamp de las métricas reportadas, identificador de intersección, lista de direcciones con sus valores de conteo, cola estimada, flujo y densidad. El endpoint es consumido en operación hipotética por una capa funcional que alimentaría a HU-02, aunque en MVP1 HU-02 consume del estado de SUMO en lugar de visión.
+
+- **CT-08.7:** El módulo soporta dos modos de input de video: (a) **video grabado** (archivo local en formato mp4, mov u otro estándar; modo principal para demos reproducibles), (b) **stream de video** (RTMP, HLS, WebRTC, o stream de YouTube vía URL; modo para operación hipotética en tiempo real, sujeto a la robustez de la fuente externa). El modo se configura al desplegar; el módulo es agnóstico al input una vez configurado.
+
+- **CT-08.8:** Existe un componente de generación de **stream de frames procesados** que produce, para cada frame procesado por CT-08.1, una versión visualmente anotada con: (a) bounding box dibujado alrededor de cada vehículo detectado, (b) etiqueta visible junto al bounding box con la clase de vehículo detectada y la velocidad estimada del vehículo en km/h cuando el tracker (CT-08.2) provee tracking estable, (c) polígonos de ROI superpuestos al frame para visualización de las zonas direccionales configuradas. Este output es **distinto del output numérico de CT-08.6** y se expone vía endpoint separado (sugerencia: `GET /vision/stream` o similar; path concreto a cerrar al implementar). El output visual demuestra cualitativamente la viabilidad del componente y materializa el rol del módulo como "componente demostrable" declarado en D-007.
+
+- **CT-08.9:** El módulo se valida independientemente del sistema integrado mediante métricas estándar de detección reportadas sobre **dataset etiquetado propio** producido para el caso de uso, con al menos **200 frames etiquetados manualmente** representativos del tipo de video que el módulo procesará en operación. Las métricas a reportar son: precisión, recall, mAP (mean Average Precision) según convención estándar del área (mAP@0.5, mAP@0.5:0.95). El **objetivo aspiracional declarado es accuracy ≥ 80%** sobre el conjunto de validación del dataset etiquetado, alineado con TTH-09. El umbral es aspiracional, no bloqueante: si el módulo no alcanza el objetivo, las métricas reales se reportan honestamente en el documento de tesis y en la documentación del sprint conforme a D-005. TTH-08 se considera Done cuando el dataset está etiquetado, las métricas están medidas y reportadas, no condicionada al cumplimiento del umbral aspiracional. Comparación con datasets públicos estándar (COCO, UA-DETRAC, BDD100K) se declara como trabajo futuro asociado, sin abrir ficha separada.
+
+- **CT-08.10:** El módulo expone un health check consumible por TTH-04 conforme a CT-04.1 con estado uno de OK / Degradado / Fuera de servicio según la capacidad del módulo de procesar frames y producir métricas. Cuando el módulo no puede procesar frames (fuente de video caída, modelo no cargado, error interno no recuperable), el endpoint `GET /vision/state` retorna error HTTP estándar (5xx según el caso) y el health check reporta Fuera de servicio. La cascada de fallback declarada en TTH-04 (Nivel 1 con motor operando sin la fuente de visión) es **contractualmente preservada** aunque no se ejercite operativamente en validación cuantitativa de MVP1.
+
+- **CT-08.11:** Existen tests automatizados que cubren los siguientes escenarios: (a) test unitario de detección que verifica que el componente de CT-08.1, dado un frame de prueba, produce bounding boxes con confidence sobre el umbral configurado; (b) test unitario de asignación direccional que verifica que dado un vehículo detectado con centroide en coordenadas conocidas y polígonos de ROI configurados, la asignación a la dirección correcta funciona; (c) test unitario de derivación de métricas; (d) test de integración del endpoint que verifica que `GET /vision/state` retorna métricas con shape esperado; (e) test de integración de persistencia; (f) test unitario del comportamiento ante caída del módulo (CT-08.10).
+
+### Estado actual
+
+🆕 **Por reconstruir desde cero como parte del refactor del Bloque E.** Existe código predecesor en `edge_device/src/vision/` originado en la Fase 1 del proyecto (`EVOLUCION_TESIS.md`) que validó conceptualmente la viabilidad del pipeline de detección con streams de YouTube. Ese código no se preserva arquitectónicamente; queda como referencia histórica y exploración descartada en el sentido de la decisión de refactor tomada al cerrar el Bloque E.
+
+El refactor se justifica por dos razones convergentes: (a) el código predecesor no fue diseñado para producir los outputs estructurados que TTH-08 declara (output numérico estandarizado por dirección + output visual procesado con tracker); (b) la asignación direccional mediante polígonos ROI (CT-08.3), el tracker para velocidad estimada (CT-08.2) y la persistencia estandarizada de métricas (CT-08.5) son responsabilidades nuevas que conviene diseñar limpiamente desde el inicio.
+
+### Notas técnicas
+
+- **El módulo es componente demostrable, no entra al loop cuantitativo (D-007).** Esta separación es fundamental para defensa académica y se preserva intacta en TTH-08. La validación cuantitativa del sistema integrado se mide sobre KPIs producidos por SUMO (TTH-07 CT-07.6), no por este módulo. Cualquier resultado del módulo no afecta los resultados cuantitativos del sistema integrado porque el sistema integrado no consume del módulo durante validación.
+
+- **Rastreo del valor 88.2% del documento de tesis.** Análogo al rastreo del 81.3% del predictor declarado en TTH-09. El documento de tesis menciona "88.2% accuracy de detección" según D-005. Durante la implementación de TTH-08 se rastrea el origen del valor con los mismos tres escenarios posibles: medida real reproducible, medida sobre dataset distinto, o cifra de relleno. Si es cifra de relleno se sustituye por las métricas reales medidas conforme a D-005.
+
+- **Configuración de polígonos ROI sin UI en MVP1.** Los polígonos se configuran como archivo del backend al desplegar, sin UI dedicada en MVP1. Razones: no agrega HU al Bloque D ya cerrado; la configuración es operación rara; un dibujado manual sobre frame de referencia es trabajo de instalación pragmático.
+
+- **Tracker como componente con elección abierta al implementar.** El CT-08.2 declara la responsabilidad del tracker sin atar el algoritmo concreto. Los candidatos defendibles son SORT, ByteTrack, BoT-SORT. La elección concreta es decisión de implementación.
+
+- **Calibración espacial para estimación de velocidad.** La velocidad estimada requiere una calibración espacial del frame (cuántos píxeles del frame corresponden a un metro real). En MVP1, esta calibración se hace al desplegar para cada intersección, viviendo junto con los polígonos de ROI en el archivo de configuración del backend.
+
+- **Clasificación por tipo de vehículo como capacidad heredada de YOLO.** El módulo soporta la detección de las clases vehiculares nativas del modelo YOLO entrenado. Esta clasificación se preserva en CT-08.1 y se expone en el output visual de CT-08.8 como etiqueta del bounding box. **El refinamiento operativo de la clasificación** (priorización de transporte público, detección específica de vehículos de emergencia) está fuera del alcance de MVP1 y se trata como F36 en Trabajos Futuros.
+
+- **Output visual con velocidad estimada como característica demostrativa.** El output visual de CT-08.8 es **valor demostrativo** del componente. En sustentación permite mostrar literalmente que el módulo está procesando video en tiempo real. Materializa el rol del módulo como "componente demostrable" declarado en D-007.
+
+- **Coherencia con D-004 (Pi física como demostración conceptual).** El módulo de visión es el componente arquetípico que correría en el dispositivo de borde en una operación real. En MVP1 corre en la laptop de demostración junto con el resto del sistema (D-003). La arquitectura que separa edge de servidor central se demuestra conceptualmente, no se entrega como hardware (D-004).
+
+- **Limitaciones de los streams de YouTube documentadas honestamente.** Conforme a `EVOLUCION_TESIS.md` Fase 1 y a la justificación de D-007: los streams pueden apagarse, no son específicos de Miraflores, no proveen ground truth. Estas limitaciones se documentan honestamente en la documentación del módulo y en el capítulo de validación de la tesis.
+
+- **Datos reales de Miraflores como trabajo futuro.** La obtención de cámaras propias o video específicamente de la intersección de estudio de Miraflores está fuera del alcance de MVP1 y se trata como trabajo futuro asociado a F41 (Integración cerrada del módulo de visión al loop de validación cuantitativa).
+
+### Trazabilidad con HUs y otras TTH
+
+| HU / TTH que depende | Cómo depende |
+|---|---|
+| HU-02 (monitoreo, Bloque B) | En operación hipotética consumiría las métricas de estado por dirección (CT-08.4, CT-08.6) como fuente de flujo y cola observados. En MVP1, HU-02 es agnóstica a la fuente (DHU-006) y se alimenta del estado de SUMO vía TTH-07; el módulo de visión no es consumido operativamente. La marca pasiva del panel ante caída de la fuente (CA-02.4, DHU-005 Caso A) se materializa con TTH-07 en MVP1, contractualmente preservada para visión en operación hipotética futura. |
+| TTH-04 (Bloque C) | Detecta caída del módulo (mediante health check de CT-04.1) e invoca al Nivel 1 de la cascada. En MVP1, esta cascada es contractualmente preservada pero no se ejercita operativamente en validación cuantitativa (D-007). |
+| Capítulo de validación de la tesis | Consume las métricas de detección reportadas por CT-08.9 como validación independiente del módulo. Estas métricas se reportan **separadamente** de los KPIs cuantitativos del sistema integrado (que vienen de SUMO vía TTH-07), preservando la separación metodológica de D-007. |
+| Demostración del sistema en sustentación | Consume el output visual de CT-08.8 para demostrar visualmente que el componente está operativo durante la defensa. |
+
+---
+
+## TTH-09 — Modelo predictivo GRU servido vía API
+
+**Origen:** Reemplaza a F34 (Módulo predictivo GRU servido vía API). Clasificada como TTH por aplicación de los criterios de DHU-004 al Bloque E, formalizada en DHU-015.
+
+**Habilita a:** HU-03 (visualización de predicción de congestión a corto plazo, Bloque B), HU-04 (vista combinada del estado actual y la predicción, Bloque B), HU-14 (vista de métricas de desempeño del modelo predictivo, Bloque D). Sin esta TTH, HU-03 y HU-04 no tienen predicciones reales que mostrar al Operador, y HU-14 no tiene métricas reales que mostrar al Administrador.
+
+**Decisiones técnicas relacionadas:** D-001 (Monolito modular). D-002 (Modelo predictivo RNN; refinada por D-006). D-005 (Números de tesis: reportar la realidad medida en validación). D-006 (GRU univariado por intersección: descarta STGNN). D-008 (SUMO como columna vertebral: provee dataset). D-009 (jam level Waze como variable predicha). DHU-015 (clasificación de F34 como TTH del Bloque E).
+
+**Dependencias con otras TTH:** Consume el dataset de entrenamiento producido por TTH-07 (CT-07.3, CT-07.4). Consume la sustentación de hiperparámetros temporales producida por TTH-11 (CT-11.5). Es consumida por TTH-04 como componente predictivo principal cuyo fallo activa el Nivel 2 de la lógica de fallback en cascada.
+
+### Descripción
+
+Implementar el modelo predictivo del sistema, sirviendo predicciones a corto plazo del nivel de congestión por dirección de la intersección de estudio. Conforme a D-006, la arquitectura es **GRU univariado por intersección**; conforme a D-009, la variable predicha es el ratio velocidad/free-flow del cual se deriva el jam level 0-5; conforme a D-008, el modelo se entrena sobre dataset sintético generado por TTH-07.
+
+El componente se materializa como **cuatro modelos GRU univariados independientes**, uno por cada dirección de entrada de la intersección genérica de cuatro accesos declarada en TTH-07 (CT-07.1). Cada GRU consume su propia serie temporal (la del acceso correspondiente) y produce la predicción para esa dirección. La separación en cuatro modelos univariados, en lugar de un modelo multi-output que prediga las cuatro direcciones simultáneamente, preserva la independencia entre direcciones declarada por D-006 y permite que cada modelo se entrene, evalúe y reemplace independientemente.
+
+Cada modelo implementa la **arquitectura multi-output (seq2seq o equivalente)**: consume una ventana de entrada de los últimos pasos observados y produce un vector de predicciones futuras en una sola inferencia. La cantidad exacta de pasos en la ventana de entrada (lookback) y la cantidad de pasos en el horizonte de predicción son hiperparámetros temporales consumidos del documento de sustentación producido por TTH-11. El default operativo asumido para implementación inicial, si TTH-11 no ha cerrado al momento de comenzar TTH-09, es lookback de 30 minutos y horizonte de 60 minutos con paso de muestreo de 60 segundos; estos valores se confirman o ajustan con la salida de TTH-11 antes de declarar TTH-09 Done.
+
+El componente expone sus predicciones vía endpoint HTTP del backend. Una sola llamada al endpoint devuelve las predicciones para las cuatro direcciones a lo largo de todo el horizonte temporal, suficiente para que HU-03 materialice la UX del slider del Operador sin necesidad de llamadas adicionales por paso temporal. Cada predicción se persiste de forma durable en el momento que se genera, lo cual habilita a HU-14 a comparar predicciones con observaciones reales una vez que el horizonte llega y calcular las métricas declaradas en HU-14.
+
+El componente no implementa lógica de fallback ante caída propia ni del entorno. Si el modelo no responde, la detección y el fallback al predictor de respaldo (RandomForest existente) son responsabilidad de TTH-04, que declara el Nivel 2 de la lógica de fallback en cascada del sistema.
+
+### Criterios técnicos de terminado
+
+- **CT-09.1:** Existe un componente entrenable que implementa la arquitectura **GRU univariado por intersección** conforme a D-006. La implementación cubre cuatro modelos GRU independientes, uno por cada dirección de entrada de la intersección genérica declarada en TTH-07 (CT-07.1). Cada modelo consume su propia serie temporal univariada (ratio velocidad/free-flow del acceso correspondiente, según el mapeo declarado en D-009 y materializado por TTH-07) y produce predicciones para esa dirección de forma independiente del resto.
+
+- **CT-09.2:** Cada modelo implementa **arquitectura multi-output**: consume una ventana de entrada de los últimos N pasos observados y produce un vector de M predicciones futuras en una sola inferencia. Los valores concretos de N (lookback) y M (horizonte) son consumidos del documento producido por TTH-11 (CT-11.5). Si TTH-11 no ha cerrado al momento de implementar TTH-09, se asumen valores provisionales (N = 30, M = 60, con paso de 60 segundos); TTH-09 no se considera Done hasta que los valores se confirman o ajustan con la salida de TTH-11 y el modelo se entrena o reentrena con los valores definitivos.
+
+- **CT-09.3:** El componente incluye un **script reproducible de entrenamiento** que: (a) consume el dataset producido por TTH-07 (CT-07.3) usando las particiones declaradas en CT-07.4, (b) entrena los cuatro modelos GRU univariados con los hiperparámetros temporales de TTH-11 y los hiperparámetros no temporales que el equipo elija al implementar, (c) persiste los modelos entrenados en disco en una ubicación fija documentada, (d) reporta las cuatro métricas declaradas en HU-14 sobre la partición de validación al finalizar el entrenamiento, (e) es reejecutable: una nueva ejecución del script con el mismo dataset y los mismos hiperparámetros produce un modelo equivalente sin asistencia manual. El script no implementa pipeline MLOps automatizado (F21 es Trabajos Futuros); reentrenar es ejecutar el script manualmente.
+
+- **CT-09.4:** Existe un endpoint del backend **`POST /predictions/predict`** (mismo path que el endpoint baseline existente, según ficha F34 y código actual del proyecto) que: (a) carga los cuatro modelos GRU entrenados desde la ubicación documentada en CT-09.3, (b) recibe como input las series temporales recientes necesarias para la ventana de entrada de cada dirección, (c) ejecuta una inferencia por dirección, (d) devuelve un objeto estructurado con una entrada por dirección, conteniendo un array de predicciones desde el paso t+1 hasta el paso t+horizonte, cada predicción con dos campos: el **ratio continuo** (valor numérico predicho por el modelo) y el **nivel discreto 0-5** (derivado del ratio según el mapeo de D-009, calculado en backend). Una sola llamada al endpoint cubre las cuatro direcciones y todo el horizonte temporal, suficiente para alimentar el slider del Operador de HU-03 sin llamadas adicionales.
+
+- **CT-09.5:** Cada predicción producida por el endpoint se **persiste de forma durable** en el momento de generarse, con al menos: timestamp de generación de la predicción, dirección, paso futuro al que corresponde la predicción (t+1, t+2, ..., t+horizonte), ratio continuo predicho, nivel discreto derivado, identificador del modelo o versión del modelo que produjo la predicción. Esta persistencia es la fuente de datos que HU-14 consume para comparar predicciones con observaciones reales una vez que el horizonte llega y calcular las métricas declaradas (MAE, RMSE, accuracy, matriz de confusión 6×6). El registro de predicciones es independiente del registro de decisiones del motor adaptativo (CA-08.1 de HU-08) y del registro de transiciones de estado operativo (CT-04.3 de TTH-04).
+
+- **CT-09.6:** El modelo se evalúa sobre la partición de validación del dataset de TTH-07 (CT-07.4: seeds y patrones distintos de entrenamiento, para evitar fuga de información conforme a D-008). La evaluación reporta las **cuatro métricas declaradas en HU-14**: MAE y RMSE sobre el ratio continuo, accuracy sobre el nivel discreto 0-5, y matriz de confusión 6×6 (filas = nivel real, columnas = nivel predicho, convención de scikit-learn declarada en CA-14.8 de HU-14). Las métricas se reportan por dirección y consolidadas (promedio o equivalente que el equipo elija documentar) al finalizar el entrenamiento.
+
+- **CT-09.7:** El **objetivo aspiracional del modelo es accuracy ≥ 80% sobre el nivel discreto 0-5** evaluada sobre la partición de validación. El umbral se establece como objetivo del modelo predictivo del sistema, no como criterio bloqueante de Done. Si el modelo entrenado no alcanza el objetivo aspiracional, las métricas reales medidas se reportan honestamente en el documento de tesis (capítulo de validación) y en la documentación del sprint, conforme a D-005. TTH-09 se considera Done cuando el modelo está entrenado, servido y las métricas reportadas, no condicionada al cumplimiento del umbral aspiracional.
+
+- **CT-09.8:** Cuando el modelo no responde (proceso caído, modelo no cargado, timeout interno), el endpoint **`POST /predictions/predict`** retorna un **error HTTP estándar** (5xx según el caso) con cuerpo descriptivo del error. La detección de la caída y el fallback al predictor de respaldo (RandomForest existente, preservado como componente preexistente) son responsabilidad de TTH-04, no de este componente. TTH-09 no implementa lógica de fallback interno; expone únicamente el modelo principal GRU y delega la cascada a la lógica externa declarada en TTH-04 (Nivel 2).
+
+- **CT-09.9:** Existen tests automatizados que cubren los siguientes escenarios: (a) test unitario del script de entrenamiento que verifica que una corrida corta sobre dataset reducido produce modelos persistidos en disco sin errores; (b) test unitario del endpoint que verifica que, dado input válido, devuelve respuesta con shape esperado; (c) test de integración que verifica que el endpoint, con modelos entrenados sobre el dataset de TTH-07, produce predicciones cuyos rangos son plausibles (ratio entre 0 y 1, nivel entre 0 y 5); (d) test unitario que verifica que cuando el modelo no se puede cargar, el endpoint retorna error HTTP esperado (CT-09.8); (e) test unitario que verifica que cada predicción generada por el endpoint queda persistida con los campos declarados en CT-09.5.
+
+### Estado actual
+
+🆕 **Por construir desde cero como GRU.** Existe un componente predictivo baseline (`RandomForestPredictor`) en el código actual, sirviendo predicciones vía endpoint `POST /predictions/predict`. Este componente baseline **se preserva sin modificación** como predictor de respaldo invocado por TTH-04 en Nivel 2 de la cascada de fallback. TTH-09 introduce el GRU como modelo principal **sin reemplazar arquitectónicamente** al RandomForest. La ruta del endpoint queda servida por el GRU como modelo principal; el RandomForest sigue accesible internamente para que TTH-04 lo invoque cuando el GRU no responde.
+
+### Notas técnicas
+
+- **Hiperparámetros no temporales (NO cubiertos por TTH-11).** TTH-11 cubre únicamente hiperparámetros temporales (paso, lookback, horizonte, frecuencia de re-inferencia). Los hiperparámetros no temporales del GRU (tamaño del estado oculto, número de capas, función de pérdida, optimizador, learning rate, regularización, batch size, número de épocas) se eligen al implementar TTH-09 por buenas prácticas estándar del área y se documentan junto con el modelo entrenado.
+
+- **Rastreo del valor 81.3% del documento de tesis.** Durante la implementación de TTH-09 o TTH-11 se rastrea el origen del valor "81.3% accuracy del predictor" del documento de tesis. Tres escenarios: medida real reproducible (se preserva como referencia), medida del RandomForest sobre dataset distinto (se documenta como tal), o cifra de relleno (se sustituye por las métricas reales conforme a D-005). La acción es verificación documental, no bloqueante.
+
+- **Persistencia del modelo en disco (versionado simple).** Los cuatro modelos entrenados se persisten en una ubicación fija del sistema de archivos del backend. Re-entrenar reemplaza los archivos. **No hay versionado de modelos** (no se preservan modelos anteriores, no hay timestamping, no hay metadata sofisticada de runs). Esta simplicidad es coherente con MLOps fuera de alcance (F21 es Trabajos Futuros).
+
+- **Topología de cuatro direcciones como limitación de alcance MVP1, y extensión a múltiples intersecciones como trabajo futuro arquitectónico (no lineal).** El componente está diseñado y entrenado para una intersección de cuatro accesos según TTH-07 (CT-07.1). Dos escenarios de crecimiento son posibles y se tratan de forma distinta:
+
+  *Crecimiento dentro de una misma intersección* (intersección de cinco o más accesos, glorietas, intersecciones complejas): es escalamiento trivial. Cada acceso adicional es un nuevo modelo GRU univariado entrenado independientemente, sin rediseño arquitectónico.
+
+  *Crecimiento a múltiples intersecciones interrelacionadas* (red urbana): **escalar linealmente entrenando 4 modelos GRU univariados independientes por cada intersección adicional es técnicamente viable pero descarta la dependencia espacial entre intersecciones**, que es información con valor predictivo según la literatura del área (Yu et al. 2018, Li et al. 2018, Wu et al. 2019). El camino arquitectónico correcto para esta extensión son las arquitecturas Spatio-Temporal Graph Neural Networks (STGNN), declaradas como trabajo futuro del proyecto en F37 ("coordinación de ondas verdes entre intersecciones vecinas mediante arquitecturas espacio-temporales tipo STGNN") y fundamentadas por la exploración de Fase 2 documentada en `EVOLUCION_TESIS.md`. El componente preservado en `ia_prediction_service/src/models/legacy/time_then_space.py` (descartado por D-006 para MVP1) es punto de partida natural para esta extensión cuando se aborde. **TTH-09 no escala arquitectónicamente a red urbana; esa extensión es trabajo futuro declarado, no extensión lineal del componente actual.**
+
+- **Comportamiento ante caída del modelo principal y TTH-04 (Nivel 2).** Como se declaró en CT-09.8, este componente expone únicamente el GRU. Cuando el GRU no responde, TTH-04 detecta la condición y activa Nivel 2 de la cascada de fallback, invocando al `RandomForestPredictor` preservado. Esta separación tiene una consecuencia importante: el endpoint puede estar respondiendo (con predicciones del RandomForest) aunque el GRU esté caído. La marca pasiva del panel de predicción (CA-03.4 de HU-03, DHU-005 Caso B) y la alerta activa transversal (HU-10) reflejan correctamente este estado: el componente predictor está degradado (Nivel 2), no caído del todo.
+
+- **Continuidad del baseline RandomForest.** El `RandomForestPredictor` actual se preserva sin modificación funcional. La única coordinación con TTH-04 es asegurar que la ruta interna que TTH-04 invoca para el predictor de respaldo está disponible y produce respuestas con el mismo formato de output que el endpoint público (cuatro direcciones, ratio y nivel por predicción). La metadata de origen (qué modelo produjo la predicción) se preserva en CT-09.5.
+
+- **Frecuencia de re-inferencia del endpoint.** La frecuencia con la que el backend recalcula predicciones se documenta y cierra con la salida de TTH-11 (CT-11.2). Hasta que TTH-11 cierre, el comportamiento provisional del endpoint es inferir por cada llamada externa recibida (sin caché ni recalculación programada).
+
+### Trazabilidad con HUs y otras TTH
+
+| HU / TTH que depende | Cómo depende |
+|---|---|
+| HU-03 (predicción, Bloque B) | Consume el endpoint `POST /predictions/predict` (CT-09.4) para mostrar la predicción al Operador. La UX del slider que muestra la predicción a distintos pasos futuros se materializa con el vector de horizonte completo que una sola llamada al endpoint devuelve. La marca pasiva del panel ante caída del componente (CA-03.4, DHU-005 Caso B) se materializa con CT-09.8 (error HTTP estándar) y con la cascada de TTH-04 (Nivel 2). |
+| HU-04 (vista combinada, Bloque B) | Consume el mismo endpoint que HU-03; misma dinámica de slider y de marca pasiva. |
+| HU-14 (métricas del modelo, Bloque D) | Consume el **registro persistente de predicciones** (CT-09.5) como fuente de datos para comparar predicciones con observaciones reales y calcular MAE, RMSE, accuracy, matriz de confusión 6×6 (CA-14.1 a CA-14.4 de HU-14). |
+| TTH-04 (Bloque C) | Detecta caída del GRU (mediante health check del componente, CT-04.1) e invoca al predictor de respaldo `RandomForestPredictor` (Nivel 2 de la cascada). |
+| TTH-07 (Bloque E) | Provee el dataset de entrenamiento y validación (CT-07.3, CT-07.4) que CT-09.3 consume. |
+| TTH-11 (Bloque E) | Provee la tabla resumen de hiperparámetros temporales (CT-11.5) que CT-09.2 consume. Si TTH-11 no ha cerrado al momento de implementar TTH-09, se usan valores provisionales y se reentrena al cierre de TTH-11. |
+| TTH-10 (Motor adaptativo, Bloque E) | Consume el endpoint `POST /predictions/predict` (CT-09.4) como input del motor adaptativo. |
+
+---
+
+## TTH-10 — Motor adaptativo de control semafórico
+
+**Origen:** Reemplaza a F35 (Motor adaptativo: Webster + MaxPressure + MTC). Clasificada como TTH por aplicación de los criterios de DHU-004 al Bloque E, formalizada en DHU-015.
+
+**Habilita a:** HU-05 (visualización de la estrategia de control activa, Bloque B), HU-06 (explicación de la razón de selección de estrategia, Bloque B), HU-07 (notificación de cambios de estrategia, Bloque B), HU-08 (consulta del historial de decisiones del motor, Bloque B), HU-15 (configuración de parámetros operativos del sistema, Bloque D, parámetros que afectan al motor). El motor adaptativo es el componente central del sistema y el aporte de ingeniería principal del trabajo según `EVOLUCION_TESIS.md` Fase 3.
+
+**Decisiones técnicas relacionadas:** D-001 (Monolito modular: el motor vive como módulo del backend `core_management_api/src/control/`). D-005 (Números de tesis). D-006 (GRU univariado: fuente de predicciones del motor). D-008 (SUMO como entorno de operación durante validación cuantitativa). D-009 (jam level Waze como variable predicha). DHU-015 (clasificación de F35 como TTH del Bloque E).
+
+**Marco normativo aplicable:** Manual de Dispositivos de Control del Tránsito Automotor para Calles y Carreteras, R.D. N.° 26-2024-MTC/18 (octubre 2024), Ministerio de Transportes y Comunicaciones del Perú. Define las restricciones legales que la capa MTC del motor aplica como reglas duras inviolables.
+
+**Dependencias con otras TTH del Bloque E:** Consume las predicciones del modelo predictivo vía endpoint `POST /predictions/predict` (CT-09.4 de TTH-09). Consume el entorno de simulación SUMO vía TraCI (CT-07.5 de TTH-07) durante validación cuantitativa. Consume parcialmente las decisiones de hiperparámetros temporales de TTH-11 (frecuencia de re-inferencia del endpoint de predicciones, CT-11.2). Es consumido por TTH-04 como componente de control cuyo fallo activa el Nivel 3 de la lógica de fallback en cascada (tiempos preconfigurados de TTH-05).
+
+### Descripción
+
+Implementar el motor adaptativo de control semafórico del sistema CerebroVial, conforme al aporte de ingeniería central declarado en `EVOLUCION_TESIS.md` Fase 3. El motor es una **pipeline de dos etapas** que opera sobre el estado predicho (proveniente de TTH-09) y observado (proveniente de TTH-07 en validación, o del módulo de visión TTH-08 en operación hipotética):
+
+**Etapa 1 — Selección de estrategia adaptativa.** El componente AdaptiveEngine elige entre dos estrategias intercambiables (Webster o Max Pressure) según el estado del sistema. La estrategia seleccionada calcula tiempos óptimos del semáforo a partir de la demanda observada y predicha.
+
+**Etapa 2 — Aplicación de reglas duras (MTC).** La salida de la estrategia seleccionada en Etapa 1 pasa por una capa de cumplimiento normativo que corrige los tiempos calculados para que respeten las restricciones inviolables del marco regulatorio peruano. MTC no decide tiempos adaptativos; corrige los tiempos decididos en Etapa 1 y compone la secuencia final aplicada al semáforo.
+
+La separación arquitectónica entre adaptabilidad (Webster/Max Pressure) y reglas duras (MTC) es deliberada: las dos estrategias adaptativas son algoritmos puros de optimización de capacidad que no incorporan regulación local; MTC es una capa de cumplimiento que hace los outputs legales y operativos. Si la regulación peruana cambia o se adopta otra norma, la capa MTC se reemplaza sin tocar los algoritmos adaptativos.
+
+El motor no implementa lógica de fallback ante caída propia. Cuando el motor no puede decidir, responde con error HTTP estándar; la detección de la caída y el fallback al Nivel 3 (tiempos preconfigurados de TTH-05) es responsabilidad de TTH-04. Cada decisión del motor se persiste de forma durable para que HU-08 muestre el historial al Operador y para que el capítulo de validación de la tesis pueda analizar la evolución del comportamiento del motor.
+
+### Criterios técnicos de terminado
+
+- **CT-10.1:** Existe un componente AdaptiveEngine que opera como pipeline de dos etapas (selección de estrategia adaptativa + capa MTC de reglas duras) sobre el estado predicho y observado de la intersección. La arquitectura está implementada en `core_management_api/src/control/` y documentada en `motor_adaptativo_teoria.md`. La frontera entre Etapa 1 (Webster/Max Pressure) y Etapa 2 (MTC) está separada en código de forma que la capa MTC sea reemplazable sin tocar las estrategias adaptativas y viceversa.
+
+- **CT-10.2 (Etapa 1 — Estrategia Webster):** Existe implementación de la estrategia Webster (1958) que: (a) calcula el factor de carga `Y = Σ q_i/s_i` sobre las fases, (b) verifica feasibility (`Y < 0.95`), (c) calcula el ciclo óptimo según la fórmula `C = (1.5 · L + 5) / (1 - Y)`, (d) reparte verde efectivo proporcionalmente al peso de cada fase en Y. Cuando `Y ≥ 0.95`, Webster levanta excepción `WebsterInfeasible` que el AdaptiveEngine maneja según la combinación con `flow_total` (ver CT-10.5).
+
+- **CT-10.3 (Etapa 1 — Estrategia Max Pressure):** Existe implementación de Max Pressure (Varaiya 2013) que: (a) calcula la presión de cada fase candidata según la versión simplificada `P(φ) ≈ cola(φ) · s(φ)/3600`, (b) elige la próxima fase como la de mayor presión, (c) usa ciclo base de Webster si Webster es feasible o ciclo default de 60 segundos si Webster es infeasible, (d) aplica round-robin alfabético determinístico cuando todas las colas son cero.
+
+- **CT-10.4 (Etapa 1 — Selección entre Webster y Max Pressure):** El AdaptiveEngine selecciona la estrategia activa según el umbral `flow_total > 1500 veh/h`. Por debajo del umbral activa Webster (modo off-peak); por encima activa Max Pressure (modo peak). El umbral es **parametrizable** en archivo de configuración del backend, calibrable contra simulaciones SUMO en validación cuantitativa, no expuesto al Administrador en MVP1 conforme a DHU-014 subsección C.
+
+- **CT-10.5 (Etapa 1 — Casos de la matriz de selección):** El motor maneja los cuatro casos posibles de combinación `flow_total` × `Y` según el cuadro de la sección 5.2 de `motor_adaptativo_teoria.md`:
+
+  | `flow_total` | `Y` | Comportamiento |
+  |---|---|---|
+  | ≤ 1500 | < 0.95 | Webster (off-peak), ciclo óptimo, verdes proporcionales. |
+  | ≤ 1500 | ≥ 0.95 | Responde HTTP 422 con `code=webster_infeasible` (caso patológico raro). |
+  | > 1500 | < 0.95 | Max Pressure con ciclo base de Webster. |
+  | > 1500 | ≥ 0.95 | Max Pressure con ciclo default de 60s, verdes proporcionales a colas. |
+
+  Estos cuatro casos están cubiertos por tests automatizados.
+
+- **CT-10.6 (Etapa 2 — Capa MTC, constantes):** La capa MTC define cinco constantes normativas con origen en el Manual MTC peruano R.D. N.° 26-2024-MTC/18: `MIN_GREEN = 7 s` (verde mínimo por fase), `MAX_GREEN = 60 s` (verde máximo por fase), `MIN_YELLOW = 3 s` (amarillo mínimo), `ALL_RED = 2 s` (all-red obligatorio entre fases), `MIN_PEDESTRIAN = 7 s` (verde mínimo cuando la fase tiene cruce peatonal activo). Las constantes viven en archivo de configuración del backend, son ajustables al desplegar pero no expuestas al Administrador en MVP1 conforme a DHU-014 subsección C. Modificar reglas duras en runtime requiere conocimiento profundo de ingeniería de tráfico que excede el perfil del Administrador declarado, y crearía riesgo operativo.
+
+- **CT-10.7 (Etapa 2 — Capa MTC, las tres operaciones):** La capa MTC aplica tres operaciones determinísticas sobre la salida de Etapa 1:
+  1. **Elevar.** Si el verde calculado está por debajo de `MIN_GREEN` (o `MIN_PEDESTRIAN` si la fase tiene `has_pedestrian = true`), MTC lo eleva al mínimo correspondiente y registra el ajuste con descripción legible.
+  2. **Recortar.** Si el verde calculado está por encima de `MAX_GREEN`, MTC lo recorta al máximo y registra el ajuste.
+  3. **Componer.** MTC compone la secuencia final aplicada al semáforo agregando amarillo físico (`MIN_YELLOW`) y all-red (`ALL_RED`) tras cada verde corregido.
+
+- **CT-10.8 (Output del motor):** El motor devuelve, para cada solicitud de recomendación, un objeto estructurado que incluye al menos: identificador de la intersección, modo activo (`webster` u `max_pressure`), ciclo final en segundos, lista de fases con sus tiempos finales (verde, amarillo, all-red), próxima fase a entrar si aplica (solo en modo Max Pressure), razonamiento legible que explica la decisión, y lista de ajustes aplicados por MTC. El formato JSON canónico está documentado en el Anexo de `motor_adaptativo_teoria.md`.
+
+- **CT-10.9 (Persistencia de decisiones):** Cada decisión del motor se persiste de forma durable en el momento de generarse, con al menos: timestamp, intersección, modo activo, estrategia previa si cambió, tiempos calculados antes de MTC (verdes "ideales" producidos por Webster o Max Pressure en Etapa 1), tiempos finales después de MTC (verdes corregidos + secuencia compuesta), lista de ajustes aplicados por MTC con su descripción legible, razonamiento. Esta persistencia es la fuente de datos que HU-08 consume para mostrar el historial al Operador (CA-08.1 ingloba F31 según el cierre del Bloque B) y que el capítulo de validación de la tesis consume para análisis cuantitativo. La persistencia es independiente del registro de transiciones de estado operativo de TTH-04 (CT-04.3) y del registro de predicciones de TTH-09 (CT-09.5).
+
+- **CT-10.10 (Integración con TTH-09):** El motor consume las predicciones del modelo predictivo vía endpoint `POST /predictions/predict` de TTH-09 (CT-09.4) como input al razonamiento de selección de estrategia y al cálculo de tiempos. La frecuencia de re-inferencia consume el valor recomendado por TTH-11 (CT-11.2). Esta integración reemplaza la conexión actual con el baseline RandomForest, que queda preservado como predictor de respaldo invocado por TTH-04 en Nivel 2 de la cascada.
+
+- **CT-10.11 (Integración con TTH-07 durante validación cuantitativa):** Durante el experimento de validación cuantitativa del sistema integrado, el motor opera dentro del entorno de simulación SUMO conforme a CT-07.5. El motor consulta el estado observado vía TraCI y emite decisiones de fase del semáforo que la simulación ejecuta sobre el semáforo virtual. La decisión concreta entre adaptador externo TraCI ↔ API del motor y modificación del motor para consumir TraCI directamente se cierra al implementar TTH-07 y TTH-10 conjuntamente.
+
+- **CT-10.12 (Integración con HU-15, parámetros configurables del Administrador):** El motor consume desde el mecanismo de configuración declarado en HU-15 (CA-15.1 a CA-15.4) los parámetros operativos que afectan a su comportamiento: umbral de congestión (default ≥ nivel 3 según D-009) y horizonte de predicción (CA-03.1 de HU-03). Los parámetros internos de las estrategias del motor quedan fuera del alcance de HU-15 en MVP1 conforme a DHU-014 subsección C; se ajustan en archivo de configuración del backend al desplegar.
+
+- **CT-10.13 (Integración con TTH-04, cascada de fallback):** El motor expone health check consumible por TTH-04 conforme a CT-04.1. Cuando el motor no puede decidir por condición patológica de inputs (caso `flow_total ≤ 1500 + Y ≥ 0.95` declarado en CT-10.5, ausencia de inputs obligatorios, error interno no recuperable), responde con HTTP 422 (caso `webster_infeasible`) o HTTP 5xx (errores genéricos) y no aplica decisiones al semáforo. TTH-04 detecta esta condición y activa Nivel 3 de la cascada (tiempos preconfigurados de TTH-05). El motor no implementa lógica de fallback interno; delega la cascada a la lógica externa declarada en TTH-04.
+
+- **CT-10.14 (Tests):** Existen tests automatizados que cubren los siguientes escenarios: (a) tests unitarios de Webster; (b) tests unitarios de Max Pressure; (c) tests unitarios de MTC; (d) test de integración del AdaptiveEngine cubriendo los cuatro casos de CT-10.5; (e) test de integración con TTH-09; (f) test de integración con TTH-07; (g) test de integración con TTH-04; (h) test de persistencia. Los tests no validan calidad cuantitativa del sistema (eso pertenece al capítulo de validación de la tesis); validan únicamente que la mecánica funciona conforme a la teoría documentada.
+
+### Estado actual
+
+✓✓ **Construido, integración pendiente con otras TTH del Bloque E.** El motor está implementado en `core_management_api/src/control/` (las dos estrategias adaptativas + capa MTC + AdaptiveEngine), con tests unitarios y de integración pasando, frontend de visualización conectado (`views/control/`), y documentación teórica de 552 líneas en `motor_adaptativo_teoria.md`.
+
+Lo que falta para considerar TTH-10 Done:
+
+1. **Integración con TTH-09** (CT-10.10): el motor consume hoy del baseline RandomForest; debe migrar al endpoint del GRU.
+2. **Integración con TTH-07** (CT-10.11): la coordinación TraCI ↔ motor para el experimento de validación cuantitativa se construye junto con TTH-07.
+3. **Integración con TTH-04** (CT-10.13): el health check expuesto por el motor y la cascada de fallback al Nivel 3 deben validarse end-to-end junto con TTH-04 y TTH-05.
+4. **Consumo de parámetros configurables de HU-15** (CT-10.12).
+5. **Persistencia ampliada de decisiones** (CT-10.9): el registro actual puede no cubrir todos los campos que HU-08 y el capítulo de validación necesitan; se amplía si es necesario al cerrar el sprint del Bloque B.
+
+### Notas técnicas
+
+- **El motor es el aporte de ingeniería principal de la tesis.** El detalle teórico de cada decisión arquitectónica está desarrollado en `motor_adaptativo_teoria.md` con citas bibliográficas (Webster 1958, Varaiya 2013, FHWA 2008, Manual MTC peruano 2024). La defensa académica del componente se apoya en ese documento, no en TTH-10 sola.
+
+- **Validación funcional vs validación cuantitativa.** TTH-10 se considera Done por integración funcional. La validación cuantitativa (mejora del motor adaptativo frente a control fijo Webster, medida en KPIs de tráfico) **no es CT de TTH-10**; pertenece al capítulo de validación de la tesis y se reporta conforme a D-005. El criterio de éxito sugerido en `motor_adaptativo_teoria.md` (RD% ≥ 15% de mejora en demora promedio frente a tiempos fijos) es objetivo de la validación, no criterio de Done del componente.
+
+- **Umbral peak (1500 veh/h) como decisión heurística parametrizable.** El valor es heurístico, no físico. Representa aproximadamente 40-50% de la capacidad teórica agregada de una intersección urbana de 2 fases. El valor es parametrizable en archivo de configuración del backend y se calibrará contra simulaciones SUMO durante validación cuantitativa.
+
+- **Versión simplificada de Max Pressure.** El componente implementa la **versión simplificada** documentada en sección 4.3 de `motor_adaptativo_teoria.md`, no la versión rigurosa de Varaiya 2013 con flujos upstream/downstream y matrices de doblar. La versión rigurosa se declara como trabajo futuro asociado a la extensión a red urbana (F37).
+
+- **Predicción de congestión opcional como input del motor.** El motor declara `predicted_demand` como input **opcional**. Los inputs obligatorios son `flow`, `saturation_flow` y `queue` por fase. Cuando TTH-09 cierra y CT-10.10 se implementa, el motor consume las predicciones del GRU como contexto adicional para razonamiento anticipativo. Esto convierte al motor de **reactivo** a **proactivo**.
+
+- **Trazabilidad regulatoria.** Las cinco constantes de MTC (CT-10.6) están justificadas individualmente en sección 6 de `motor_adaptativo_teoria.md` con citas al Manual MTC peruano y al FHWA Traffic Signal Timing Manual (2008). El motor no inventa límites operativos; replica restricciones documentadas en normativa vigente y manuales operativos internacionales.
+
+- **Visibilidad de los ajustes de MTC al Operador.** Las correcciones aplicadas por MTC se registran en la persistencia de decisiones (CT-10.9) y están disponibles en el output del motor (CT-10.8) como lista `adjustments`. El Operador, en MVP1, **no recibe notificación específica de cada corrección de MTC**; ve la decisión final aplicada al semáforo a través de las HUs del Bloque B.
+
+- **Detalle conceptual sobre `lost_time`.** Webster usa `lost_time` como parámetro teórico de su fórmula (típicamente 8 segundos para 2 fases con 2 cambios por ciclo), mientras que MTC compone los amarillos y all-reds físicos completos (10 segundos para esa misma intersección). La diferencia representa la fracción del amarillo que los conductores aprovechan extendiendo el cruce. Esto explica por qué el ciclo final del demo (70 s) es distinto del ciclo "óptimo" calculado por Webster (68 s). Detalle relevante para defensa académica.
+
+- **Soporte de N fases.** El motor está diseñado para soportar N fases por intersección. Webster suma sobre N términos en el cálculo de Y. Max Pressure elige cuál de las N fases entra primero por presión. La capa MTC aplica las cinco constantes a cada fase independientemente. El demo del frontend usa 2 fases (NS/EW); el caso de 4 fases u otro número es soportado funcionalmente.
+
+- **Detección automática de demanda peatonal como trabajo futuro.** Cada fase tiene un flag `has_pedestrian` que activa `MIN_PEDESTRIAN`. En MVP1, el flag se configura por intersección al desplegar y permanece estático. La detección automática de demanda peatonal en tiempo real se declara como trabajo futuro implícito asociado a F33 (visión).
+
+- **Recordatorio de la conexión con jam level (D-009).** El documento teórico describe `predicted_demand` como ordinal 1-5; la integración real con TTH-09 produce predicciones en términos del constructo **jam level 0-5 de Waze** (D-009). Al implementar CT-10.10, el adapter de dominio mencionado en sección 9 del documento teórico se concreta como mapeo `jam_level (0-5) → input del motor`.
+
+### Trazabilidad con HUs y otras TTH
+
+| HU / TTH que depende | Cómo depende |
+|---|---|
+| HU-05 (estrategia activa, Bloque B) | Consume el modo activo (`webster` u `max_pressure`) del output de CT-10.8. La marca pasiva del panel ante caída del motor (CA-05.4, DHU-005 Caso B) se materializa con CT-10.13 y con la cascada de TTH-04 (Nivel 3). |
+| HU-06 (explicación, Bloque B) | Consume el `reasoning` del output de CT-10.8 para construir la explicación legible al Operador. |
+| HU-07 (notificación de cambios, Bloque B) | Consume las transiciones de estrategia del registro persistido en CT-10.9 para notificar al Operador cuando el motor cambia de modo. |
+| HU-08 (historial, Bloque B) | Consume el registro persistido en CT-10.9 para mostrar el historial al Operador. CA-08.1 ingloba F31 (persistencia de decisiones del motor) conforme al cierre del Bloque A; CT-10.9 es la materialización del sustrato técnico de esa CA. |
+| HU-15 (configuración de parámetros, Bloque D) | Provee los parámetros operativos que el motor consume (CT-10.12). |
+| TTH-04 (Bloque C) | Detecta caída del motor (mediante health check, CT-04.1) e invoca al Nivel 3 de la cascada (tiempos preconfigurados de TTH-05). |
+| TTH-07 (Bloque E) | Provee el entorno de simulación SUMO end-to-end (CT-07.5) que el motor consume durante validación cuantitativa. |
+| TTH-09 (Bloque E) | Provee las predicciones del modelo predictivo vía endpoint (CT-09.4) que el motor consume como input (CT-10.10). |
+| TTH-11 (Bloque E) | Provee la frecuencia de re-inferencia recomendada (CT-11.2) que el motor usa al solicitar nuevas predicciones a TTH-09. |
+| Capítulo de validación de la tesis | Consume el registro persistido en CT-10.9 y los KPIs producidos por el motor operando dentro de SUMO (vía TTH-07 CT-07.6) para análisis cuantitativo del comportamiento del motor frente a control fijo. |
+
+---
+
+## TTH-11 — Spike de calibración de hiperparámetros temporales del modelo predictivo
+
+**Origen:** Identificada durante la redacción de TTH-09 (Bloque E) al cerrar la decisión arquitectónica del modelo predictivo. Su apertura formaliza la necesidad de sustentación bibliográfica y empírica de los hiperparámetros temporales del modelo. Formalizada en la actualización de DHU-015 (paso de 4 a 5 TTH del Bloque E).
+
+**Habilita a:** TTH-09 (provee la sustentación documentada de los hiperparámetros temporales que TTH-09 consume al entrenar el modelo). Habilita también el cierre del Δt del dataset de TTH-07 (la decisión sobre granularidad de muestreo que CT-07.3 dejó parcialmente abierta se cierra con la salida de esta TTH).
+
+**Decisiones técnicas relacionadas:** D-005 (Números de tesis: reportar la realidad medida en validación). D-006 (GRU univariado por intersección: el modelo cuyos hiperparámetros temporales son objeto de esta investigación). D-008 (SUMO como columna vertebral: la parte empírica de esta TTH consume el dataset producido por TTH-07). D-009 (jam level Waze como variable predicha: define la semántica del output del modelo cuyos hiperparámetros se calibran). DHU-015 (clasificación de F32-F35 como TTH del Bloque E, ampliada para incluir TTH-11).
+
+### Descripción
+
+Esta TTH es un **spike de investigación**, no una tarea de implementación. Su entregable es un **documento sustentado bibliográficamente y, condicionalmente, empíricamente** que cierra las decisiones de cuatro hiperparámetros temporales del modelo predictivo:
+
+1. **Paso de muestreo (Δt_in):** intervalo de tiempo entre observaciones consecutivas de la serie temporal de entrada al modelo. Define la granularidad temporal del dataset que TTH-07 produce y, en cadena, la granularidad de la serie que el GRU procesa.
+2. **Ventana de entrada (lookback):** número de pasos anteriores que el modelo "mira" para producir una predicción. Determina el contexto histórico que el GRU consume en cada inferencia.
+3. **Horizonte de predicción:** número de pasos futuros que el modelo predice en una sola inferencia. Determina el alcance temporal del output del endpoint y, en consecuencia, el rango del slider del Operador en HU-03.
+4. **Frecuencia de re-inferencia del endpoint:** cada cuánto tiempo el backend recalcula las predicciones que sirve. Es independiente de Δt_in (granularidad de la serie de entrada) y tiene impacto en HU-03 y en costo computacional.
+
+Los cuatro hiperparámetros son **decisiones temporales acopladas**: cambiar uno afecta la interpretación de los demás. Por eso conviene sustentarlos en un mismo documento, con una metodología común y conclusiones coherentes entre sí.
+
+El spike sigue el patrón estándar de "Enabler Story de tipo Exploration" (SAFe) o "Research Spike" (XP, SCRUM): trabajo de reducción de incertidumbre con entregable documental concreto y cuyo Done no es código sino conocimiento accionable.
+
+### Criterios técnicos de terminado
+
+- **CT-11.1:** Existe un documento entregable ubicado en `documentation/docs/` (junto a `DISCOVERY_2026-05-10.md` referenciado en `EVOLUCION_TESIS.md` sección 9), en formato Markdown, con un nombre claro y descriptivo (sugerencia: `INVESTIGACION_HIPERPARAMETROS_TEMPORALES.md`). El documento es legible por un revisor académico sin asistencia del autor y por un implementador técnico sin formación académica adicional.
+
+- **CT-11.2:** El documento cubre los cuatro hiperparámetros temporales declarados en la descripción (Δt_in, lookback, horizonte, frecuencia de re-inferencia), cada uno con su propia sección. Ninguno queda sin sustentación. Para cada hiperparámetro, la sección presenta: (a) definición técnica precisa del hiperparámetro, (b) revisión bibliográfica del estado del arte en predicción de tráfico urbano, (c) rango de valores típicos reportados en la literatura, (d) análisis de implicancias prácticas para el caso CerebroVial, (e) recomendación final con valor concreto.
+
+- **CT-11.3:** La revisión bibliográfica cita al menos **cinco fuentes académicas distintas** de predicción de tráfico urbano con redes neuronales recurrentes. Las citas se documentan con formato académico estándar (autor, año, título, venue/DOI) suficiente para que el documento sea referenciable como anexo del documento de tesis. Las fuentes son verificables; no se citan fuentes inventadas ni placeholders.
+
+- **CT-11.4:** El documento incluye una sección de **exploración empírica** sobre el dataset producido por TTH-07. La exploración compara al menos **tres combinaciones de hiperparámetros** entrenando modelos completos (no fragmentos) y reporta las cuatro métricas declaradas en HU-14 (MAE, RMSE sobre ratio continuo; accuracy, matriz de confusión sobre nivel discreto) por cada combinación. Las combinaciones exploradas son razonadas (no aleatorias): cada una representa una hipótesis distinta sobre el trade-off entre granularidad y horizonte, sustentada por la revisión bibliográfica de CT-11.3.
+
+- **CT-11.5:** El documento declara explícitamente la **recomendación final consolidada** de los cuatro hiperparámetros como una tabla resumen: nombre del hiperparámetro, valor recomendado, unidad, justificación corta (1-2 líneas), referencias bibliográficas que sustentan el valor. Esta tabla es el "contrato" de salida que TTH-09 consume al implementarse.
+
+- **CT-11.6:** El documento declara una sección de **limitaciones y trabajo futuro** que cubre al menos: (a) qué decisiones podrían revisarse si se obtienen datos reales de Waze (D-008, F38), (b) qué sucede si la topología se extiende a más de 4 direcciones de entrada o a múltiples intersecciones interrelacionadas (referenciar F37 y nota técnica de TTH-09), (c) qué hiperparámetros adicionales no temporales (arquitectura del modelo, tamaño del estado oculto del GRU, optimizador, regularización) quedan fuera del alcance de esta TTH y se cierran al implementar TTH-09 sin investigación específica.
+
+- **CT-11.7:** El documento se redacta con doble propósito: sirve como **sustentación interna del equipo** para tomar decisiones de implementación en TTH-09 y como **anexo formal del documento de tesis** para sustentación académica de los hiperparámetros. El nivel de rigor académico (citas, estructura, lenguaje) es consistente a lo largo del documento; no hay secciones internas/informales que rompan la consistencia con secciones formales.
+
+- **CT-11.8:** El documento incluye una nota explícita sobre la **decisión de Δt_in que cierra el parámetro de TTH-07** (granularidad del dataset). La nota declara: el valor decidido y la razón. Esto materializa la dependencia declarada en TTH-07 nota técnica.
+
+### Estado actual
+
+🆕 **Por construir desde cero.** No hay documento de investigación de hiperparámetros temporales del modelo predictivo al momento de redactar esta TTH. La decisión sobre cuáles son los hiperparámetros temporales del modelo se cerró durante el diálogo de redacción del Bloque E.
+
+### Notas técnicas
+
+- **Dependencia con TTH-07 (parte empírica condicional).** La parte bibliográfica de TTH-11 (CT-11.2, CT-11.3) es **independiente** del dataset de TTH-07 y puede ejecutarse en paralelo con la construcción de TTH-07. La parte empírica (CT-11.4) requiere el dataset producido por CT-07.3 ejecutable. La dependencia se maneja como sigue: si TTH-07 está disponible cuando se ejecuta TTH-11, la parte empírica se incorpora antes de declarar TTH-11 Done. Si TTH-07 sufre retrasos, **TTH-11 puede cerrar con la parte bibliográfica completa** y la sección empírica se agrega como complemento al documento cuando TTH-07 esté disponible. El documento declara explícitamente en qué estado se encuentra cada sección al cerrar TTH-11 (versionado simple: v0.x con bibliográfica solamente, v1.0 con ambas).
+
+- **Postura ante retraso de TTH-11 frente al cronograma de TTH-09.** Si por razones de cronograma TTH-09 necesita arrancar implementación antes de que TTH-11 cierre, TTH-09 **puede arrancar con valores provisionales** (Δt = 60 segundos, lookback = 30 minutos, horizonte = 60 minutos, frecuencia de re-inferencia a cerrar al implementar) bajo la premisa de que TTH-11 confirmará o ajustará esos valores antes del cierre del MVP1. Si TTH-11 confirma los valores provisionales, no hay trabajo adicional. Si TTH-11 ajusta los valores, TTH-09 reentrena el modelo con los valores correctos antes de declararse Done. Esta postura desacopla riesgo cronológico de las dos TTH preservando rigor académico al cierre del MVP1.
+
+- **Cuatro combinaciones razonadas para la exploración empírica de CT-11.4.** El criterio "al menos tres combinaciones razonadas" se aterriza típicamente como cuatro combinaciones explorables, cada una con hipótesis distinta: (a) **referencia** (valores provisionales mencionados arriba: Δt=60s, lookback=30, horizonte=60), (b) **granularidad fina** (Δt menor, ej. 30s, manteniendo lookback y horizonte en tiempo), (c) **lookback corto** (lookback reducido para evaluar si el modelo aprovecha la historia adicional o no), (d) **horizonte reducido** (horizonte menor para evaluar si la calidad de predicción aumenta significativamente al sacrificar alcance temporal). El número final exacto de combinaciones puede ser tres o cuatro según el costo computacional observado al ejecutar el spike; el criterio mínimo de CT-11.4 es tres.
+
+- **Costo computacional acotado.** La exploración empírica entrena modelos completos (no fragmentos), lo cual tiene costo. Para acotar el costo, la exploración se ejecuta sobre **una submuestra del dataset completo de TTH-07** suficiente para producir métricas estables (criterio sugerido: 30-50% del dataset de entrenamiento de TTH-09, suficiente para tendencias relativas entre configuraciones aunque las métricas absolutas sean inferiores a las del modelo final). El documento declara explícitamente el tamaño de submuestra usado y la limitación inherente.
+
+- **Frecuencia de re-inferencia como hiperparámetro distinto.** La frecuencia de re-inferencia del endpoint (cada cuánto el backend recalcula predicciones) es decisión **de despliegue**, no de entrenamiento. Por eso su sustentación es distinta de la de Δt, lookback y horizonte. Su revisión bibliográfica cubre prácticas de sistemas de tráfico en producción reportadas en literatura; su exploración empírica puede limitarse a análisis de trade-off entre latencia percibida por el usuario, costo computacional y plausibilidad de cambio significativo del estado entre re-inferencias.
+
+- **Hiperparámetros NO cubiertos por TTH-11.** Esta TTH cubre **únicamente hiperparámetros temporales**. Quedan fuera explícitamente, a cerrar al implementar TTH-09 sin investigación específica: tamaño del estado oculto del GRU, número de capas del GRU, función de pérdida concreta, optimizador y learning rate, regularización (dropout, weight decay), tamaño de batch de entrenamiento, número de épocas. Estos hiperparámetros se eligen por buenas prácticas estándar del área y se documentan al implementar el modelo, sin requerir spike de investigación dedicado.
+
+- **Relación con D-005 (números reales).** Las métricas reportadas en la exploración empírica de CT-11.4 son **métricas reales** medidas sobre la submuestra del dataset de TTH-07. No son cifras de ejemplo ni placeholders. Si durante la exploración se observa que ninguna combinación alcanza el objetivo aspiracional del modelo final (≥80% accuracy, declarado para TTH-09 según DHU-015), esto se documenta honestamente en el documento de TTH-11 como **señal temprana** que TTH-09 deberá manejar al implementarse.
+
+- **Rastreo del 81.3% del documento de tesis dentro de TTH-11.** La acción declarada como nota técnica de TTH-09 (rastrear el origen del valor 81.3% de accuracy mencionado en el documento de tesis) puede incorporarse a TTH-11 como subsección de la revisión bibliográfica de horizontes y métricas, **si el rastreo resulta en una referencia bibliográfica concreta**. Si el rastreo concluye que el 81.3% es relleno sin sustento, el documento de TTH-11 lo declara explícitamente y propone reemplazo conforme a D-005. La acción se ejecuta dentro de TTH-11 o dentro de TTH-09, según donde naturalmente caiga al implementarse.
+
+### Trazabilidad con HUs y otras TTH
+
+| HU / TTH que depende | Cómo depende |
+|---|---|
+| TTH-09 (Bloque E) | Consume la tabla resumen de hiperparámetros (CT-11.5) como contrato de entrada al entrenar el modelo. Sin TTH-11 cerrada, TTH-09 entrena con valores provisionales sujetos a revisión. |
+| TTH-07 (Bloque E) | Recibe el cierre del Δt del dataset (CT-11.8) que materializa la decisión que la nota técnica de TTH-07 dejó abierta. |
+| HU-03 (predicción, Bloque B) | Consume indirectamente vía TTH-09: el rango del slider del Operador está determinado por el horizonte recomendado por TTH-11. |
+| HU-14 (métricas del modelo, Bloque D) | Consume indirectamente vía TTH-09: las métricas que el Administrador ve son las del modelo entrenado con los hiperparámetros recomendados por TTH-11. |
+| Documento de tesis (capítulo de modelo predictivo) | Consume directamente el documento entregable de TTH-11 como anexo formal o como fuente de sustentación de la sección de metodología del modelo. |
 
 ---
 
