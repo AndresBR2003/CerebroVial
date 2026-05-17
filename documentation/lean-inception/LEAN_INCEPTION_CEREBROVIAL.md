@@ -167,7 +167,7 @@ Los 4 objetivos del producto, en orden cronológico-causal:
 | 5 | Verifica estrategia activa del motor | Confianza/duda | Panel del motor |
 | 6 | Sistema cambia automáticamente de estrategia | Alivio | Notificación + log |
 | 7 | Observa evolución tras el cambio | Validación visual | Dashboard actualizado |
-| 8 | Registra incidencia *(fuera del sprint)* | Necesita reportar | Módulo de notas |
+| 8 | Registra incidencia *(MVP2)* | Necesita reportar | Módulo de notas |
 
 ### Journey 2: Gerente — Revisión semanal de desempeño
 
@@ -177,8 +177,8 @@ Los 4 objetivos del producto, en orden cronológico-causal:
 | 2 | Selecciona periodo de análisis | Quiere comparar | Selector de periodo |
 | 3 | Consulta KPIs agregados | Necesita números | Dashboard ejecutivo |
 | 4 | Compara con periodos previos | Quiere tendencia | Vista comparativa |
-| 5 | Detecta variación importante *(fuera del sprint)* | Curiosidad | Vista detallada |
-| 6 | Exporta reporte *(fuera del sprint)* | Necesita formato | Exportación PDF/Excel |
+| 5 | Detecta variación importante *(MVP2)* | Curiosidad | Vista detallada |
+| 6 | Exporta reporte *(MVP2)* | Necesita formato | Exportación PDF/Excel |
 
 ### Journey 3: Administrador — Verificación de salud del sistema
 
@@ -187,7 +187,7 @@ Los 4 objetivos del producto, en orden cronológico-causal:
 | 1 | Accede al panel de administración | Inicia revisión | Login con permisos admin |
 | 2 | Verifica estado de componentes | Asegurar operatividad | Vista de health check |
 | 3 | Consulta métricas del modelo predictivo | Validar performance | Panel de métricas |
-| 4 | Identifica degradación *(fuera del sprint)* | Decisión técnica | Comparativa vs baseline |
+| 4 | Identifica degradación *(MVP2)* | Decisión técnica | Comparativa vs baseline |
 | 5 | Ajusta parámetros del motor | Configuración fina | Formulario de configuración |
 | 6 | Solicita reentrenamiento *(Trabajos Futuros)* | Acción crítica | Botón "reentrenar" |
 
@@ -200,7 +200,7 @@ Los 4 objetivos del producto, en orden cronológico-causal:
 | 3 | Consulta detalle del componente afectado | Necesita entender | Panel de estado de componentes |
 | 4 | Verifica modo de operación activo | Decide si interviene | Mensaje explicativo |
 | 5 | Observa que el sistema sigue operando con fallback (o que ha cesado, en falla total) | Confianza condicional / escalamiento | Indicación en cada panel |
-| 6 | Decide escalamiento al Admin *(fuera del sprint)* | Decisión operativa | Botón de escalamiento |
+| 6 | Decide escalamiento al Admin *(MVP2)* | Decisión operativa | Botón de escalamiento |
 | 7 | Continúa monitoreando hasta recuperación | Atención sostenida | Dashboard normal restaurado |
 
 **Estados operativos del sistema (modelo refinado por DHU-008):**
@@ -443,6 +443,7 @@ Esta sección documenta los refinamientos al Inception desde la versión 1.0 (wo
 - Decisión cerrada #10 (sección 11) actualizada para reflejar la nueva semántica de MVP2.
 - Decisión cerrada #8 (sección 11) actualizada para reflejar el modelo de 4 estados de DHU-008.
 - **Aclaración sobre el conteo del Bloque B** (agregada en pase de higiene cruzada con los documentos del backlog): en el Sequencer, Bloque B = 9 features MVP1 (F02 a F10). F11 (Módulo de notas del Operador) pertenece temáticamente a este bloque por ser soporte al monitoreo del Operador, pero no entra en el conteo MVP1 porque está clasificada como MVP2 (ver subsección MVP2 más abajo). Los documentos del backlog (`HU_BLOQUE_B.md`, `FEATURE_BACKLOG_DETALLADO.md`) la ubican dentro del Bloque B; el Sequencer la lista aparte. Ambas convenciones son consistentes.
+- **Limpieza de etiquetas en User Journeys (sección 7).** Los pasos de las cuatro jornadas marcados con `(fuera del sprint)` se actualizan a `(MVP2)` para alinearse con la semántica refinada en DHU-012 (MVP2 = HU documentada con construcción condicional a holgura, no descartada a priori). Aplica a Journey 1 paso 8 (HU-09), Journey 2 pasos 5 y 6 (HU-18 y HU-19), Journey 3 paso 4 (HU-20) y Journey 4 paso 6 (HU-21). El paso 6 de Journey 3 (reentrenamiento del modelo, F21) conserva `(Trabajos Futuros)` que ya estaba correcto.
 
 ---
 

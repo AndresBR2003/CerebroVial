@@ -167,7 +167,7 @@ Ver fichas detalladas en `FEATURE_BACKLOG_DETALLADO.md`. La asimetría entre F21
 ## 9. Documentos relacionados
 
 - `DECISIONS.md` — Registro formal de decisiones técnicas (D-001 a D-009).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-015).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-017).
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception consolidado del proyecto.
 - `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features del backlog (MVP1 + MVP2 + Trabajos Futuros).
 - `documentation/docs/DISCOVERY_2026-05-10.md` — Auditoría completa del estado del repositorio.

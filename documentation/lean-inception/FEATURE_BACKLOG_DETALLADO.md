@@ -944,7 +944,7 @@ Cada feature está descrita con la siguiente estructura:
 **Descripción:** Permite al Administrador solicitar el reentrenamiento del modelo predictivo con datos recientes. El reentrenamiento se ejecuta como tarea asíncrona.
 
 **Persona:** AD
-**Journey:** Journey 3, Paso 6 (declarado como "fuera del sprint" en el Journey).
+**Journey:** Journey 3, Paso 6 (declarado como "(Trabajos Futuros)" en el Journey tras DHU-012; en la versión 1.0 original del Inception aparecía como "fuera del sprint").
 
 **Revisión técnica:**
 - **Complejidad:** ⚠ Alto.

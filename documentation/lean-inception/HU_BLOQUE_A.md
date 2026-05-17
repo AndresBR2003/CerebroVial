@@ -141,7 +141,7 @@ Estas tres TTH **no son HUs** y se documentan en detalle en `TAREAS_TECNICAS_HAB
 
 Las features F30 (persistencia de estados históricos) y F31 (persistencia de decisiones del motor) NO se redactan como HUs separadas, sino que se ingloban como criterios de aceptación de HUs de Personas reales:
 
-- **F30 (persistencia de estados históricos)** → criterios de aceptación en HUs del Gerente (Bloque F), específicamente en las HUs que derivan de F12 (dashboard ejecutivo) y F14 (comparativa entre periodos). Sin persistencia histórica, esas HUs no pueden ser implementadas — el criterio "el sistema debe persistir los estados cada N segundos para que esta consulta funcione" entra ahí.
+- **F30 (persistencia de estados históricos)** → criterios de aceptación en las HUs del Gerente (Bloque F). En la redacción original del Bloque A esto era una promesa proyectada (las HUs derivarían de F12 dashboard ejecutivo y F14 comparativa entre periodos). Al cerrarse el Bloque F (DHU-016), la promesa se materializó así: **F30 quedó inglobada como CA-16.1 a CA-16.3 de HU-16** (que fusiona F12 y F13); HU-17 consume el sustrato vía HU-16, sin reinglobarlo. Ver `HU_BLOQUE_F.md`.
 
 - **F31 (persistencia de decisiones del motor)** → criterios de aceptación en la HU del log de decisiones del Operador (Bloque B). Esto **ya ocurrió:** HU-08 del Bloque B contiene F31 inglobada en CA-08.1. Ver `HU_BLOQUE_B.md`.
 

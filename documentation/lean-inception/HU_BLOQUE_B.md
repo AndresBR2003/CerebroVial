@@ -396,7 +396,7 @@ El Operador accede al registro mediante una vista paginada con filtros básicos 
 | **Para** | dejar constancia escrita de eventos relevantes que observé durante la operación (accidentes, comportamientos inusuales del tráfico, decisiones del motor que llamaron mi atención) y poder revisarlas yo mismo o transmitirlas al siguiente turno |
 
 **Tipo:** HU de Persona (Operador).
-**Clasificación MVP:** **MVP2 — fuera del sprint del proyecto académico.** Documentada como HU completa pero no implementada. Decisión cerrada durante el Lean Inception.
+**Clasificación MVP:** **MVP2 — candidata a construcción condicional a holgura del cronograma tras cerrar MVP1** (semántica refinada por DHU-012; ver Notas técnicas). Esta HU se redactó al cierre del Bloque B bajo la antigua semántica "fuera del sprint" cerrada en el Lean Inception, y fue suavizada por DHU-012; conserva su ubicación física en este documento por decisión de DHU-017 subsección B.
 **Feature(s) origen:** F11 (Módulo de notas/incidencias del Operador).
 
 ### Descripción
@@ -405,7 +405,7 @@ Durante un turno de operación, el Operador observa eventos que no están captur
 
 La HU provee un módulo simple de registro de notas asociadas a un momento. Cada nota contiene un texto libre y se persiste con la marca de tiempo de creación y la identidad del Operador que la registró. El Operador puede consultar el listado de notas (propias y de otros turnos) con filtros básicos.
 
-**Razón de la clasificación MVP2:** durante el Lean Inception se priorizó el núcleo del sistema (monitoreo, predicción, motor adaptativo) sobre el soporte operativo al Operador. Esta HU no realiza directamente ninguno de los 4 Objetivos del Producto; es soporte al trabajo del Operador. Queda documentada para preservar la visión completa del producto y para considerarla si hay holgura al final del cronograma.
+**Razón de la clasificación MVP2:** durante el Lean Inception se priorizó el núcleo del sistema (monitoreo, predicción, motor adaptativo) sobre el soporte operativo al Operador. Esta HU no realiza directamente ninguno de los 4 Objetivos del Producto; es soporte al trabajo del Operador. Queda documentada como HU completa con criterios de aceptación y entra al sprint si el cronograma permite holgura tras cerrar las HUs MVP1, conforme a la semántica refinada por DHU-012.
 
 ### Criterios de aceptación
 

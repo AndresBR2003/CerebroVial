@@ -76,7 +76,7 @@ El login en CerebroVial es **estándar y sin sofisticación de negocio**: JWT + 
 
 **El login se elimina del Product Backlog como HU.** Se documenta como **Tarea Técnica Habilitadora** (TTH-01) en el documento `TAREAS_TECNICAS_HABILITADORAS.md`.
 
-Los requisitos de autenticación que afectan a HUs operativas se inglogan como **criterios de aceptación** de esas HUs (por ejemplo: "Dado que el Operador no ha iniciado sesión, cuando intenta acceder al dashboard, entonces el sistema lo redirige al login").
+Los requisitos de autenticación que afectan a HUs operativas se ingloban como **criterios de aceptación** de esas HUs (por ejemplo: "Dado que el Operador no ha iniciado sesión, cuando intenta acceder al dashboard, entonces el sistema lo redirige al login").
 
 ### Consecuencias
 
