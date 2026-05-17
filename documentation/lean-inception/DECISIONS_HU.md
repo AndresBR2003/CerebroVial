@@ -7,7 +7,7 @@
 > **Relación con `DECISIONS.md`:** El documento `DECISIONS.md` registra decisiones técnicas del producto (arquitectura, modelo, datos). Este documento registra decisiones metodológicas sobre cómo se redacta el backlog. Los códigos no se solapan: `D-xxx` para técnicas, `DHU-xxx` para HUs.
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-16 (**Cierre del Bloque F el 2026-05-16: DHU-016 agregada.** Consolida las decisiones de redacción del Bloque F en diez subsecciones (A a J), con resultado de 2 HUs operativas (HU-16 y HU-17) y 0 TTH nuevas. Con el cierre del Bloque F, las 15 HUs operativas (HU-01 a HU-17) y las 11 TTH (TTH-01 a TTH-11) del MVP1 quedan redactadas y aprobadas. Resta sesión MVP2 dedicada.)
+> **Última actualización:** 2026-05-16 (**Cierre del MVP2 el 2026-05-16: DHU-017 agregada.** Consolida las decisiones de redacción del MVP2 en diez subsecciones (A a J), con resultado de 4 HUs operativas adicionales (HU-18, HU-19, HU-20, HU-21) y 0 TTH nuevas. Con el cierre del MVP2, las 21 HUs operativas (HU-01 a HU-21) y las 11 TTH (TTH-01 a TTH-11) del Product Backlog quedan redactadas y aprobadas en su componente funcional. Restan documento RF/RNF (DHU-007 pendiente), Planning Poker y MoSCoW. *Corrección de portada aplicada en la misma fecha: las cifras de conteo de HUs que circulaban en cabeceras de los documentos del backlog ("15 HUs MVP1", "19 HUs totales") eran erróneas y se propagaron desde sesiones previas. El conteo correcto es **21 HUs operativas totales** (HU-01 a HU-21, sin huecos de numeración), de las cuales **16 son MVP1** (HU-01 a HU-08 + HU-10 a HU-17) y **5 son MVP2** (HU-09, HU-18 a HU-21). El error era exclusivamente de cifras de portada; el contenido sustantivo de las HUs, las TTH y las DHUs no se ve afectado.*)
 
 ---
 
@@ -31,6 +31,7 @@
 | DHU-014 | Decisiones de redacción del Bloque D (numeración, dashboard, parámetros, métricas, concurrencia, ventana temporal, TTH-06) | 2026-05-14 | Cerrada |
 | DHU-015 | Clasificación HU/TTH de las features del Bloque E (con ampliación 4 → 5 TTH durante la redacción) | 2026-05-15 | Cerrada |
 | DHU-016 | Decisiones de redacción del Bloque F (numeración, F30 inglobada, fuente del histórico en MVP1, KPIs operacionales, granularidad, periodos, comparativa, concurrencia, dashboard integrador, robustez) | 2026-05-16 | Cerrada |
+| DHU-017 | Decisiones de redacción del MVP2 (clasificación HU/TTH de las 4 features pendientes, numeración compactada, F16 como HU única, F19 sustrato inglobado, F28 como HU única con Operador protagonista, alcance del escalamiento, alcance del drill-down de F15, conexión F15 ↔ HU-16/HU-17, sustrato inglobado vs TTH, política MVP2 heredada, robustez Caso B) | 2026-05-16 | Cerrada |
 
 ---
 
@@ -1446,6 +1447,210 @@ DHU-005 declara dos casos: Caso A (fuente externa de medición) y Caso B (compon
 
 ---
 
+## DHU-017 — Decisiones de redacción del MVP2
+
+**Fecha:** 2026-05-16.
+**Alcance:** Decisiones que afectan la redacción del MVP2 (HU-18, HU-19, HU-20, HU-21 redactadas en esta sesión; HU-09 ya cerrada en `HU_BLOQUE_B.md` desde el cierre del Bloque B). Decisiones agrupadas temáticamente en diez subsecciones (A a J).
+
+### Contexto
+
+El cierre del Bloque F (DHU-016) completó las 16 HUs operativas MVP1 (HU-01 a HU-08 + HU-10 a HU-17) y las 11 TTH del MVP1. Como cierre del Product Backlog en su componente funcional, restaba la sesión dedicada al MVP2 con las 4 features pendientes (F15, F16, F19, F28; F11 ya estaba redactada como HU-09 en `HU_BLOQUE_B.md` desde el cierre del Bloque B). Cada una de esas 4 features tenía decisiones específicas pendientes sobre clasificación, composición, alcance, sustrato técnico e integración con el MVP1 ya cerrado.
+
+La redacción del MVP2 reproduce el patrón establecido por DHU-014 (Bloque D), DHU-015 (Bloque E) y DHU-016 (Bloque F): una decisión consolidada que agrupa las decisiones de redacción del conjunto en subsecciones temáticas. DHU-017 es la séptima y última decisión consolidada del Product Backlog.
+
+### Decisiones aplicadas
+
+#### A. Clasificación HU/TTH de las 4 features MVP2 pendientes
+
+Cada una de las features F15, F16, F19 y F28 fue sometida individualmente a los cuatro criterios establecidos en DHU-004 para clasificarla como HU o TTH:
+
+1. ¿Tiene Persona del producto como beneficiaria directa?
+2. ¿Tiene valor de negocio claro y visible al usuario?
+3. ¿Es comportamiento negociable con la Persona, o trabajo técnico no-negociable?
+4. ¿Entrega valor en aislamiento, o solo es invisible habilitador?
+
+Resultado del análisis:
+
+| Feature | Criterio 1 (Persona) | Criterio 2 (Valor) | Criterio 3 (Negociable) | Criterio 4 (Visible) | Clasif. |
+|---|---|---|---|---|---|
+| F15 (Drill-down) | Sí (Gerente) | Sí (investigación de variaciones) | Sí (alcance, integración de carriles) | Sí (vista específica) | **HU** |
+| F16 (Exportación PDF/Excel) | Sí (Gerente) | Sí (transferir reportes fuera del sistema) | Sí (formato, layout, política ante fallo) | Sí (archivo descargable) | **HU** |
+| F19 (Comparativa vs baseline) | Sí (Administrador) | Sí (sustentar decisión sobre modelo) | Sí (alcance, métricas, ventana, tolerancia) | Sí (vista comparativa) | **HU** |
+| F28 (Escalamiento) | Sí (Operador originador + Administrador destinatario) | Sí (transferir incidentes con trazabilidad) | Sí (alcance, captura, atención) | Sí (botón + flujo de gestión) | **HU** |
+
+**Las cuatro cumplen 0 de 4 criterios para clasificarse como TTH. Las cuatro son HUs operativas, no TTH.**
+
+**Decisión:** El MVP2 cierra con 4 HUs operativas nuevas (HU-18, HU-19, HU-20, HU-21) y **0 TTH nuevas**. El total del Product Backlog al cierre del MVP2 es 21 HUs operativas (HU-01 a HU-21, incluyendo HU-09 anticipada al Bloque B) y 11 TTH (TTH-01 a TTH-11). El sustrato técnico requerido por las 4 HUs MVP2 se ingloba como CAs conforme a DHU-013 y a la subsección H de esta decisión.
+
+#### B. Numeración compactada del MVP2
+
+Las HUs del MVP2 retoman la numeración secuencial desde HU-17 (última cerrada en el Bloque F), conforme al principio de DHU-014 subsección A: no dejar huecos en la numeración para preservar memoria de HUs no redactadas o eliminadas; la traza histórica vive en `DECISIONS_HU.md` y en `FEATURE_BACKLOG_DETALLADO.md`, no en el backlog.
+
+**Decisión:**
+
+- **HU-18** ← F15 (Drill-down).
+- **HU-19** ← F16 (Exportación PDF/Excel).
+- **HU-20** ← F19 (Comparativa vs baseline).
+- **HU-21** ← F28 (Escalamiento).
+
+**HU-09 conserva su número** en `HU_BLOQUE_B.md` (no se renumera ni se traslada físicamente a `HU_MVP2.md`). La cohesión temática del Bloque B (Operador, núcleo de monitoreo) se preserva manteniendo HU-09 en su ubicación original; `HU_MVP2.md` solo lista HU-09 en el mapeo con referencia cruzada explícita, sin duplicar contenido.
+
+#### C. Composición de F16 (Exportación PDF/Excel) como HU única
+
+F16 admite cuatro combinaciones potenciales de formato × vista origen: PDF × HU-16, PDF × HU-17, Excel × HU-16, Excel × HU-17. La discusión fue si modelarlas como HUs separadas, como dos HUs (una por formato o una por vista origen), o como una HU única que cubra las cuatro combinaciones mediante CAs estructurados.
+
+**Decisión: HU única que cubre las cuatro combinaciones mediante CAs estructurados** (HU-19). El criterio de cohesión de Mike Cohn aplicado en DHU-016 subsección I a la fusión F12+F13 favorece la unificación cuando el valor entregable es uno solo (exportar el reporte del Gerente fuera del sistema) con variantes de presentación o configuración que el Gerente elige al momento de exportar. Descomponer en HUs separadas crearía fragmentación artificial: el Gerente no piensa en términos de "exportar HU-16 a PDF" como historia distinta de "exportar HU-17 a Excel"; piensa en términos de "necesito un reporte transferible" con elecciones de formato y vista.
+
+**Patrón previo:** la fusión F12+F13 en HU-16 establecida en DHU-016 subsección I. DHU-017 subsección C extiende el patrón a fusión por variantes de presentación cuando el valor entregable es cohesivo.
+
+#### D. Fuente y alcance del baseline de F19 (Comparativa)
+
+F19 plantea la pregunta de cuál baseline comparar contra el modelo principal y cómo obtenerlo. Dos alternativas se contrastaron:
+
+1. **Baseline estático**: dataset de evaluación congelado al momento del entrenamiento original. Refleja el estado del modelo en el laboratorio, no su operación reciente.
+2. **Baseline operacional paralelo**: registro paralelo de predicciones del modelo de respaldo ejecutándose continuamente sobre los mismos inputs operativos que el modelo principal. Refleja la operación reciente sobre datos productivos.
+
+La decisión técnica es relevante porque condiciona qué comparativa el Administrador ve y qué decisión puede sustentar con ella.
+
+**Decisión: registro paralelo del baseline persistido como extensión de CA-14.1 de HU-14**. El modelo de respaldo (preservado en el sistema por TTH-09 y declarado en `EVOLUCION_TESIS.md` Fase 2 como baseline de comparación en validación) ejecuta predicciones en paralelo continuamente sobre los mismos inputs operativos que el modelo principal. Cada predicción del modelo de respaldo se persiste en el mismo registro declarado en CA-14.1 de HU-14 y materializado en CT-09.5 de TTH-09, con el campo "identificador del modelo o versión" como discriminante. Cuando llega el horizonte de cada predicción, el sistema asocia ambas (principal y respaldo) con la misma observación real, permitiendo calcular las métricas de ambos modelos sobre exactamente los mismos eventos.
+
+**Sustrato inglobado, no TTH nueva:** la extensión del registro de predicciones para persistir también las predicciones del modelo de respaldo se ingloba como CAs de HU-20 (CA-20.1 a CA-20.4), conforme a la regla establecida por DHU-013. El esquema de CT-09.5 no se modifica: la extensión consiste en escribir adicionalmente predicciones del modelo de respaldo con identificador de modelo distinto, dentro del mismo esquema. HU-14 sigue mostrando solo el modelo principal en su vista individual; el modelo de respaldo se agrega al registro para que HU-20 lo compare.
+
+**RandomForest preservado como único baseline declarado en TTH-09:** la identidad concreta del modelo de respaldo (RandomForest según TTH-09 nota técnica y `EVOLUCION_TESIS.md` Fase 2) vive en las TTH y decisiones técnicas. La HU-20 misma es **agnóstica** conforme a DHU-006: declara "modelo predictivo principal" y "modelo predictivo de respaldo", sin nombrar GRU ni RandomForest.
+
+#### E. Composición de F28 (Escalamiento) y actor protagonista
+
+F28 modela un flujo que tiene dos caras: el Operador que escala (originador del flujo) y el Administrador que recibe el escalamiento (destinatario y gestor del incidente). La discusión fue si modelar como una sola HU con sujeto compuesto o como dos HUs separadas (una por actor).
+
+**Decisión: HU única con Operador protagonista y Administrador destinatario** (HU-21). Tres criterios sustentan la decisión:
+
+1. **Cohesión del valor entregable**: el escalamiento es un solo flujo con dos caras que comparten un único objeto compuesto (el incidente escalado). Separar en dos HUs fragmentaría artificialmente algo que es operacionalmente una sola comunicación entre roles.
+2. **Patrón de sujeto compuesto ya aceptado**: DHU-003 estableció el patrón de sujetos compuestos válidos (HU-01 del Bloque A tiene como sujeto "Usuario del sistema (Operador, Gerente, Administrador)"). DHU-017 subsección E extiende el patrón con un caso específico: protagonista + destinatario declarado.
+3. **Cohesión del sustrato técnico**: la persistencia del incidente es un único registro consultado desde dos perspectivas (Operador ve los suyos; Administrador ve todos). Modelar dos HUs separadas requeriría declarar la persistencia compartida en alguna de las dos, generando dependencia artificial.
+
+**Implementación formal del sujeto compuesto:** el "Como" de HU-21 declara "Operador de Tráfico Municipal" (protagonista). El "Para" declara como destinatario al Administrador del Sistema. Los CAs específicos de la vista del Administrador (CA-21.14 a CA-21.23) operacionalizan el rol del Administrador como sujeto operativo en esas vistas.
+
+#### F. Alcance del escalamiento en MVP2
+
+F28 admite alcance variable: desde un botón mínimo viable (registrar el evento) hasta un sistema completo de gestión de incidentes (conversación bidireccional, categorías, prioridades, notificaciones push, dashboards). La discusión fue acotar el alcance al mínimo viable que entregue valor.
+
+**Decisión: alcance mínimo viable, coherente con el patrón establecido por HU-09**:
+
+1. **Notificación unidireccional + persistencia incidente**: el Operador envía; el sistema persiste; el Administrador consulta. Sin conversación bidireccional. Sin respuesta textual del Administrador. El único feedback al Operador es el cambio de estado del incidente (de "Enviado" a "Atendido").
+2. **Vista del Operador + vista del Administrador**: cada uno tiene su vista para consultar los incidentes (el Operador ve los suyos; el Administrador ve todos los recibidos con filtros).
+3. **Transición irreversible "Atendido"**: una vez marcado como atendido, no hay reversión desde la vista del Administrador en MVP2. Casos de error son aceptables (queda registrado con identidad y timestamp); la reversión es trabajo futuro si se justifica.
+4. **Sin conversación bidireccional**: las coordinaciones más profundas se hacen por canales externos al sistema en MVP2. F28 ampliada con conversación es trabajo futuro.
+5. **Sin notificaciones push**: el Administrador detecta nuevos incidentes mediante un indicador pasivo (badge numérico) visible en su navegación. Las notificaciones activas (push, sonoras, correo) son alcance de F40 (Trabajos Futuros).
+
+**Patrón previo:** HU-09 (notas e incidencias del turno) estableció el patrón de alcance mínimo viable en una HU del Operador: registro + consulta + flujo simple sin sofisticación. HU-21 hereda el patrón con la diferencia de que en HU-21 el flujo cruza dos roles, mientras que en HU-09 vive completamente dentro del rol Operador.
+
+**Patrón de robustez:** la operación del motor adaptativo NUNCA depende del registro de incidentes (CA-21.13). El registro es de comunicación entre roles, no parte del control del semáforo; su indisponibilidad no afecta la operación. Patrón heredado de CA-09.6 de HU-09.
+
+#### G. Alcance del drill-down de F15 y conexión con HU-16/HU-17
+
+F15 (Vista detallada de periodo específico) plantea la pregunta de qué carriles temporales debe integrar el drill-down y cómo conectarse con las vistas agregadas del Gerente.
+
+**Decisión 1: Tres carriles temporales integrados sobre la misma línea temporal**. El drill-down (HU-18) integra:
+
+1. **Carril de evolución del tráfico**: alimentado por el histórico de estados de F30 inglobada en HU-16 (CA-16.1 a CA-16.3). Resolución temporal más fina que HU-16, con zoom interactivo que llega a la granularidad nativa de 30 segundos cerrada en DHU-016 subsección E.
+2. **Carril de eventos del motor adaptativo**: alimentado por el registro de decisiones declarado en CA-08.1 de HU-08. Cada decisión renderizada como marcador activable.
+3. **Carril de estado operativo del sistema**: alimentado por el registro de transiciones declarado en CT-04.3 de TTH-04. Intervalos renderizados como bandas coloreadas con los códigos visuales cerrados en DHU-012 subsección F.
+
+El valor del drill-down está precisamente en la correlación visual entre los tres carriles: si una variación detectada en HU-16 o HU-17 coincide con un episodio de degradación o con un cambio de estrategia del motor, el Gerente puede distinguir explicaciones competidoras de una misma variación agregada.
+
+**Decisión 2: Conexión bidireccional con HU-16 y HU-17 mediante estado compartido del selector**. El acceso al drill-down se ofrece desde dos puntos:
+
+- **Desde HU-16**: botón visible "Ver detalle del periodo" (sobre el periodo actualmente seleccionado) + click sobre cualquier punto de los gráficos temporales (sub-periodo centrado en el momento del punto).
+- **Desde HU-17**: botón "Ver detalle" con menú compacto de elección entre "Periodo actual" o "Periodo previo equivalente" (cada uno con sus fechas como subtítulo para evitar ambigüedad).
+
+**Decisión 3: Distinción entre navegación local y cambio del selector global**. El periodo se hereda del estado compartido del selector entre HU-16, HU-17 y HU-18, pero la navegación a HU-18 con un sub-periodo o con el periodo previo equivalente **no muta el selector compartido** (es navegación local que pasa el periodo como contexto inicial de HU-18). En cambio, **cambiar el periodo desde el propio selector dentro de HU-18 sí muta el selector compartido**. Esta distinción operacional permite al Gerente navegar al detalle de un periodo concreto y regresar a su vista agregada original sin perder su contexto de trabajo previo, mientras que un cambio explícito del periodo de análisis se propaga consistentemente.
+
+#### H. Sustrato técnico inglobado, sin TTH nuevas
+
+Las 4 HUs del MVP2 requieren sustrato técnico de distintos tipos. El análisis fue si extraer ese sustrato como TTH separadas o inglobarlo como CAs en las HUs respectivas, conforme al criterio establecido por DHU-013.
+
+**Decisión: el sustrato técnico requerido por las 4 HUs MVP2 se ingloba como CAs en las HUs respectivas. 0 TTH nuevas en el MVP2.**
+
+Análisis caso por caso:
+
+- **HU-18 (F15)**: no requiere sustrato técnico nuevo. Reutiliza tres registros existentes (histórico de F30 inglobada en HU-16; registro de decisiones del motor de CA-08.1 de HU-08; registro de transiciones de CT-04.3 de TTH-04). Es lógica de presentación que integra tres fuentes ya cerradas. No hay sustrato nuevo que extraer.
+- **HU-19 (F16)**: no requiere sustrato técnico nuevo. La generación de PDF y Excel consume los mismos datos que HU-16 y HU-17 ya consumen (histórico de F30, motor de cálculo de KPIs inglobado, lógica de comparativa inglobada). Es lógica de presentación.
+- **HU-20 (F19)**: requiere extensión del registro de predicciones para persistir también las predicciones del modelo de respaldo. La extensión se ingloba en CA-20.1 a CA-20.4 de HU-20. El esquema de CT-09.5 no se modifica (la extensión consiste en escribir filas adicionales con identificador de modelo distinto, dentro del mismo esquema). El sustrato extendido es **consumido únicamente** por HU-20; HU-14 sigue mostrando solo el modelo principal en su vista individual. Sin consumidor heterogéneo que justifique TTH separada.
+- **HU-21 (F28)**: requiere persistencia nueva del registro de incidentes escalados. La persistencia se ingloba en CA-21.10 a CA-21.13 de HU-21. El registro es **consumido únicamente por HU-21** (vista del Operador para sus escalamientos + vista del Administrador para incidentes recibidos). Sin consumidor heterogéneo que justifique TTH separada.
+
+**Patrón previo:** la inglobación de sustrato técnico operacional dentro de la HU que lo requiere cuando no hay consumidor heterogéneo está establecida desde DHU-013 (Bloque D) y aplicada en HU-14 (CA-14.1 a CA-14.4), HU-15 (CA-15.1 a CA-15.4 y CA-15.8), HU-16 (CA-16.1 a CA-16.3, F30 inglobada), HU-08 (CA-08.1, F31 inglobada). HU-20 y HU-21 extienden el patrón al MVP2.
+
+**Consecuencia formal:** las 11 TTH del Product Backlog (TTH-01 a TTH-11) cubren todo el sustrato técnico habilitador del producto. El MVP2 no introduce TTH adicionales.
+
+#### I. Política de construcción MVP2 heredada de DHU-012
+
+DHU-012 refinó la semántica de "MVP2" desde la concepción inicial ("HUs fuera del sprint, sin compromiso de construcción") a la concepción operacional posterior ("HUs documentadas como completas con criterios de aceptación; candidatas a construcción condicional a la holgura del cronograma tras cerrar las HUs MVP1").
+
+**Decisión: la política de construcción MVP2 declarada por DHU-012 aplica sin modificación a HU-18 a HU-21. Cada HU del MVP2 incluye en su sección "Notas técnicas" la siguiente declaración estándar:**
+
+> *Política de construcción MVP2 (refinada por DHU-012):* Esta HU se documenta como Historia de Usuario completa y se considera candidata a entrar al sprint condicional a la holgura del cronograma tras cerrar las HUs MVP1. No es entregable comprometido del MVP1, pero tampoco está descartada a priori. Si el cronograma permite, se asignan sprints y puntos de historia normalmente.
+
+Esta declaración estándar reemplaza la nota técnica de HU-09 ("fuera del sprint" pre-DHU-012); HU-09 conserva su nota técnica original tal cual está en `HU_BLOQUE_B.md`, dado que el contenido sustantivo de HU-09 no se reabre.
+
+#### J. Aplicación de DHU-005 al MVP2 (robustez ante interrupción de fuente)
+
+DHU-005 declara dos casos: Caso A (fuente externa de medición; ejemplo: detector de tráfico) y Caso B (componente interno de decisión; ejemplo: motor de cálculo, persistencia, modelo predictivo). El MVP2 no opera con fuentes externas de medición; todas sus HUs dependen de componentes internos.
+
+**Decisión: las 4 HUs del MVP2 aplican DHU-005 Caso B con independencia por carril (HU-18) o por fuente (HU-19, HU-20, HU-21):**
+
+- **HU-18**: Caso B aplicado **independientemente por carril** (CA-18.17, CA-18.18, CA-18.19). Las marcas de "no actualizado" son por carril (tráfico, motor, estado operativo), no por vista completa, porque las tres fuentes son independientes y un fallo de una no implica fallo de las otras. Esto contrasta deliberadamente con CA-17.14 de HU-17, donde la marca aplica simultáneamente a ambos periodos porque la causa raíz es la misma (motor de cálculo único de KPIs).
+- **HU-19**: Caso B aplicado **con política conservadora** (CA-19.22). A diferencia de las vistas interactivas que muestran últimos valores conocidos marcados como "no actualizados", la exportación **rechaza** la generación cuando la fuente está caída. Justificación: un PDF o Excel descargado es un artefacto persistente que circula fuera del sistema; permitir generar reportes sobre datos no confirmados abriría la posibilidad de difundir datos "no actualizados" sin marca visible. La política conservadora protege la integridad del artefacto exportado.
+- **HU-20**: Caso B aplicado al motor de cálculo de métricas comparativas (CA-20.18). Cuando el componente de cálculo no responde, se muestran las últimas métricas conocidas marcadas como "no actualizadas". Patrón análogo al de CA-14.12 de HU-14.
+- **HU-21**: Caso B aplicado al disparo del escalamiento (CA-21.9; rechazo del inicio si los endpoints de CT-04.4 o CT-04.5 no responden) y al subsistema de consulta del registro (CA-21.28; últimos incidentes conocidos marcados como "no actualizados"). El rechazo en CA-21.9 es justificado por la integridad auditable del registro: escalar con campos automáticos vacíos comprometería el valor del registro.
+
+### Decisión final
+
+**MVP2: 4 HUs operativas nuevas + 0 TTH nuevas.**
+
+| Feature | Modelado como | Identificador |
+|---|---|---|
+| F15 (Drill-down) | HU del Gerente con tres carriles temporales integrados | **HU-18** |
+| F16 (Exportación PDF/Excel) | HU única del Gerente que cubre PDF/Excel × HU-16/HU-17 | **HU-19** |
+| F19 (Comparativa vs baseline) | HU del Administrador con extensión inglobada de CA-14.1 | **HU-20** |
+| F28 (Escalamiento) | HU única con Operador protagonista y Administrador destinatario, con persistencia inglobada | **HU-21** |
+| F11 (Notas e incidencias) | Ya redactada como HU-09 en `HU_BLOQUE_B.md` desde el cierre del Bloque B | HU-09 (referencia cruzada) |
+
+**Total MVP2:** 5 HUs operativas (incluyendo HU-09 anticipada) + 0 TTH nuevas. **Total Product Backlog al cierre del MVP2:** 21 HUs operativas (HU-01 a HU-21) + 11 TTH (TTH-01 a TTH-11).
+
+### Lo que NO cambia con DHU-017
+
+- **Las decisiones DHU-001 a DHU-016 mantienen su contenido sustantivo.** DHU-017 las cita y aplica al MVP2 sin reabrir ninguna.
+- **El alcance del producto** (Personas, Objetivos, Journeys, Visión) se mantiene intacto. Las features MVP2 ya estaban declaradas en `LEAN_INCEPTION_CEREBROVIAL.md` sección 9 (Sequencer); DHU-017 las redacta como HUs sin modificar la sección del Inception.
+- **Las HUs MVP1 redactadas en bloques previos (HU-01 a HU-17)** no se reabren. La extensión del registro de predicciones inglobada en CA-20.1 a CA-20.4 de HU-20 no modifica HU-14 (que sigue mostrando solo el modelo principal en su vista individual).
+- **Las TTH previas (TTH-01 a TTH-11)** mantienen su contenido. El MVP2 no introduce TTH nuevas, conforme a la subsección H.
+- **Las decisiones técnicas D-001 a D-009** se mantienen sin modificación. El MVP2 las consume sin reabrirlas.
+- **HU-09 dentro de `HU_BLOQUE_B.md`** mantiene su contenido: su clasificación MVP2 ya estaba declarada desde el cierre del Bloque B y suavizada por DHU-012.
+
+### Documentos afectados por DHU-017
+
+| Documento | Tipo de cambio |
+|---|---|
+| `HU_MVP2.md` (nuevo) | Documento nuevo con HU-18 (F15), HU-19 (F16), HU-20 (F19), HU-21 (F28). Mapeo a HU-09 que reside en `HU_BLOQUE_B.md`. Resumen del MVP2 y próximos pasos. |
+| `DECISIONS_HU.md` (este documento) | Agregar DHU-017; actualizar índice, tabla de impacto en bloques y documentos relacionados. |
+| `FEATURE_BACKLOG_DETALLADO.md` | Fichas de F15, F16, F19 y F28 actualizan su columna "Modelado" para apuntar a HU-18, HU-19, HU-20 y HU-21 respectivamente. Referencia a DHU-017. |
+| `HU_BLOQUE_A.md` a `HU_BLOQUE_F.md` | Próximos pasos actualizados: MVP2 ya cerrado; restan documento RF/RNF, Planning Poker, MoSCoW, e implementación SCRUM. Documentos relacionados actualizados con `HU_MVP2.md`. |
+| `LEAN_INCEPTION_CEREBROVIAL.md` | Documentos relacionados actualizado (referencia a `HU_MVP2.md`). |
+| `TAREAS_TECNICAS_HABILITADORAS.md` | Rango DHU referenciado actualizado: "DHU-001 a DHU-016" → "DHU-001 a DHU-017". Sin cambios sustantivos al contenido de las TTH. |
+
+### Documentos relacionados
+
+- `HU_MVP2.md` — MVP2 del Product Backlog (HU-18, HU-19, HU-20, HU-21). HU-09 mantenida en `HU_BLOQUE_B.md`.
+- `DECISIONS_HU.md` (este documento) — sección DHU-017.
+- `LEAN_INCEPTION_CEREBROVIAL.md` — sección 9 (Sequencer / MVP2), Persona Gerente, Persona Administrador, Persona Operador.
+- `FEATURE_BACKLOG_DETALLADO.md` — fichas F11, F15, F16, F19, F28.
+- `HU_BLOQUE_B.md` — HU-09 (anticipada al cierre del Bloque B).
+- `HU_BLOQUE_F.md` — HU-16 y HU-17 (vistas agregadas del Gerente desde las cuales se accede al drill-down y a la exportación).
+- `HU_BLOQUE_D.md` — HU-14 (vista de métricas del modelo principal, ampliada por HU-20 a comparativa con baseline).
+- `HU_BLOQUE_C.md` — HU-10, HU-12 (vistas desde las cuales se dispara el escalamiento de HU-21).
+- `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-04/CT-04.4 y CT-04.5 (consumidas por HU-21), TTH-09/CT-09.5 (consumida y extendida por HU-20).
+
+---
+
 ## Resumen de impacto en los bloques redactados hasta la fecha
 
 | Bloque | HUs | TTH | Decisiones aplicadas |
@@ -1456,6 +1661,7 @@ DHU-005 declara dos casos: Caso A (fuente externa de medición) y Caso B (compon
 | Bloque D | HU-13, HU-14, HU-15 | (ninguna nueva del MVP1); TTH-06 agregada como Trabajos Futuros; CT-04.5 de TTH-04 ampliada | DHU-013 (clasificación), DHU-014 (decisiones de redacción) |
 | Bloque E | (ninguna HU operativa) | TTH-07, TTH-08, TTH-09, TTH-10, TTH-11 | DHU-015 (clasificación HU/TTH del Bloque E con ampliación 4 → 5 TTH durante la redacción) |
 | Bloque F | HU-16, HU-17 (F12+F13 fusionadas con F30 inglobada; F14) | (ninguna nueva) | DHU-016 (decisiones consolidadas de redacción del Bloque F en diez subsecciones) |
+| MVP2 | HU-18, HU-19, HU-20, HU-21 (HU-09 cerrada previamente en `HU_BLOQUE_B.md`) | (ninguna nueva) | DHU-017 (decisiones consolidadas de redacción del MVP2 en diez subsecciones) |
 | Transversal | — | — | DHU-012 (auditoría de coherencia documental, aplica a todos los bloques y documentos relacionados) |
 
 ---
@@ -1468,6 +1674,7 @@ DHU-005 declara dos casos: Caso A (fuente externa de medición) y Caso B (compon
 - `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11 y decisiones tomadas durante la redacción).
 - `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
+- `HU_MVP2.md` — MVP2 del Product Backlog (HU-18, HU-19, HU-20, HU-21; HU-09 reside en `HU_BLOQUE_B.md`).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-11.
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009). No se solapa con este documento.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Personas, journeys, MVP Canvas (insumos para identificar sujetos válidos).

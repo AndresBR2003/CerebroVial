@@ -7,8 +7,8 @@
 > **Pensado como insumo para:** (a) conversación con asesor durante el Showcase, (b) conversión posterior a Historias de Usuario en formato "Como X, quiero Y, para Z", (c) referencia técnica durante la ejecución de sprints.
 
 **Fecha del Brainstorming original:** 2026-05-11
-**Última actualización:** 2026-05-15 (DHU-015: fichas F32, F33, F34, F35 actualizadas — columna "Modelado" apunta a TTH-07, TTH-08, TTH-09, TTH-10 respectivamente; F32 actualiza estado a "Por construir desde cero"; F33 actualiza estado a "Por reconstruir desde cero como parte del refactor del Bloque E"; F35 ajusta descripción a "2 estrategias adaptativas + 1 capa de reglas duras MTC" conforme a la arquitectura real cerrada en TTH-10. Última actualización previa: 2026-05-14 — DHU-012: agregadas fichas F36-F41, reclasificación de F21, renombrado de F27, ficha de F26 referencia a TTH-04 como fuente canónica.)
-**Versión:** 1.1
+**Última actualización:** 2026-05-16 (DHU-017: fichas F15, F16, F19, F28 actualizadas — columna "Modelado" apunta a HU-18, HU-19, HU-20, HU-21 del MVP2 respectivamente, con resumen de alcance y referencia a las subsecciones de DHU-017 que cierran cada decisión. Ficha F11 refinada para reflejar la decisión consolidada de no trasladar HU-09 a `HU_MVP2.md` y preservarla en `HU_BLOQUE_B.md`. Con esta actualización, las 41 features identificadas tienen modelado final: 29 mapeadas al MVP1 + 5 al MVP2 + 7 a Trabajos Futuros. Última actualización previa: 2026-05-15 — DHU-015: fichas F32, F33, F34, F35 actualizadas. Previa a esa: 2026-05-14 — DHU-012: agregadas fichas F36-F41, reclasificación de F21, renombrado de F27, ficha de F26 referencia a TTH-04 como fuente canónica.)
+**Versión:** 1.2
 
 ---
 
@@ -414,7 +414,7 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** **MVP2.** Documentada como HU completa (HU-09 del Bloque B); su construcción es condicional a la holgura del cronograma tras cerrar MVP1.
 
-**Modelado:** HU-09 del Bloque B (ya redactada como HU MVP2).
+**Modelado:** **HU-09 del Bloque B** (anticipada al cierre del Bloque B como única HU MVP2 redactada bajo la antigua semántica "fuera del sprint", suavizada por DHU-012 a "candidata a construcción condicional a holgura del cronograma"). HU-09 no se traslada físicamente a `HU_MVP2.md`: conserva su ubicación original preservando la cohesión temática del Bloque B; `HU_MVP2.md` la lista en el mapeo con referencia cruzada explícita conforme a DHU-017 subsección B. Ver `HU_BLOQUE_B.md`.
 
 **Notas:** Decisión tomada durante Inception. Bajo la semántica refinada de MVP2 por DHU-012, esta feature entra al sprint si hay holgura tras cerrar las HUs MVP1. No se descarta a priori.
 
@@ -646,7 +646,7 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** **MVP2.** Se documenta como HU completa en sesión MVP2 dedicada; su construcción es condicional a la holgura del cronograma tras cerrar MVP1.
 
-**Modelado:** HU MVP2 (pendiente de redacción en sesión dedicada). No entra al Bloque D MVP1.
+**Modelado:** **HU-20 del MVP2.** Vista comparativa de métricas del modelo predictivo principal del sistema vs modelo de respaldo (Administrador). Persistencia paralela del modelo de respaldo: ejecuta predicciones en paralelo a las del modelo principal sobre los mismos inputs operativos, y ambas predicciones se persisten en el mismo registro de CA-14.1 (esquema de CT-09.5) con identificador de modelo como discriminante; extensión inglobada como CA-20.1 a CA-20.4 conforme a DHU-013 y DHU-017 subsección D. Sin TTH nueva. Cuatro métricas idénticas a HU-14 (MAE, RMSE, accuracy, matriz de confusión 6×6); ventana temporal compartida con HU-14 (configurada en HU-15 familia "Predicción y evaluación del modelo"); indicador "Modelo principal mejor / Modelo de respaldo mejor / Empate dentro de la tolerancia configurable" con tolerancia parametrizable. HU agnóstica a tecnologías: no nombra GRU ni RandomForest. Decisiones de redacción cerradas en DHU-017 (subsecciones A, B, D, H, J). Ver `HU_MVP2.md`.
 
 **Notas:** Razón de salida del MVP1: F18 ya cubre el caso de uso básico (saber si el modelo está bien). La comparativa vs baseline es valiosa pero no esencial para el MVP.
 
@@ -875,7 +875,7 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** **MVP2.** Se documenta como HU completa en sesión MVP2 dedicada; su construcción es condicional a la holgura del cronograma tras cerrar MVP1.
 
-**Modelado:** HU MVP2 (pendiente de redacción en sesión dedicada).
+**Modelado:** **HU-18 del MVP2.** Vista detallada de periodo específico (drill-down del Gerente con tres carriles temporales integrados sobre la misma línea temporal: evolución del tráfico, eventos del motor adaptativo, intervalos de estado operativo del sistema). Reutiliza el sustrato técnico de HU-16 (histórico de estados de F30 inglobada), HU-08 (registro de decisiones del motor de CA-08.1) y TTH-04 (registro de transiciones de CT-04.3); sin sustrato técnico nuevo. Conexión bidireccional con HU-16 y HU-17 mediante estado compartido del selector, con distinción entre navegación local (no muta el selector global) y cambio del selector dentro de HU-18 (sí muta). Resolución temporal más fina que HU-16, con zoom interactivo hasta granularidad nativa de 30 segundos. Decisiones de redacción cerradas en DHU-017 (subsecciones A, B, G, H, J). Ver `HU_MVP2.md`.
 
 **Notas:** Razón de salida: F12-F13-F14 cubren el caso de uso esencial. El drill-down es valor agregado, no central.
 
@@ -900,7 +900,7 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** **MVP2.** Se documenta como HU completa en sesión MVP2 dedicada; su construcción es condicional a la holgura del cronograma tras cerrar MVP1.
 
-**Modelado:** HU MVP2 (pendiente de redacción en sesión dedicada).
+**Modelado:** **HU-19 del MVP2.** Exportación a PDF o Excel desde HU-16 y HU-17 (una sola HU cubre las cuatro combinaciones formato × vista de origen, conforme al criterio de cohesión de Mike Cohn aplicado en DHU-016 subsección I y extendido en DHU-017 subsección C). Sin sustrato técnico nuevo: la generación consume los mismos datos que las vistas interactivas. Política conservadora ante fuente caída: rechazo de generación en lugar de "últimos valores conocidos" (CA-19.22), para proteger la integridad del artefacto exportado que circula fuera del sistema. Disgregación por dirección obligatoria en PDF de HU-16 (compensa la ausencia de control toggle). Definiciones operacionales autocontenidas en PDF para destinatarios fuera del sistema. Convención informativa de nombre de archivo. Sin almacenamiento de reportes generados; descarga directa. Decisiones de redacción cerradas en DHU-017 (subsecciones A, B, C, H, J). Ver `HU_MVP2.md`.
 
 **Notas:** Razón de salida: complejidad técnica desproporcionada al valor académico. Los KPIs visibles en pantalla son suficientes para defensa.
 
@@ -927,7 +927,7 @@ Cada feature está descrita con la siguiente estructura:
 
 **Clasificación:** **MVP2.** Se documenta como HU completa en sesión MVP2 dedicada; su construcción es condicional a la holgura del cronograma tras cerrar MVP1.
 
-**Modelado:** HU MVP2 (pendiente de redacción en sesión dedicada).
+**Modelado:** **HU-21 del MVP2.** Escalamiento de incidentes del Operador al Administrador en operación degradada. HU única con Operador protagonista y Administrador destinatario, conforme a DHU-017 subsección E (extensión del patrón de sujeto compuesto establecido por DHU-003). Botón "Escalar al Administrador" disponible en HU-10 (banner expandido) y HU-12 (vista de explicación del modo degradado), solo en estados operativos no normales. Captura automática del contexto operativo desde los endpoints de CT-04.4 y CT-04.5 de TTH-04 (estado, componente disparador, nivel, timestamps); texto libre opcional del Operador; modal de confirmación; persistencia del registro de incidentes inglobada como CA-21.10 a CA-21.13 conforme a DHU-017 subsección H (sin TTH nueva). Vista del Operador para sus escalamientos; vista del Administrador para incidentes recibidos con filtros (Pendientes / Atendidos / Todos; rango de fechas); badge pasivo de pendientes en navegación del Administrador (sin push, sin sonoras; eso es F40 Trabajos Futuros). Transición "Enviado" → "Atendido" irreversible en MVP2; recuperación automática del sistema NO cierra incidentes. Visibilidad limitada entre Operadores (cada uno ve los suyos). HU agnóstica a tecnologías. Decisiones de redacción cerradas en DHU-017 (subsecciones A, B, E, F, H, J). Ver `HU_MVP2.md`.
 
 **Notas:** Razón de salida: flujo entre roles no central a los 4 objetivos del producto. El Operador puede contactar al Administrador por canales externos (teléfono, email) si es necesario.
 

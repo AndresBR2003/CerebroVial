@@ -2,7 +2,7 @@
 
 > Cuarta entrega del Product Backlog del proyecto CerebroVial.
 >
-> **Estado:** Bloque D cerrado y aprobado. Bloques A, B, C, E y F cerrados. **Con el cierre del Bloque F el 2026-05-16 (DHU-016), el MVP1 redactado queda completo: 15 HUs operativas + 11 TTH.** Pendiente: HUs adicionales MVP2.
+> **Estado:** Bloque D cerrado y aprobado. Bloques A, B, C, E y F del MVP1 cerrados, y MVP2 también cerrado el 2026-05-16 (DHU-017). **Con el cierre del MVP2, la redacción del Product Backlog del proyecto queda completa en su componente funcional: 21 HUs operativas (HU-01 a HU-21) + 11 TTH (TTH-01 a TTH-11).** Pendiente: documento RF/RNF (DHU-007), Planning Poker, MoSCoW, implementación SCRUM del MVP1. HU-14 (métricas del modelo principal) es ampliada por HU-20 del MVP2 mediante extensión inglobada del registro de predicciones (CA-14.1 extendida a persistir también predicciones del modelo de respaldo, conforme a DHU-017 subsección D); HU-13, HU-14 y HU-15 reciben el badge de incidentes pendientes de HU-21 en la navegación del Administrador.
 >
 > **Fecha de cierre:** 2026-05-14
 
@@ -350,15 +350,20 @@ DHU-013 (clasificación HU/TTH del Bloque D) había sido cerrada antes del inici
 
 ## Próximos pasos
 
-Esta sesión cerró el Bloque D. A la fecha actual, los Bloques E y F también están cerrados; **con el cierre del Bloque F el 2026-05-16 (DHU-016), la redacción del MVP1 del Product Backlog queda completa: 15 HUs operativas (HU-01 a HU-17) y 11 TTH (TTH-01 a TTH-11).** Los siguientes pasos del proyecto, en sesiones futuras:
+Esta sesión cerró el Bloque D. A la fecha actual, los Bloques E y F del MVP1 están cerrados y el MVP2 también está cerrado (DHU-017, 2026-05-16); **con el cierre del MVP2, la redacción del Product Backlog del proyecto queda completa en su componente funcional: 21 HUs operativas (HU-01 a HU-21) y 11 TTH (TTH-01 a TTH-11).** HU-20 (comparativa vs modelo de respaldo) extiende HU-14 mediante persistencia paralela inglobada. Los siguientes pasos del proyecto, en sesiones futuras:
 
 1. **Bloque E — Componentes centrales del sistema** (F32 SUMO, F33 visión, F34 predictor, F35 motor adaptativo → 0 HUs operativas + 5 TTH: TTH-07 a TTH-11; ya cerrado el 2026-05-15 por DHU-015). Ver `HU_BLOQUE_E.md`.
 
 2. **Bloque F — Gerente, reportería mínima** (F12 + F13 fusionadas en HU-16 con F30 inglobada, F14 en HU-17 → 2 HUs operativas + 0 TTH nuevas; ya cerrado el 2026-05-16 por DHU-016). Ver `HU_BLOQUE_F.md`.
 
-3. **MVP2 — HUs documentadas, construcción condicional a holgura del cronograma tras cerrar MVP1** (F11, F15, F16, F19, F28 → ~5 HUs; HU-09 del Bloque B ya redactada). Semántica refinada por DHU-012.
+3. **MVP2 — HUs documentadas con construcción condicional a holgura del cronograma tras cerrar MVP1** (F11→HU-09; F15→HU-18; F16→HU-19; F19→HU-20; F28→HU-21; 5 HUs operativas + 0 TTH nuevas; cerrado el 2026-05-16 por DHU-017). Semántica refinada por DHU-012. Ver `HU_MVP2.md`.
 
-Tras cerrar todos los bloques (ya hecho con el cierre del Bloque F), se generará el **documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs en un documento único aprobado, y se ejecutarán las ceremonias de **estimación (Planning Poker)** y **priorización (MoSCoW)** sobre el backlog completo.
+Tras cerrar el MVP2 (ya hecho), los próximos pasos del proyecto, fuera del alcance del Product Backlog funcional, son:
+
+1. **Documento de Requisitos Funcionales y No Funcionales (RF/RNF)** consolidando los "Candidatos a RNF" de todas las HUs (HU-01 a HU-21) en un documento único aprobado, conforme a DHU-007 pendiente. Sesión dedicada futura.
+2. **Ceremonias de estimación (Planning Poker) y priorización (MoSCoW)** sobre el backlog completo.
+3. **Implementación SCRUM del MVP1** (16 HUs operativas + 11 TTH del MVP1). El MVP2 (5 HUs adicionales) entra al sprint si hay holgura de cronograma, conforme a la semántica refinada por DHU-012.
+4. **SDD (Software Design Document)**, siguiente entregable académico mayor del proyecto.
 
 ---
 
@@ -369,7 +374,8 @@ Tras cerrar todos los bloques (ya hecho con el cierre del Bloque F), se generar�
 - `HU_BLOQUE_C.md` — Bloque C del Product Backlog (3 HUs operativas: HU-10, HU-11, HU-12).
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11 y decisiones tomadas durante la redacción).
 - `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-016).
+- `HU_MVP2.md` — MVP2 del Product Backlog (HU-18, HU-19, HU-20, HU-21; HU-09 reside en `HU_BLOQUE_B.md`). HU-20 extiende CA-14.1 inglobando persistencia paralela del modelo de respaldo.
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-017).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-11.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.

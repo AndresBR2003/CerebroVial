@@ -449,10 +449,11 @@ Esta sección documenta los refinamientos al Inception desde la versión 1.0 (wo
 ## Documentos relacionados
 
 - `DECISIONS.md` — Registro formal de decisiones técnicas (D-001 a D-009).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-016).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre la redacción del Product Backlog (DHU-001 a DHU-017).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto; sección 8 contiene la tabla de Trabajos Futuros.
 - `LEAN_INCEPTION_INVESTIGACION.md` — Fundamentación del marco metodológico.
 - `documentation/docs/DISCOVERY_2026-05-10.md` — Auditoría inicial del repositorio.
 - `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features (29 MVP1 + 5 MVP2 + 7 Trabajos Futuros).
-- `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md`, `HU_BLOQUE_E.md`, `HU_BLOQUE_F.md` — Product Backlog redactado por bloques. **MVP1 redactado completo al cierre del Bloque F el 2026-05-16 (DHU-016): 15 HUs operativas (HU-01 a HU-17) y 11 TTH (TTH-01 a TTH-11).** El Bloque E cerró sin HUs operativas (5 TTH, DHU-015); el Bloque F cierra con 2 HUs operativas + 0 TTH nuevas (F12+F13 fusionadas en HU-16 con F30 inglobada; F14 como HU-17).
+- `HU_BLOQUE_A.md`, `HU_BLOQUE_B.md`, `HU_BLOQUE_C.md`, `HU_BLOQUE_D.md`, `HU_BLOQUE_E.md`, `HU_BLOQUE_F.md` — Product Backlog del MVP1 redactado por bloques. **MVP1 redactado completo al cierre del Bloque F el 2026-05-16 (DHU-016): 16 HUs operativas MVP1 (HU-01 a HU-08 + HU-10 a HU-17) y 11 TTH (TTH-01 a TTH-11).** El Bloque E cerró sin HUs operativas (5 TTH, DHU-015); el Bloque F cierra con 2 HUs operativas + 0 TTH nuevas (F12+F13 fusionadas en HU-16 con F30 inglobada; F14 como HU-17).
+- `HU_MVP2.md` — Product Backlog del MVP2 (cerrado el 2026-05-16 por DHU-017): HU-18 (drill-down del Gerente), HU-19 (exportación PDF/Excel), HU-20 (comparativa del modelo vs respaldo, Administrador) y HU-21 (escalamiento del Operador al Administrador). HU-09 (notas e incidencias del Operador, F11 del MVP2) reside físicamente en `HU_BLOQUE_B.md` desde su redacción anticipada en el cierre del Bloque B. **Con el cierre del MVP2, la redacción del Product Backlog del proyecto queda completa en su componente funcional: 21 HUs operativas (HU-01 a HU-21) y 11 TTH (TTH-01 a TTH-11); 5 features del MVP2 + 0 TTH nuevas.**
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH transversales (TTH-01 a TTH-03), del Bloque C (TTH-04, TTH-05), Trabajos Futuros (TTH-06) y del Bloque E (TTH-07 a TTH-11).

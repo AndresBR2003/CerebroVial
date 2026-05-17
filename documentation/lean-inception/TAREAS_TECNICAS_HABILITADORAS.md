@@ -5,7 +5,7 @@
 > **Fundamento metodológico:** Ver `DECISIONS_HU.md`, decisiones DHU-001, DHU-003, DHU-004 (Bloque A), DHU-010 (Bloque C), DHU-013 (clasificación HU/TTH del Bloque D), DHU-014 (decisiones de redacción del Bloque D) y DHU-015 (clasificación HU/TTH del Bloque E con ampliación 4 → 5 TTH).
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-15 (**Cierre del Bloque E (DHU-015):** TTH-07, TTH-08, TTH-09, TTH-10 y TTH-11 agregadas. Referencias cruzadas en TTH-04 actualizadas: Nivel 1 ante caída de TTH-08 contractualmente preservado; Nivel 2 invoca RandomForest baseline preservado por TTH-09; Nivel 3 invoca TTH-05 cuando TTH-10 cae. Última actualización previa: 2026-05-14, cierre del Bloque D, DHU-013 y DHU-014.)
+> **Última actualización:** 2026-05-16 (**Cierre del MVP2 (DHU-017):** rango DHU referenciado actualizado a "DHU-001 a DHU-017" en cabeceras y sección "Documentos relacionados". Sin cambios sustantivos al contenido de las 11 TTH: el MVP2 no introduce TTH nuevas (las 4 HUs del MVP2 inglogan su sustrato técnico como CAs conforme a DHU-017 subsección H). HU-20 del MVP2 consume CT-09.5 de TTH-09 extendido inglobadamente con persistencia paralela del modelo de respaldo; HU-21 del MVP2 consume CT-04.4 y CT-04.5 de TTH-04 para captura automática del contexto operativo al disparar escalamientos. Última actualización previa: 2026-05-15, cierre del Bloque E, DHU-015. Última previa a esa: 2026-05-14, cierre del Bloque D, DHU-013 y DHU-014.)
 
 ---
 
@@ -804,10 +804,13 @@ Por tanto, las TTH se ejecutan en la primera fase del proyecto, antes o en paral
 
 ## Documentos relacionados
 
-- `DECISIONS_HU.md` — Decisiones metodológicas (DHU-001 a DHU-016) que fundamentan la creación y clasificación de cada TTH.
+- `DECISIONS_HU.md` — Decisiones metodológicas (DHU-001 a DHU-017) que fundamentan la creación y clasificación de cada TTH.
 - `HU_BLOQUE_A.md` — Bloque A del Product Backlog tras la reestructuración.
 - `HU_BLOQUE_B.md` — Bloque B del Product Backlog (HU-02 a HU-09).
 - `HU_BLOQUE_C.md` — Bloque C del Product Backlog (HU-10 a HU-12).
 - `HU_BLOQUE_D.md` — Bloque D del Product Backlog (HU-13, HU-14, HU-15).
+- `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11).
+- `HU_BLOQUE_F.md` — Bloque F del Product Backlog (HU-16, HU-17; F30 inglobada como CAs).
+- `HU_MVP2.md` — MVP2 del Product Backlog (HU-18, HU-19, HU-20, HU-21; HU-09 reside en `HU_BLOQUE_B.md`). HU-20 consume CT-09.5 de TTH-09 extendido inglobadamente; HU-21 consume CT-04.4 y CT-04.5 de TTH-04. Sin TTH nuevas.
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 Monolito modular, D-003 Deploy Docker local, D-008 SUMO end-to-end, D-009 jam level Waze).
 - `FEATURE_BACKLOG_DETALLADO.md` — Features de origen (F01 autenticación, F26 lógica de fallback, F27 configuración de tiempos preconfigurados para degradado nivel 3, F29 RBAC, y habilitadores transversales).
