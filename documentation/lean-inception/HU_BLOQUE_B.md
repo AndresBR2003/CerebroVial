@@ -99,9 +99,9 @@ El panel muestra dos elementos por cada acceso de la intersección:
 
 ### Candidatos a RNF (para futuro documento RF/RNF)
 
-- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-02.2).
-- **RNF de robustez:** comportamiento ante pérdida de fuente de datos (CA-02.4, DHU-005 Caso A).
-- **RNF de usabilidad:** umbrales de color verde/amarillo/rojo en indicador de cola (CA-02.3).
+- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-02.2). → RNF-PERF-01 (Actualización en tiempo real de la presentación operativa).
+- **RNF de robustez:** comportamiento ante pérdida de fuente de datos (CA-02.4, DHU-005 Caso A). → RNF-REL-01 (Robustez ante interrupción de fuente).
+- **RNF de usabilidad:** umbrales de color verde/amarillo/rojo en indicador de cola (CA-02.3). → RNF-INT-01 (Usabilidad operativa de las presentaciones del Operador), RNF-INT-02 (Accesibilidad WCAG 2.1 nivel AA).
 
 ---
 
@@ -153,9 +153,9 @@ Esta escala unificada permite que el sistema sea agnóstico a la fuente de datos
 
 ### Candidatos a RNF (para futuro documento RF/RNF)
 
-- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-03.2).
-- **RNF de robustez:** comportamiento ante interrupción de predicciones (CA-03.4, DHU-005 Caso B).
-- **RNF de calidad de predicción:** umbrales de error aceptable del modelo (MAE/RMSE sobre el ratio velocidad/free-flow). Pertenece al componente predictivo (Bloque E), no a la vista.
+- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-03.2). → RNF-PERF-01 (Actualización en tiempo real de la presentación operativa).
+- **RNF de robustez:** comportamiento ante interrupción de predicciones (CA-03.4, DHU-005 Caso B). → RNF-REL-01 (Robustez ante interrupción de fuente).
+- **RNF de calidad de predicción:** umbrales de error aceptable del modelo (MAE/RMSE sobre el ratio velocidad/free-flow). Pertenece al componente predictivo (Bloque E), no a la vista. → RNF-FUN-02 (Calidad del modelo predictivo), RNF-COM-02 (Interoperabilidad mediante constructo unificado de nivel de congestión).
 
 ---
 
@@ -211,9 +211,9 @@ La HU define el qué (las dos fuentes de información integradas y comparables) 
 
 ### Candidatos a RNF (para futuro documento RF/RNF)
 
-- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s, independiente para cada fuente (CA-04.3).
-- **RNF de robustez:** comportamiento ante desconexión de cualquiera de las dos fuentes de forma independiente (CA-04.4).
-- **RNF de usabilidad:** alineación temporal entre estado actual y predicción debe ser visualmente inmediata (CA-04.1). Probablemente se valida con pruebas de usuario.
+- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s, independiente para cada fuente (CA-04.3). → RNF-PERF-01 (Actualización en tiempo real de la presentación operativa).
+- **RNF de robustez:** comportamiento ante desconexión de cualquiera de las dos fuentes de forma independiente (CA-04.4). → RNF-REL-01 (Robustez ante interrupción de fuente).
+- **RNF de usabilidad:** alineación temporal entre estado actual y predicción debe ser visualmente inmediata (CA-04.1). Probablemente se valida con pruebas de usuario. → RNF-INT-01 (Usabilidad operativa de las presentaciones del Operador).
 
 ---
 
@@ -268,9 +268,9 @@ El panel muestra el nombre de la estrategia vigente (sin exponer detalles intern
 
 ### Candidatos a RNF (para futuro documento RF/RNF)
 
-- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-05.3).
-- **RNF de robustez:** comportamiento ante caída del motor adaptativo (CA-05.4, DHU-005 Caso B). La alerta activa al Operador ante caída del componente es responsabilidad transversal del Bloque C.
-- **RNF de usabilidad:** los nombres de estrategias deben ser autoexplicativos para el Operador sin requerir entrenamiento técnico.
+- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-05.3). → RNF-PERF-01 (Actualización en tiempo real de la presentación operativa).
+- **RNF de robustez:** comportamiento ante caída del motor adaptativo (CA-05.4, DHU-005 Caso B). La alerta activa al Operador ante caída del componente es responsabilidad transversal del Bloque C. → RNF-REL-01 (Robustez ante interrupción de fuente).
+- **RNF de usabilidad:** los nombres de estrategias deben ser autoexplicativos para el Operador sin requerir entrenamiento técnico. → RNF-INT-01 (Usabilidad operativa de las presentaciones del Operador).
 
 ---
 
@@ -328,10 +328,10 @@ Ejemplos del tipo de texto que se entrega (el catálogo exacto se cierra en el s
 
 ### Candidatos a RNF (para futuro documento RF/RNF)
 
-- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-06.2).
-- **RNF de robustez:** comportamiento ante caída del componente de explicación (CA-06.4, DHU-005 Caso B).
-- **RNF de usabilidad:** la explicación debe ser comprensible por un Operador sin formación técnica en el motor adaptativo. Probablemente se valida con prueba de usuario.
-- **RNF de mantenibilidad:** el catálogo de plantillas debe ser extensible sin requerir cambios en el código del frontend ni del motor (debería poder agregarse una plantilla nueva como dato de configuración).
+- **RNF de rendimiento:** latencia máxima de actualización ≤ 5 s (CA-06.2). → RNF-PERF-01 (Actualización en tiempo real de la presentación operativa).
+- **RNF de robustez:** comportamiento ante caída del componente de explicación (CA-06.4, DHU-005 Caso B). → RNF-REL-01 (Robustez ante interrupción de fuente).
+- **RNF de usabilidad:** la explicación debe ser comprensible por un Operador sin formación técnica en el motor adaptativo. Probablemente se valida con prueba de usuario. → RNF-INT-05 (Comprensibilidad de explicaciones textuales sin formación técnica).
+- **RNF de mantenibilidad:** el catálogo de plantillas debe ser extensible sin requerir cambios en el código del frontend ni del motor (debería poder agregarse una plantilla nueva como dato de configuración). → RNF-MNT-01 (Extensibilidad de catálogos de plantillas como datos de configuración).
 
 ---
 
@@ -389,10 +389,10 @@ La notificación incluye al menos: hora del cambio, estrategia anterior, estrate
 
 ### Candidatos a RNF (para futuro documento RF/RNF)
 
-- **RNF de rendimiento:** latencia máxima entre cambio de estrategia y notificación visible ≤ 5 s (implícito en CA-07.1; conviene explicitar en el documento RF/RNF).
-- **RNF de usabilidad:** la notificación no debe interferir con la lectura de los paneles principales (CA-07.4). Probablemente se valida con prueba de usuario.
-- **RNF de robustez:** comportamiento ante caída del canal de notificaciones (CA-07.5).
-- **RNF de configurabilidad:** tiempo de auto-descarte e intervalo de agrupamiento deben ser parametrizables sin redeploy del sistema.
+- **RNF de rendimiento:** latencia máxima entre cambio de estrategia y notificación visible ≤ 5 s (implícito en CA-07.1; conviene explicitar en el documento RF/RNF). → RNF-PERF-01 (Actualización en tiempo real de la presentación operativa).
+- **RNF de usabilidad:** la notificación no debe interferir con la lectura de los paneles principales (CA-07.4). Probablemente se valida con prueba de usuario. → RNF-INT-01 (Usabilidad operativa de las presentaciones del Operador).
+- **RNF de robustez:** comportamiento ante caída del canal de notificaciones (CA-07.5). → RNF-REL-01 (Robustez ante interrupción de fuente).
+- **RNF de configurabilidad:** tiempo de auto-descarte e intervalo de agrupamiento deben ser parametrizables sin redeploy del sistema. → RNF-MNT-02 (Parametrización sin redeploy de tiempos y umbrales operativos).
 
 ---
 

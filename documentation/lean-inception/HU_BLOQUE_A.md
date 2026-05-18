@@ -121,10 +121,10 @@ Sistema de control de acceso basado en roles (RBAC) con tres roles diferenciados
 
 Sección agregada en v3 por aplicación retroactiva de DHU-007.
 
-- **RNF de seguridad:** un usuario autenticado nunca debe acceder a recursos fuera de su rol vía API (CA-01.4). Este es probablemente el RNF más crítico de seguridad del sistema.
-- **RNF de seguridad / sesión:** el token JWT debe tener tiempo de expiración configurable (CA-01.6 implica expiración; el valor por defecto vive en TTH-01).
-- **RNF de usabilidad:** las rutas no accesibles no deben aparecer ni siquiera como enlaces (notas técnicas). Esto reduce confusión del usuario y refuerza el valor cognitivo declarado en la HU.
-- **RNF de privacidad:** la respuesta HTTP 403 no debe filtrar información del recurso solicitado (CA-01.4). Esto evita oracles que permitan a un atacante enumerar recursos por respuestas distintas.
+- **RNF de seguridad:** un usuario autenticado nunca debe acceder a recursos fuera de su rol vía API (CA-01.4). Este es probablemente el RNF más crítico de seguridad del sistema. → RNF-SEC-03 (Control de acceso por rol).
+- **RNF de seguridad / sesión:** el token JWT debe tener tiempo de expiración configurable (CA-01.6 implica expiración; el valor por defecto vive en TTH-01). → RNF-SEC-02 (Autenticación del usuario al sistema).
+- **RNF de usabilidad:** las rutas no accesibles no deben aparecer ni siquiera como enlaces (notas técnicas). Esto reduce confusión del usuario y refuerza el valor cognitivo declarado en la HU. → RNF-INT-07 (Ocultación de rutas no accesibles al rol).
+- **RNF de privacidad:** la respuesta HTTP 403 no debe filtrar información del recurso solicitado (CA-01.4). Esto evita oracles que permitan a un atacante enumerar recursos por respuestas distintas. → RNF-SEC-04 (No filtración de información en respuestas de error de control de acceso).
 
 ---
 
