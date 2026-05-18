@@ -29,57 +29,57 @@ El sistema CerebroVial se describe con dos catálogos:
 
 ### Familia 2 — Monitoreo operativo en tiempo real
 
-**RF-010 — Presentación del estado actual del tráfico por acceso.** El sistema expone, por cada acceso de la intersección, el flujo vehicular y la longitud de cola. Los valores se actualizan automáticamente y se acompañan de un indicador visual con umbrales que distinguen niveles operativos. *Beneficiario:* Operador. *Prioridad:* Must.
+**RF-003 — Presentación del estado actual del tráfico por acceso.** El sistema expone, por cada acceso de la intersección, el flujo vehicular y la longitud de cola. Los valores se actualizan automáticamente y se acompañan de un indicador visual con umbrales que distinguen niveles operativos. *Beneficiario:* Operador. *Prioridad:* Must.
 
-**RF-011 — Presentación de la predicción de congestión por acceso.** El sistema expone, por cada acceso, la predicción del nivel de congestión en escala 0-5 hasta el horizonte configurado. Cuando el nivel supera el umbral, el acceso se resalta visualmente. *Beneficiario:* Operador. *Prioridad:* Must.
+**RF-004 — Presentación de la predicción de congestión por acceso.** El sistema expone, por cada acceso, la predicción del nivel de congestión en escala 0-5 hasta el horizonte configurado. Cuando el nivel supera el umbral, el acceso se resalta visualmente. *Beneficiario:* Operador. *Prioridad:* Must.
 
-**RF-012 — Vista combinada del estado actual y la predicción.** El sistema presenta de forma integrada el estado actual y la predicción, alineados temporalmente. Cuando el estado actual es normal pero la predicción anticipa congestión, el sistema resalta la discrepancia. *Beneficiario:* Operador. *Prioridad:* Must.
+**RF-005 — Vista combinada del estado actual y la predicción.** El sistema presenta de forma integrada el estado actual y la predicción, alineados temporalmente. Cuando el estado actual es normal pero la predicción anticipa congestión, el sistema resalta la discrepancia. *Beneficiario:* Operador. *Prioridad:* Must.
 
 ### Familia 3 — Decisiones del motor adaptativo
 
-**RF-020 — Presentación de la estrategia de control activa.** El sistema expone qué estrategia está aplicando el motor adaptativo, con qué parámetros (tiempos de verde por acceso) y desde cuándo. Los nombres de estrategias son autoexplicativos para el Operador. *Beneficiario:* Operador. *Prioridad:* Must.
+**RF-006 — Presentación de la estrategia de control activa.** El sistema expone qué estrategia está aplicando el motor adaptativo, con qué parámetros (tiempos de verde por acceso) y desde cuándo. Los nombres de estrategias son autoexplicativos para el Operador. *Beneficiario:* Operador. *Prioridad:* Must.
 
-**RF-021 — Explicación legible de la razón de selección de estrategia.** El sistema expone una explicación en lenguaje legible de por qué el motor seleccionó la estrategia activa. Las explicaciones se construyen desde un catálogo curado de plantillas; las combinaciones no cubiertas activan un texto genérico de respaldo. *Beneficiario:* Operador. *Prioridad:* Must.
+**RF-007 — Explicación legible de la razón de selección de estrategia.** El sistema expone una explicación en lenguaje legible de por qué el motor seleccionó la estrategia activa. Las explicaciones se construyen desde un catálogo curado de plantillas; las combinaciones no cubiertas activan un texto genérico de respaldo. *Beneficiario:* Operador. *Prioridad:* Must.
 
-**RF-022 — Notificación temporal de cambios de estrategia.** El sistema notifica al Operador cada cambio de estrategia mediante una notificación visual temporal poco intrusiva, que indica la hora, la estrategia anterior, la nueva y una razón breve. Los cambios encadenados se agrupan. *Beneficiario:* Operador. *Prioridad:* Must.
+**RF-008 — Notificación temporal de cambios de estrategia.** El sistema notifica al Operador cada cambio de estrategia mediante una notificación visual temporal poco intrusiva, que indica la hora, la estrategia anterior, la nueva y una razón breve. Los cambios encadenados se agrupan. *Beneficiario:* Operador. *Prioridad:* Must.
 
-**RF-023 — Consulta histórica de decisiones del motor.** El sistema permite consultar el historial cronológico de decisiones del motor, con la estrategia aplicada, los parámetros calculados y la razón. El historial es auditable, durable e inmutable. *Beneficiario:* Operador (consulta), Administrador (acceso técnico). *Prioridad:* Must.
+**RF-009 — Consulta histórica de decisiones del motor.** El sistema permite consultar el historial cronológico de decisiones del motor, con la estrategia aplicada, los parámetros calculados y la razón. El historial es auditable, durable e inmutable. *Beneficiario:* Operador (consulta), Administrador (acceso técnico). *Prioridad:* Must.
 
 ### Familia 4 — Predicción de tráfico
 
-La predicción de tráfico está cubierta funcionalmente por RF-011, RF-012 y RF-033. El sustrato técnico vive en las TTH del modelo predictivo. No hay RF dedicados adicionales a esta familia.
+La predicción de tráfico está cubierta funcionalmente por RF-004, RF-005 y RF-013. El sustrato técnico vive en las TTH del modelo predictivo. No hay RF dedicados adicionales a esta familia.
 
 ### Familia 5 — Soporte técnico y configuración del sistema
 
-**RF-030 — Vista técnica de salud de los componentes.** El sistema expone al Administrador una vista técnica detallada del estado de cada componente operativo: nombre, estado cualitativo, timestamp del último cambio, identificador interno, latencia, fallos recientes y timestamp de la última evaluación exitosa. *Beneficiario:* Administrador. *Prioridad:* Must.
+**RF-010 — Vista técnica de salud de los componentes.** El sistema expone al Administrador una vista técnica detallada del estado de cada componente operativo: nombre, estado cualitativo, timestamp del último cambio, identificador interno, latencia, fallos recientes y timestamp de la última evaluación exitosa. *Beneficiario:* Administrador. *Prioridad:* Must.
 
-**RF-031 — Configuración de parámetros operativos del sistema.** El sistema permite al Administrador consultar y modificar parámetros operativos (umbrales de cola, horizonte de predicción, ventana de cálculo de métricas, frecuencia del monitor), organizados en tres familias funcionales. Las modificaciones se persisten con auditoría, surten efecto sin redespliegue y soportan concurrencia con last-write-wins y advertencia explícita. *Beneficiario:* Administrador. *Prioridad:* Must.
+**RF-011 — Configuración de parámetros operativos del sistema.** El sistema permite al Administrador consultar y modificar parámetros operativos (umbrales de cola, horizonte de predicción, ventana de cálculo de métricas, frecuencia del monitor), organizados en tres familias funcionales. Las modificaciones se persisten con auditoría, surten efecto sin redespliegue y soportan concurrencia con last-write-wins y advertencia explícita. *Beneficiario:* Administrador. *Prioridad:* Must.
 
-**RF-032 — Vista de métricas de desempeño del modelo predictivo.** El sistema expone al Administrador las métricas del modelo principal (MAE, RMSE, accuracy, matriz de confusión 6×6) calculadas sobre una ventana temporal configurable, con tooltips de definición operacional. *Beneficiario:* Administrador. *Prioridad:* Must.
+**RF-012 — Vista de métricas de desempeño del modelo predictivo.** El sistema expone al Administrador las métricas del modelo principal (MAE, RMSE, accuracy, matriz de confusión 6×6) calculadas sobre una ventana temporal configurable, con tooltips de definición operacional. *Beneficiario:* Administrador. *Prioridad:* Must.
 
-**RF-033 — Vista comparativa de métricas del modelo principal vs respaldo.** El sistema permite al Administrador comparar simultáneamente las métricas del modelo principal contra las del modelo de respaldo, sobre los mismos eventos del registro, con un indicador comparativo que comunica cuál es mejor o si están dentro de la tolerancia configurable. *Beneficiario:* Administrador. *Prioridad:* Could (MVP2).
+**RF-013 — Vista comparativa de métricas del modelo principal vs respaldo.** El sistema permite al Administrador comparar simultáneamente las métricas del modelo principal contra las del modelo de respaldo, sobre los mismos eventos del registro, con un indicador comparativo que comunica cuál es mejor o si están dentro de la tolerancia configurable. *Beneficiario:* Administrador. *Prioridad:* Could (MVP2).
 
 ### Familia 6 — Reportería ejecutiva
 
-**RF-040 — Consulta de KPIs operativos sobre periodo seleccionable.** El sistema permite al Gerente consultar cuatro KPIs agregados (tiempo de espera, longitud de cola, throughput, demora) sobre un periodo elegido entre presets o rango personalizado, con cards numéricas, desglose opcional por dirección y tooltips. *Beneficiario:* Gerente. *Prioridad:* Must.
+**RF-014 — Consulta de KPIs operativos sobre periodo seleccionable.** El sistema permite al Gerente consultar cuatro KPIs agregados (tiempo de espera, longitud de cola, throughput, demora) sobre un periodo elegido entre presets o rango personalizado, con cards numéricas, desglose opcional por dirección y tooltips. *Beneficiario:* Gerente. *Prioridad:* Must.
 
-**RF-041 — Vista comparativa entre periodos.** El sistema permite al Gerente comparar los cuatro KPIs entre el periodo seleccionado y el periodo previo equivalente, con gráficos de dos series superpuestas, valores agregados de ambos periodos y un indicador de variación con semántica visual de mejora o empeoramiento. *Beneficiario:* Gerente. *Prioridad:* Must.
+**RF-015 — Vista comparativa entre periodos.** El sistema permite al Gerente comparar los cuatro KPIs entre el periodo seleccionado y el periodo previo equivalente, con gráficos de dos series superpuestas, valores agregados de ambos periodos y un indicador de variación con semántica visual de mejora o empeoramiento. *Beneficiario:* Gerente. *Prioridad:* Must.
 
-**RF-042 — Drill-down sobre periodo específico.** El sistema permite al Gerente investigar un periodo específico con tres carriles temporales integrados sobre un eje común: tráfico observado, decisiones del motor e intervalos de estado operativo. Soporta zoom interactivo sobre el carril de tráfico. *Beneficiario:* Gerente. *Prioridad:* Could (MVP2).
+**RF-016 — Drill-down sobre periodo específico.** El sistema permite al Gerente investigar un periodo específico con tres carriles temporales integrados sobre un eje común: tráfico observado, decisiones del motor e intervalos de estado operativo. Soporta zoom interactivo sobre el carril de tráfico. *Beneficiario:* Gerente. *Prioridad:* Could (MVP2).
 
-**RF-043 — Exportación de reportes a PDF o Excel.** El sistema permite al Gerente exportar los reportes de RF-040 y RF-041 a PDF (presentable, con gráficos) o Excel (datos crudos). Los reportes son autocontenidos: incluyen definiciones operacionales. *Beneficiario:* Gerente. *Prioridad:* Could (MVP2).
+**RF-017 — Exportación de reportes a PDF o Excel.** El sistema permite al Gerente exportar los reportes de RF-014 y RF-015 a PDF (presentable, con gráficos) o Excel (datos crudos). Los reportes son autocontenidos: incluyen definiciones operacionales. *Beneficiario:* Gerente. *Prioridad:* Could (MVP2).
 
 ### Familia 7 — Soporte al Operador y trazabilidad de incidentes
 
-**RF-050 — Vista simplificada de salud de los componentes para el Operador.** El sistema expone al Operador una vista simplificada del estado de cada componente, con textos curados que explican qué hace el sistema sin cada componente afectado. *Beneficiario:* Operador. *Prioridad:* Must.
+**RF-018 — Vista simplificada de salud de los componentes para el Operador.** El sistema expone al Operador una vista simplificada del estado de cada componente, con textos curados que explican qué hace el sistema sin cada componente afectado. *Beneficiario:* Operador. *Prioridad:* Must.
 
-**RF-051 — Alerta transversal del estado operativo del sistema.** El sistema muestra al Operador una alerta visible en todas las vistas cuando el sistema entra en un estado distinto a operación normal. La alerta identifica el nivel del estado degradado, el componente disparador y el tiempo transcurrido. *Beneficiario:* Operador. *Prioridad:* Must.
+**RF-019 — Alerta transversal del estado operativo del sistema.** El sistema muestra al Operador una alerta visible en todas las vistas cuando el sistema entra en un estado distinto a operación normal. La alerta identifica el nivel del estado degradado, el componente disparador y el tiempo transcurrido. *Beneficiario:* Operador. *Prioridad:* Must.
 
-**RF-052 — Explicación del modo degradado activo.** El sistema expone al Operador una explicación textual del modo degradado activo integrando tres elementos: qué disparó el modo, qué fallback está activo y qué capacidad operativa se perdió con su implicación para la supervisión. *Beneficiario:* Operador. *Prioridad:* Must.
+**RF-020 — Explicación del modo degradado activo.** El sistema expone al Operador una explicación textual del modo degradado activo integrando tres elementos: qué disparó el modo, qué fallback está activo y qué capacidad operativa se perdió con su implicación para la supervisión. *Beneficiario:* Operador. *Prioridad:* Must.
 
-**RF-053 — Registro de notas e incidencias del turno del Operador.** El sistema permite al Operador registrar notas e incidencias durante su turno asociadas a un momento específico, y consultarlas con filtros por fechas y autor. Las notas son editables dentro de una ventana corta posterior a su creación; luego quedan inmutables. *Beneficiario:* Operador. *Prioridad:* Should (MVP2).
+**RF-021 — Registro de notas e incidencias del turno del Operador.** El sistema permite al Operador registrar notas e incidencias durante su turno asociadas a un momento específico, y consultarlas con filtros por fechas y autor. Las notas son editables dentro de una ventana corta posterior a su creación; luego quedan inmutables. *Beneficiario:* Operador. *Prioridad:* Should (MVP2).
 
-**RF-054 — Escalamiento de incidentes del Operador al Administrador.** El sistema permite al Operador escalar al Administrador incidentes observados durante operación degradada, capturando automáticamente el contexto operativo y permitiendo descripción libre. El Administrador recibe los escalamientos con badge numérico de pendientes y los transiciona a "Atendido". *Beneficiario:* Operador (originador), Administrador (gestor). *Prioridad:* Could (MVP2).
+**RF-022 — Escalamiento de incidentes del Operador al Administrador.** El sistema permite al Operador escalar al Administrador incidentes observados durante operación degradada, capturando automáticamente el contexto operativo y permitiendo descripción libre. El Administrador recibe los escalamientos con badge numérico de pendientes y los transiciona a "Atendido". *Beneficiario:* Operador (originador), Administrador (gestor). *Prioridad:* Could (MVP2).
 
 ---
 
@@ -91,7 +91,7 @@ Los RNF están clasificados según las 9 características de calidad de ISO/IEC 
 
 **RNF-FUN-01 — Manejabilidad de datos faltantes en vistas de consulta y cálculo.** Cuando una vista o cálculo opera sobre periodos sin datos, cobertura parcial o condiciones matemáticamente indefinidas (división por cero, agregados sobre cero filas), el sistema comunica explícitamente la condición en lugar de presentar valores espurios calculados sobre el vacío. *Prioridad:* Must (MVP1) / Should (MVP2).
 
-**RNF-FUN-02 — Calidad del modelo predictivo.** El modelo predictivo apunta a una exactitud sobre el nivel discreto 0-5 mayor o igual al 80% sobre la partición de validación. El objetivo es aspiracional; las métricas reales se reportan honestamente conforme a las definiciones operacionales de RF-032. *Prioridad:* Should.
+**RNF-FUN-02 — Calidad del modelo predictivo.** El modelo predictivo apunta a una exactitud sobre el nivel discreto 0-5 mayor o igual al 80% sobre la partición de validación. El objetivo es aspiracional; las métricas reales se reportan honestamente conforme a las definiciones operacionales de RF-012. *Prioridad:* Should.
 
 **RNF-FUN-03 — Comparabilidad rigurosa entre modelos predictivos.** Las métricas comparativas entre el modelo principal y el modelo de respaldo se calculan sobre exactamente los mismos eventos del registro. Pares incompletos no entran al cálculo. *Prioridad:* Could (MVP2).
 

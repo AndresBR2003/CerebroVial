@@ -747,11 +747,11 @@ Esta sesión cierra el MVP2 y, con ello, la redacción del Product Backlog del p
 - `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11).
 - `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-018).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-019).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-11.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.
 - `FEATURE_BACKLOG_DETALLADO.md` — Detalle completo de las 41 features identificadas (29 MVP1 + 5 MVP2 + 7 Trabajos Futuros).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.
 - `LEAN_INCEPTION_INVESTIGACION.md` — Fundamentación bibliográfica.
-- `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` — Documento futuro pendiente (DHU-007).
+- `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` — Documento normativo denso con catálogo de 22 RF y 53 RNF clasificados según ISO/IEC 25010:2023, redactado el 2026-05-18 ejecutando DHU-007 según las decisiones metodológicas consolidadas en DHU-019. `RF_RNF_LITE.md` — versión lite de lectura humana, derivada conforme al modelo de dos documentos cerrado en DHU-019 subsección H.

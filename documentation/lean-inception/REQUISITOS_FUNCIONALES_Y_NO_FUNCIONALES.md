@@ -68,7 +68,7 @@ El prefijo del código (`RF-` vs `RNF-FUN-`) distingue inequívocamente uno de o
 - Referencia a una decisión metodológica del backlog: `DHU-XXX` (por ejemplo `DHU-005`).
 - Referencia a una decisión técnica del producto: `D-XXX` (por ejemplo `D-009`).
 - Referencia a un Objetivo del Producto: por número del 1 al 4 según `BACKLOG_OVERVIEW.md`.
-- Referencia entre RFs/RNFs internamente: por código directo (`RF-010`, `RNF-PERF-01`).
+- Referencia entre RFs/RNFs internamente: por código directo (`RF-003`, `RNF-PERF-01`).
 
 **Vocabulario normativo:**
 
@@ -1181,11 +1181,11 @@ Los RF se presentan agrupados por familia funcional según la composición natur
 
 ### 2.2 Familia 2 — Monitoreo operativo en tiempo real
 
-#### RF-010 — Presentación del estado actual del tráfico por acceso
+#### RF-003 — Presentación del estado actual del tráfico por acceso
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-010 |
+| Identificador | RF-003 |
 | Familia funcional | Monitoreo operativo en tiempo real |
 | Descripción | El sistema expone, por cada acceso de la intersección, las variables observadas del estado actual del tráfico: flujo vehicular y longitud de cola. Los valores se actualizan automáticamente sin recarga manual. Los valores de cola se acompañan de un indicador visual con umbrales que distinguen niveles operativos relevantes. |
 | HUs origen | HU-02 |
@@ -1195,13 +1195,13 @@ Los RF se presentan agrupados por familia funcional según la composición natur
 | Objetivo del producto | 1, 3 |
 | Prioridad MoSCoW sugerida | Must |
 | RNF asociados | RNF-PERF-01 (actualización ≤ 5 s), RNF-REL-01 (robustez ante interrupción modo A), RNF-INT-01 (umbrales visuales legibles a primer golpe de vista), RNF-INT-02 (accesibilidad de los códigos visuales) |
-| Notas | El sistema es agnóstico a la fuente concreta de datos conforme a DHU-006: en MVP1 la fuente operativa son corridas del entorno de simulación; en operación hipotética sería el módulo de visión computacional. Los umbrales concretos del indicador visual de cola son configurables vía RF-031. |
+| Notas | El sistema es agnóstico a la fuente concreta de datos conforme a DHU-006: en MVP1 la fuente operativa son corridas del entorno de simulación; en operación hipotética sería el módulo de visión computacional. Los umbrales concretos del indicador visual de cola son configurables vía RF-011. |
 
-#### RF-011 — Presentación de la predicción de congestión por acceso
+#### RF-004 — Presentación de la predicción de congestión por acceso
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-011 |
+| Identificador | RF-004 |
 | Familia funcional | Monitoreo operativo en tiempo real |
 | Descripción | El sistema expone, por cada acceso de la intersección, la predicción del nivel de congestión en escala 0-5 proyectada hasta el horizonte temporal configurado. Cuando el nivel predicho supera el umbral configurado, el acceso correspondiente se resalta visualmente. Los valores se actualizan automáticamente cuando el modelo predictivo genera nuevas predicciones. |
 | HUs origen | HU-03 |
@@ -1211,31 +1211,31 @@ Los RF se presentan agrupados por familia funcional según la composición natur
 | Objetivo del producto | 1 |
 | Prioridad MoSCoW sugerida | Must |
 | RNF asociados | RNF-PERF-01 (actualización ≤ 5 s), RNF-REL-01 (robustez ante interrupción modo B), RNF-FUN-02 (calidad del modelo predictivo), RNF-COM-02 (constructo unificado 0-5) |
-| Notas | El horizonte de predicción y el umbral de resaltado son configurables vía RF-031. La escala 0-5 está documentada en D-009; este RF es agnóstico al origen del constructo conforme a DHU-006. |
+| Notas | El horizonte de predicción y el umbral de resaltado son configurables vía RF-011. La escala 0-5 está documentada en D-009; este RF es agnóstico al origen del constructo conforme a DHU-006. |
 
-#### RF-012 — Vista combinada del estado actual y la predicción
+#### RF-005 — Vista combinada del estado actual y la predicción
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-012 |
+| Identificador | RF-005 |
 | Familia funcional | Monitoreo operativo en tiempo real |
-| Descripción | El sistema presenta de forma integrada, en una única vista, la información cubierta por RF-010 y RF-011, con alineación temporal explícita entre el estado actual y la predicción. Cuando el estado actual está dentro de la normalidad pero la predicción anticipa congestión, el sistema resalta la discrepancia para alertar al Operador del problema anticipado. |
+| Descripción | El sistema presenta de forma integrada, en una única vista, la información cubierta por RF-003 y RF-004, con alineación temporal explícita entre el estado actual y la predicción. Cuando el estado actual está dentro de la normalidad pero la predicción anticipa congestión, el sistema resalta la discrepancia para alertar al Operador del problema anticipado. |
 | HUs origen | HU-04 |
 | CAs origen | CA-04.1, CA-04.2, CA-04.3 |
-| TTH relacionadas | TTH-08, TTH-09 (consumo indirecto vía RF-010 y RF-011) |
+| TTH relacionadas | TTH-08, TTH-09 (consumo indirecto vía RF-003 y RF-004) |
 | Persona beneficiaria | Operador |
 | Objetivo del producto | 1 |
 | Prioridad MoSCoW sugerida | Must |
 | RNF asociados | RNF-PERF-01 (actualización ≤ 5 s), RNF-REL-01 (robustez con dos modos independientes), RNF-INT-01 (alineación temporal visualmente inmediata), RNF-INT-02 |
-| Notas | Esta vista compone visualmente las dos fuentes consumidas por RF-010 y RF-011 sin duplicar lógica de obtención de datos. La integración es a nivel de presentación. |
+| Notas | Esta vista compone visualmente las dos fuentes consumidas por RF-003 y RF-004 sin duplicar lógica de obtención de datos. La integración es a nivel de presentación. |
 
 ### 2.3 Familia 3 — Decisiones del motor adaptativo
 
-#### RF-020 — Presentación de la estrategia de control activa
+#### RF-006 — Presentación de la estrategia de control activa
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-020 |
+| Identificador | RF-006 |
 | Familia funcional | Decisiones del motor adaptativo |
 | Descripción | El sistema expone al Operador, en tiempo real, qué estrategia de control semafórico está aplicando actualmente el motor adaptativo, los parámetros activos de esa estrategia (tiempos de verde por acceso) y el momento en que la estrategia se activó. Los nombres de estrategias presentados al Operador son autoexplicativos, sin referenciar identificadores técnicos internos. |
 | HUs origen | HU-05 |
@@ -1247,11 +1247,11 @@ Los RF se presentan agrupados por familia funcional según la composición natur
 | RNF asociados | RNF-PERF-01 (actualización ≤ 5 s), RNF-REL-01 (robustez modo B), RNF-INT-01 (nombres autoexplicativos), RNF-SAF-02 (cumplimiento normativo MTC en los tiempos aplicados) |
 | Notas | El RF es agnóstico a la implementación del motor adaptativo conforme a DHU-006. Los algoritmos concretos (Webster, Max Pressure, MTC) viven en TTH-10. |
 
-#### RF-021 — Explicación legible de la razón de selección de estrategia
+#### RF-007 — Explicación legible de la razón de selección de estrategia
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-021 |
+| Identificador | RF-007 |
 | Familia funcional | Decisiones del motor adaptativo |
 | Descripción | El sistema expone al Operador una explicación en lenguaje legible de por qué el motor adaptativo seleccionó la estrategia activa, integrando los valores del estado del tráfico que justifican la decisión. La explicación se construye desde un catálogo curado de plantillas con sustitución de variables; las combinaciones no cubiertas por una plantilla específica activan un texto genérico de respaldo. |
 | HUs origen | HU-06 |
@@ -1263,11 +1263,11 @@ Los RF se presentan agrupados por familia funcional según la composición natur
 | RNF asociados | RNF-PERF-01 (actualización ≤ 5 s), RNF-REL-01 (robustez modo B), RNF-INT-05 (comprensibilidad sin formación técnica), RNF-FUN-04 (cobertura del catálogo de plantillas), RNF-MNT-01 (extensibilidad del catálogo), RNF-INT-04 (coherencia textual con HU-11 y HU-12) |
 | Notas | El catálogo de plantillas vive como datos de configuración, no como cadenas hardcoded en el código. Las plantillas no usan procesamiento de lenguaje natural ni explicabilidad de IA; son textos curados por humanos. |
 
-#### RF-022 — Notificación temporal de cambios de estrategia
+#### RF-008 — Notificación temporal de cambios de estrategia
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-022 |
+| Identificador | RF-008 |
 | Familia funcional | Decisiones del motor adaptativo |
 | Descripción | El sistema notifica al Operador, mediante una notificación visual temporal poco intrusiva, cada cambio de estrategia que aplica el motor adaptativo. La notificación indica la hora del cambio, la estrategia anterior, la estrategia nueva y una razón breve. Las notificaciones se auto-descartan tras un tiempo configurado; los cambios encadenados dentro de un intervalo corto se agrupan para no saturar al Operador. |
 | HUs origen | HU-07 |
@@ -1277,13 +1277,13 @@ Los RF se presentan agrupados por familia funcional según la composición natur
 | Objetivo del producto | 1, 2 |
 | Prioridad MoSCoW sugerida | Must |
 | RNF asociados | RNF-PERF-01 (latencia entre cambio y notificación ≤ 5 s), RNF-REL-01 (robustez modo B aplicado al canal de eventos), RNF-INT-01 (no interferencia con paneles principales), RNF-MNT-02 (tiempo de auto-descarte y agrupamiento parametrizables) |
-| Notas | La notificación es efímera por diseño. Una notificación perdida no es crítica: el cambio queda registrado en el historial (RF-023) y la estrategia vigente se ve siempre en RF-020. |
+| Notas | La notificación es efímera por diseño. Una notificación perdida no es crítica: el cambio queda registrado en el historial (RF-009) y la estrategia vigente se ve siempre en RF-006. |
 
-#### RF-023 — Consulta histórica de decisiones del motor
+#### RF-009 — Consulta histórica de decisiones del motor
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-023 |
+| Identificador | RF-009 |
 | Familia funcional | Decisiones del motor adaptativo |
 | Descripción | El sistema permite al Operador consultar el historial de decisiones del motor adaptativo en periodos pasados. Cada entrada del historial incluye el momento de la decisión, la estrategia aplicada, los parámetros calculados y la razón legible. El historial es auditable y se persiste de forma durable e inmutable en el momento en que cada decisión se produce. |
 | HUs origen | HU-08 |
@@ -1297,17 +1297,17 @@ Los RF se presentan agrupados por familia funcional según la composición natur
 
 ### 2.4 Familia 4 — Predicción de tráfico
 
-La familia de Predicción de tráfico está cubierta por RF-011 (presentación al Operador) y RF-012 (vista combinada) declarados en la Familia 2, sumados al sustrato de TTH-09 (modelo predictivo) y TTH-11 (calibración de hiperparámetros temporales). El sustrato técnico de la familia se materializa en las TTH; los RF visibles al usuario son los de la Familia 2 que consumen la predicción.
+La familia de Predicción de tráfico está cubierta por RF-004 (presentación al Operador) y RF-005 (vista combinada) declarados en la Familia 2, sumados al sustrato de TTH-09 (modelo predictivo) y TTH-11 (calibración de hiperparámetros temporales). El sustrato técnico de la familia se materializa en las TTH; los RF visibles al usuario son los de la Familia 2 que consumen la predicción.
 
-La Familia 4 no introduce RF adicionales; queda documentada como familia cuya superficie funcional visible al usuario está cubierta por RF-011, RF-012 y RF-042 (cuando el modelo principal y de respaldo se comparan). La inclusión de la Familia 4 en este catálogo preserva la trazabilidad declarada en la sección 1.
+La Familia 4 no introduce RF adicionales; queda documentada como familia cuya superficie funcional visible al usuario está cubierta por RF-004, RF-005 y RF-013 (cuando el modelo principal y de respaldo se comparan). La inclusión de la Familia 4 en este catálogo preserva la trazabilidad declarada en la sección 1.
 
 ### 2.5 Familia 5 — Soporte técnico y configuración del sistema
 
-#### RF-030 — Vista técnica de salud de los componentes
+#### RF-010 — Vista técnica de salud de los componentes
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-030 |
+| Identificador | RF-010 |
 | Familia funcional | Soporte técnico y configuración del sistema |
 | Descripción | El sistema expone al Administrador una vista técnica detallada del estado de cada componente operativo (módulo de detección de tráfico, módulo predictivo, motor adaptativo, componente de explicación, registro de eventos), incluyendo nombre legible, estado cualitativo (OK / Degradado / Fuera de servicio), timestamp del último cambio de estado, identificador interno, latencia de respuesta en la última evaluación de salud, indicador de fallos recientes y timestamp de la última evaluación exitosa. |
 | HUs origen | HU-13 |
@@ -1317,13 +1317,13 @@ La Familia 4 no introduce RF adicionales; queda documentada como familia cuya su
 | Objetivo del producto | 3 |
 | Prioridad MoSCoW sugerida | Must |
 | RNF asociados | RNF-PERF-01 (actualización ≤ 5 s), RNF-REL-01 (robustez modo B), RNF-SEC-03 (control de acceso al rol Administrador), RNF-SEC-05 (segregación de presentación entre HU-11 del Operador y HU-13 del Administrador), RNF-INT-01, RNF-INT-02, RNF-FUN-01 (componentes sin historial se muestran distinguibles) |
-| Notas | La vista comparte el sustrato técnico con RF-040 (vista simplificada del Operador) consumiendo el mismo endpoint con presentación distinta conforme a DHU-013. Los campos técnicos adicionales son visibles solo al Administrador por control de acceso a la ruta de la vista. |
+| Notas | La vista comparte el sustrato técnico con RF-014 (vista simplificada del Operador) consumiendo el mismo endpoint con presentación distinta conforme a DHU-013. Los campos técnicos adicionales son visibles solo al Administrador por control de acceso a la ruta de la vista. |
 
-#### RF-031 — Configuración de parámetros operativos del sistema
+#### RF-011 — Configuración de parámetros operativos del sistema
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-031 |
+| Identificador | RF-011 |
 | Familia funcional | Soporte técnico y configuración del sistema |
 | Descripción | El sistema permite al Administrador consultar y modificar los parámetros operativos del sistema desde una vista dedicada, organizados en tres familias funcionales (visualización del estado del tráfico, predicción y evaluación del modelo, monitor de salud del sistema). Las modificaciones se persisten de forma durable, son auditadas con identidad del autor y marca de tiempo, y surten efecto en operación sin requerir redespliegue. El sistema soporta la concurrencia entre Administradores con last-write-wins y advertencia explícita al segundo modificador. La restauración a valores por defecto seguros está disponible y queda auditada. |
 | HUs origen | HU-15 |
@@ -1335,11 +1335,11 @@ La Familia 4 no introduce RF adicionales; queda documentada como familia cuya su
 | RNF asociados | RNF-PERF-03 (apertura ≤ 2 s), RNF-PERF-08 (efecto sin redeploy ≤ 30 s), RNF-REL-04 (durabilidad de parámetros y auditoría), RNF-REL-07 (manejabilidad de concurrencia), RNF-SEC-01 (inmutabilidad del registro de auditoría), RNF-SEC-03 (control de acceso al rol Administrador), RNF-SEC-06 (validación dual frontend y backend), RNF-MNT-02 (parametrización sin redeploy), RNF-SAF-03 (valores por defecto seguros) |
 | Notas | Los parámetros operativos cubiertos en MVP1 están declarados en DHU-014 subsección C. Los parámetros internos de las estrategias del motor adaptativo quedan internos al sistema en MVP1. La configuración de tiempos preconfigurados del degradado nivel 3 vive en TTH-05, con propósito y vocabulario distintos. |
 
-#### RF-032 — Vista de métricas de desempeño del modelo predictivo
+#### RF-012 — Vista de métricas de desempeño del modelo predictivo
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-032 |
+| Identificador | RF-012 |
 | Familia funcional | Soporte técnico y configuración del sistema |
 | Descripción | El sistema expone al Administrador una vista de las métricas de desempeño del modelo predictivo principal, calculadas sobre una ventana temporal configurable comparando predicciones recientes contra niveles de congestión efectivamente observados. Las métricas presentadas son: MAE y RMSE sobre el ratio continuo, accuracy sobre el nivel discreto 0-5, y matriz de confusión 6×6. Cada métrica está acompañada de un tooltip de ayuda con su definición operacional. |
 | HUs origen | HU-14 |
@@ -1349,15 +1349,31 @@ La Familia 4 no introduce RF adicionales; queda documentada como familia cuya su
 | Objetivo del producto | 2 |
 | Prioridad MoSCoW sugerida | Must |
 | RNF asociados | RNF-PERF-09 (latencia de cálculo ≤ 30 s), RNF-REL-04 (durabilidad del registro de predicciones), RNF-SEC-01 (inmutabilidad del registro), RNF-SEC-03 (control de acceso al rol Administrador), RNF-FUN-01 (manejo de ventanas sin datos suficientes), RNF-FUN-02 (calidad del modelo predictivo), RNF-INT-03 (tooltips autoexplicativos), RNF-INT-02 (accesibilidad de los tooltips y de la diagonal de la matriz) |
-| Notas | El sustrato técnico de F18 está inglobado en CA-14.1 a CA-14.4 conforme a DHU-013. La ventana temporal de cálculo es parámetro configurable vía RF-031 conforme a DHU-014 subsección F. |
+| Notas | El sustrato técnico de F18 está inglobado en CA-14.1 a CA-14.4 conforme a DHU-013. La ventana temporal de cálculo es parámetro configurable vía RF-011 conforme a DHU-014 subsección F. |
 
-### 2.6 Familia 6 — Reportería ejecutiva
-
-#### RF-040 — Consulta de KPIs operativos sobre periodo seleccionable
+#### RF-013 — Vista comparativa de métricas del modelo principal vs modelo de respaldo
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-040 |
+| Identificador | RF-013 |
+| Familia funcional | Soporte técnico y configuración del sistema |
+| Descripción | El sistema permite al Administrador comparar simultáneamente las métricas de desempeño del modelo predictivo principal contra las del modelo de respaldo, sobre la misma ventana temporal y los mismos eventos del registro. La vista presenta cuatro paneles comparativos (uno por métrica) con valores de ambos modelos lado a lado y un indicador comparativo que comunica cuál modelo es mejor o si la diferencia está dentro de la tolerancia configurable. |
+| HUs origen | HU-20 |
+| CAs origen | CA-20.1 a CA-20.19 |
+| TTH relacionadas | TTH-09 (extensión del registro de predicciones para persistir también predicciones del modelo de respaldo) |
+| Persona beneficiaria | Administrador |
+| Objetivo del producto | 2 |
+| Prioridad MoSCoW sugerida | Could (MVP2) |
+| RNF asociados | RNF-PERF-09 (latencia de cálculo), RNF-PERF-13 (no degradación por ejecución paralela del respaldo), RNF-REL-04 (durabilidad del registro extendido), RNF-SEC-01 (inmutabilidad), RNF-SEC-03 (control de acceso al rol Administrador), RNF-FUN-01 (manejo de ventanas sin datos suficientes), RNF-FUN-03 (comparabilidad rigurosa: pares incompletos no entran al cálculo), RNF-MNT-03 (tolerancia de empate configurable), RNF-INT-04 (coherencia con RF-012), RNF-INT-02 |
+| Notas | El registro de predicciones se extiende inglobando la persistencia paralela del modelo de respaldo en CA-20.1 a CA-20.4 conforme a DHU-017 subsección D. El esquema de CT-09.5 no se modifica; la extensión consiste en escribir adicionalmente predicciones del modelo de respaldo con identificador de modelo distinto. |
+
+### 2.6 Familia 6 — Reportería ejecutiva
+
+#### RF-014 — Consulta de KPIs operativos sobre periodo seleccionable
+
+| Campo | Contenido |
+|---|---|
+| Identificador | RF-014 |
 | Familia funcional | Reportería ejecutiva |
 | Descripción | El sistema permite al Gerente consultar cuatro KPIs operativos agregados (tiempo promedio de espera por vehículo, longitud máxima de cola por dirección, throughput de la intersección, demora promedio acumulada por vehículo) sobre un periodo elegido entre presets predefinidos o rango personalizado. Los KPIs se presentan en una vista única con cards numéricas, controles de desglose opcional por dirección, tooltips de definición operacional y semántica visual coherente. |
 | HUs origen | HU-16 |
@@ -1369,79 +1385,61 @@ La Familia 4 no introduce RF adicionales; queda documentada como familia cuya su
 | RNF asociados | RNF-PERF-04 (apertura ≤ 3 s), RNF-PERF-05 (recálculo ≤ 10 s), RNF-PERF-11 (granularidad de 30 s del histórico), RNF-REL-04 (durabilidad del histórico), RNF-SEC-01 (inmutabilidad del histórico), RNF-SEC-03 (control de acceso al rol Gerente), RNF-SEC-06 (validación dual de restricciones sobre fechas), RNF-FUN-01 (manejo de periodos sin datos o con cobertura parcial), RNF-INT-03 (tooltips autoexplicativos), RNF-INT-02 |
 | Notas | Esta HU fusiona F12 (Dashboard ejecutivo) y F13 (Selector de periodo) por cohesión semántica conforme a DHU-016 subsección I, e ingloba F30 (Persistencia de estados históricos) como sustrato técnico en sus CAs. |
 
-#### RF-041 — Vista comparativa entre periodos
+#### RF-015 — Vista comparativa entre periodos
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-041 |
+| Identificador | RF-015 |
 | Familia funcional | Reportería ejecutiva |
 | Descripción | El sistema permite al Gerente comparar los cuatro KPIs operativos entre el periodo seleccionado y el periodo previo equivalente, presentando para cada KPI un panel con gráfico de dos series temporales superpuestas, dos valores agregados y un indicador prominente de variación entre los dos agregados con semántica visual de mejora o empeoramiento según la naturaleza del indicador. |
 | HUs origen | HU-17 |
 | CAs origen | CA-17.1 a CA-17.16 |
-| TTH relacionadas | No aplica directamente (reutiliza el sustrato persistido inglobado en RF-040) |
+| TTH relacionadas | No aplica directamente (reutiliza el sustrato persistido inglobado en RF-014) |
 | Persona beneficiaria | Gerente |
 | Objetivo del producto | 1, 4 |
 | Prioridad MoSCoW sugerida | Must |
-| RNF asociados | RNF-PERF-04 (apertura ≤ 3 s), RNF-PERF-05 (recálculo ≤ 10 s), RNF-PERF-12 (paralelización de las dos consultas al histórico), RNF-REL-01 (robustez con marca aplicada simultáneamente a ambos periodos), RNF-SEC-03 (control de acceso al rol Gerente), RNF-FUN-01 (manejo de periodos sin datos, variaciones indefinidas y cobertura parcial), RNF-INT-02 (semántica visual de mejora/empeoramiento no solo color), RNF-INT-04 (coherencia con RF-040) |
+| RNF asociados | RNF-PERF-04 (apertura ≤ 3 s), RNF-PERF-05 (recálculo ≤ 10 s), RNF-PERF-12 (paralelización de las dos consultas al histórico), RNF-REL-01 (robustez con marca aplicada simultáneamente a ambos periodos), RNF-SEC-03 (control de acceso al rol Gerente), RNF-FUN-01 (manejo de periodos sin datos, variaciones indefinidas y cobertura parcial), RNF-INT-02 (semántica visual de mejora/empeoramiento no solo color), RNF-INT-04 (coherencia con RF-014) |
 | Notas | La semántica visual de mejora/empeoramiento se materializa con tres pistas visuales redundantes: signo numérico, flecha direccional, color. La redundancia es deliberada para no depender exclusivamente del color. |
 
-#### RF-042 — Drill-down sobre periodo específico
+#### RF-016 — Drill-down sobre periodo específico
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-042 |
+| Identificador | RF-016 |
 | Familia funcional | Reportería ejecutiva |
 | Descripción | El sistema permite al Gerente investigar lo que ocurrió durante un periodo específico mediante una vista detallada con tres carriles temporales integrados sobre un eje temporal común: tráfico observado, decisiones del motor adaptativo e intervalos de estado operativo del sistema. La vista soporta zoom interactivo sobre el carril de tráfico y popovers autocontenidos en marcadores y bandas. |
 | HUs origen | HU-18 |
 | CAs origen | CA-18.1 a CA-18.20 |
-| TTH relacionadas | Reutiliza tres registros existentes del MVP1: histórico inglobado en RF-040, persistencia de decisiones del motor (CT-10.9), transiciones de estado operativo (CT-04.3) |
+| TTH relacionadas | Reutiliza tres registros existentes del MVP1: histórico inglobado en RF-014, persistencia de decisiones del motor (CT-10.9), transiciones de estado operativo (CT-04.3) |
 | Persona beneficiaria | Gerente |
 | Objetivo del producto | 4 |
 | Prioridad MoSCoW sugerida | Could (MVP2) |
-| RNF asociados | RNF-PERF-06 (apertura y zoom), RNF-PERF-12 (paralelización de las tres consultas), RNF-REL-01 (robustez independiente por carril, política específica), RNF-SEC-03 (control de acceso al rol Gerente), RNF-FUN-01 (manejo de periodos sin datos en alguno de los carriles), RNF-INT-04 (coherencia visual con RF-040 y los códigos de RF-051), RNF-INT-02 |
+| RNF asociados | RNF-PERF-06 (apertura y zoom), RNF-PERF-12 (paralelización de las tres consultas), RNF-REL-01 (robustez independiente por carril, política específica), RNF-SEC-03 (control de acceso al rol Gerente), RNF-FUN-01 (manejo de periodos sin datos en alguno de los carriles), RNF-INT-04 (coherencia visual con RF-014 y los códigos de RF-019), RNF-INT-02 |
 | Notas | HU-18 es exclusivamente consultiva: el Gerente no edita decisiones del motor, no modifica el histórico ni cambia el estado operativo. Si surge necesidad futura de anotación, se modela como extensión. |
 
-#### RF-043 — Exportación de reportes a PDF o Excel
+#### RF-017 — Exportación de reportes a PDF o Excel
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-043 |
+| Identificador | RF-017 |
 | Familia funcional | Reportería ejecutiva |
-| Descripción | El sistema permite al Gerente exportar los reportes de RF-040 y RF-041 a un formato presentable (PDF) o a datos crudos (Excel), eligiendo el formato según el destino del reporte. Los reportes generados son autocontenidos: incluyen las definiciones operacionales de los indicadores en el propio artefacto, sin requerir consulta de documentación externa. |
+| Descripción | El sistema permite al Gerente exportar los reportes de RF-014 y RF-015 a un formato presentable (PDF) o a datos crudos (Excel), eligiendo el formato según el destino del reporte. Los reportes generados son autocontenidos: incluyen las definiciones operacionales de los indicadores en el propio artefacto, sin requerir consulta de documentación externa. |
 | HUs origen | HU-19 |
 | CAs origen | CA-19.1 a CA-19.27 |
-| TTH relacionadas | Reutiliza RF-040 y RF-041 como fuentes |
+| TTH relacionadas | Reutiliza RF-014 y RF-015 como fuentes |
 | Persona beneficiaria | Gerente |
 | Objetivo del producto | 4 |
 | Prioridad MoSCoW sugerida | Could (MVP2) |
 | RNF asociados | RNF-PERF-07 (generación PDF y Excel con umbrales diferenciados), RNF-REL-01 (política conservadora de rechazo ante fuente caída), RNF-REL-06 (tolerancia a fallos del componente de generación), RNF-SEC-03 (control de acceso al rol Gerente), RNF-SEC-07 (no persistencia de reportes generados), RNF-FUN-01 (comunicación explícita de periodos sin datos en el reporte), RNF-FUN-05 (identificabilidad autosuficiente del archivo), RNF-INT-02, RNF-INT-03 (definiciones operacionales autocontenidas), RNF-INT-06 (legibilidad impresa de los gráficos del PDF) |
 | Notas | La generación es por demanda y la descarga es directa: los reportes no se almacenan en el servidor (RNF-SEC-07). La política de rechazo ante fuente caída es excepción específica de RNF-REL-01 declarada en DHU-019 subsección C.2. |
 
-### 2.7 Familia 5 (extendida) — Vista comparativa de modelos predictivos
+### 2.7 Familia 7 — Soporte al Operador y trazabilidad de incidentes
 
-#### RF-033 — Vista comparativa de métricas del modelo principal vs modelo de respaldo
-
-| Campo | Contenido |
-|---|---|
-| Identificador | RF-033 |
-| Familia funcional | Soporte técnico y configuración del sistema |
-| Descripción | El sistema permite al Administrador comparar simultáneamente las métricas de desempeño del modelo predictivo principal contra las del modelo de respaldo, sobre la misma ventana temporal y los mismos eventos del registro. La vista presenta cuatro paneles comparativos (uno por métrica) con valores de ambos modelos lado a lado y un indicador comparativo que comunica cuál modelo es mejor o si la diferencia está dentro de la tolerancia configurable. |
-| HUs origen | HU-20 |
-| CAs origen | CA-20.1 a CA-20.19 |
-| TTH relacionadas | TTH-09 (extensión del registro de predicciones para persistir también predicciones del modelo de respaldo) |
-| Persona beneficiaria | Administrador |
-| Objetivo del producto | 2 |
-| Prioridad MoSCoW sugerida | Could (MVP2) |
-| RNF asociados | RNF-PERF-09 (latencia de cálculo), RNF-PERF-13 (no degradación por ejecución paralela del respaldo), RNF-REL-04 (durabilidad del registro extendido), RNF-SEC-01 (inmutabilidad), RNF-SEC-03 (control de acceso al rol Administrador), RNF-FUN-01 (manejo de ventanas sin datos suficientes), RNF-FUN-03 (comparabilidad rigurosa: pares incompletos no entran al cálculo), RNF-MNT-03 (tolerancia de empate configurable), RNF-INT-04 (coherencia con RF-032), RNF-INT-02 |
-| Notas | El registro de predicciones se extiende inglobando la persistencia paralela del modelo de respaldo en CA-20.1 a CA-20.4 conforme a DHU-017 subsección D. El esquema de CT-09.5 no se modifica; la extensión consiste en escribir adicionalmente predicciones del modelo de respaldo con identificador de modelo distinto. |
-
-### 2.8 Familia 7 — Soporte al Operador y trazabilidad de incidentes
-
-#### RF-050 — Vista simplificada de salud de los componentes para el Operador
+#### RF-018 — Vista simplificada de salud de los componentes para el Operador
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-050 |
+| Identificador | RF-018 |
 | Familia funcional | Soporte al Operador y trazabilidad de incidentes |
 | Descripción | El sistema expone al Operador una vista simplificada del estado operativo de cada componente del sistema (nombre legible, estado cualitativo y timestamp del último cambio de estado), permitiéndole identificar de un vistazo qué pieza específica está afectada cuando el sistema entra en un estado degradado. La vista incluye textos de impacto operativo curados que explican qué hace el sistema sin cada componente afectado. |
 | HUs origen | HU-11 |
@@ -1450,14 +1448,14 @@ La Familia 4 no introduce RF adicionales; queda documentada como familia cuya su
 | Persona beneficiaria | Operador |
 | Objetivo del producto | 3 |
 | Prioridad MoSCoW sugerida | Must |
-| RNF asociados | RNF-PERF-01 (actualización ≤ 5 s), RNF-REL-01 (robustez modo B), RNF-INT-01 (identificación de un vistazo, resalte panorámico), RNF-INT-02 (accesibilidad), RNF-FUN-04 (cobertura del catálogo de textos de impacto operativo), RNF-MNT-01 (extensibilidad del catálogo), RNF-SEC-05 (segregación de presentación con RF-030 del Administrador) |
-| Notas | Esta vista comparte el sustrato técnico con RF-030 (vista técnica del Administrador) consumiendo el mismo endpoint con presentación simplificada conforme a DHU-013. |
+| RNF asociados | RNF-PERF-01 (actualización ≤ 5 s), RNF-REL-01 (robustez modo B), RNF-INT-01 (identificación de un vistazo, resalte panorámico), RNF-INT-02 (accesibilidad), RNF-FUN-04 (cobertura del catálogo de textos de impacto operativo), RNF-MNT-01 (extensibilidad del catálogo), RNF-SEC-05 (segregación de presentación con RF-010 del Administrador) |
+| Notas | Esta vista comparte el sustrato técnico con RF-010 (vista técnica del Administrador) consumiendo el mismo endpoint con presentación simplificada conforme a DHU-013. |
 
-#### RF-051 — Alerta transversal del estado operativo del sistema
+#### RF-019 — Alerta transversal del estado operativo del sistema
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-051 |
+| Identificador | RF-019 |
 | Familia funcional | Soporte al Operador y trazabilidad de incidentes |
 | Descripción | El sistema muestra al Operador una alerta visible de manera consistente en todas las vistas operativas cuando el sistema entra en un estado distinto a operación normal. La alerta identifica el nivel del estado degradado (degradado 1, degradado 2, degradado 3, falla total), el componente o condición que disparó el estado y el tiempo transcurrido desde la entrada al estado. Cada transición de estado se persiste de forma durable e inmutable. |
 | HUs origen | HU-10 |
@@ -1469,11 +1467,11 @@ La Familia 4 no introduce RF adicionales; queda documentada como familia cuya su
 | RNF asociados | RNF-PERF-01 (latencia transición → alerta ≤ 5 s), RNF-REL-01 (robustez modo B), RNF-REL-02 (disponibilidad transversal en todas las vistas), RNF-REL-03 (la activación de fallbacks no se detiene por fallos del registro), RNF-REL-04 (durabilidad del registro de transiciones), RNF-REL-08 (atomicidad de las transiciones), RNF-REL-09 (comportamiento conservador ante fallo del propio mecanismo de detección), RNF-SEC-01 (inmutabilidad del registro), RNF-INT-01 (distinción visual entre los cuatro estados), RNF-INT-02, RNF-SAF-01 (fail safe ante fallo del motor adaptativo) |
 | Notas | La alerta transversal es responsabilidad del Bloque C; la marca pasiva por panel afectado es responsabilidad de cada HU del Bloque B conforme a DHU-009. Las dos responsabilidades coexisten sin duplicación. |
 
-#### RF-052 — Explicación del modo degradado activo
+#### RF-020 — Explicación del modo degradado activo
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-052 |
+| Identificador | RF-020 |
 | Familia funcional | Soporte al Operador y trazabilidad de incidentes |
 | Descripción | El sistema expone al Operador una explicación textual del modo degradado activo cuando el sistema opera en un estado distinto a operación normal, integrando tres elementos: qué disparó el modo, qué fallback está activo y qué capacidad operativa se perdió con su implicación para la supervisión. La explicación se construye desde un catálogo curado de plantillas; las combinaciones no cubiertas activan un texto genérico de respaldo. |
 | HUs origen | HU-12 |
@@ -1482,14 +1480,14 @@ La Familia 4 no introduce RF adicionales; queda documentada como familia cuya su
 | Persona beneficiaria | Operador |
 | Objetivo del producto | 3 |
 | Prioridad MoSCoW sugerida | Must |
-| RNF asociados | RNF-PERF-01 (actualización ≤ 5 s), RNF-REL-01 (robustez modo B), RNF-REL-02 (disponibilidad mientras el sistema esté degradado), RNF-INT-05 (comprensibilidad sin formación técnica), RNF-FUN-04 (cobertura del catálogo), RNF-MNT-01 (extensibilidad del catálogo), RNF-INT-04 (coherencia textual con RF-021 y RF-050) |
-| Notas | Esta HU es complementaria de RF-050 (vista de componentes) y de RF-051 (alerta transversal). Las tres juntas responden las tres preguntas del Operador en estado degradado: qué nivel (RF-051), qué componente (RF-050) y qué significa operativamente (RF-052). |
+| RNF asociados | RNF-PERF-01 (actualización ≤ 5 s), RNF-REL-01 (robustez modo B), RNF-REL-02 (disponibilidad mientras el sistema esté degradado), RNF-INT-05 (comprensibilidad sin formación técnica), RNF-FUN-04 (cobertura del catálogo), RNF-MNT-01 (extensibilidad del catálogo), RNF-INT-04 (coherencia textual con RF-007 y RF-018) |
+| Notas | Esta HU es complementaria de RF-018 (vista de componentes) y de RF-019 (alerta transversal). Las tres juntas responden las tres preguntas del Operador en estado degradado: qué nivel (RF-019), qué componente (RF-018) y qué significa operativamente (RF-020). |
 
-#### RF-053 — Registro de notas e incidencias del turno del Operador
+#### RF-021 — Registro de notas e incidencias del turno del Operador
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-053 |
+| Identificador | RF-021 |
 | Familia funcional | Soporte al Operador y trazabilidad de incidentes |
 | Descripción | El sistema permite al Operador registrar notas e incidencias durante su turno asociadas a un momento específico, y consultar posteriormente el listado de notas propias y de otros Operadores con filtros por fechas y autor. Las notas son editables dentro de una ventana temporal acotada posterior a su creación; pasada esa ventana quedan inmutables para preservar valor de auditoría. |
 | HUs origen | HU-09 |
@@ -1501,11 +1499,11 @@ La Familia 4 no introduce RF adicionales; queda documentada como familia cuya su
 | RNF asociados | RNF-PERF-02 (apertura del listado ≤ 2 s), RNF-REL-04 (durabilidad de las notas), RNF-REL-05 (resiliencia de persistencia ante fallo de escritura con preservación del contenido escrito), RNF-SEC-01 (inmutabilidad parcial: editables solo dentro de la ventana), RNF-SEC-03 (control de acceso al rol Operador) |
 | Notas | Todos los Operadores ven todas las notas, sosteniendo el caso de uso de transmisión entre turnos. La política MVP2 está refinada por DHU-012. |
 
-#### RF-054 — Escalamiento de incidentes del Operador al Administrador
+#### RF-022 — Escalamiento de incidentes del Operador al Administrador
 
 | Campo | Contenido |
 |---|---|
-| Identificador | RF-054 |
+| Identificador | RF-022 |
 | Familia funcional | Soporte al Operador y trazabilidad de incidentes |
 | Descripción | El sistema permite al Operador escalar al Administrador un incidente observado durante operación degradada, capturando automáticamente el contexto operativo del sistema en el momento del escalamiento (estado operativo, componentes afectados) y permitiendo al Operador agregar una descripción libre. El Administrador recibe los escalamientos en una vista de gestión con un badge numérico de pendientes en su navegación, transiciona los incidentes a "Atendido" cuando los gestiona y los escalamientos quedan auditables. |
 | HUs origen | HU-21 |
@@ -1514,7 +1512,7 @@ La Familia 4 no introduce RF adicionales; queda documentada como familia cuya su
 | Persona beneficiaria | Operador (originador), Administrador (destinatario y gestor) |
 | Objetivo del producto | 3 |
 | Prioridad MoSCoW sugerida | Could (MVP2) |
-| RNF asociados | RNF-PERF-02 (apertura de vistas ≤ 3 s, equivalencia con RF-023), RNF-PERF-10 (latencia del badge ≤ 30 s), RNF-REL-01 (robustez con política de rechazo del disparo y marca pasiva en consulta), RNF-REL-03 (la operación del motor no depende del registro de incidentes), RNF-REL-04 (durabilidad del registro), RNF-REL-05 (resiliencia de escritura con preservación del contenido del modal), RNF-SEC-01 (inmutabilidad de los campos del disparo y de la transición de estado), RNF-SEC-03 (control de acceso por rol), RNF-SEC-06 (validación dual frontend y backend), RNF-FUN-01 (manejo de filtros que descartan todos los registros), RNF-FUN-06 (independencia entre dimensiones funcionales del registro), RNF-INT-01 (botón identificable, modal legible, badge no intrusivo), RNF-INT-02 (modal navegable con teclado, badge interpretable por lectores de pantalla) |
+| RNF asociados | RNF-PERF-02 (apertura de vistas ≤ 3 s, equivalencia con RF-009), RNF-PERF-10 (latencia del badge ≤ 30 s), RNF-REL-01 (robustez con política de rechazo del disparo y marca pasiva en consulta), RNF-REL-03 (la operación del motor no depende del registro de incidentes), RNF-REL-04 (durabilidad del registro), RNF-REL-05 (resiliencia de escritura con preservación del contenido del modal), RNF-SEC-01 (inmutabilidad de los campos del disparo y de la transición de estado), RNF-SEC-03 (control de acceso por rol), RNF-SEC-06 (validación dual frontend y backend), RNF-FUN-01 (manejo de filtros que descartan todos los registros), RNF-FUN-06 (independencia entre dimensiones funcionales del registro), RNF-INT-01 (botón identificable, modal legible, badge no intrusivo), RNF-INT-02 (modal navegable con teclado, badge interpretable por lectores de pantalla) |
 | Notas | El estado del incidente y el estado del sistema son dimensiones independientes (RNF-FUN-06): la recuperación automática del sistema no cierra automáticamente los incidentes. El cierre lo decide explícitamente el Administrador. |
 
 ### Cierre de la sección 2
@@ -1524,12 +1522,12 @@ La sección 2 cubre las 7 familias funcionales declaradas en la sección 1.2 con
 | Familia | RFs declarados | Cantidad |
 |---|---|---|
 | 1. Control de acceso y autenticación | RF-001, RF-002 | 2 |
-| 2. Monitoreo operativo en tiempo real | RF-010, RF-011, RF-012 | 3 |
-| 3. Decisiones del motor adaptativo | RF-020, RF-021, RF-022, RF-023 | 4 |
-| 4. Predicción de tráfico | (cubierta por composición de RF-011, RF-012, RF-033) | 0 RF dedicados |
-| 5. Soporte técnico y configuración del sistema | RF-030, RF-031, RF-032, RF-033 | 4 |
-| 6. Reportería ejecutiva | RF-040, RF-041, RF-042, RF-043 | 4 |
-| 7. Soporte al Operador y trazabilidad de incidentes | RF-050, RF-051, RF-052, RF-053, RF-054 | 5 |
+| 2. Monitoreo operativo en tiempo real | RF-003, RF-004, RF-005 | 3 |
+| 3. Decisiones del motor adaptativo | RF-006, RF-007, RF-008, RF-009 | 4 |
+| 4. Predicción de tráfico | (cubierta por composición de RF-004, RF-005, RF-013) | 0 RF dedicados |
+| 5. Soporte técnico y configuración del sistema | RF-010, RF-011, RF-012, RF-013 | 4 |
+| 6. Reportería ejecutiva | RF-014, RF-015, RF-016, RF-017 | 4 |
+| 7. Soporte al Operador y trazabilidad de incidentes | RF-018, RF-019, RF-020, RF-021, RF-022 | 5 |
 | **Total** | | **22 RF** |
 
 La cantidad de RF (22) está dentro del rango estimado en DHU-019 subsección E (25 a 35). La cifra es menor que la estimación inicial porque la composición transversal fue efectiva en consolidar comportamientos coherentes en RFs únicos: los CAs de robustez se referenciaron como RNF transversales en lugar de generar RFs propios, y los CAs de control de acceso por rol se consolidaron en RF-002 transversal en lugar de generar 21 RFs específicos. Esta consolidación está alineada con los tres principios de derivación declarados en la sección 1.2.
@@ -1545,26 +1543,26 @@ La matriz de trazabilidad consolidada presenta el catálogo de RF y RNF organiza
 | HU | RF que cubren su comportamiento | RNF que aplican a sus CAs |
 |---|---|---|
 | HU-01 | RF-001, RF-002 | RNF-SEC-02, RNF-SEC-03, RNF-SEC-04, RNF-INT-07 |
-| HU-02 | RF-010 | RNF-PERF-01, RNF-REL-01, RNF-INT-01, RNF-INT-02 |
-| HU-03 | RF-011 | RNF-PERF-01, RNF-REL-01, RNF-FUN-02, RNF-COM-02 |
-| HU-04 | RF-012 | RNF-PERF-01, RNF-REL-01, RNF-INT-01, RNF-INT-02 |
-| HU-05 | RF-020 | RNF-PERF-01, RNF-REL-01, RNF-INT-01, RNF-SAF-02 |
-| HU-06 | RF-021 | RNF-PERF-01, RNF-REL-01, RNF-INT-05, RNF-FUN-04, RNF-MNT-01, RNF-INT-04 |
-| HU-07 | RF-022 | RNF-PERF-01, RNF-REL-01, RNF-INT-01, RNF-MNT-02 |
-| HU-08 | RF-023 | RNF-PERF-02, RNF-REL-03, RNF-REL-04, RNF-SEC-01 |
-| HU-09 | RF-053 | RNF-PERF-02, RNF-REL-04, RNF-REL-05, RNF-SEC-01, RNF-SEC-03 |
-| HU-10 | RF-051 | RNF-PERF-01, RNF-REL-01, RNF-REL-02, RNF-REL-03, RNF-REL-04, RNF-REL-08, RNF-REL-09, RNF-SEC-01, RNF-INT-01, RNF-INT-02, RNF-SAF-01 |
-| HU-11 | RF-050 | RNF-PERF-01, RNF-REL-01, RNF-INT-01, RNF-INT-02, RNF-FUN-04, RNF-MNT-01, RNF-SEC-05 |
-| HU-12 | RF-052 | RNF-PERF-01, RNF-REL-01, RNF-REL-02, RNF-INT-05, RNF-FUN-04, RNF-MNT-01, RNF-INT-04 |
-| HU-13 | RF-030 | RNF-PERF-01, RNF-REL-01, RNF-SEC-03, RNF-SEC-05, RNF-INT-01, RNF-INT-02, RNF-FUN-01 |
-| HU-14 | RF-032 | RNF-PERF-09, RNF-REL-04, RNF-SEC-01, RNF-SEC-03, RNF-FUN-01, RNF-FUN-02, RNF-INT-03, RNF-INT-02 |
-| HU-15 | RF-031 | RNF-PERF-03, RNF-PERF-08, RNF-REL-04, RNF-REL-07, RNF-SEC-01, RNF-SEC-03, RNF-SEC-06, RNF-MNT-02, RNF-SAF-03 |
-| HU-16 | RF-040 | RNF-PERF-04, RNF-PERF-05, RNF-PERF-11, RNF-REL-04, RNF-SEC-01, RNF-SEC-03, RNF-SEC-06, RNF-FUN-01, RNF-INT-03, RNF-INT-02 |
-| HU-17 | RF-041 | RNF-PERF-04, RNF-PERF-05, RNF-PERF-12, RNF-REL-01, RNF-SEC-03, RNF-FUN-01, RNF-INT-02, RNF-INT-04 |
-| HU-18 | RF-042 | RNF-PERF-06, RNF-PERF-12, RNF-REL-01, RNF-SEC-03, RNF-FUN-01, RNF-INT-04, RNF-INT-02 |
-| HU-19 | RF-043 | RNF-PERF-07, RNF-REL-01, RNF-REL-06, RNF-SEC-03, RNF-SEC-07, RNF-FUN-01, RNF-FUN-05, RNF-INT-02, RNF-INT-03, RNF-INT-06 |
-| HU-20 | RF-033 | RNF-PERF-09, RNF-PERF-13, RNF-REL-04, RNF-SEC-01, RNF-SEC-03, RNF-FUN-01, RNF-FUN-03, RNF-MNT-03, RNF-INT-04, RNF-INT-02 |
-| HU-21 | RF-054 | RNF-PERF-02, RNF-PERF-10, RNF-REL-01, RNF-REL-03, RNF-REL-04, RNF-REL-05, RNF-SEC-01, RNF-SEC-03, RNF-SEC-06, RNF-FUN-01, RNF-FUN-06, RNF-INT-01, RNF-INT-02 |
+| HU-02 | RF-003 | RNF-PERF-01, RNF-REL-01, RNF-INT-01, RNF-INT-02 |
+| HU-03 | RF-004 | RNF-PERF-01, RNF-REL-01, RNF-FUN-02, RNF-COM-02 |
+| HU-04 | RF-005 | RNF-PERF-01, RNF-REL-01, RNF-INT-01, RNF-INT-02 |
+| HU-05 | RF-006 | RNF-PERF-01, RNF-REL-01, RNF-INT-01, RNF-SAF-02 |
+| HU-06 | RF-007 | RNF-PERF-01, RNF-REL-01, RNF-INT-05, RNF-FUN-04, RNF-MNT-01, RNF-INT-04 |
+| HU-07 | RF-008 | RNF-PERF-01, RNF-REL-01, RNF-INT-01, RNF-MNT-02 |
+| HU-08 | RF-009 | RNF-PERF-02, RNF-REL-03, RNF-REL-04, RNF-SEC-01 |
+| HU-09 | RF-021 | RNF-PERF-02, RNF-REL-04, RNF-REL-05, RNF-SEC-01, RNF-SEC-03 |
+| HU-10 | RF-019 | RNF-PERF-01, RNF-REL-01, RNF-REL-02, RNF-REL-03, RNF-REL-04, RNF-REL-08, RNF-REL-09, RNF-SEC-01, RNF-INT-01, RNF-INT-02, RNF-SAF-01 |
+| HU-11 | RF-018 | RNF-PERF-01, RNF-REL-01, RNF-INT-01, RNF-INT-02, RNF-FUN-04, RNF-MNT-01, RNF-SEC-05 |
+| HU-12 | RF-020 | RNF-PERF-01, RNF-REL-01, RNF-REL-02, RNF-INT-05, RNF-FUN-04, RNF-MNT-01, RNF-INT-04 |
+| HU-13 | RF-010 | RNF-PERF-01, RNF-REL-01, RNF-SEC-03, RNF-SEC-05, RNF-INT-01, RNF-INT-02, RNF-FUN-01 |
+| HU-14 | RF-012 | RNF-PERF-09, RNF-REL-04, RNF-SEC-01, RNF-SEC-03, RNF-FUN-01, RNF-FUN-02, RNF-INT-03, RNF-INT-02 |
+| HU-15 | RF-011 | RNF-PERF-03, RNF-PERF-08, RNF-REL-04, RNF-REL-07, RNF-SEC-01, RNF-SEC-03, RNF-SEC-06, RNF-MNT-02, RNF-SAF-03 |
+| HU-16 | RF-014 | RNF-PERF-04, RNF-PERF-05, RNF-PERF-11, RNF-REL-04, RNF-SEC-01, RNF-SEC-03, RNF-SEC-06, RNF-FUN-01, RNF-INT-03, RNF-INT-02 |
+| HU-17 | RF-015 | RNF-PERF-04, RNF-PERF-05, RNF-PERF-12, RNF-REL-01, RNF-SEC-03, RNF-FUN-01, RNF-INT-02, RNF-INT-04 |
+| HU-18 | RF-016 | RNF-PERF-06, RNF-PERF-12, RNF-REL-01, RNF-SEC-03, RNF-FUN-01, RNF-INT-04, RNF-INT-02 |
+| HU-19 | RF-017 | RNF-PERF-07, RNF-REL-01, RNF-REL-06, RNF-SEC-03, RNF-SEC-07, RNF-FUN-01, RNF-FUN-05, RNF-INT-02, RNF-INT-03, RNF-INT-06 |
+| HU-20 | RF-013 | RNF-PERF-09, RNF-PERF-13, RNF-REL-04, RNF-SEC-01, RNF-SEC-03, RNF-FUN-01, RNF-FUN-03, RNF-MNT-03, RNF-INT-04, RNF-INT-02 |
+| HU-21 | RF-022 | RNF-PERF-02, RNF-PERF-10, RNF-REL-01, RNF-REL-03, RNF-REL-04, RNF-REL-05, RNF-SEC-01, RNF-SEC-03, RNF-SEC-06, RNF-FUN-01, RNF-FUN-06, RNF-INT-01, RNF-INT-02 |
 
 ### 4.2 Trazabilidad desde las 11 TTH
 
@@ -1573,13 +1571,13 @@ La matriz de trazabilidad consolidada presenta el catálogo de RF y RNF organiza
 | TTH-01 | RF-001 | RNF-SEC-02 |
 | TTH-02 | (transversal a todos) | RNF-COM-01, RNF-FLX-01 |
 | TTH-03 | (transversal a todos) | No aplica de forma específica (cobertura de CI es propiedad de Maintainability / Testability documentada en los criterios técnicos de TTH-03 sin RNF formalmente declarado) |
-| TTH-04 | RF-030, RF-050, RF-051, RF-052 | RNF-REL-08, RNF-REL-09 |
+| TTH-04 | RF-010, RF-018, RF-019, RF-020 | RNF-REL-08, RNF-REL-09 |
 | TTH-05 | (consumida por TTH-04 en degradado nivel 3) | RNF-SAF-01, RNF-SAF-03 |
 | TTH-06 | (Trabajos Futuros, no se construye en MVP1 ni MVP2) | No aplica (Won't) |
 | TTH-07 | (provee dataset a TTH-09 y entorno a TTH-10) | RNF-COM-02 |
 | TTH-08 | (componente demostrable, no en loop de validación conforme a D-007) | RNF-COM-02 |
-| TTH-09 | RF-011, RF-012, RF-032 | RNF-FUN-02, RNF-FLX-02 |
-| TTH-10 | RF-020, RF-021, RF-022, RF-023 | RNF-SAF-02 |
+| TTH-09 | RF-004, RF-005, RF-012 | RNF-FUN-02, RNF-FLX-02 |
+| TTH-10 | RF-006, RF-007, RF-008, RF-009 | RNF-SAF-02 |
 | TTH-11 | (provee hiperparámetros temporales a TTH-09) | No aplica de forma específica (sustento bibliográfico y empírico de hiperparámetros, propiedad de Maintainability / Analysability sin RNF formalmente declarado) |
 
 ---
@@ -1602,7 +1600,7 @@ Esta sección consolida la terminología específica del producto referenciada e
 
 **Fuente operacional.** Origen de los datos que alimentan las vistas en tiempo real del Operador. El sistema es agnóstico a la fuente conforme a DHU-006: en MVP1 la fuente operativa son corridas del entorno de simulación (TTH-07); en operación hipotética sería el módulo de visión computacional (TTH-08). La portabilidad entre fuentes se sustenta con el constructo unificado de RNF-COM-02.
 
-**Histórico operacional.** Registro append-only de los estados observados del tráfico persistido con granularidad de 30 segundos por intersección y dirección (RNF-PERF-11), consumido por las vistas del Gerente (RF-040, RF-041, RF-042) y por la exportación de reportes (RF-043). Materializa F30 inglobada en HU-16 conforme a DHU-016.
+**Histórico operacional.** Registro append-only de los estados observados del tráfico persistido con granularidad de 30 segundos por intersección y dirección (RNF-PERF-11), consumido por las vistas del Gerente (RF-014, RF-015, RF-016) y por la exportación de reportes (RF-017). Materializa F30 inglobada en HU-16 conforme a DHU-016.
 
 **Jam level.** Nivel de congestión expresado como escala ordinal 0-5, derivado del ratio velocidad/free-flow según el mapeo de D-009. Constructo unificado adoptado del estándar de la industria que permite la portabilidad de fuentes operacionales sin reentrenamiento del modelo predictivo (RNF-COM-02).
 
@@ -1610,7 +1608,7 @@ Esta sección consolida la terminología específica del producto referenciada e
 
 **Modelo predictivo principal.** Componente del sistema que produce las predicciones de nivel de congestión consumidas por el Operador y por el motor adaptativo. La arquitectura concreta del modelo está documentada en D-006 y en TTH-09; el documento RF/RNF es agnóstico al detalle técnico conforme a DHU-006.
 
-**Modelo predictivo de respaldo.** Componente preservado en el sistema que produce predicciones cuando el modelo principal no responde, invocado por la lógica de fallback de TTH-04 en degradado nivel 2 (RNF-FLX-02). El registro paralelo de sus predicciones habilita la vista comparativa de RF-033 (HU-20 MVP2).
+**Modelo predictivo de respaldo.** Componente preservado en el sistema que produce predicciones cuando el modelo principal no responde, invocado por la lógica de fallback de TTH-04 en degradado nivel 2 (RNF-FLX-02). El registro paralelo de sus predicciones habilita la vista comparativa de RF-013 (HU-20 MVP2).
 
 **Motor adaptativo.** Componente central del sistema que selecciona automáticamente la estrategia de control semafórico aplicable según el estado predicho y observado del tráfico. Su arquitectura está documentada en TTH-10 y `motor_adaptativo_teoria.md`. La capa de aplicación normativa del motor (capa MTC) garantiza el cumplimiento de RNF-SAF-02.
 

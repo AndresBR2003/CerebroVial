@@ -7,7 +7,7 @@
 > **Relación con `DECISIONS.md`:** El documento `DECISIONS.md` registra decisiones técnicas del producto (arquitectura, modelo, datos). Este documento registra decisiones metodológicas sobre cómo se redacta el backlog. Los códigos no se solapan: `D-xxx` para técnicas, `DHU-xxx` para HUs.
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-17 (**DHU-018 agregada: patrón "Resumen ejecutivo" aplicado retroactivamente a las 21 HUs del Product Backlog.** Cambio puramente de formato y trazabilidad de lectura: cada HU recibe un bloque de "Resumen ejecutivo" de 4 o 5 líneas entre la cabecera y la sección "Descripción" para uniformidad de lectura y para que un agente de IA o un lector humano de pasada pueda identificar CAs ancla y dependencias sin leer la HU completa. No se modifica ningún CA, ninguna nota técnica, ningún Candidato a RNF, ninguna clasificación MVP, ninguna feature de origen. Última previa: 2026-05-16, cierre del MVP2, DHU-017.
+> **Última actualización:** 2026-05-18 (**DHU-019 agregada: decisiones metodológicas para la redacción del documento de Requisitos Funcionales y No Funcionales (RF/RNF).** Ejecuta la sesión dedicada que DHU-007 declaró pendiente. Cierra en un acto único nueve subsecciones de decisiones: adopción de ISO/IEC 25010:2023 como taxonomía formal (9 características), reasignación masiva de las categorías heterogéneas declaradas en DHU-007 a las características formales del estándar, resolución normativa de siete inconsistencias detectadas en los Candidatos a RNF de las 21 HUs, plantilla unificada de RF y RNF, política de derivación de RF desde CAs por composición transversal, política de prioridades MoSCoW sugeridas, política aditiva no destructiva sobre las HUs (los CAs preservan su redacción literal y los Candidatos a RNF reciben pasada aditiva con referencias `→ RNF-XXX-NN`), nota terminológica RF vs RNF-FUN y modelo de dos documentos (denso normativo + lite de lectura humana). Cambio metodológico sin alterar contenido sustantivo de HUs ni TTH. Última previa: 2026-05-17, DHU-018 (patrón "Resumen ejecutivo" retroactivo).
 
 ---
 
@@ -33,6 +33,7 @@
 | DHU-016 | Decisiones de redacción del Bloque F (numeración, F30 inglobada, fuente del histórico en MVP1, KPIs operacionales, granularidad, periodos, comparativa, concurrencia, dashboard integrador, robustez) | 2026-05-16 | Cerrada |
 | DHU-017 | Decisiones de redacción del MVP2 (clasificación HU/TTH de las 4 features pendientes, numeración compactada, F16 como HU única, F19 sustrato inglobado, F28 como HU única con Operador protagonista, alcance del escalamiento, alcance del drill-down de F15, conexión F15 ↔ HU-16/HU-17, sustrato inglobado vs TTH, política MVP2 heredada, robustez Caso B) | 2026-05-16 | Cerrada |
 | DHU-018 | Patrón "Resumen ejecutivo" agregado retroactivamente al inicio de cada HU del Product Backlog | 2026-05-17 | Cerrada |
+| DHU-019 | Decisiones metodológicas para la redacción del documento de Requisitos Funcionales y No Funcionales (RF/RNF): adopción de ISO/IEC 25010:2023, reasignación de categorías DHU-007, plantillas unificadas, derivación de RF, resolución de inconsistencias, política aditiva, nota RF vs RNF-FUN, modelo de dos documentos | 2026-05-18 | Cerrada |
 
 ---
 
@@ -1751,6 +1752,431 @@ HU-08 (6 CAs), HU-09 (6 CAs) y HU-11 (9 CAs) tienen subdivisión implícita por 
 
 ---
 
+## DHU-019 — Decisiones metodológicas para la redacción del documento de Requisitos Funcionales y No Funcionales (RF/RNF)
+
+**Fecha:** 2026-05-18.
+**Estado:** Cerrada.
+**Aplica a:** Documento `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` (nuevo entregable del proyecto).
+
+### Contexto
+
+DHU-007 (2026-05-13) estableció que cada HU del Product Backlog incluyera al final una sección **"Candidatos a RNF"** para preservar la trazabilidad futura de los requisitos no funcionales sin frenar la redacción inicial de las HUs. La línea 353 de DHU-007 declaró explícitamente como trabajo futuro asociado la redacción del documento `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` que consolidaría esos candidatos en un documento único, numerado y aprobado, con umbrales formales que reemplazarían los hardcodeados en los CAs por referencias `RNF-XXX-NN`.
+
+Con el cierre del MVP2 (DHU-017) y la aplicación retroactiva del patrón "Resumen ejecutivo" (DHU-018), el componente funcional del Product Backlog quedó completo: 21 HUs operativas (HU-01 a HU-21) y 11 TTH (TTH-01 a TTH-11). Las 21 HUs incluyen su sección "Candidatos a RNF" y las 11 TTH incluyen criterios técnicos de terminado cuya naturaleza es híbrida entre funcional y de calidad. Es el momento operacional de ejecutar la sesión dedicada que DHU-007 declaró pendiente.
+
+Antes de iniciar la redacción del documento RF/RNF era necesario cerrar un conjunto de decisiones metodológicas que la sola aplicación de DHU-007 no determina por sí misma: qué taxonomía de calidad usar y en qué versión, cómo reasignar las categorías heterogéneas declaradas en DHU-007 a la taxonomía elegida, qué plantilla unificada usar para cada RF y cada RNF, cómo derivar los RF desde los CAs existentes (composición transversal vs biyección), cómo resolver las inconsistencias detectadas durante la lectura de los Candidatos a RNF de las 21 HUs, y qué política seguir para el reemplazo retroactivo de umbrales hardcoded en las HUs por referencias al documento formal. DHU-019 consolida esas decisiones en un acto único, reproduciendo el patrón de decisiones consolidadas establecido por DHU-014 (Bloque D), DHU-016 (Bloque F) y DHU-017 (MVP2).
+
+### Decisiones consolidadas
+
+#### A. Elección de ISO/IEC 25010:2023 como taxonomía de RNF
+
+DHU-007 línea 349 mencionaba ISO/IEC 25010 como referencia pero listaba categorías heterogéneas que no calzan literalmente con ninguna versión publicada del estándar ("robustez, configurabilidad, persistencia, auditoría, retención, trazabilidad, inmutabilidad" no son características formales de ISO 25010). Para el documento RF/RNF se requiere fijar versión exacta y vocabulario normativo.
+
+Tres alternativas se contrastaron:
+
+| Alternativa | Descripción | Decisión |
+|---|---|---|
+| ISO/IEC 9126 | Estándar predecesor, con 6 características (Functionality, Reliability, Usability, Efficiency, Maintainability, Portability). Sustituido oficialmente por ISO 25010 en 2011. | Descartada: obsoleta desde 2011, no recomendable en defensa académica de 2026. |
+| ISO/IEC 25010:2011 | Versión más conocida y citada. 8 características (Functional Suitability, Performance Efficiency, Compatibility, Usability, Reliability, Security, Maintainability, Portability). | Descartada: superseded por la versión 2023 desde el 2023-11-01. |
+| ISO/IEC 25010:2023 | Versión vigente. 9 características: las 8 de 2011 con renombramientos (Usability → **Interaction Capability**, Portability → **Flexibility**) más la adición de **Safety** como 9ª característica. Subcaracterísticas refinadas y ampliadas. | **Adoptada.** |
+
+**Decisión: el documento RF/RNF clasifica los RNF según ISO/IEC 25010:2023** (la versión vigente al momento de redacción, mayo 2026).
+
+**Justificación detallada:**
+
+1. **Versión vigente al momento de la defensa académica.** La defensa de la tesis se realiza en o después de mayo de 2026. ISO/IEC 25010:2023 está vigente desde 2023-11-01. Usar la versión 2011 obligaría a justificar ante el jurado por qué se elige una versión superseded existiendo la vigente.
+
+2. **Inclusión de Safety como característica explícita.** ISO 25010:2023 introduce Safety como 9ª característica de calidad, ausente en 2011. CerebroVial es un sistema de control de infraestructura urbana de tránsito vehicular: su comportamiento bajo fallo (degradado nivel 3 con tiempos preconfigurados, TTH-04 + TTH-05) y la inmutabilidad de los registros de auditoría (HU-08, HU-10, HU-14, HU-15, HU-16, HU-20, HU-21) son cuestiones de seguridad operacional con implicaciones tangibles sobre conductores y peatones. Tener Safety como característica de primer nivel permite agrupar estos RNF con vocabulario formal en lugar de dispersarlos entre Reliability y Security.
+
+3. **Renombramientos terminológicos más cercanos al lenguaje del Product Backlog.** "Interaction Capability" comunica mejor que "Usability" la naturaleza del Operador trabajando con el sistema bajo presión de tiempo real (cubre appropriateness recognizability, learnability, operability, user error protection, UI aesthetics, accessibility). "Flexibility" cubre el espectro de adaptabilidad, escalabilidad, instalabilidad y reemplazabilidad que el backlog ya anticipa en notas técnicas (escalamiento futuro a multi-intersección documentado en notas de TTH-09, portabilidad del deploy Docker documentada en D-003).
+
+4. **Subcaracterísticas más granulares.** ISO 25010:2023 refina algunas subcaracterísticas que el backlog ya distingue implícitamente. Por ejemplo, Reliability incluye **Faultlessness** (ausencia de fallos bajo operación normal), **Fault Tolerance** (operación correcta ante fallos de componentes — núcleo del Bloque C), **Availability** (proporción de tiempo disponible), **Recoverability** (capacidad de restaurar tras fallo). El backlog distingue las cuatro implícitamente; la versión 2023 las hace explícitas.
+
+**Las 9 características adoptadas con su código RNF correspondiente:**
+
+| # | Característica ISO 25010:2023 | Código RNF | Subcaracterísticas principales |
+|---|---|---|---|
+| 1 | Functional Suitability | **RNF-FUN** | Functional completeness, functional correctness, functional appropriateness |
+| 2 | Performance Efficiency | **RNF-PERF** | Time behaviour, resource utilization, capacity |
+| 3 | Compatibility | **RNF-COM** | Co-existence, interoperability |
+| 4 | Interaction Capability | **RNF-INT** | Appropriateness recognizability, learnability, operability, user error protection, UI aesthetics, accessibility, self-descriptiveness |
+| 5 | Reliability | **RNF-REL** | Faultlessness, availability, fault tolerance, recoverability |
+| 6 | Security | **RNF-SEC** | Confidentiality, integrity, non-repudiation, accountability, authenticity, resistance |
+| 7 | Maintainability | **RNF-MNT** | Modularity, reusability, analysability, modifiability, testability |
+| 8 | Flexibility | **RNF-FLX** | Adaptability, scalability, installability, replaceability |
+| 9 | Safety | **RNF-SAF** | Operational constraint, risk identification, fail safe, hazard warning, safe integration |
+
+**Nota terminológica importante: Functional Suitability (RNF-FUN) no es sinónimo de Requisito Funcional (RF).**
+
+La palabra "funcional" aparece en ambos términos y eso induce confusión común. La distinción es real y se preserva en este documento:
+
+- **RF (Requisito Funcional)** responde a la pregunta *¿qué hace el sistema?*: declara comportamientos y servicios. Ejemplo: *"El sistema muestra el flujo vehicular y la longitud de cola por cada acceso de la intersección, con actualización automática"*.
+
+- **RNF-FUN (Functional Suitability)** responde a la pregunta *¿con qué calidad lo hace?*: evalúa la corrección, completitud y apropiación del conjunto de funciones que el sistema ofrece. Es una característica de calidad de ISO 25010:2023, no una categoría de comportamientos del sistema. Ejemplo: *"Cuando el periodo seleccionado no contiene datos persistidos, el sistema comunica 'sin datos' en lugar de presentar KPIs calculados sobre cero filas (Functional Correctness)"*.
+
+Las **tres subcaracterísticas de Functional Suitability** clarifican la diferencia: Functional Completeness (¿el catálogo de funciones cubre las tareas y objetivos del usuario?), Functional Correctness (¿los resultados producidos son correctos con la precisión necesaria, incluso en casos límite?) y Functional Appropriateness (¿las funciones facilitan la tarea sin pasos innecesarios?). Las tres son evaluaciones de calidad sobre el catálogo de RFs; no son RFs adicionales.
+
+El código `RNF-FUN-NN` se conserva (en lugar de alternativas como `RNF-FSU-NN`) por trazabilidad léxica directa al estándar ISO 25010:2023. El prefijo `RNF-` distingue inequívocamente de `RF-NNN` en cualquier contexto donde ambos aparezcan. El preámbulo del documento `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` incluye una sección dedicada a esta distinción como orientación al lector (ver subsección H).
+
+#### B. Reasignación de las categorías heterogéneas de DHU-007 a ISO 25010:2023
+
+DHU-007 listó como "categorías típicas" un conjunto heterogéneo donde algunas son características ISO 25010 (rendimiento, usabilidad, seguridad, mantenibilidad, portabilidad), algunas son subcaracterísticas (escalabilidad, configurabilidad), y algunas son conceptos derivados sin un lugar canónico en ISO 25010 (robustez, persistencia, auditoría, retención, trazabilidad, inmutabilidad). La heterogeneidad fue funcional durante la redacción de las HUs (capturó lo que el redactor identificaba como RNF en cada caso); ahora debe normalizarse.
+
+**Decisión: las categorías de DHU-007 se reasignan a ISO 25010:2023 conforme a la siguiente tabla. Esta reasignación es regla del proyecto, no caso a caso por RNF.**
+
+| Categoría declarada en HUs (DHU-007) | Característica ISO 25010:2023 destino | Subcaracterística específica | Código |
+|---|---|---|---|
+| Rendimiento | Performance Efficiency | Time behaviour | RNF-PERF |
+| Robustez | Reliability | Fault tolerance | RNF-REL |
+| Disponibilidad | Reliability | Availability | RNF-REL |
+| Continuidad operativa | Reliability | Fault tolerance + Recoverability | RNF-REL |
+| Persistencia / durabilidad | Reliability | Recoverability (recuperación de datos) + Safety / Fail safe (cuando aplica a seguridad operacional) | RNF-REL / RNF-SAF |
+| Retención | Reliability | Recoverability + Functional Suitability / Completeness | RNF-REL |
+| Auditoría / auditabilidad | Security | Accountability + Integrity | RNF-SEC |
+| Inmutabilidad / inmutabilidad parcial | Security | Integrity | RNF-SEC |
+| Trazabilidad | Security | Accountability + Non-repudiation | RNF-SEC |
+| Privacidad | Security | Confidentiality | RNF-SEC |
+| Seguridad (acceso, RBAC) | Security | Authenticity + Resistance | RNF-SEC |
+| Usabilidad | Interaction Capability | Appropriateness recognizability + Operability + UI aesthetics | RNF-INT |
+| Accesibilidad | Interaction Capability | Accessibility | RNF-INT |
+| Coherencia / consistencia entre vistas | Interaction Capability + Maintainability | Self-descriptiveness + Modifiability | RNF-INT |
+| Mantenibilidad | Maintainability | Modifiability + Analysability | RNF-MNT |
+| Configurabilidad | Maintainability | Modifiability | RNF-MNT |
+| Manejabilidad de datos faltantes | Functional Suitability | Functional correctness | RNF-FUN |
+| Manejabilidad de concurrencia | Functional Suitability + Reliability | Functional correctness + Fault tolerance | RNF-FUN / RNF-REL |
+| Validación dual (frontend + backend) | Security + Maintainability | Integrity + Testability | RNF-SEC |
+| Tolerancia a fallos del componente de generación | Reliability | Fault tolerance | RNF-REL |
+| Cobertura (de catálogos de plantillas) | Functional Suitability | Functional completeness | RNF-FUN |
+| Calidad de predicción (HU-03) | Functional Suitability + Performance Efficiency | Functional correctness + Time behaviour | RNF-FUN |
+| Comparabilidad rigurosa (HU-20) | Functional Suitability | Functional correctness | RNF-FUN |
+| Tolerancia parametrizada (HU-20) | Maintainability | Modifiability | RNF-MNT |
+| No persistencia de reportes (HU-19) | Security | Confidentiality (no exposición de datos generados) | RNF-SEC |
+| Identificabilidad del archivo (HU-19) | Interaction Capability | Self-descriptiveness | RNF-INT |
+| Paralelización del cálculo (HU-18) | Performance Efficiency | Resource utilization | RNF-PERF |
+| Independencia entre dimensiones (HU-21) | Functional Suitability | Functional correctness | RNF-FUN |
+| Coherencia textual (catálogos de plantillas, HU-12) | Interaction Capability + Maintainability | Self-descriptiveness + Modifiability | RNF-INT |
+| Separación de roles (HU-11/HU-13) | Security | Confidentiality + Accountability | RNF-SEC |
+| Resiliencia de persistencia (HU-09, HU-21) | Reliability | Fault tolerance + Recoverability | RNF-REL |
+| Seguridad operativa (valores por defecto, HU-15) | Safety | Fail safe | RNF-SAF |
+| Granularidad de persistencia (HU-16) | Performance Efficiency | Capacity | RNF-PERF |
+| Presentación visual (HU-19, impresión) | Interaction Capability | UI aesthetics + Accessibility | RNF-INT |
+
+**Justificación de los cruces de característica (filas con más de una característica destino):**
+
+- *Persistencia / durabilidad*: cuando se trata de "no perder datos por fallo de escritura", la naturaleza es Recoverability (Reliability). Cuando se trata de los tiempos preconfigurados del degradado nivel 3 que mantienen la intersección operativa ante falla del motor (TTH-05 + CT-04.6), la naturaleza es **Fail safe (Safety)**, porque el sistema falla hacia un estado seguro definido. Ambos códigos coexisten según el RNF concreto.
+
+- *Auditoría / inmutabilidad / trazabilidad*: ISO 25010:2023 ubica estos conceptos dentro de Security (Accountability, Integrity, Non-repudiation). No están en Reliability ni en una característica propia. La decisión queda alineada con la taxonomía formal.
+
+- *Manejabilidad de datos faltantes*: la decisión de comunicar "sin datos" en lugar de calcular sobre cero es una propiedad de Functional Correctness (Functional Suitability), no de Reliability. El sistema produce resultados correctos incluso ante datos ausentes; la corrección incluye no fabricar valores.
+
+- *Manejabilidad de concurrencia (CA-15.11)*: el comportamiento last-write-wins con advertencia explícita es simultáneamente Functional Correctness (Functional Suitability, porque el resultado de cada modificación es correcto y predecible) y Fault Tolerance (Reliability, porque el sistema no pierde modificaciones silenciosamente). Se documenta con código primario RNF-FUN y referencia cruzada a RNF-REL.
+
+- *Validación dual frontend + backend*: la propiedad es simultáneamente Integrity (Security, porque garantiza que las restricciones no se pueden bypassear) y Testability (Maintainability, porque la validación dual se valida con tests separados). Se documenta con código primario RNF-SEC.
+
+- *Coherencia textual de catálogos de plantillas*: la propiedad es simultáneamente Self-descriptiveness (Interaction Capability, porque los textos son comprensibles y consistentes para el lector) y Modifiability (Maintainability, porque el catálogo se extiende sin tocar código). Se documenta con código primario RNF-INT.
+
+**Notación de RNF con doble código:** cuando un RNF aplica simultáneamente a dos características, el documento usa el código primario (el más relevante para el RNF concreto) en el identificador `RNF-XXX-NN`, y declara la característica secundaria como referencia cruzada en el campo "Característica ISO" del RNF. Esto evita duplicar el RNF en dos secciones del documento.
+
+#### C. Resolución de las inconsistencias detectadas durante la lectura de los Candidatos a RNF
+
+Durante la lectura de los Candidatos a RNF de las 21 HUs se identificaron siete inconsistencias. DHU-019 las resuelve explícitamente como decisión metodológica de redacción del documento RF/RNF.
+
+**C.1 — Consolidación del umbral "≤ 5 segundos" como un único RNF transversal de tiempo real.**
+
+Diez HUs declaran latencia ≤ 5 s entre evento y actualización visible (HU-02 CA-02.2, HU-03 CA-03.2, HU-04 CA-04.3, HU-05 CA-05.3, HU-06 CA-06.2, HU-07 CA-07.1 implícito, HU-10 banner, HU-11 CA-11.2, HU-12 CA-12.2, HU-13 CA-13.2). El umbral es semánticamente uno solo: "actualización en tiempo real de la presentación visible al usuario, desde que el evento generador ocurre hasta que el dato actualizado aparece en pantalla".
+
+**Decisión:** se consolida como un único **RNF-PERF de actualización de tiempo real** con umbral ≤ 5 segundos, aplicable a las diez HUs identificadas. La referencia desde cada CA al documento RF/RNF reemplaza la repetición del umbral; los CAs siguen redactados con su semántica de Given-When-Then pero el umbral pasa a referencia.
+
+Los RNF de tiempo de respuesta para vistas no de tiempo real se documentan como RNFs adicionales con umbrales distintos: apertura ≤ 2 s (HU-15), apertura ≤ 3 s (HU-16, HU-17), apertura ≤ 5 s drill-down corto y ≤ 15 s drill-down largo (HU-18), generación ≤ 10-15 s para Excel y ≤ 15-60 s para PDF (HU-19), recálculo ≤ 10 s comparativo (HU-16, HU-17), latencia del badge ≤ 30 s (HU-21), latencia del cálculo de métricas ≤ 30 s (HU-14, HU-20).
+
+**C.2 — Consolidación de los RNF de robustez ante interrupción como un único RNF transversal con dos modos (DHU-005 Caso A y Caso B).**
+
+Veintiún declaraciones de "RNF de robustez" repiten estructuralmente el patrón de DHU-005: el sistema mantiene el último valor conocido, lo marca como "desactualizado" (Caso A: fuente externa de medición) o "no confirmado" (Caso B: componente interno de decisión), e indica el tiempo transcurrido desde la última actualización confirmada.
+
+**Decisión:** se consolida como un único **RNF-REL transversal de robustez ante interrupción de fuente**, con dos modos formalmente declarados (A y B), y una tabla de aplicabilidad que enumera las HUs y CAs específicos donde cada modo aplica. La política de excepción para HU-19 (rechazo de generación en lugar de marca pasiva, por integridad del artefacto exportado) queda declarada como excepción explícita del RNF.
+
+**C.3 — Reformulación del RNF de seguridad de HU-13 que mezcla normativa con descriptivo.**
+
+El "RNF de seguridad" de HU-13 declara: *"Los campos viajan en el wire incluso para consumidores con otros roles, pero esos consumidores no tienen acceso a la ruta que los renderiza"*. La primera mitad es descripción de implementación; la segunda mitad es la propiedad normativa. La construcción mezcla niveles.
+
+**Decisión:** el RNF correspondiente en el documento se redacta normativamente: *"El control de acceso por rol se aplica a nivel de ruta del backend; los campos no sensibles pueden estar presentes en payloads compartidos entre roles sin violar la confidencialidad porque el RBAC impide la materialización de las rutas que los renderizan"*. La afirmación descriptiva sobre el wire vive como nota técnica del RNF, no como cuerpo normativo. El RNF queda clasificado como RNF-SEC (Security / Confidentiality + Authenticity), con referencia cruzada a la decisión arquitectónica de DHU-014 subsección G (patrón "un endpoint, dos vistas con filtrado en presentación" y TTH-06 como Trabajos Futuros).
+
+**C.4 — Reubicación del RNF de calidad de predicción de HU-03 al ámbito del componente predictivo.**
+
+El RNF de HU-03 reconoce explícitamente que pertenece al Bloque E (TTH-09), no a la vista. El documento RF/RNF lo redacta así.
+
+**Decisión:** el RNF correspondiente se redacta como **RNF-FUN de calidad del modelo predictivo**, con origen híbrido HU-03 (donde se identificó) y TTH-09 (donde reside operacionalmente: CT-09.7 con objetivo aspiracional accuracy ≥ 80% sobre el nivel discreto 0-5 evaluado sobre la partición de validación). La sección de Functional Suitability del documento RF/RNF agrupa este RNF con los demás RNF derivados de TTH-09. La referencia cruzada desde HU-03 al RNF queda preservada para sustentar la cadena "vista de predicción consume el modelo cuya calidad es el RNF correspondiente".
+
+**C.5 — Unificación del RNF de inmutabilidad de logs como principio transversal único.**
+
+Ocho HUs declaran cada una su propio RNF de "auditabilidad", "inmutabilidad" o "auditoría no modificable" (HU-08, HU-09, HU-10, HU-14, HU-15, HU-16, HU-20, HU-21). El principio subyacente es uno solo: *"los registros append-only del sistema son inmutables tras la escritura, preservando la confiabilidad de la consulta retroactiva y la auditabilidad del flujo"*.
+
+**Decisión:** se consolida como un único **RNF-SEC transversal de inmutabilidad de logs append-only**, con tabla de aplicabilidad que enumera los registros afectados: registro de decisiones del motor (CT-10.9 / CA-08.1), registro de notas del Operador (HU-09 con inmutabilidad parcial por ventana de edición de CA-09.4), registro de transiciones de estado operativo (CT-04.3 / CA-10.7), registro de predicciones (CT-09.5 / CA-14.1), registro de auditoría de parámetros (CA-15.4), histórico de estados (CA-16.1), registro de predicciones del modelo de respaldo (CA-20.2 inglobada como extensión de CT-09.5), registro de incidentes escalados (CA-21.10 inglobada). Cada uno con su ventana de edición acotada cuando aplica (HU-09).
+
+**C.6 — Aceptación formal de la reasignación masiva de categorías DHU-007 a ISO 25010:2023.**
+
+La tabla de la subsección B ya cierra esta inconsistencia. DHU-019 declara que **ninguna HU se modifica retroactivamente para sustituir su vocabulario de Candidatos a RNF**; las HUs preservan su redacción original con vocabulario heterogéneo, y el documento RF/RNF aplica el vocabulario ISO 25010:2023 al consolidar. La tabla de la subsección B sirve como diccionario de traducción de un vocabulario al otro.
+
+**C.7 — Clasificación de "Manejabilidad de datos faltantes" en Functional Correctness.**
+
+Ocho HUs declaran RNF de "manejabilidad de datos faltantes" sin que el término tenga lugar canónico en ISO 25010. La propiedad descrita en todos los casos es: *"el sistema produce resultados correctos comunicando explícitamente la ausencia de datos en lugar de calcular sobre vacío"*.
+
+**Decisión:** se clasifica como **RNF-FUN / Functional Correctness** (Functional Suitability). Esta es decisión cerrada de la subsección B y se documenta aquí solo por explicitud. La subcaracterística Functional Correctness cubre que el sistema produce los resultados correctos con el grado de precisión necesario; un sistema que calcula KPIs sobre cero filas y los presenta como "indicadores válidos en cero" no cumple Functional Correctness, mientras que un sistema que comunica "no hay datos en el periodo seleccionado" sí la cumple.
+
+#### D. Plantilla unificada de RF y de RNF
+
+**Plantilla de RF (Requisito Funcional):**
+
+```markdown
+### RF-NNN — [Título descriptivo]
+
+| Campo | Contenido |
+|---|---|
+| Identificador | RF-NNN |
+| Familia funcional | [una de las 7 familias declaradas en la subsección E] |
+| Descripción | [una o dos frases describiendo qué hace el sistema; sin detalles de presentación ni de implementación] |
+| HUs origen | HU-XX, HU-YY (lista de HUs cuyos CAs alimentan este RF) |
+| CAs origen | CA-XX.N, CA-YY.M (referencias específicas a los CAs que materializan el comportamiento) |
+| TTH relacionadas | TTH-XX (si aplica; típicamente cuando el RF tiene sustrato técnico declarado en una TTH) |
+| Persona beneficiaria | Operador / Gerente / Administrador / Transversal a las tres |
+| Objetivo del producto | 1 (reducir tiempos) / 2 (sustento técnico) / 3 (continuidad) / 4 (evidencia gerencial) / Soporte transversal |
+| Prioridad MoSCoW sugerida | Must / Should / Could / Won't (sugerida en este documento; se refina en sesión dedicada de priorización MoSCoW posterior) |
+| RNF asociados | RNF-XXX-NN, RNF-YYY-MM (referencias a los RNF que aplican a este RF) |
+| Notas | (excepciones, dependencias entre RFs, casos límite documentados en notas técnicas de las HUs origen) |
+```
+
+**Plantilla de RNF (Requisito No Funcional):**
+
+```markdown
+### RNF-XXX-NN — [Título descriptivo]
+
+| Campo | Contenido |
+|---|---|
+| Identificador | RNF-XXX-NN (XXX = código de característica de 3 letras; NN = correlativo dentro de la característica) |
+| Característica ISO 25010:2023 | [una de las 9 declaradas en la subsección A; cuando aplica doble característica, se declara la primaria + secundaria con referencia cruzada conforme a la subsección B] |
+| Subcaracterística | [subcaracterística específica dentro de la característica] |
+| Descripción normativa | [una a tres oraciones declarando qué propiedad de calidad debe cumplir el sistema, redactadas normativamente ("el sistema debe...") sin descripciones de implementación] |
+| Criterio de aceptación medible | [umbral numérico, condición binaria, o método de validación documentado; cuando no se puede cuantificar (típicamente Interaction Capability) se declara método de validación cualitativa: prueba de usuario, inspección, revisión por experto] |
+| Método de validación | Prueba automatizada / Prueba de usuario / Inspección / Análisis estático / Revisión documental |
+| HUs/TTH origen | HU-XX (CA-XX.N), TTH-YY (CT-YY.M) (con referencias específicas a los Candidatos a RNF o criterios técnicos que alimentan este RNF) |
+| DHUs relacionadas | DHU-XXX (cuando una decisión metodológica orienta este RNF; típicamente DHU-005 para robustez, DHU-007 para origen, DHU-019 para clasificación) |
+| Prioridad MoSCoW sugerida | Must / Should / Could / Won't |
+| Aplicabilidad | (cuando el RNF es transversal: tabla o lista de HUs/TTH a las que aplica) |
+| Excepciones | (cuando aplica: casos donde el RNF tiene comportamiento distinto, por ejemplo política conservadora de HU-19 respecto al RNF de robustez) |
+| Notas | (notas técnicas, dependencias arquitectónicas, referencias cruzadas a otros RNF, decisiones técnicas D-XXX relacionadas) |
+```
+
+**Justificación del diseño de plantilla:**
+
+1. **Identificador segmentado.** El código `RNF-XXX-NN` permite agrupar visualmente en el índice del documento todos los RNF de la misma característica (todos los RNF-PERF juntos, todos los RNF-SEC juntos), y permite que la referencia desde una HU sea autoexplicativa: leer "ver RNF-PERF-03" en un CA comunica que es un RNF de rendimiento sin abrir el documento.
+
+2. **Doble campo de prioridad.** "MoSCoW sugerida" anticipa la ceremonia formal de priorización pendiente del proyecto (DHU-007 dejó esta ceremonia pendiente). El documento RF/RNF sugiere prioridades para que la ceremonia parta de una base argumentada; la ceremonia las ratifica o ajusta.
+
+3. **Aplicabilidad explícita para RNF transversales.** La consolidación del umbral de 5 s (C.1) y del RNF de robustez (C.2) produce RNFs que aplican a 10 y 21 HUs respectivamente. El campo "Aplicabilidad" hace explícita esa lista para evitar que el lector tenga que reconstruirla.
+
+4. **Excepciones como campo de primera clase.** La política conservadora de HU-19 respecto al RNF de robustez es un patrón que probablemente se repite (por ejemplo, HU-21 también rechaza el escalamiento en lugar de marca pasiva). Tener el campo "Excepciones" en la plantilla evita que estas variantes se diluyan en notas o se pierdan.
+
+#### E. Política de derivación de RF desde los CAs existentes
+
+Los RF se derivan de los CAs de las HUs siguiendo tres principios cerrados como decisión metodológica:
+
+**E.1 — Composición transversal antes que biyección.** Un RF puede agrupar comportamientos coherentes declarados en CAs de varias HUs, cuando esos CAs describen el mismo qué del sistema desde perspectivas distintas (típicamente una HU del Operador y la HU del Administrador o del Gerente que consume el mismo sustrato técnico).
+
+**Ejemplo de composición (hipotético, ver nota):**
+
+> CA-02.1 + CA-03.1 + CA-04.1 → **RF hipotético — Presentación de variables de estado de la intersección por acceso**. El sistema expone, por cada acceso de la intersección, las variables observadas del estado del tráfico (flujo, longitud de cola, nivel de congestión) y las predicciones del nivel de congestión hasta el horizonte configurado, con actualización en tiempo real.
+
+Los tres CAs alimentarían un solo RF porque describen el mismo comportamiento del sistema (presentación de variables por acceso) desde tres vistas distintas del Operador (HU-02 monitoreo, HU-03 predicción, HU-04 vista combinada). La presentación específica de cada vista (cómo se diseña el dashboard) no sería del RF; sería de las HUs.
+
+**Nota sobre la materialización real:** el catálogo final de la sección 2 del documento RF/RNF aplicó un criterio más conservador para este caso: en lugar de consolidar los tres CAs en un único RF transversal, se redactaron tres RF separados (RF-003 derivado de HU-02, RF-004 derivado de HU-03, RF-005 derivado de HU-04) con la observación explícita de que RF-005 compone visualmente RF-003 y RF-004 sin duplicar lógica. La separación se prefirió porque cada HU original describe una vista distinta del Operador con criterios de aceptación diferenciados; agruparlas como un solo RF habría diluido la trazabilidad bidireccional HU ↔ RF. La composición transversal sí se aplicó en otros casos del catálogo donde la equivalencia funcional era inequívoca (por ejemplo, los CAs de control de acceso de las 21 HUs consolidados en RF-002 transversal según E.2; o RF-010 y RF-018 compartiendo sustrato técnico con presentación diferenciada por rol).
+
+**E.2 — Control de acceso como precondición transversal, no como RF por HU.** Las 21 HUs incluyen un CA tipo "Dado que el [rol] no ha iniciado sesión, cuando intenta acceder, entonces el sistema lo redirige a la pantalla de login" y/o un CA de RBAC tipo "Dado que un usuario con rol no autorizado intenta acceder, el sistema responde HTTP 403". Estos CAs no producen 21 o 42 RFs separados; producen **dos RFs transversales**:
+
+- **RF-001 — Autenticación al sistema** (consume TTH-01; precondición de cualquier acceso a HUs operativas).
+- **RF-002 — Control de acceso por rol** (consume HU-01; aplicable a las 21 HUs operativas con tabla de aplicabilidad por endpoint).
+
+Este patrón evita la inflación artificial del catálogo de RF.
+
+**E.3 — Comportamiento de robustez ante interrupción no produce RF separados.** Los CAs de robustez (CA-XX.4 según DHU-005 Caso A o B) no se vuelven RFs porque la robustez es no funcional por naturaleza. Cada CA de robustez se referencia desde el RF correspondiente (el que captura el comportamiento normal de la vista) y se materializa en el RNF transversal de la subsección C.2.
+
+**Ejemplo:**
+
+> El RF hipotético del ejemplo de E.1 (presentación de variables por acceso) tendría como CAs origen CA-02.1, CA-03.1, CA-04.1 (presentación). Los CAs CA-02.4, CA-03.4, CA-04.4 (robustez) NO entrarían como CAs origen de ese RF; entran como aplicabilidad del **RNF-REL-01 — Robustez ante interrupción de fuente** (consolidado en C.2). Esta política se mantiene en el catálogo real con los RF efectivamente redactados (RF-003, RF-004, RF-005): los CAs de robustez no son CAs origen de cada RF de presentación, sino aplicabilidad del RNF-REL-01 transversal.
+
+**Estimación de cantidad de RF al consolidar:** las 21 HUs contienen aproximadamente 130 CAs operativos (cifra aproximada al cierre del MVP2). Aplicando composición transversal, se estima **entre 25 y 35 RFs** en el catálogo final. La cifra exacta se confirma al redactar la sección 2 del documento RF/RNF; no se preestablece para no forzar la consolidación.
+
+#### F. Política de prioridad MoSCoW sugerida en este documento
+
+DHU-007 y el cierre del MVP2 declararon como entregables pendientes: documento RF/RNF, ceremonia de Planning Poker (estimación) y ceremonia MoSCoW (priorización). La ceremonia MoSCoW es sesión dedicada separada.
+
+**Decisión:** el documento RF/RNF declara una **prioridad MoSCoW sugerida** para cada RF y cada RNF, no vinculante. La ceremonia formal MoSCoW posterior ratifica o ajusta. La función de la prioridad sugerida es:
+
+1. **Anclar la ceremonia.** La ceremonia parte de una base argumentada en lugar de cero.
+2. **Documentar el razonamiento.** Cada RF/RNF en el documento incluye implícitamente el razonamiento de su prioridad en sus campos "Persona beneficiaria" y "Objetivo del producto"; la prioridad sugerida es derivable de esos campos.
+
+**Convención de prioridad sugerida:**
+
+| RF/RNF que... | Sugerencia |
+|---|---|
+| Realiza directamente uno de los 4 Objetivos del Producto y aplica a una Persona MVP1 | **Must** |
+| Realiza directamente uno de los 4 Objetivos del Producto y aplica a una HU MVP2 (incluyendo HU-09) | **Should** |
+| Es soporte transversal del MVP1 (autenticación, control de acceso, auditoría) | **Must** |
+| Es robustez del MVP1 (DHU-005, fallbacks de TTH-04, valores por defecto seguros) | **Must** (continuidad operativa = Objetivo 3) |
+| Es accesibilidad WCAG 2.1 nivel AA | **Should** |
+| Es coherencia textual de catálogos de plantillas | **Could** |
+| Es paralelización del cálculo (HU-18) o tolerancia parametrizada (HU-20) | **Could** |
+| Aplica a TTH-06 (Trabajos Futuros declarados) | **Won't** (en el ciclo del proyecto académico) |
+
+#### G. Política de reemplazo retroactivo de umbrales hardcoded en las HUs por referencias al documento RF/RNF
+
+DHU-007 línea 358 declaró como parte del trabajo futuro asociado: *"Reemplaza, en cada HU, los umbrales hardcodeados por referencias al RNF correspondiente"*. Esta política cierra el detalle de cómo se ejecuta ese reemplazo.
+
+**Decisión:** **los CAs de las 21 HUs no se reescriben sustituyendo umbrales por referencias `RNF-XXX-NN`.** En su lugar, se aplica el siguiente patrón aditivo y no destructivo:
+
+1. **Los CAs de las HUs preservan su redacción literal con umbrales hardcoded.** Esta redacción es resultado de tres semanas de trabajo cuidadoso (DHU-001 a DHU-018) y los CAs son autocontenidos para lectura humana sin tener que abrir el documento RF/RNF para entender una HU.
+
+2. **Cada sección "Candidatos a RNF" de cada HU se actualiza retroactivamente** con una pasada de mantenimiento aditiva: cada candidato declarado en la HU recibe una referencia al RNF formal correspondiente (`→ RNF-XXX-NN`). El contenido sustantivo del candidato no se modifica; solo se agrega la referencia cruzada al final.
+
+3. **El documento RF/RNF es la fuente normativa formal** de los umbrales. Si un umbral se ajusta en sesión posterior (típicamente tras Planning Poker, validación cuantitativa, o ajuste por feedback del jurado), se ajusta en el documento RF/RNF, no en las HUs. Los CAs de las HUs preservan los umbrales originales como referencia documental del momento de redacción.
+
+4. **Las TTH no se modifican retroactivamente.** Las 11 TTH ya consumen los umbrales relevantes vía CTs (criterios técnicos de terminado); el documento RF/RNF referencia las CTs como origen sin pedir cambios a las TTH.
+
+**Justificación de la política no destructiva:**
+
+1. **Preservación de autocontención de las HUs.** Si los CAs perdieran sus umbrales y los reemplazaran por referencias, una HU dejaría de ser legible por sí misma; obligaría a abrir un segundo documento solo para entender qué umbral aplica.
+
+2. **Coherencia con DHU-018.** DHU-018 estableció que la aplicación retroactiva del patrón "Resumen ejecutivo" sería estrictamente aditiva y nunca modificaría contenido sustantivo de las HUs. DHU-019 sostiene el mismo principio: los CAs no se modifican; solo se agrega referencia al RNF.
+
+3. **Política análoga ya aplicada en el backlog.** Las notas técnicas de cada HU referencian decisiones D-XXX y DHU-XXX sin "borrar" el contenido relevante de la HU; agregan referencia. La política para RNF replica este patrón ya validado.
+
+4. **Robustez ante evolución del documento RF/RNF.** Si en una futura iteración del documento RF/RNF se reorganiza la numeración o se agregan/eliminan RNF, las HUs no requieren pase de mantenimiento masivo: las referencias cruzadas son referencias, no umbrales propagados.
+
+#### H. Estructura del documento RF/RNF
+
+El documento `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` se organiza en seis secciones:
+
+```
+0. Preámbulo (propósito, alcance, convenciones, documentos relacionados, **distinción entre RF y RNF-FUN como nota orientadora al lector**)
+1. Marco de referencia
+   1.1 ISO/IEC 25010:2023 — las 9 características adoptadas
+   1.2 Derivación de RF desde HUs (referencia a DHU-019 subsección E)
+   1.3 Clasificación de RNF (referencia a DHU-019 subsecciones A y B)
+   1.4 Trazabilidad bidireccional HU/TTH ↔ RF ↔ RNF
+
+2. Requisitos Funcionales (RF)
+   2.1 Familias funcionales declaradas (7 familias)
+   2.2 Catálogo de RF (RF-001 a RF-NNN con plantilla unificada)
+   2.3 Tabla de trazabilidad RF → HU(s) origen → CAs
+
+3. Requisitos No Funcionales (RNF), clasificados por característica ISO 25010:2023
+   3.1 Functional Suitability (RNF-FUN-NN)
+   3.2 Performance Efficiency (RNF-PERF-NN)
+   3.3 Compatibility (RNF-COM-NN)
+   3.4 Interaction Capability (RNF-INT-NN)
+   3.5 Reliability (RNF-REL-NN)
+   3.6 Security (RNF-SEC-NN)
+   3.7 Maintainability (RNF-MNT-NN)
+   3.8 Flexibility (RNF-FLX-NN)
+   3.9 Safety (RNF-SAF-NN)
+
+4. Matriz de trazabilidad RNF → HUs/TTH origen
+
+5. Glosario de términos del producto referenciados en el documento
+
+6. Cierre y mantenimiento
+   6.1 Cuándo se actualiza el documento
+   6.2 Cómo se referencia desde las HUs y desde las TTH
+   6.3 Relación con la ceremonia MoSCoW pendiente
+```
+
+**Las 7 familias funcionales declaradas en 2.1** se derivan de la composición natural del backlog:
+
+1. **Control de acceso y autenticación** (insumo: HU-01 + TTH-01).
+2. **Monitoreo operativo en tiempo real** (insumo: HU-02 a HU-07, HU-10, HU-11, HU-12).
+3. **Decisiones del motor adaptativo** (insumo: HU-05, HU-06, HU-07, HU-08; sustento TTH-10).
+4. **Predicción de tráfico** (insumo: HU-03, HU-04; sustento TTH-09, TTH-11).
+5. **Soporte técnico y configuración del sistema** (insumo: HU-13, HU-14, HU-15, HU-20; sustento TTH-04, TTH-05).
+6. **Reportería ejecutiva** (insumo: HU-16, HU-17, HU-18, HU-19).
+7. **Soporte al Operador y trazabilidad de incidentes** (insumo: HU-09, HU-21).
+
+#### I. Política de umbrales: respetar los valores de las HUs por defecto
+
+DHU-007 línea 357 declaró que el documento RF/RNF podría ajustar umbrales respecto a los valores tentativos de las HUs. DHU-019 cierra esta política a favor de la conservación.
+
+**Decisión:** **los umbrales del documento RF/RNF se inicializan idénticos a los umbrales declarados en los Candidatos a RNF y en los CAs de las 21 HUs.** Solo se admite ajuste en este momento de redacción cuando:
+
+1. La HU declara explícitamente "criterio sugerido", "≤ X segundos sugerido", o vocabulario equivalente que reconoce la tentatividad del umbral (HU-15, HU-16, HU-17, HU-18, HU-19, HU-20, HU-21 son los casos típicos).
+
+2. El umbral aparece consolidado por la subsección C.1 (≤ 5 s de tiempo real consolidado a partir de diez HUs que lo declaran idéntico).
+
+3. Existe inconsistencia explícita entre dos HUs respecto al mismo concepto; en este caso se resuelve declarándolo como decisión específica en el documento RF/RNF con justificación.
+
+**No se admite ajuste arbitrario.** Los umbrales que entren al documento son los del backlog, no umbrales calibrados ad hoc durante la redacción del RF/RNF. La calibración de umbrales reales contra mediciones del sistema integrado se reporta conforme a D-005 (números de tesis: actualizar tras validación real) en sesión posterior dedicada, no durante la redacción del documento RF/RNF.
+
+**Justificación:**
+
+1. **Los umbrales del backlog son resultado de trabajo cuidadoso.** Cada umbral fue discutido durante la redacción de la HU correspondiente; ajustarlos arbitrariamente durante la consolidación rompería la trazabilidad metodológica.
+
+2. **Política coherente con DHU-005.** DHU-005 reportará comportamientos medidos en sesión de validación cuantitativa; los umbrales documentados son los esperados al diseño, no los medidos. Ajustar a posteriori los esperados pierde la separación entre diseño y validación.
+
+3. **El documento RF/RNF es vivo.** Si una medición real demuestra que un umbral es irreal, el documento se actualiza en pasada futura referenciando el dato medido. La política de conservación no es perpetua; es para esta sesión de redacción.
+
+### Decisión final
+
+**DHU-019 cierra las nueve decisiones metodológicas (A a I) necesarias para iniciar la redacción del documento `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md`.**
+
+Resumen ejecutivo de las nueve subsecciones:
+
+| Subsección | Decisión |
+|---|---|
+| A | ISO/IEC 25010:2023 con sus 9 características (incluyendo Safety y los renombramientos Usability → Interaction Capability y Portability → Flexibility) como taxonomía única de clasificación de RNF. |
+| B | Tabla de reasignación normativa de las categorías heterogéneas de DHU-007 a las 9 características ISO 25010:2023, con notación de doble código para RNF de característica primaria + secundaria. |
+| C | Siete inconsistencias detectadas en los Candidatos a RNF cerradas explícitamente como decisiones de redacción (consolidación de ≤ 5 s, consolidación de robustez ante interrupción, reformulación normativa de HU-13, reubicación de calidad de predicción de HU-03 al ámbito de TTH-09, unificación de inmutabilidad de logs, aceptación formal de la reasignación masiva, clasificación de manejabilidad de datos faltantes en Functional Correctness). |
+| D | Plantilla unificada de RF y de RNF con identificador segmentado por característica, doble campo de prioridad (sugerida + ratificada por ceremonia MoSCoW posterior), aplicabilidad explícita para RNF transversales y excepciones como campo de primera clase. |
+| E | Política de derivación de RF desde CAs con composición transversal (no biyección), control de acceso como dos RFs transversales únicos (autenticación y RBAC) y robustez ante interrupción como RNF transversal único. Estimación 25 a 35 RFs. |
+| F | Política de prioridad MoSCoW sugerida en el documento RF/RNF como anclaje argumentado para la ceremonia formal posterior; convención basada en Objetivos del Producto y clasificación MVP1/MVP2. |
+| G | Política aditiva de reemplazo retroactivo de umbrales: los CAs de las HUs preservan su redacción literal; cada sección "Candidatos a RNF" se actualiza retroactivamente con referencias `→ RNF-XXX-NN`; el documento RF/RNF es la fuente normativa formal de umbrales. |
+| H | Estructura de seis secciones del documento RF/RNF con 7 familias funcionales declaradas para la sección 2 (RF) y las 9 secciones de RNF por característica ISO 25010:2023. |
+| I | Política de conservación de umbrales: los umbrales del documento RF/RNF se inicializan idénticos a los del backlog; ajustes solo cuando la HU declara explícita tentatividad, cuando la subsección C.1 consolida, o cuando existe inconsistencia entre HUs. |
+
+### Lo que NO cambia con DHU-019
+
+- **Las decisiones DHU-001 a DHU-018 mantienen su contenido sustantivo.** DHU-019 las cita y las usa como base sin reabrir ninguna.
+- **El alcance del producto** (Personas, Objetivos, Journeys, Visión) se mantiene intacto.
+- **Las 21 HUs operativas (HU-01 a HU-21)** no se reescriben. Sus CAs preservan los umbrales hardcoded. Sus secciones "Candidatos a RNF" reciben una pasada aditiva de referencias `→ RNF-XXX-NN` cuando el documento RF/RNF esté redactado (subsección G).
+- **Las 11 TTH (TTH-01 a TTH-11)** no se modifican. Los criterios técnicos de terminado se referencian desde el documento RF/RNF como origen de RNFs específicos sin pedir cambios a las TTH.
+- **Las decisiones técnicas D-001 a D-009** se mantienen sin modificación. El documento RF/RNF las consume y referencia sin reabrirlas.
+- **La política de construcción MVP2 establecida por DHU-012 y aplicada por DHU-017** se mantiene. El documento RF/RNF refleja la clasificación MVP1/MVP2 en el campo de prioridad sugerida sin alterarla.
+- **Las ceremonias Planning Poker y MoSCoW** declaradas como pendientes desde el cierre del MVP2 siguen pendientes. DHU-019 las anticipa con prioridad sugerida pero no las ejecuta.
+
+### Documentos afectados por DHU-019
+
+| Documento | Tipo de cambio |
+|---|---|
+| `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` (nuevo) | Documento nuevo. Se redacta tras aprobar DHU-019, siguiendo la estructura de la subsección H y aplicando las plantillas de la subsección D, las clasificaciones de las subsecciones A y B, y las políticas de las subsecciones E, F, G, I. |
+| `DECISIONS_HU.md` | Agregar DHU-019 al índice y cuerpo; actualizar fecha de última actualización; actualizar tabla "Resumen de impacto en bloques redactados hasta la fecha" con fila Transversal-DHU-019. Actualizar `Documentos relacionados` incluyendo el nuevo documento RF/RNF. |
+| `HU_BLOQUE_A.md` a `HU_BLOQUE_F.md`, `HU_MVP2.md` | Pasada aditiva (subsección G): cada sección "Candidatos a RNF" de cada HU recibe una referencia `→ RNF-XXX-NN` por candidato declarado, sin modificar contenido sustantivo. Rango DHU referenciado actualizado de "DHU-001 a DHU-018" a "DHU-001 a DHU-019". Esta pasada se ejecuta tras cerrar el documento RF/RNF, no simultáneamente. |
+| `TAREAS_TECNICAS_HABILITADORAS.md` | Rango DHU referenciado actualizado en cabecera y "Documentos relacionados" de "DHU-001 a DHU-018" a "DHU-001 a DHU-019". Sin cambios sustantivos al contenido de las 11 TTH (los criterios técnicos relevantes se referencian desde el documento RF/RNF, no se modifican). |
+| `BACKLOG_OVERVIEW.md` | Opcional: mención del documento RF/RNF como cierre del cabo suelto declarado al cierre del Product Backlog. La sección "Cómo navegar el backlog" puede incluir una línea adicional sobre el documento. |
+| `LEAN_INCEPTION_CEREBROVIAL.md` | Documentos relacionados actualizado (referencia al nuevo documento RF/RNF). |
+
+### Documentos relacionados
+
+- `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` — Documento nuevo a redactar tras aprobar DHU-019.
+- `DECISIONS_HU.md` (este documento) — sección DHU-019.
+- `DECISIONS_HU.md` — DHU-007 (origen del trabajo pendiente que DHU-019 ejecuta).
+- `DECISIONS_HU.md` — DHU-005 (Caso A y Caso B de robustez, consolidados como RNF transversal en subsección C.2).
+- `DECISIONS_HU.md` — DHU-006 (HUs agnósticas a implementación, preservado en la redacción del documento RF/RNF).
+- `DECISIONS_HU.md` — DHU-012 (semántica refinada de MVP2, reflejada en prioridad MoSCoW sugerida).
+- `DECISIONS_HU.md` — DHU-014, DHU-016, DHU-017 (patrón de decisiones consolidadas que DHU-019 reproduce).
+- `DECISIONS_HU.md` — DHU-018 (política aditiva no destructiva, replicada por DHU-019 en la subsección G).
+- `DECISIONS.md` — D-005 (números de tesis: actualizar tras validación real), referenciada por la subsección I.
+- ISO/IEC 25010:2023 — Norma adoptada como taxonomía única, declarada en la subsección A.
+
+---
+
+---
+
 ## Resumen de impacto en los bloques redactados hasta la fecha
 
 | Bloque | HUs | TTH | Decisiones aplicadas |
@@ -1762,7 +2188,7 @@ HU-08 (6 CAs), HU-09 (6 CAs) y HU-11 (9 CAs) tienen subdivisión implícita por 
 | Bloque E | (ninguna HU operativa) | TTH-07, TTH-08, TTH-09, TTH-10, TTH-11 | DHU-015 (clasificación HU/TTH del Bloque E con ampliación 4 → 5 TTH durante la redacción) |
 | Bloque F | HU-16, HU-17 (F12+F13 fusionadas con F30 inglobada; F14) | (ninguna nueva) | DHU-016 (decisiones consolidadas de redacción del Bloque F en diez subsecciones) |
 | MVP2 | HU-18, HU-19, HU-20, HU-21 (HU-09 cerrada previamente en `HU_BLOQUE_B.md`) | (ninguna nueva) | DHU-017 (decisiones consolidadas de redacción del MVP2 en diez subsecciones) |
-| Transversal | — | — | DHU-012 (auditoría de coherencia documental, aplica a todos los bloques y documentos relacionados); DHU-018 (patrón "Resumen ejecutivo" aplicado retroactivamente a las 21 HUs, aditivo y sin modificar contenido sustantivo) |
+| Transversal | — | — | DHU-012 (auditoría de coherencia documental, aplica a todos los bloques y documentos relacionados); DHU-018 (patrón "Resumen ejecutivo" aplicado retroactivamente a las 21 HUs, aditivo y sin modificar contenido sustantivo); DHU-019 (decisiones metodológicas para la redacción del documento RF/RNF, ejecuta la sesión dedicada que DHU-007 declaró pendiente; aditiva sobre las HUs en su pasada de referencias `→ RNF-XXX-NN` sobre los Candidatos a RNF) |
 
 ---
 
@@ -1781,4 +2207,5 @@ HU-08 (6 CAs), HU-09 (6 CAs) y HU-11 (9 CAs) tienen subdivisión implícita por 
 - `FEATURE_BACKLOG_DETALLADO.md` — Origen de las features que se mapean a HUs y TTH.
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto; sección 8 contiene tabla de Trabajos Futuros.
 - `motor_adaptativo_teoria.md` — Sustentación teórica del motor adaptativo (consumido por TTH-10).
-- `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` — Documento futuro pendiente (DHU-007).
+- `REQUISITOS_FUNCIONALES_Y_NO_FUNCIONALES.md` — Documento normativo denso con catálogo de 22 RF y 53 RNF clasificados según ISO/IEC 25010:2023, redactado el 2026-05-18 ejecutando DHU-007 según las decisiones metodológicas consolidadas en DHU-019.
+- `RF_RNF_LITE.md` — Versión lite de lectura humana del documento RF/RNF, derivado conforme al modelo de dos documentos cerrado en DHU-019 subsección H.
