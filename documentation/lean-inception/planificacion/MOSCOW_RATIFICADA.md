@@ -4,9 +4,9 @@
 > Versión: v1
 > Inputs:
 > - [`BACKLOG_OVERVIEW.md`](../BACKLOG_OVERVIEW.md) (2026-05-16)
-> - [`HU_BLOQUE_A.md`](../HU_BLOQUE_A.md) a [`HU_BLOQUE_F.md`](../HU_BLOQUE_F.md), [`HU_MVP2.md`](../HU_MVP2.md)
-> - [`TAREAS_TECNICAS_HABILITADORAS.md`](../TAREAS_TECNICAS_HABILITADORAS.md)
-> - [`RF_RNF_LITE.md`](../RF_RNF_LITE.md) (prioridades sugeridas declaradas en el normativo)
+> - [`HU_BLOQUE_A.md`](../2-backlog/HU_BLOQUE_A.md) a [`HU_BLOQUE_F.md`](../2-backlog/HU_BLOQUE_F.md), [`HU_MVP2.md`](../2-backlog/HU_MVP2.md)
+> - [`TAREAS_TECNICAS_HABILITADORAS.md`](../2-backlog/TAREAS_TECNICAS_HABILITADORAS.md)
+> - [`RF_RNF_LITE.md`](../3-requisitos/RF_RNF_LITE.md) (prioridades sugeridas declaradas en el normativo)
 > - [`AUDITORIA_HU_CODIGO.md`](AUDITORIA_HU_CODIGO.md) v1 (Fase 4.1)
 > - Protocolo: [`CEREMONIA_MOSCOW.md`](CEREMONIA_MOSCOW.md)
 > Salida prescrita por: [`PROMPT_ARRANQUE_CLAUDE_CODE_v2.md`](PROMPT_ARRANQUE_CLAUDE_CODE_v2.md) Fase 4.2.
@@ -298,7 +298,7 @@
 
 ### 7.3 Conclusión sobre la calidad de las prioridades sugeridas
 
-Las prioridades sugeridas declaradas en [`RF_RNF_LITE.md`](../RF_RNF_LITE.md) y heredadas implícitamente en HUs y TTH (vía clasificación MVP1/MVP2 + heurística del Anexo §10 del protocolo) **fueron buen anclaje argumentado**: ratificación de 106 de 107 elementos sin ajuste (99.1%). El único elemento que requirió clasificación explícita aquí (TTH-11) no estaba listado en el Anexo del protocolo precisamente porque su tratamiento es matiz metodológico, no decisión normativa estándar.
+Las prioridades sugeridas declaradas en [`RF_RNF_LITE.md`](../3-requisitos/RF_RNF_LITE.md) y heredadas implícitamente en HUs y TTH (vía clasificación MVP1/MVP2 + heurística del Anexo §10 del protocolo) **fueron buen anclaje argumentado**: ratificación de 106 de 107 elementos sin ajuste (99.1%). El único elemento que requirió clasificación explícita aquí (TTH-11) no estaba listado en el Anexo del protocolo precisamente porque su tratamiento es matiz metodológico, no decisión normativa estándar.
 
 ---
 
