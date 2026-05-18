@@ -7,7 +7,7 @@
 > **Relación con `DECISIONS.md`:** El documento `DECISIONS.md` registra decisiones técnicas del producto (arquitectura, modelo, datos). Este documento registra decisiones metodológicas sobre cómo se redacta el backlog. Los códigos no se solapan: `D-xxx` para técnicas, `DHU-xxx` para HUs.
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-16 (**Cierre del MVP2 el 2026-05-16: DHU-017 agregada.** Consolida las decisiones de redacción del MVP2 en diez subsecciones (A a J), con resultado de 4 HUs operativas adicionales (HU-18, HU-19, HU-20, HU-21) y 0 TTH nuevas. Con el cierre del MVP2, las 21 HUs operativas (HU-01 a HU-21) y las 11 TTH (TTH-01 a TTH-11) del Product Backlog quedan redactadas y aprobadas en su componente funcional. Restan documento RF/RNF (DHU-007 pendiente), Planning Poker y MoSCoW. *Corrección de portada aplicada en la misma fecha: las cifras de conteo de HUs que circulaban en cabeceras de los documentos del backlog ("15 HUs MVP1", "19 HUs totales") eran erróneas y se propagaron desde sesiones previas. El conteo correcto es **21 HUs operativas totales** (HU-01 a HU-21, sin huecos de numeración), de las cuales **16 son MVP1** (HU-01 a HU-08 + HU-10 a HU-17) y **5 son MVP2** (HU-09, HU-18 a HU-21). El error era exclusivamente de cifras de portada; el contenido sustantivo de las HUs, las TTH y las DHUs no se ve afectado.*)
+> **Última actualización:** 2026-05-17 (**DHU-018 agregada: patrón "Resumen ejecutivo" aplicado retroactivamente a las 21 HUs del Product Backlog.** Cambio puramente de formato y trazabilidad de lectura: cada HU recibe un bloque de "Resumen ejecutivo" de 4 o 5 líneas entre la cabecera y la sección "Descripción" para uniformidad de lectura y para que un agente de IA o un lector humano de pasada pueda identificar CAs ancla y dependencias sin leer la HU completa. No se modifica ningún CA, ninguna nota técnica, ningún Candidato a RNF, ninguna clasificación MVP, ninguna feature de origen. Última previa: 2026-05-16, cierre del MVP2, DHU-017.
 
 ---
 
@@ -32,6 +32,7 @@
 | DHU-015 | Clasificación HU/TTH de las features del Bloque E (con ampliación 4 → 5 TTH durante la redacción) | 2026-05-15 | Cerrada |
 | DHU-016 | Decisiones de redacción del Bloque F (numeración, F30 inglobada, fuente del histórico en MVP1, KPIs operacionales, granularidad, periodos, comparativa, concurrencia, dashboard integrador, robustez) | 2026-05-16 | Cerrada |
 | DHU-017 | Decisiones de redacción del MVP2 (clasificación HU/TTH de las 4 features pendientes, numeración compactada, F16 como HU única, F19 sustrato inglobado, F28 como HU única con Operador protagonista, alcance del escalamiento, alcance del drill-down de F15, conexión F15 ↔ HU-16/HU-17, sustrato inglobado vs TTH, política MVP2 heredada, robustez Caso B) | 2026-05-16 | Cerrada |
+| DHU-018 | Patrón "Resumen ejecutivo" agregado retroactivamente al inicio de cada HU del Product Backlog | 2026-05-17 | Cerrada |
 
 ---
 
@@ -1651,6 +1652,105 @@ DHU-005 declara dos casos: Caso A (fuente externa de medición; ejemplo: detecto
 
 ---
 
+## DHU-018 — Patrón "Resumen ejecutivo" agregado retroactivamente al inicio de cada HU del Product Backlog
+
+**Fecha:** 2026-05-17.
+**Estado:** Cerrada.
+**Aplica a:** Las 21 HUs operativas del Product Backlog (HU-01 a HU-21).
+
+### Contexto
+
+Durante la redacción incremental del Product Backlog entre el 11 y el 16 de mayo de 2026 se observó que las HUs crecieron en densidad a medida que el equipo refinó el patrón de redacción. Las HUs iniciales del Bloque A y Bloque B se mantuvieron en torno a 5-7 CAs, sin subdivisión visual; las HUs del Bloque C empezaron a incluir notas técnicas extensas; las del Bloque D, F y MVP2 alcanzaron 15-33 CAs cada una con subsecciones `####` temáticas (Sustrato técnico, Presentación, Casos degenerados, Control de acceso).
+
+Esta densidad creciente es legítima y deseable desde la perspectiva de **trazabilidad para implementación y para sustentación académica**: cada CA es referenciable por código, las decisiones DHU están entrelazadas, y los enlaces entre HUs son explícitos. Sin embargo, introduce dos costos:
+
+1. **Lectura humana:** un lector que solo quiere entender qué hace una HU necesita leer entre 1 y 3 páginas por HU.
+2. **Asistencia por agente de IA:** un agente con contexto limitado debe leer la HU completa para identificar los CAs ancla, las dependencias y las decisiones que orientan la lectura.
+
+El backlog ya tiene un documento de lectura ligera (`HU_LITE.md`) con las 21 HUs en formato corto, pero esa solución vive en un documento separado y rompe la propiedad de "una HU es una unidad autocontenida". El refinamiento natural es agregar un bloque corto al inicio de cada HU densa que sirva como punto de entrada sin perder el detalle implementable.
+
+### Análisis
+
+Tres opciones evaluadas durante la sesión:
+
+| Opción | Descripción | Decisión |
+|---|---|---|
+| A1 | Aplicar el patrón solo a HUs con ≥10 CAs (las "densas"). | Descartada: rompe uniformidad del backlog y mezcla HUs con y sin Resumen, inconsistente con la lectura por terceros. |
+| A2 | Aplicar a HUs MVP2 + HUs densas MVP1. | Descartada: misma razón que A1, mantiene asimetría arbitraria entre bloques. |
+| A3 | Aplicar a las 21 HUs uniformemente. | **Adoptada.** Costo marginal bajo, uniformidad total, lectura por terceros se beneficia consistentemente. |
+
+### Decisión
+
+Las 21 HUs del Product Backlog (HU-01 a HU-21) reciben retroactivamente un bloque **"Resumen ejecutivo"** insertado entre la cabecera (Tipo + Feature(s) origen) y la sección "Descripción" existente. El bloque contiene los siguientes campos en este orden:
+
+1. **Qué entrega:** una frase que resume el valor entregable de la HU, sin jerga interna del backlog.
+2. **CAs críticos:** los 3-4 CAs sin los cuales la HU no se sostiene. Típicamente: el CA principal de comportamiento, el CA de robustez (DHU-005 Caso A o B), el CA de presentación al usuario, y el CA de control de acceso.
+3. **Estructura de CAs:** mapa de las subsecciones temáticas con rangos numéricos de CAs, para navegación rápida. Este campo se omite en HUs con menos de 8 CAs sin subdivisión visual, donde no aporta valor de navegación.
+4. **Dependencias:** otras HUs, TTH o DHUs que esta HU consume, extiende o que la consumen.
+5. **Notas clave:** 2-3 decisiones de diseño explícitas que orientan la lectura del resto de la HU (típicamente referencias a subsecciones de DHUs aplicables).
+
+El bloque tiene una extensión típica de 80-150 palabras, presentado como cinco párrafos cortos con el campo en negrita seguido del contenido.
+
+### Por qué no es contenido sustantivo nuevo
+
+El "Resumen ejecutivo" es **redacción derivada de los CAs y notas técnicas existentes**, no contenido sustantivo nuevo. Para cada HU, el resumen se construye sintetizando lo que ya está declarado más abajo en la misma HU:
+
+- "Qué entrega" sintetiza la cabecera Como/Quiero/Para con la sección Descripción.
+- "CAs críticos" identifica entre los CAs existentes los que tienen impacto bloqueante o de robustez.
+- "Estructura de CAs" enumera los headers `####` que ya estaban presentes (o las subsecciones implícitas en HUs sin subdivisión visual).
+- "Dependencias" recupera referencias cruzadas declaradas en notas técnicas existentes.
+- "Notas clave" cita decisiones DHU ya declaradas en notas técnicas o en la sección de "Decisiones que aplicaron a este bloque" del documento contenedor.
+
+Por construcción, **ningún CA, ninguna nota técnica, ningún Candidato a RNF, ninguna clasificación MVP, ninguna feature de origen, ningún tipo, ninguna sección de Notas técnicas y ninguna sección de Candidatos a RNF se modifica con DHU-018**. La aplicación de esta decisión es estrictamente aditiva.
+
+### Adaptación para HUs cortas
+
+HU-01 (6 CAs sin subdivisión visual), HU-02 (5 CAs), HU-03 (5 CAs), HU-04 (5 CAs), HU-05 (5 CAs), HU-06 (5 CAs), HU-07 (6 CAs) y HU-12 (6 CAs) reciben Resumen ejecutivo con el campo "Estructura de CAs" omitido, dado que sin subdivisión `####` la enumeración de rangos no aporta valor de navegación. Los otros cuatro campos se aplican uniformemente.
+
+HU-08 (6 CAs), HU-09 (6 CAs) y HU-11 (9 CAs) tienen subdivisión implícita por temática (CAs de presentación + CAs de robustez + CA de control de acceso) y reciben "Estructura de CAs" con la subdivisión declarada explícitamente en el Resumen, aunque la HU misma no use headers `####`.
+
+### Consecuencias
+
+- Las 21 HUs (HU-01 a HU-21) reciben el bloque "Resumen ejecutivo" en una pasada de redacción dedicada.
+- HU-16 fue redactada primero como muestra del patrón antes de aprobar A3; su Resumen ejecutivo queda como está, sin reabrir.
+- Los preámbulos de los seis documentos del backlog (`HU_BLOQUE_A.md` a `HU_BLOQUE_F.md`) y `HU_MVP2.md` reciben una mención breve al patrón en la sección "Contexto", referenciando esta DHU.
+- El rango DHU referenciado en "Documentos relacionados" de los documentos del backlog se actualiza de "DHU-001 a DHU-017" a "DHU-001 a DHU-018".
+- `HU_LITE.md` no se modifica: sigue siendo la versión corta paralela; el Resumen ejecutivo dentro de cada HU densa cumple una función diferente (orientar la lectura de la HU completa, no sustituirla).
+- `BACKLOG_OVERVIEW.md` no requiere cambio sustantivo; opcionalmente se puede agregar una mención en la sección "Cómo navegar el backlog".
+
+### Lo que NO cambia con DHU-018
+
+- **El contenido sustantivo de las 21 HUs.** Ningún CA, ninguna nota técnica, ningún Candidato a RNF, ninguna clasificación MVP, ninguna feature de origen, ningún tipo se modifica.
+- **El contenido sustantivo de las 11 TTH.** Las TTH no reciben Resumen ejecutivo: son entregables de naturaleza distinta (criterios técnicos de terminado, no CAs Given-When-Then), con audiencia distinta (equipo de desarrollo), y ya tienen una sección "Descripción" autocontenida que sirve la misma función.
+- **El alcance del producto** (Personas, Objetivos, Journeys, Visión) se mantiene intacto.
+- **Las decisiones DHU-001 a DHU-017 mantienen su contenido sustantivo.** DHU-018 las cita y las usa como insumo del Resumen ejecutivo, sin reabrir ninguna.
+- **Las decisiones técnicas D-001 a D-009** se mantienen sin modificación.
+
+### Documentos afectados por DHU-018
+
+| Documento | Tipo de cambio |
+|---|---|
+| `DECISIONS_HU.md` (este documento) | Agregar DHU-018 al índice y cuerpo; actualizar fecha de última actualización; actualizar tabla de "Resumen de impacto en bloques redactados" con fila Transversal-DHU-018. |
+| `HU_BLOQUE_A.md` | Resumen ejecutivo en HU-01 (campo "Estructura de CAs" omitido por HU corta sin subdivisión). Nota corta en sección "Contexto" referenciando DHU-018. Rango DHU referenciado actualizado a "DHU-001 a DHU-018". |
+| `HU_BLOQUE_B.md` | Resumen ejecutivo en HU-02 a HU-09 (Estructura de CAs según corresponda). Nota corta en "Contexto". Rango DHU actualizado. |
+| `HU_BLOQUE_C.md` | Resumen ejecutivo en HU-10, HU-11, HU-12. Nota corta en "Contexto". Rango DHU actualizado. |
+| `HU_BLOQUE_D.md` | Resumen ejecutivo en HU-13, HU-14, HU-15. Nota corta en "Contexto". Rango DHU actualizado. |
+| `HU_BLOQUE_E.md` | No requiere cambio (0 HUs operativas; solo TTH). Rango DHU actualizado en "Documentos relacionados" por coherencia con otros bloques. |
+| `HU_BLOQUE_F.md` | Resumen ejecutivo en HU-16 (ya aplicado como muestra antes de DHU-018; queda como está) y HU-17. Nota corta en "Contexto". Rango DHU actualizado. |
+| `HU_MVP2.md` | Resumen ejecutivo en HU-18, HU-19, HU-20, HU-21 (HU-09 vive físicamente en `HU_BLOQUE_B.md` y recibe Resumen ahí). Nota corta en "Contexto". Rango DHU actualizado. |
+| `LEAN_INCEPTION_CEREBROVIAL.md` | Sin cambio sustantivo. Si se hace pase de higiene cruzada futura, el rango DHU referenciado en "Documentos relacionados" se actualiza por coherencia. |
+| `TAREAS_TECNICAS_HABILITADORAS.md` | Rango DHU referenciado actualizado en cabecera y "Documentos relacionados". Sin cambios sustantivos al contenido de las 11 TTH. |
+| `BACKLOG_OVERVIEW.md` | Opcional: mención del patrón en "Cómo navegar el backlog". |
+
+### Documentos relacionados
+
+- `HU_BLOQUE_A.md` a `HU_BLOQUE_F.md`, `HU_MVP2.md` — destinatarios del cambio (20 HUs).
+- `HU_BLOQUE_F.md` — HU-16 redactada con el patrón antes de aprobar A3 (muestra).
+- `HU_LITE.md` — documento de lectura corta paralela; función distinta al Resumen ejecutivo interno de cada HU.
+- `DECISIONS_HU.md` (este documento) — sección DHU-018.
+
+---
+
 ## Resumen de impacto en los bloques redactados hasta la fecha
 
 | Bloque | HUs | TTH | Decisiones aplicadas |
@@ -1662,7 +1762,7 @@ DHU-005 declara dos casos: Caso A (fuente externa de medición; ejemplo: detecto
 | Bloque E | (ninguna HU operativa) | TTH-07, TTH-08, TTH-09, TTH-10, TTH-11 | DHU-015 (clasificación HU/TTH del Bloque E con ampliación 4 → 5 TTH durante la redacción) |
 | Bloque F | HU-16, HU-17 (F12+F13 fusionadas con F30 inglobada; F14) | (ninguna nueva) | DHU-016 (decisiones consolidadas de redacción del Bloque F en diez subsecciones) |
 | MVP2 | HU-18, HU-19, HU-20, HU-21 (HU-09 cerrada previamente en `HU_BLOQUE_B.md`) | (ninguna nueva) | DHU-017 (decisiones consolidadas de redacción del MVP2 en diez subsecciones) |
-| Transversal | — | — | DHU-012 (auditoría de coherencia documental, aplica a todos los bloques y documentos relacionados) |
+| Transversal | — | — | DHU-012 (auditoría de coherencia documental, aplica a todos los bloques y documentos relacionados); DHU-018 (patrón "Resumen ejecutivo" aplicado retroactivamente a las 21 HUs, aditivo y sin modificar contenido sustantivo) |
 
 ---
 

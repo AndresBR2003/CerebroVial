@@ -5,6 +5,7 @@
 > **Estado:** Bloque F cerrado y aprobado. Bloques A, B, C, D y E previamente cerrados, y MVP2 también cerrado el 2026-05-16 (DHU-017). **Con el cierre del MVP2, la redacción del Product Backlog del proyecto queda completa en su componente funcional: 21 HUs operativas (HU-01 a HU-21) + 11 TTH (TTH-01 a TTH-11).** Pendiente: documento RF/RNF (DHU-007), Planning Poker, MoSCoW, implementación SCRUM del MVP1. HU-16 y HU-17 son las vistas del Gerente desde las cuales se accede al drill-down (HU-18) y a la exportación (HU-19) del MVP2; el selector de periodo de HU-16 es estado compartido con HU-17 y HU-18 conforme a DHU-017 subsección G.
 >
 > **Fecha de cierre:** 2026-05-16
+> **Fecha de actualización v2:** 2026-05-17 (DHU-018 aplicada retroactivamente: Resumen ejecutivo en HU-17; HU-16 ya tenía el bloque desde la muestra previa al cierre de DHU-018, queda como está)
 
 ---
 
@@ -25,6 +26,7 @@ Las HUs del Bloque F siguen las reglas metodológicas establecidas y refinadas d
 - **DHU-013** y **DHU-014** (cerradas en el Bloque D): clasificación HU/TTH del Bloque D, decisiones de redacción del Bloque D.
 - **DHU-015** (cerrada en el Bloque E): clasificación HU/TTH del Bloque E, resultado 5 TTH y 0 HUs operativas.
 - **DHU-016** (cerrada durante la redacción de este bloque): decisiones de redacción del Bloque F (numeración compactada continuando desde HU-15, F30 inglobada como CAs en HU-16, fuente del histórico operacional independiente y agnóstica, cuatro KPIs con definiciones operacionales cerradas, granularidad de treinta segundos, presets cerrados del selector, periodo previo equivalente, concurrencia entre Gerentes no aplicable, composición F12+F13 en HU única, robustez Caso B aplicado).
+- **DHU-018** (aplicada retroactivamente el 2026-05-17): patrón "Resumen ejecutivo" al inicio de cada HU para uniformidad de lectura. Aditiva, no modifica contenido sustantivo.
 
 Ver `DECISIONS_HU.md` para fundamentación completa.
 
@@ -63,6 +65,18 @@ Las 3 features MVP1 del Bloque F (F12, F13, F14) más F30 (Persistencia de estad
 
 **Tipo:** HU de Persona (Gerente de Tránsito Municipal).
 **Feature(s) origen:** F12 (Dashboard ejecutivo con KPIs agregados) y F13 (Selector de periodo) fusionadas en una sola HU conforme a DHU-016 subsección I. Ingloba como CAs el sustrato técnico de persistencia histórica (F30 — Persistencia de estados históricos), conforme a la regla cerrada en el Bloque A y al patrón equivalente al de F31 inglobada en CA-08.1 de HU-08 y al sustrato inglobado en HU-14 y HU-15.
+
+### Resumen ejecutivo
+
+**Qué entrega:** vista única del Gerente con un selector de periodo y un dashboard de cuatro KPIs agregados del control de tráfico (tiempo de espera, longitud máxima de cola, throughput, demora) sobre el periodo seleccionado, cada uno con valor agregado y gráfico de evolución temporal.
+
+**CAs críticos:** CA-16.1 (persistencia del histórico observado a granularidad de 30 s), CA-16.13 (presentación de las cuatro cards al Gerente), CA-16.19 (robustez ante caída del motor de cálculo o de la persistencia — DHU-005 Caso B), CA-16.20 (control de acceso por rol).
+
+**Estructura de CAs:** sustrato técnico F30 inglobado (CA-16.1 a CA-16.3) → selección de periodo F13 inglobada (CA-16.4 a CA-16.8) → definiciones operacionales de los KPIs (CA-16.9 a CA-16.12) → presentación al Gerente (CA-16.13 a CA-16.16) → casos degenerados (CA-16.17 a CA-16.19) → control de acceso (CA-16.20 a CA-16.21).
+
+**Dependencias:** consume su propio sustrato F30 inglobado. Comparte estado del selector con HU-17 y HU-18 (MVP2) durante la sesión activa. HU-19 (MVP2) consume sus CAs para generar reportes exportables. Aplica DHU-005 Caso B, DHU-006 (agnosticismo de fuente operacional), DHU-016 subsecciones A a J.
+
+**Notas clave:** F12 y F13 se fusionaron por cohesión (selector sin dashboard no entrega valor; DHU-016 subsección I). La fuente operacional del histórico en MVP1 son las corridas de validación en el entorno simulado, sin nombrar tecnologías (DHU-006). Sin política de retención automática del histórico en MVP1.
 
 ### Descripción
 
@@ -194,6 +208,18 @@ El sustrato técnico (persistencia continua del estado observado del tráfico co
 
 **Tipo:** HU de Persona (Gerente de Tránsito Municipal).
 **Feature(s) origen:** F14 (Vista comparativa entre periodos). Reutiliza el sustrato técnico de persistencia del histórico (CA-16.1 a CA-16.3 de HU-16) y las definiciones operacionales de los cuatro indicadores (CA-16.9 a CA-16.12 de HU-16), sin redeclarar contenido ni introducir TTH nuevas.
+
+### Resumen ejecutivo
+
+**Qué entrega:** vista comparativa del Gerente entre el periodo seleccionado y el periodo previo equivalente. Cuatro paneles, uno por KPI, con gráfico de dos series temporales superpuestas, dos valores agregados y variación porcentual con semántica visual de mejora o empeoramiento (no signo aritmético).
+
+**CAs críticos:** CA-17.4 (definición de "periodo previo equivalente"), CA-17.6 (presentación con gráfico + agregados + variación por panel), CA-17.7 (semántica visual de mejora/empeoramiento, no signo aritmético), CA-17.14 (DHU-005 Caso B aplicado simultáneamente a ambos periodos por causa raíz compartida), CA-17.15 (HTTP 403 para roles no-Gerente).
+
+**Estructura de CAs:** estado del selector compartido con HU-16 (CA-17.1 a CA-17.3) → definición de periodo previo equivalente (CA-17.4) → presentación al Gerente (CA-17.5 a CA-17.10) → casos degenerados (CA-17.11 a CA-17.14) → control de acceso (CA-17.15, CA-17.16).
+
+**Dependencias:** consume el sustrato F30 inglobado en HU-16 y las definiciones de KPI de CA-16.9 a CA-16.12. Comparte estado del selector con HU-16 (volátil, sin persistencia entre sesiones; CA-17.1 a CA-17.3). HU-18 (MVP2, drill-down) se accede desde cada panel comparativo con elección entre "Periodo actual" o "Periodo previo". HU-19 (MVP2) exporta esta comparativa a PDF/Excel.
+
+**Notas clave:** semántica de variación traducida a mejora/empeoramiento por construcción de los KPIs (3 mejoran al disminuir, throughput mejora al aumentar). Redundancia visual (signo numérico + flecha direccional + color) para no depender del color (accesibilidad). **Sin disgregación por dirección** en MVP1 (asimetría intencional con HU-16, justificada por carga visual de dos periodos). Significancia estadística rigurosa fuera del alcance MVP1.
 
 ### Descripción
 
@@ -355,7 +381,7 @@ Esta sesión cerró el Bloque F y, con ello, la redacción del MVP1 del Product 
 - `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11).
 - `HU_MVP2.md` — MVP2 del Product Backlog (HU-18, HU-19, HU-20, HU-21; HU-09 reside en `HU_BLOQUE_B.md`). HU-18 (drill-down) y HU-19 (exportación) acceden desde HU-16 y HU-17 de este bloque.
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-017).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-018).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-11.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.

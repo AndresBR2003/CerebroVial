@@ -5,7 +5,7 @@
 > **Fundamento metodológico:** Ver `DECISIONS_HU.md`, decisiones DHU-001, DHU-003, DHU-004 (Bloque A), DHU-010 (Bloque C), DHU-013 (clasificación HU/TTH del Bloque D), DHU-014 (decisiones de redacción del Bloque D) y DHU-015 (clasificación HU/TTH del Bloque E con ampliación 4 → 5 TTH).
 >
 > **Fecha de creación:** 2026-05-13
-> **Última actualización:** 2026-05-16 (**Cierre del MVP2 (DHU-017):** rango DHU referenciado actualizado a "DHU-001 a DHU-017" en cabeceras y sección "Documentos relacionados". Sin cambios sustantivos al contenido de las 11 TTH: el MVP2 no introduce TTH nuevas (las 4 HUs del MVP2 ingloban su sustrato técnico como CAs conforme a DHU-017 subsección H). HU-20 del MVP2 consume CT-09.5 de TTH-09 extendido inglobadamente con persistencia paralela del modelo de respaldo; HU-21 del MVP2 consume CT-04.4 y CT-04.5 de TTH-04 para captura automática del contexto operativo al disparar escalamientos. Última actualización previa: 2026-05-15, cierre del Bloque E, DHU-015. Última previa a esa: 2026-05-14, cierre del Bloque D, DHU-013 y DHU-014.)
+> **Última actualización:** 2026-05-17 (**DHU-018 aplicada retroactivamente al backlog:** rango DHU referenciado actualizado a "DHU-001 a DHU-018" en cabecera y "Documentos relacionados". El cambio es exclusivamente de metadata documental; las 11 TTH no reciben Resumen ejecutivo (las TTH no son HUs y su sección Descripción + Criterios técnicos de terminado ya sirven la función de orientación de lectura). Última previa: 2026-05-16, cierre del MVP2 (DHU-017): rango DHU actualizado a "DHU-001 a DHU-017" en cabeceras y "Documentos relacionados". Sin cambios sustantivos al contenido de las 11 TTH: el MVP2 no introduce TTH nuevas (las 4 HUs del MVP2 ingloban su sustrato técnico como CAs conforme a DHU-017 subsección H). HU-20 del MVP2 consume CT-09.5 de TTH-09 extendido inglobadamente con persistencia paralela del modelo de respaldo; HU-21 del MVP2 consume CT-04.4 y CT-04.5 de TTH-04 para captura automática del contexto operativo al disparar escalamientos. Previa a esa: 2026-05-15, cierre del Bloque E, DHU-015. Y previa: 2026-05-14, cierre del Bloque D, DHU-013 y DHU-014.)
 
 ---
 
@@ -804,7 +804,7 @@ Por tanto, las TTH se ejecutan en la primera fase del proyecto, antes o en paral
 
 ## Documentos relacionados
 
-- `DECISIONS_HU.md` — Decisiones metodológicas (DHU-001 a DHU-017) que fundamentan la creación y clasificación de cada TTH.
+- `DECISIONS_HU.md` — Decisiones metodológicas (DHU-001 a DHU-018) que fundamentan la creación y clasificación de cada TTH.
 - `HU_BLOQUE_A.md` — Bloque A del Product Backlog tras la reestructuración.
 - `HU_BLOQUE_B.md` — Bloque B del Product Backlog (HU-02 a HU-09).
 - `HU_BLOQUE_C.md` — Bloque C del Product Backlog (HU-10 a HU-12).

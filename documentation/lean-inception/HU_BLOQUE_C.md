@@ -5,6 +5,7 @@
 > **Estado:** Bloque C cerrado y aprobado. Bloques A, B, D, E y F del MVP1 cerrados, y MVP2 también cerrado el 2026-05-16 (DHU-017). **Con el cierre del MVP2, la redacción del Product Backlog del proyecto queda completa en su componente funcional: 21 HUs operativas (HU-01 a HU-21) + 11 TTH (TTH-01 a TTH-11).** Pendiente: documento RF/RNF (DHU-007), Planning Poker, MoSCoW, implementación SCRUM del MVP1.
 >
 > **Fecha de cierre:** 2026-05-13
+> **Fecha de actualización v2:** 2026-05-17 (DHU-018 aplicada retroactivamente: Resumen ejecutivo en HU-10, HU-11, HU-12)
 
 ---
 
@@ -24,6 +25,7 @@ Las HUs del Bloque C siguen las reglas metodológicas establecidas y refinadas d
 - **DHU-009** (cerrada en el Bloque C): relación entre marca pasiva del Bloque B y alerta activa del Bloque C como complementarias y no duplicadas.
 - **DHU-010** (cerrada en el Bloque C): criterios para clasificar F26 y F27 como TTH.
 - **DHU-011** (cerrada en el Bloque C): eliminación de HU-13 y cobertura de F25 por composición.
+- **DHU-018** (aplicada retroactivamente el 2026-05-17): patrón "Resumen ejecutivo" al inicio de cada HU para uniformidad de lectura. Aditiva, no modifica contenido sustantivo.
 
 Ver `DECISIONS_HU.md` para fundamentación completa.
 
@@ -57,6 +59,18 @@ Las 6 features del Bloque C (F22 a F27) se mapearon a 3 HUs operativas + 2 TTH s
 
 **Tipo:** HU de Persona (Operador).
 **Feature(s) origen:** F22 (Indicador visible de estado degradado). Ingloba como CA la persistencia de transiciones de estado operativo, aplicando la misma regla cerrada en el Bloque A que llevó a inglobar F31 en HU-08.
+
+### Resumen ejecutivo
+
+**Qué entrega:** alerta visual persistente y transversal a todas las vistas del Operador cuando el sistema entra en estado degradado (niveles 1, 2 o 3) o falla total. Banner con distinción visual por nivel, reconocible en estados degradados (colapsa a forma discreta) pero no en falla total. Persiste transiciones para auditoría.
+
+**CAs críticos:** CA-10.2 (alerta visible en estados degradados con código de color amarillo/naranja/rojo), CA-10.3 (alerta diferenciada en falla total, no reconocible), CA-10.7 (sustrato técnico inglobado: persistencia de transiciones con timestamp, estado anterior, estado nuevo, causa raíz), CA-10.8 (resiliencia: la activación del fallback nunca se detiene por fallo del registro de auditoría), CA-10.9 (DHU-005 Caso B aplicado al monitor del estado operativo).
+
+**Estructura de CAs:** estados de la alerta (CA-10.1 a CA-10.3) → reconocimiento y reescalada (CA-10.4 a CA-10.5) → retorno a normal (CA-10.6) → persistencia inglobada y resiliencia (CA-10.7, CA-10.8) → robustez DHU-005 Caso B (CA-10.9) → control de acceso (CA-10.10).
+
+**Dependencias:** consume el estado operativo expuesto por TTH-04 (CT-04.4). Complementaria, no duplicada, a las marcas pasivas del Bloque B (DHU-009: marca pasiva = "este dato específico"; alerta transversal = "el sistema completo"). HU-11 cubre detalle por componente; HU-12 cubre explicación compuesta. HU-21 (MVP2) dispara escalamiento al Administrador desde el banner expandido de esta HU.
+
+**Notas clave:** 5 estados operativos formalizados en DHU-008 (normal + 3 degradados + falla total). Reconocimiento de la alerta se persiste con identidad y timestamp para auditoría futura. CA-10.8 codifica un principio operativo crítico: el log de auditoría nunca puede detener fallbacks. Aplica DHU-005 Caso B (CA-10.9), DHU-006, DHU-008, DHU-009, DHU-012 (vocabulario de niveles).
 
 ### Descripción
 
@@ -138,6 +152,18 @@ La HU también declara que cada transición de estado operativo del sistema comp
 **Tipo:** HU de Persona (Operador).
 **Feature(s) origen:** F23 (Vista simplificada de estado de componentes — Operador). Absorbe el espíritu visual de F25 vía CA-11.9 (DHU-011).
 
+### Resumen ejecutivo
+
+**Qué entrega:** vista dedicada para el Operador donde consulta el estado operativo de cada componente del sistema en escala cualitativa (OK / Degradado / Fuera de servicio) con descripción del impacto operativo en lenguaje no técnico. Resaltado visual de componentes no-OK. Accesible siempre, no solo bajo alerta.
+
+**CAs críticos:** CA-11.1 (presentación cualitativa por componente), CA-11.3 (texto de impacto operativo cuando no-OK), CA-11.7 (DHU-005 Caso B aplicado al monitor de componentes), CA-11.9 (resaltado visual de no-OK absorbiendo F25 por DHU-011), CA-11.8 (redirección al login).
+
+**Estructura de CAs:** presentación cualitativa por componente (CA-11.1 a CA-11.4) → integración con HU-10 y accesibilidad permanente (CA-11.5 a CA-11.6) → robustez DHU-005 Caso B (CA-11.7) → control de acceso (CA-11.8) → resaltado de no-OK por DHU-011 (CA-11.9).
+
+**Dependencias:** consume CT-04.5 de TTH-04 (mismo endpoint que HU-13 del Administrador, con presentación distinta según DHU-013). Complementaria a HU-10 (estado global) y HU-12 (explicación compuesta). HU-13 del Bloque D expone los mismos componentes con campos técnicos adicionales (latencia, fallos recientes) para el Administrador.
+
+**Notas clave:** F25 (indicación contextual del modo degradado en cada panel) quedó cubierta por composición de HU-10 + CA-11.9 + HU-12 + marcas pasivas del Bloque B, sin HU dedicada (DHU-011). La vista usa nombres legibles, no identificadores internos. Es de consulta solo, sin acciones correctivas (esas serían HUs separadas en futuro).
+
 ### Descripción
 
 La alerta transversal de HU-10 le dice al Operador que el sistema está operando con capacidades reducidas, pero deliberadamente no entra al detalle de qué componente específico falló. Recorrer todos los paneles del Bloque B para inferirlo a partir de las marcas pasivas individuales (DHU-005 Casos A y B) es laborioso y propenso a malinterpretación. HU-11 provee un lugar único donde el Operador consulta directamente el estado de cada componente y obtiene la respuesta a *"¿qué componente está afectando la operación?"* en una sola mirada.
@@ -202,6 +228,16 @@ La vista es accesible **siempre**, tanto desde un punto fijo del menú principal
 
 **Tipo:** HU de Persona (Operador).
 **Feature(s) origen:** F24 (Mensaje explicativo del modo degradado activo).
+
+### Resumen ejecutivo
+
+**Qué entrega:** explicación textual compuesta al Operador del modo degradado activo, integrando tres elementos: qué disparó el modo (componente o condición), qué fallback está activo, y qué capacidad operativa se perdió con implicación para la supervisión. Texto curado, plantillado con catálogo predefinido.
+
+**CAs críticos:** CA-12.1 (texto compuesto con los 3 elementos), CA-12.2 (actualización ≤ 5 s al transitar entre estados), CA-12.4 (texto genérico de respaldo si la combinación no tiene plantilla específica), CA-12.5 (robustez ante caída del componente de explicación — DHU-005 Caso B).
+
+**Dependencias:** consume el estado operativo de TTH-04 y el catálogo de plantillas (probablemente el mismo componente que produce HU-06). Complementaria a HU-10 (alerta) y HU-11 (vista por componente). HU-21 (MVP2) dispara escalamiento al Administrador desde esta HU cuando el texto recomienda escalar. Aplica DHU-005 Caso B, DHU-006.
+
+**Notas clave:** distinción explícita respecto a HU-06: HU-06 explica decisiones del motor adaptativo **en operación normal**; HU-12 explica el **estado degradado del sistema completo**. Las dos son catálogos de plantillas pero cubren universos disjuntos. **No** se usa NLP ni explicabilidad de IA: catálogo curado de 4-6 textos según backlog detallado. CA-12.4 garantiza que el Operador nunca vea panel vacío.
 
 ### Descripción
 
@@ -317,7 +353,7 @@ Tras cerrar el MVP2 (ya hecho), los próximos pasos del proyecto, fuera del alca
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11 y decisiones tomadas durante la redacción).
 - `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
 - `HU_MVP2.md` — MVP2 del Product Backlog (HU-18, HU-19, HU-20, HU-21; HU-09 reside en `HU_BLOQUE_B.md`). HU-21 escalamiento desde HU-10 y HU-12 de este bloque.
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-017).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-018).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-11.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.

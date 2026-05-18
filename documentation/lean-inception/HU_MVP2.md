@@ -5,6 +5,7 @@
 > **Estado:** MVP2 cerrado y aprobado. Bloques A, B, C, D, E y F del MVP1 previamente cerrados. **Con el cierre del MVP2, la redacción del Product Backlog del proyecto queda completa en su componente funcional: 21 HUs operativas (HU-01 a HU-21) y 11 TTH (TTH-01 a TTH-11).** Pendiente: documento de Requisitos Funcionales y No Funcionales (RF/RNF) consolidando los "Candidatos a RNF" de todas las HUs (DHU-007 pendiente), ceremonias de estimación (Planning Poker) y priorización (MoSCoW), e implementación SCRUM del MVP1.
 >
 > **Fecha de cierre:** 2026-05-16
+> **Fecha de actualización v2:** 2026-05-17 (DHU-018 aplicada retroactivamente: Resumen ejecutivo en HU-18, HU-19, HU-20, HU-21)
 
 ---
 
@@ -28,6 +29,7 @@ Las HUs del MVP2 siguen las reglas metodológicas establecidas y refinadas duran
 - **DHU-015** (cerrada en el Bloque E): clasificación HU/TTH del Bloque E con ampliación 4 → 5 TTH durante la redacción.
 - **DHU-016** (cerrada en el Bloque F): decisiones consolidadas de redacción del Bloque F. Patrón de subsecciones temáticas heredado por DHU-017.
 - **DHU-017** (cerrada durante la redacción del MVP2): decisiones consolidadas de redacción del MVP2 (verificación de clasificación HU/TTH de las 4 features MVP2 pendientes, numeración compactada continuando desde HU-17, composición de F16 como HU única para PDF/Excel × HU-16/HU-17, fuente del baseline de F19 como registro paralelo inglobado en CA-14.1, alcance del baseline con RandomForest declarado, composición de F28 como HU única con Operador protagonista, alcance del escalamiento en MVP2, alcance del drill-down de F15 con tres carriles temporales integrados, conexión F15 ↔ HU-16/HU-17 mediante estado compartido del selector, sustrato técnico inglobado vs TTH separada, política de construcción MVP2 heredada, robustez Caso B aplicada).
+- **DHU-018** (aplicada retroactivamente el 2026-05-17): patrón "Resumen ejecutivo" al inicio de cada HU para uniformidad de lectura. Aditiva, no modifica contenido sustantivo.
 
 Ver `DECISIONS_HU.md` para fundamentación completa.
 
@@ -70,6 +72,18 @@ Las 5 features MVP2 (F11, F15, F16, F19, F28) se mapearon a 5 HUs operativas (HU
 **Tipo:** HU de Persona (Gerente de Tránsito Municipal).
 **Clasificación MVP:** **MVP2 — candidata a construcción condicional a holgura del cronograma tras cerrar MVP1** (semántica refinada por DHU-012; ver Notas técnicas).
 **Feature(s) origen:** F15 (Vista detallada de periodo específico).
+
+### Resumen ejecutivo
+
+**Qué entrega:** drill-down del Gerente sobre un periodo específico. Tres carriles temporales integrados sobre la misma línea temporal: evolución del tráfico (resolución más fina que HU-16), eventos del motor adaptativo (marcadores activables), e intervalos de estado operativo (bandas coloreadas). Permite correlación visual entre los tres para distinguir explicaciones competidoras de una variación detectada.
+
+**CAs críticos:** CA-18.6 (carril de tráfico con resolución refinada y zoom hasta 30 s), CA-18.9 (carril del motor con marcadores activables), CA-18.13 (carril de estado operativo con bandas coloreadas), CA-18.17/18/19 (DHU-005 Caso B aplicado independientemente por carril), CA-18.20 (HTTP 403 para roles no-Gerente).
+
+**Estructura de CAs:** acceso desde HU-16/HU-17 (CA-18.1 a CA-18.3) → selector con distinción navegación local vs global (CA-18.4, CA-18.5) → carril de tráfico (CA-18.6 a CA-18.8) → carril del motor adaptativo (CA-18.9 a CA-18.12) → carril de estado operativo (CA-18.13 a CA-18.16) → casos degenerados independientes por carril (CA-18.17 a CA-18.19) → control de acceso (CA-18.20, CA-18.21).
+
+**Dependencias:** consume tres registros existentes sin sustrato técnico nuevo: histórico de tráfico de CA-16.1 a CA-16.3 (HU-16), registro de decisiones del motor de CA-08.1 (HU-08), registro de transiciones de estado de CT-04.3 (TTH-04). Comparte estado del selector con HU-16 y HU-17 durante la sesión (CA-18.4, CA-18.5). Aplica DHU-005 Caso B independientemente por carril, DHU-006, DHU-013 (sin TTH nueva por consumo único), DHU-017 subsección G.
+
+**Notas clave:** distinción operativa entre **navegación local** (no muta el selector global; CA-18.2 click sobre punto + CA-18.3 elección periodo previo desde HU-17) y **cambio de periodo** (sí muta el selector global; CA-18.5 desde selector dentro de HU-18). Vista exclusivamente consultiva; no edita ni modifica. Los carriles fallan independientemente: la marca "no actualizado" aplica por carril, no por vista completa (contraste deliberado con CA-17.14 de HU-17 donde la causa raíz es compartida).
 
 ### Descripción
 
@@ -196,6 +210,18 @@ La vista es exclusivamente consultiva. El Gerente no edita datos, no modifica de
 **Tipo:** HU de Persona (Gerente de Tránsito Municipal).
 **Clasificación MVP:** **MVP2 — candidata a construcción condicional a holgura del cronograma tras cerrar MVP1** (semántica refinada por DHU-012; ver Notas técnicas).
 **Feature(s) origen:** F16 (Exportación de reportes a PDF/Excel).
+
+### Resumen ejecutivo
+
+**Qué entrega:** exportación a PDF (formato presentable) o Excel (datos crudos) de los reportes del Gerente, tanto de HU-16 (KPIs sobre periodo único) como de HU-17 (comparativa). Una sola HU que cubre las 4 combinaciones formato × vista. Descarga directa sin almacenamiento intermedio. Política conservadora ante fuentes caídas: rechaza la generación en lugar de exportar con datos no confirmados.
+
+**CAs críticos:** CA-19.5 a CA-19.9 (estructura del PDF de HU-16 con disgregación obligatoria por dirección, CA-19.6), CA-19.10 a CA-19.14 (estructura del PDF de HU-17), CA-19.15 a CA-19.20 (Excel con dos hojas: Resumen + Detalle temporal), CA-19.22 (política conservadora: rechazo de generación si fuente caída), CA-19.25 (convención de nombre de archivo autosuficiente), CA-19.27 (HTTP 403 para roles no-Gerente).
+
+**Estructura de CAs:** disparo desde HU-16/HU-17 (CA-19.1 a CA-19.4) → estructura del PDF para HU-16 (CA-19.5 a CA-19.9) → estructura del PDF para HU-17 (CA-19.10 a CA-19.14) → estructura del Excel (CA-19.15 a CA-19.20) → manejo de errores y política conservadora (CA-19.21 a CA-19.23) → entrega del archivo (CA-19.24 a CA-19.26) → control de acceso (CA-19.27, CA-19.28).
+
+**Dependencias:** consume HU-16 y HU-17 directamente como fuentes de datos sin sustrato técnico nuevo. F30 inglobada (HU-16 CA-16.1 a CA-16.3) y motor de cálculo inglobado (HU-16 CA-16.9 a CA-16.12) sirven al PDF y al Excel. Lógica de comparativa de HU-17 sirve a la exportación de la comparativa. Aplica DHU-005 Caso B con divergencia (rechazo, no "últimos valores"), DHU-006 (no nombra librerías de generación), DHU-017 subsección C (HU única).
+
+**Notas clave:** **HU única para 4 combinaciones** por cohesión (DHU-017 subsección C): el valor entregable es uno solo ("exportar reporte fuera del sistema") con variantes de formato y vista. **Política conservadora** (CA-19.22) en contraste con HU-16/HU-17 que sí muestran últimos valores marcados: un PDF en disco circula fuera del sistema donde la marca puede perderse. **PDF de HU-16 con disgregación obligatoria** por dirección (CA-19.6): el PDF estático no tiene el toggle de HU-16, así que se incluye todo. Sin repositorio histórico de reportes generados; el Gerente regenera si necesita.
 
 ### Descripción
 
@@ -341,6 +367,18 @@ El sustrato técnico de HU-19 no introduce TTH nueva. La generación de PDF y Ex
 **Clasificación MVP:** **MVP2 — candidata a construcción condicional a holgura del cronograma tras cerrar MVP1** (semántica refinada por DHU-012; ver Notas técnicas).
 **Feature(s) origen:** F19 (Comparativa de métricas del modelo vs baseline). Ingloba como CAs la extensión del registro de predicciones declarado en CA-14.1 de HU-14 para persistir también las predicciones del modelo de respaldo en paralelo, conforme a DHU-017 subsección D.
 
+### Resumen ejecutivo
+
+**Qué entrega:** vista comparativa para el Administrador entre las métricas del modelo predictivo principal y las del modelo de respaldo, sobre la misma ventana temporal que HU-14 usa para evaluación individual. Cuatro paneles (MAE, RMSE, accuracy, matriz de confusión 6×6), cada uno con valores lado a lado e indicador de cuál modelo es superior con tolerancia configurable de empate.
+
+**CAs críticos:** CA-20.1 (ejecución paralela continua del modelo de respaldo sobre los mismos inputs), CA-20.2 (extensión inglobada del registro de CA-14.1 con identificador de modelo como discriminante), CA-20.4 (cálculo de métricas sobre exactamente los mismos eventos para ambos modelos), CA-20.10 (semántica de empate con tolerancia configurable), CA-20.18 (DHU-005 Caso B), CA-20.19 (HTTP 403 para roles no-Administrador).
+
+**Estructura de CAs:** sustrato inglobado de ejecución paralela y extensión del registro (CA-20.1 a CA-20.4) → presentación de los cuatro paneles comparativos (CA-20.5 a CA-20.13) → casos degenerados (CA-20.14 a CA-20.17) → robustez DHU-005 Caso B (CA-20.18) → control de acceso (CA-20.19, CA-20.20).
+
+**Dependencias:** extiende inglobadamente CA-14.1 de HU-14 (sin modificar HU-14 ni su vista individual). Reutiliza la ventana temporal parametrizada en HU-15 familia "Predicción y evaluación del modelo" (CA-14.4 y DHU-014 subsección F). Independiente y coexistente con TTH-04 (fallback Nivel 2 invoca al respaldo cuando el principal cae; HU-20 lo ejecuta en paralelo en operación normal). Hereda tooltips y orden visual de HU-14. Aplica DHU-005 Caso B, DHU-006 (no nombra GRU ni RandomForest), DHU-013 (sin TTH nueva), DHU-017 subsección D.
+
+**Notas clave:** la **comparabilidad rigurosa** es inegociable: pares incompletos (sin observación o sin predicción de uno de los modelos) no entran al cálculo (CA-20.4). HU-14 no se modifica: sigue mostrando solo el modelo principal en su vista individual. HU-20 es exclusivamente consultiva; no inicia reentrenamientos (F21 Trabajos Futuros), no conmuta modelos (eso lo hace TTH-04 automáticamente). La identidad concreta del modelo de respaldo (RandomForest preservado por TTH-09) vive en notas técnicas y D-006, no en la HU.
+
 ### Descripción
 
 HU-14 entregó al Administrador la vista individual de las métricas del modelo predictivo principal del sistema sobre datos operacionales recientes, con cuatro métricas estándar (MAE y RMSE sobre el ratio continuo, accuracy y matriz de confusión 6×6 sobre el nivel discreto 0-5) calculadas sobre una ventana temporal configurable. Esa vista responde la pregunta "¿qué tan confiable es el modelo principal ahora?". Lo que no responde es la pregunta complementaria del Administrador en Journey 3 paso 4: cuando se detecta una eventual degradación del modelo principal, ¿sigue siendo superior al modelo de respaldo que el sistema ya tiene disponible para fallback automático? Esa pregunta es la que sustenta la decisión técnica de mantener el modelo principal activo o considerar acciones más enérgicas (revisión, reentrenamiento documentado como trabajo futuro en F21, eventual sustitución).
@@ -465,6 +503,18 @@ La HU es **agnóstica a tecnologías** conforme a DHU-006: los CAs declaran "mod
 **Tipo:** HU de Persona (Operador de Tráfico Municipal como protagonista; Administrador del Sistema como destinatario y receptor del flujo).
 **Clasificación MVP:** **MVP2 — candidata a construcción condicional a holgura del cronograma tras cerrar MVP1** (semántica refinada por DHU-012; ver Notas técnicas).
 **Feature(s) origen:** F28 (Botón de escalamiento al Administrador). Ingloba como CAs el sustrato técnico de persistencia del registro de incidentes escalados, conforme a DHU-013 y DHU-017 subsección H.
+
+### Resumen ejecutivo
+
+**Qué entrega:** flujo accionable de escalamiento del Operador al Administrador durante operación degradada. Botón visible en el banner de HU-10 expandido y en la vista de HU-12, disponible solo en estados degradados o falla total. Captura automática del contexto operativo + texto libre opcional del Operador. Vista del Administrador con badge de pendientes; transición irreversible a "Atendido".
+
+**CAs críticos:** CA-21.5 (captura automática del contexto operativo desde CT-04.4 y CT-04.5), CA-21.10 (sustrato inglobado: persistencia del registro con esquema append-only), CA-21.13 (resiliencia: la operación del motor nunca depende del registro de incidentes), CA-21.19 (transición irreversible a "Atendido" en MVP2), CA-21.27 (estado del incidente independiente del estado del sistema), CA-21.36 (HTTP 403 según el rol).
+
+**Estructura de CAs:** disparo del escalamiento desde HU-10 y HU-12 (CA-21.1 a CA-21.4) → captura automática de contexto y confirmación (CA-21.5 a CA-21.9) → sustrato inglobado de persistencia (CA-21.10 a CA-21.13) → vista del Administrador con detalle y atención (CA-21.14 a CA-21.20) → badge de pendientes en navegación (CA-21.21 a CA-21.23) → recuperación automática del sistema (CA-21.27) → vista del Operador con sus escalamientos (CA-21.30 a CA-21.33) → casos degenerados (CA-21.28, CA-21.29) → control de acceso (CA-21.36, CA-21.37).
+
+**Dependencias:** consume CT-04.4 y CT-04.5 de TTH-04 para captura automática del contexto en el disparo. Se invoca desde HU-10 (banner expandido) y HU-12 (vista de explicación del modo degradado). El badge de pendientes aparece en la navegación del Administrador junto a HU-13, HU-14, HU-15 y HU-20. Aplica DHU-005 Caso B con divergencia (rechazo del disparo si CT-04.4 o CT-04.5 no responden, CA-21.9; últimos incidentes conocidos con marca "no actualizados" en consulta, CA-21.28), DHU-006, DHU-013, DHU-017 subsección F.
+
+**Notas clave:** alcance MVP2 mínimo viable (CA-21 hereda patrón de HU-09): notificación unidireccional, sin conversación bidireccional, sin respuesta textual del Administrador, sin notificaciones push (eso es F40 Trabajos Futuros). El **estado del incidente y el estado del sistema son dimensiones independientes**: la recuperación automática no cierra incidentes; el cierre lo decide el Administrador. **Visibilidad limitada**: cada Operador ve solo sus propios escalamientos (contraste deliberado con HU-09 donde todos ven todas las notas, por casos de uso distintos). La operación del motor adaptativo nunca se detiene por fallo del registro de incidentes (CA-21.13).
 
 ### Descripción
 
@@ -697,7 +747,7 @@ Esta sesión cierra el MVP2 y, con ello, la redacción del Product Backlog del p
 - `HU_BLOQUE_D.md` — Bloque D del Product Backlog (3 HUs operativas: HU-13, HU-14, HU-15).
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11).
 - `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-017).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-018).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-11.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.

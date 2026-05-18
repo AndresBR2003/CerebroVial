@@ -8,6 +8,7 @@
 > **Fecha de cierre v2:** 2026-05-13 (tras DHU-001 a DHU-004)
 > **Fecha de cierre v3:** 2026-05-13 (DHU-007 aplicada retroactivamente: sección Candidatos a RNF en HU-01)
 > **Fecha de cierre v4:** 2026-05-14 (higiene documental por extensión de DHU-012 a este documento: rangos DHU actualizados, residuo de copy-paste en "Próximos pasos" corregido, typos depurados)
+> **Fecha de cierre v5:** 2026-05-17 (DHU-018 aplicada retroactivamente: Resumen ejecutivo en HU-01)
 
 ---
 
@@ -26,6 +27,8 @@ Las HUs se redactan en el formato del documento de referencia académica (`Desar
 **Versión 3 (2026-05-13):** durante la redacción del Bloque B se aprobó DHU-007 (RNF declarados como tales en sección específica al final de cada HU). Esta versión aplica DHU-007 retroactivamente a HU-01, agregando la sección "Candidatos a RNF".
 
 **Versión 4 (2026-05-14):** higiene documental aplicada retroactivamente como extensión de DHU-012. La tabla de "Documentos afectados" original de DHU-012 (ver `DECISIONS_HU.md` subsección Documentos afectados) no incluyó este documento, lo que dejó pendientes algunos residuos detectados posteriormente en una revisión cruzada con los demás documentos del backlog. Los cambios v4 son: (a) actualización del rango de DHU referenciado en "Documentos relacionados" (DHU-001 a DHU-007 → DHU-001 a DHU-013), (b) corrección del residuo de copy-paste en "Próximos pasos" (la frase "Esta sesión cerró el Bloque B" pertenecía al cierre del Bloque B y se reemplaza por una redacción coherente con que este es el documento del Bloque A), (c) corrección de typo "inglogan" → "ingloban" en la sección "Persistencias movidas a otros bloques". El contenido sustantivo de HU-01 y de las reglas metodológicas declaradas en el documento se mantiene intacto.
+
+**Versión 5 (2026-05-17):** aplicación retroactiva de DHU-018 (patrón "Resumen ejecutivo" agregado al inicio de cada HU del Product Backlog). HU-01 recibe el bloque de Resumen ejecutivo entre la cabecera y la sección "Descripción" existente. Por ser HU corta sin subdivisión `####`, el bloque omite el campo "Estructura de CAs" conforme al criterio de DHU-018. El contenido sustantivo de HU-01 (CAs, notas técnicas, Candidatos a RNF, clasificación) no se modifica.
 
 **Resumen del cambio v1 → v2:**
 
@@ -73,6 +76,16 @@ Esta regla fue cerrada durante la revisión del Bloque A y aplica a todas las HU
 
 **Tipo:** HU de Persona (transversal a las 3).
 **Feature(s) origen:** F29 (Sistema RBAC). F01 (Autenticación) está implícita como TTH-01 prerrequisito.
+
+### Resumen ejecutivo
+
+**Qué entrega:** control de acceso basado en roles (Operador, Gerente, Administrador). Cada Persona del producto ve únicamente las vistas y endpoints correspondientes a su rol, con valor cognitivo (concentración en el contexto propio) además del valor defensivo (segregación de permisos).
+
+**CAs críticos:** CA-01.1 a CA-01.3 (segregación por rol en vistas), CA-01.4 (segregación por rol en API con respuesta 403 sin revelar el recurso), CA-01.5 (redirección al login cuando no hay sesión).
+
+**Dependencias:** requiere TTH-01 (autenticación JWT con bcrypt) completada. Toda HU operativa del backlog tiene como precondición implícita "el usuario está autenticado" y referencia CA-01.4 o CA-01.5 según corresponda.
+
+**Notas clave:** F01 se modeló como TTH-01 por DHU-001 (login no es HU). F29 se modeló como HU por DHU-002 (acceso diferenciado por rol entrega valor cognitivo, no solo permisivo). Asignación de roles directa en BD para MVP1 (no hay UI de gestión de roles).
 
 ### Descripción
 
@@ -175,7 +188,7 @@ Tras cerrar el MVP2 (ya hecho), los próximos pasos del proyecto, fuera del alca
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11 y decisiones tomadas durante la redacción).
 - `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
 - `HU_MVP2.md` — MVP2 del Product Backlog (HU-18, HU-19, HU-20, HU-21; HU-09 reside en `HU_BLOQUE_B.md`).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre redacción de HUs (DHU-001 a DHU-017). **Lectura obligatoria** antes de redactar nuevas HUs.
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre redacción de HUs (DHU-001 a DHU-018). **Lectura obligatoria** antes de redactar nuevas HUs.
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01, TTH-02, TTH-03 transversales; TTH-04 y TTH-05 del Bloque C; TTH-06 Trabajos Futuros; TTH-07 a TTH-11 del Bloque E.
 - `DECISIONS.md` — Registro formal de decisiones técnicas del producto (D-001 a D-009).
 - `EVOLUCION_TESIS.md` — Narrativa de las 4 fases del proyecto.

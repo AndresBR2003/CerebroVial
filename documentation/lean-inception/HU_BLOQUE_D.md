@@ -5,6 +5,7 @@
 > **Estado:** Bloque D cerrado y aprobado. Bloques A, B, C, E y F del MVP1 cerrados, y MVP2 también cerrado el 2026-05-16 (DHU-017). **Con el cierre del MVP2, la redacción del Product Backlog del proyecto queda completa en su componente funcional: 21 HUs operativas (HU-01 a HU-21) + 11 TTH (TTH-01 a TTH-11).** Pendiente: documento RF/RNF (DHU-007), Planning Poker, MoSCoW, implementación SCRUM del MVP1. HU-14 (métricas del modelo principal) es ampliada por HU-20 del MVP2 mediante extensión inglobada del registro de predicciones (CA-14.1 extendida a persistir también predicciones del modelo de respaldo, conforme a DHU-017 subsección D); HU-13, HU-14 y HU-15 reciben el badge de incidentes pendientes de HU-21 en la navegación del Administrador.
 >
 > **Fecha de cierre:** 2026-05-14
+> **Fecha de actualización v2:** 2026-05-17 (DHU-018 aplicada retroactivamente: Resumen ejecutivo en HU-13, HU-14, HU-15)
 
 ---
 
@@ -24,6 +25,7 @@ Las HUs del Bloque D siguen las reglas metodológicas establecidas y refinadas d
 - **DHU-012** (transversal): auditoría de coherencia documental.
 - **DHU-013** (cerrada antes de la redacción): clasificación HU/TTH del Bloque D. Las tres features (F17, F18, F20) son HU operativas del Administrador, sin TTH nuevas; el sustrato técnico de F18 y F20 se ingloba como CAs.
 - **DHU-014** (cerrada durante la redacción de este bloque): decisiones de redacción del Bloque D (numeración compactada, sin HU dedicada de dashboard del Administrador, selección concreta de parámetros, métricas exactas, concurrencia, ventana temporal de HU-14 inglobada en HU-15, creación de TTH-06).
+- **DHU-018** (aplicada retroactivamente el 2026-05-17): patrón "Resumen ejecutivo" al inicio de cada HU para uniformidad de lectura. Aditiva, no modifica contenido sustantivo.
 
 Ver `DECISIONS_HU.md` para fundamentación completa.
 
@@ -59,6 +61,18 @@ Las 3 features del Bloque D (F17, F18, F20) se mapearon a 3 HUs operativas, sin 
 
 **Tipo:** HU de Persona (Administrador del Sistema).
 **Feature(s) origen:** F17 (Panel de salud de componentes del sistema, vista del Administrador).
+
+### Resumen ejecutivo
+
+**Qué entrega:** vista técnica detallada de salud de componentes para el Administrador. Por cada componente: nombre legible, identificador interno, estado cualitativo, latencia de respuesta, indicador de fallos recientes, timestamp del último cambio y de la última evaluación exitosa. Resaltado de no-OK. Solo de consulta.
+
+**CAs críticos:** CA-13.1 (presentación con los 7 campos por componente), CA-13.3 (resaltado visual de no-OK equivalente al de HU-11 con riqueza técnica preservada), CA-13.4 (DHU-005 Caso B aplicado al monitor), CA-13.6 (HTTP 403 para roles no-Administrador), CA-13.7 (redirección al login).
+
+**Estructura de CAs:** presentación técnica (CA-13.1 a CA-13.3) → robustez DHU-005 Caso B (CA-13.4) → manejo de datos faltantes (CA-13.5) → control de acceso (CA-13.6, CA-13.7).
+
+**Dependencias:** consume el mismo CT-04.5 de TTH-04 que HU-11 del Operador, con presentación adaptada (DHU-013). El contrato de CT-04.5 se amplió al cerrar HU-13 con los campos técnicos adicionales (latencia, fallos recientes, timestamp de última evaluación exitosa). HU-21 (MVP2) muestra badge de incidentes pendientes en la navegación que incluye esta vista.
+
+**Notas clave:** patrón "un endpoint, dos vistas" con filtrado en presentación (DHU-013). Los campos técnicos no son sensibles (métricas del propio sistema, no datos personales); la política de capa de DTOs específica se documenta como TTH-06 clasificada como Trabajos Futuros. No incluye acciones correctivas (reinicio, recarga, etc.); serían HUs separadas en futuro. Ventana del indicador de fallos recientes en valor único configurable (sugerencia: 5 minutos) sin exposición al Administrador en MVP1.
 
 ### Descripción
 
@@ -130,6 +144,18 @@ HU-13 no implementa acciones correctivas (reinicio de componentes, recarga de co
 
 **Tipo:** HU de Persona (Administrador del Sistema).
 **Feature(s) origen:** F18 (Panel de métricas del modelo predictivo). Ingloba como CAs el sustrato técnico de registro de predicciones y cálculo de métricas, conforme a DHU-013 (patrón equivalente al de F31 inglobada en HU-08 CA-08.1).
+
+### Resumen ejecutivo
+
+**Qué entrega:** vista de métricas de desempeño del modelo predictivo principal para el Administrador. Cuatro elementos: MAE y RMSE sobre el ratio continuo, accuracy y matriz de confusión 6×6 sobre el nivel discreto 0-5. Tooltips de ayuda con la definición operacional de cada métrica. Ventana temporal configurable. Ingloba el sustrato técnico (registro continuo de predicciones, comparación con observaciones, agregación).
+
+**CAs críticos:** CA-14.1 (sustrato inglobado: persistencia continua de predicciones con timestamp y horizonte), CA-14.3 (cálculo de las 4 métricas sobre ventana temporal), CA-14.5 (presentación de los 4 elementos), CA-14.11 (comunicación explícita ante datos insuficientes, no valores en cero), CA-14.12 (DHU-005 Caso B), CA-14.13 (HTTP 403 para roles no-Administrador).
+
+**Estructura de CAs:** sustrato técnico inglobado (CA-14.1 a CA-14.4) → presentación al Administrador con 4 elementos y tooltips (CA-14.5 a CA-14.10) → casos degenerados (CA-14.11, CA-14.12) → control de acceso (CA-14.13, CA-14.14).
+
+**Dependencias:** consume el modelo predictivo TTH-09 (D-006 GRU univariado, D-009 jam level 0-5) de forma agnóstica. La ventana temporal de cálculo es parametrizable vía HU-15 (familia "Predicción y evaluación del modelo"). HU-20 (MVP2) extiende el registro de CA-14.1 con persistencia paralela del modelo de respaldo. F19 (comparativa vs baseline) corresponde a HU-20 (MVP2).
+
+**Notas clave:** doble medición (continuo + discreto) por construcción de D-009: el modelo predice ratio continuo, la discretización ocurre en presentación. Convención de matriz: **filas = real observado, columnas = predicho** (declarada en CA-14.8 y tooltip). Tooltips reducen la barrera cognitiva del perfil del Administrador, que es técnico operativo, no necesariamente experto en evaluación de modelos.
 
 ### Descripción
 
@@ -224,6 +250,18 @@ El sustrato técnico (registro continuo de predicciones realizadas, comparación
 
 **Tipo:** HU de Persona (Administrador del Sistema).
 **Feature(s) origen:** F20 (Configuración de parámetros del motor adaptativo). Ingloba como CAs el sustrato técnico de persistencia y auditoría, conforme a DHU-013 (patrón equivalente al de F31 inglobada en HU-08 CA-08.1 y al sustrato inglobado en HU-14).
+
+### Resumen ejecutivo
+
+**Qué entrega:** vista de configuración de parámetros operativos del sistema para el Administrador. Organizados en tres familias funcionales (visualización del tráfico, predicción y evaluación, monitor de salud). Persistencia y auditoría de cada modificación inglobadas. Aplicación sin redeploy. Restauración a valores por defecto seguros.
+
+**CAs críticos:** CA-15.1 (sustrato inglobado: consulta con timestamp e identidad), CA-15.2 (modificación con auditoría), CA-15.3 (efecto sin redeploy en ≤ 30 s), CA-15.7 (confirmación visual de persistencia con preservación de contenido ante fallo), CA-15.11 (control de concurrencia entre Administradores con last-write-wins explícito), CA-15.12 (HTTP 403 para roles no-Administrador).
+
+**Estructura de CAs:** sustrato técnico inglobado (CA-15.1 a CA-15.4) → presentación y operación (CA-15.5 a CA-15.9) → manejo de casos degenerados con concurrencia (CA-15.10, CA-15.11) → control de acceso (CA-15.12, CA-15.13).
+
+**Dependencias:** cubre parámetros referenciados desde CA-02.3 (umbrales de cola), CA-03.1 (horizonte de predicción), CA-03.3 (umbral de congestión), CA-14.4 (ventana de cálculo de métricas) y CT-04.1 (frecuencia del monitor de salud). **Separada de TTH-05** (tiempos preconfigurados del degradado nivel 3, vive ahí por DHU-013). Aplica DHU-005 Caso B, DHU-006, DHU-013, DHU-014.
+
+**Notas clave:** parámetros internos de las estrategias del motor (Webster, Max Pressure, MTC) quedan internos al sistema en MVP1; su exposición es trabajo futuro condicional. Concurrencia entre Administradores con control optimista basado en timestamp de última modificación (CA-15.11). Restauración de defaults (CA-15.9) preserva auditoría: queda registrada como una modificación más.
 
 ### Descripción
 
@@ -375,7 +413,7 @@ Tras cerrar el MVP2 (ya hecho), los próximos pasos del proyecto, fuera del alca
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11 y decisiones tomadas durante la redacción).
 - `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
 - `HU_MVP2.md` — MVP2 del Product Backlog (HU-18, HU-19, HU-20, HU-21; HU-09 reside en `HU_BLOQUE_B.md`). HU-20 extiende CA-14.1 inglobando persistencia paralela del modelo de respaldo.
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-017).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-018).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 a TTH-11.
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.

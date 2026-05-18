@@ -5,6 +5,7 @@
 > **Estado:** Bloque B cerrado y aprobado. Bloques A, C, D, E y F del MVP1 cerrados, y MVP2 también cerrado el 2026-05-16 (DHU-017). **Con el cierre del MVP2, la redacción del Product Backlog del proyecto queda completa en su componente funcional: 21 HUs operativas (HU-01 a HU-21) + 11 TTH (TTH-01 a TTH-11).** Pendiente: documento RF/RNF (DHU-007), Planning Poker, MoSCoW, implementación SCRUM del MVP1. HU-09 fue redactada en este bloque como única HU MVP2 anticipada bajo la antigua semántica "fuera del sprint", suavizada por DHU-012 a "candidata a construcción condicional a holgura del cronograma"; HU-09 conserva su ubicación en este documento sin trasladarse a `HU_MVP2.md`, conforme a DHU-017 subsección B.
 >
 > **Fecha de cierre:** 2026-05-13
+> **Fecha de actualización v2:** 2026-05-17 (DHU-018 aplicada retroactivamente: Resumen ejecutivo en HU-02 a HU-09)
 
 ---
 
@@ -20,6 +21,7 @@ Las HUs del Bloque B siguen las reglas metodológicas establecidas y refinadas d
 - **DHU-005** (refinada en este bloque): principio de robustez ante interrupción de fuente, con Casos A y B.
 - **DHU-006:** HUs agnósticas a la implementación.
 - **DHU-007:** RNF declarados como tales en sección específica al final de cada HU.
+- **DHU-018** (aplicada retroactivamente el 2026-05-17): patrón "Resumen ejecutivo" al inicio de cada HU para uniformidad de lectura. Aditiva, no modifica contenido sustantivo.
 
 Ver `DECISIONS_HU.md` para fundamentación completa.
 
@@ -56,6 +58,16 @@ Las 10 features del Bloque B (F02 a F11) se mapearon a 8 HUs según el siguiente
 
 **Tipo:** HU de Persona (Operador).
 **Feature(s) origen:** F03 (Visualización de flujo vehicular) + F04 (Visualización de cola por dirección). Componente visual integrador F02 cubierto por la composición con HU-03, HU-04 y HU-05.
+
+### Resumen ejecutivo
+
+**Qué entrega:** vista de monitoreo en tiempo real para el Operador. Muestra, por cada acceso de la intersección, el flujo vehicular y la longitud de cola con indicador de color verde/amarillo/rojo según umbrales configurables. Actualización automática sin recarga.
+
+**CAs críticos:** CA-02.1 (presentación de flujo y cola por acceso), CA-02.2 (actualización ≤ 5 s sin recarga), CA-02.4 (robustez ante pérdida de fuente de medición — DHU-005 Caso A), CA-02.5 (redirección al login si no hay sesión).
+
+**Dependencias:** HU es agnóstica a la fuente de datos (DHU-006); en MVP1 la fuente operacional es el entorno simulado (D-008), en operación real sería la salida del módulo sensor (TTH-08). Los umbrales de color son parametrizables vía HU-15 (familia "Visualización del estado del tráfico"). Aplica DHU-005 Caso A.
+
+**Notas clave:** F02 (dashboard principal) queda cubierto por composición visual con HU-03, HU-04, HU-05; no se redacta como HU propia. Geometría de N accesos (típicamente 4) configurable. CA-02.4 introduce la marca pasiva del Bloque B (DHU-005 Caso A: "desactualizado"), complementaria a la alerta activa transversal de HU-10 según DHU-009.
 
 ### Descripción
 
@@ -104,6 +116,16 @@ El panel muestra dos elementos por cada acceso de la intersección:
 **Tipo:** HU de Persona (Operador).
 **Feature(s) origen:** F05 (Panel de predicción de congestión).
 
+### Resumen ejecutivo
+
+**Qué entrega:** vista de predicción del nivel de congestión a corto plazo por cada acceso de la intersección, expresado en escala ordinal 0-5 sobre el horizonte futuro configurado. Resaltado visual cuando el nivel predicho supera el umbral configurado.
+
+**CAs críticos:** CA-03.1 (presentación de niveles 0-5 por acceso), CA-03.2 (actualización ≤ 5 s sin recarga), CA-03.4 (robustez ante interrupción de predicciones — DHU-005 Caso B), CA-03.5 (redirección al login).
+
+**Dependencias:** consume el modelo predictivo definido en TTH-09 (D-006 GRU univariado, D-009 jam level 0-5) de forma agnóstica. El horizonte de predicción y el umbral de congestión son parametrizables vía HU-15 (familia "Predicción y evaluación del modelo"). Aplica DHU-005 Caso B (componente interno decisor → "no confirmada"), DHU-006.
+
+**Notas clave:** la escala 0-5 es el constructo "jam level" de Waze adoptado en D-009 — permite intercambiabilidad de fuente sin reentrenar el modelo. La HU no nombra Waze ni GRU (DHU-006); usa "nivel de congestión 0-5" como excepción declarada en DHU-006. Valor por defecto del umbral de resaltado: nivel ≥ 3.
+
 ### Descripción
 
 El Operador necesita ver no solo lo que pasa ahora (cubierto por HU-02), sino lo que el sistema anticipa que va a pasar en los próximos minutos. La predicción se expresa en una escala ordinal de nivel de congestión que va desde 0 (flujo libre) hasta 5 (vía cerrada), siguiendo el estándar de la industria documentado en D-009. Para cada acceso de la intersección, el panel muestra el nivel de congestión proyectado en el horizonte futuro configurado.
@@ -147,6 +169,16 @@ Esta escala unificada permite que el sistema sea agnóstico a la fuente de datos
 
 **Tipo:** HU de Persona (Operador).
 **Feature(s) origen:** F06 (Vista combinada estado actual + predicción).
+
+### Resumen ejecutivo
+
+**Qué entrega:** vista única que integra el estado actual del tráfico (de HU-02) y la predicción a corto plazo (de HU-03) sobre los mismos accesos de la intersección, para que el Operador detecte de un vistazo discrepancias entre "lo que está pasando" y "lo que va a pasar".
+
+**CAs críticos:** CA-04.1 (presentación integrada por acceso), CA-04.2 (resaltado de discrepancia estado-predicción), CA-04.3 (actualización ≤ 5 s sin recarga), CA-04.4 (robustez independiente para cada fuente — DHU-005 Casos A y B).
+
+**Dependencias:** consume las mismas APIs que HU-02 (estado actual) y HU-03 (predicción), sin duplicar fuentes. Aplica DHU-005 Caso A para mediciones y Caso B para predicciones simultáneamente. La detección de discrepancia (CA-04.2) reutiliza los umbrales de cola de HU-02 y el umbral de congestión de HU-03.
+
+**Notas clave:** según el backlog detallado de F06, esta es la feature más distintiva del Operador. El diseño visual concreto (línea temporal continua, paneles lado a lado o heatmap) se cierra mediante prototipado en sprint; la HU es agnóstica al diseño. Composición de presentación, no nueva fuente de datos.
 
 ### Descripción
 
@@ -196,6 +228,16 @@ La HU define el qué (las dos fuentes de información integradas y comparables) 
 **Tipo:** HU de Persona (Operador).
 **Feature(s) origen:** F07 (Panel del motor adaptativo — estrategia activa).
 
+### Resumen ejecutivo
+
+**Qué entrega:** vista pasiva del motor adaptativo. Muestra al Operador qué estrategia de control está vigente en este momento, con qué parámetros (tiempos de verde por acceso), y desde cuándo lleva aplicándose, para que pueda evaluar la coherencia entre la decisión automática del sistema y el estado del tráfico que él observa.
+
+**CAs críticos:** CA-05.1 (nombre de estrategia + tiempos de verde por acceso), CA-05.2 (timestamp de activación de la estrategia), CA-05.4 (robustez ante caída del motor adaptativo — DHU-005 Caso B), CA-05.5 (redirección al login).
+
+**Dependencias:** consume las decisiones expuestas por el motor adaptativo (TTH-10) de forma agnóstica. El nombre interno de la estrategia se mapea a etiqueta legible para el Operador (DHU-006). HU-06 cubre el "por qué" de la decisión; HU-07 cubre el aviso activo de cambio. Aplica DHU-005 Caso B; la alerta activa transversal ante caída del motor es responsabilidad de HU-10 (Bloque C, DHU-009).
+
+**Notas clave:** la HU es agnóstica a la implementación del motor (Webster, Max Pressure, MTC se mencionan en TTH-10 y `motor_adaptativo_teoria.md`, no aquí). El Operador ve etiquetas autoexplicativas, no códigos técnicos. Es vista pasiva: "qué está activo ahora"; la consulta de historial vive en HU-08, el aviso activo vive en HU-07.
+
 ### Descripción
 
 El sistema selecciona automáticamente entre múltiples estrategias de control semafórico según el estado predicho y observado del tráfico (esta es la naturaleza adaptativa del sistema, núcleo del Objetivo 3 del producto). Pero el Operador necesita saber **qué estrategia se está aplicando en este momento** y **con qué parámetros**, por dos razones operativas:
@@ -242,6 +284,16 @@ El panel muestra el nombre de la estrategia vigente (sin exponer detalles intern
 
 **Tipo:** HU de Persona (Operador).
 **Feature(s) origen:** F08 (Explicación de razón de selección de estrategia).
+
+### Resumen ejecutivo
+
+**Qué entrega:** explicación textual breve y comprensible al Operador sobre por qué el sistema seleccionó la estrategia de control actualmente vigente. Texto plantillado con sustitución de variables del estado del tráfico que dispararon la selección, en lenguaje del dominio operativo.
+
+**CAs críticos:** CA-06.1 (texto explicativo con valores del estado), CA-06.2 (actualización ≤ 5 s al cambiar estrategia), CA-06.3 (texto genérico de respaldo si la combinación no tiene plantilla), CA-06.4 (robustez ante caída del componente de explicación — DHU-005 Caso B).
+
+**Dependencias:** consume la salida del componente que produce las plantillas (asociado al motor adaptativo TTH-10). HU-07 deriva una versión condensada para la notificación de cambio; HU-12 cubre la explicación equivalente para el modo degradado del Bloque C. Aplica DHU-005 Caso B, DHU-006.
+
+**Notas clave:** explicación de "nivel mínimo" cerrada en el Inception (decisión #9). **NO** se usa procesamiento de lenguaje natural, **NO** se usa explicabilidad de IA, **NO** se usan modelos generativos: es sistema de plantillas estático con catálogo acotado (5-10 textos sugeridos en backlog detallado). CA-06.3 garantiza que el Operador nunca vea un panel vacío.
 
 ### Descripción
 
@@ -294,6 +346,16 @@ Ejemplos del tipo de texto que se entrega (el catálogo exacto se cierra en el s
 **Tipo:** HU de Persona (Operador).
 **Feature(s) origen:** F09 (Notificación visual de cambio de estrategia).
 
+### Resumen ejecutivo
+
+**Qué entrega:** notificación visual temporal y poco intrusiva al Operador cada vez que el motor cambia la estrategia de control activa. Aparece en cualquier vista del sistema, contiene la información mínima (hora, estrategia anterior, estrategia nueva, razón breve) y desaparece sola tras unos segundos.
+
+**CAs críticos:** CA-07.1 (presentación de la notificación con sus 4 campos), CA-07.2 (auto-descarte tras tiempo configurado, default 10 s), CA-07.3 (agrupamiento ante cambios encadenados), CA-07.5 (robustez ante caída del canal de eventos — DHU-005 Caso B aplicado al canal).
+
+**Dependencias:** consume el mismo motor adaptativo (TTH-10) que HU-05 y HU-06; la "razón breve" deriva de HU-06 en versión condensada. Distinta de HU-05 (vista pasiva del estado actual) y de HU-08 (consulta histórica): HU-07 cubre el "aviso activo" en el momento exacto del cambio. Aplica DHU-005 Caso B, DHU-006.
+
+**Notas clave:** la notificación es efímera por diseño; una notificación perdida no es crítica porque el cambio queda registrado en HU-08 y la estrategia vigente se ve siempre en HU-05. El mecanismo de entrega (SSE o WebSocket) se cierra en sprint. Agrupamiento de CA-07.3 evita saturar al Operador con notificaciones encadenadas.
+
 ### Descripción
 
 Existe una diferencia operativa importante entre **consultar** el estado de la estrategia (HU-05, vista pasiva) y **enterarse** de que la estrategia cambió (HU-07, evento activo). Si el Operador está observando otra parte del dashboard cuando el motor decide cambiar de estrategia, sin una notificación activa podría no enterarse hasta varios minutos después, al volver al panel correspondiente. Esto retrasa cualquier evaluación del Operador sobre la decisión y degrada su capacidad de supervisión.
@@ -344,6 +406,18 @@ La notificación incluye al menos: hora del cambio, estrategia anterior, estrate
 
 **Tipo:** HU de Persona (Operador). El Administrador también consulta este log para análisis técnico (referencia en backlog detallado F10).
 **Feature(s) origen:** F10 (Log de decisiones del motor adaptativo). Ingloba F31 (Persistencia de decisiones del motor) como CA, según regla cerrada en el Bloque A.
+
+### Resumen ejecutivo
+
+**Qué entrega:** vista paginada con filtros para consultar cronológicamente las decisiones que el motor adaptativo tomó en periodos pasados, con su razón, parámetros y estrategia anterior. Sustenta auditoría y reconstrucción de turnos. Ingloba el sustrato técnico de persistencia de decisiones (F31) como CA.
+
+**CAs críticos:** CA-08.1 (sustrato técnico F31 inglobada — persistencia de cada decisión con timestamp, estrategia, razón, parámetros, estrategia anterior), CA-08.2 (paginación obligatoria), CA-08.5 (resiliencia: la operación del motor nunca se detiene por fallos del registro de auditoría), CA-08.6 (redirección al login).
+
+**Estructura de CAs:** persistencia F31 inglobada (CA-08.1) → presentación al Operador (CA-08.2 a CA-08.4) → resiliencia operativa (CA-08.5) → control de acceso (CA-08.6).
+
+**Dependencias:** consume el motor adaptativo (TTH-10) que produce las decisiones. El Administrador hereda la misma vista por compartir endpoint en MVP1. HU-18 (MVP2, drill-down del Gerente) consume el mismo registro de decisiones como carril del motor adaptativo. F31 inglobada en CA-08.1 conforme a la regla del Bloque A (igual patrón que F30 en HU-16). Aplica DHU-005 (resiliencia de persistencia), DHU-006.
+
+**Notas clave:** un sistema de control de tráfico real **no puede detener la operación del semáforo porque falle el log de auditoría** (CA-08.5): la operación es prioritaria, la auditoría es complementaria. Mecanismo de respaldo (cola/archivo de fallback) ante fallo temporal de escritura. Política de retención indefinida en MVP1; exportación a CSV fuera de alcance.
 
 ### Descripción
 
@@ -398,6 +472,18 @@ El Operador accede al registro mediante una vista paginada con filtros básicos 
 **Tipo:** HU de Persona (Operador).
 **Clasificación MVP:** **MVP2 — candidata a construcción condicional a holgura del cronograma tras cerrar MVP1** (semántica refinada por DHU-012; ver Notas técnicas). Esta HU se redactó al cierre del Bloque B bajo la antigua semántica "fuera del sprint" cerrada en el Lean Inception, y fue suavizada por DHU-012; conserva su ubicación física en este documento por decisión de DHU-017 subsección B.
 **Feature(s) origen:** F11 (Módulo de notas/incidencias del Operador).
+
+### Resumen ejecutivo
+
+**Qué entrega:** módulo simple de registro de notas e incidencias del turno para el Operador. Texto libre asociado a una marca de tiempo, persistente, con identidad del autor. Listado paginado con filtros básicos. Todos los Operadores ven todas las notas, sosteniendo el caso de uso de transmisión entre turnos.
+
+**CAs críticos:** CA-09.1 (creación de nota con persistencia), CA-09.2 (listado paginado cronológico inverso), CA-09.4 (ventana de edición acotada por valor de auditoría), CA-09.5 (resiliencia: el sistema informa al Operador ante fallo de escritura sin perder contenido escrito), CA-09.6 (redirección al login).
+
+**Estructura de CAs:** creación y consulta (CA-09.1 a CA-09.3) → política de edición (CA-09.4) → resiliencia y control de acceso (CA-09.5, CA-09.6).
+
+**Dependencias:** HU autocontenida (no depende de otros componentes del sistema operativo). HU-21 (MVP2, escalamiento) hereda el patrón de alcance mínimo viable de esta HU. Aplica DHU-005 (resiliencia de persistencia), DHU-006, DHU-012 (semántica MVP2 refinada).
+
+**Notas clave:** alcance MVP2 acotado: texto libre, sin categorías predefinidas, sin adjuntos, sin asociación automática a decisiones del motor. Visibilidad cruzada entre Operadores (a diferencia de HU-21, donde cada Operador ve solo sus propios escalamientos). Inmutabilidad parcial: nota editable solo dentro de ventana corta (24 h sugerido) para preservar valor de auditoría.
 
 ### Descripción
 
@@ -497,7 +583,7 @@ Tras cerrar el MVP2 (ya hecho), los próximos pasos del proyecto, fuera del alca
 - `HU_BLOQUE_E.md` — Bloque E del Product Backlog (0 HUs operativas; mapeo a TTH-07 a TTH-11 y decisiones tomadas durante la redacción).
 - `HU_BLOQUE_F.md` — Bloque F del Product Backlog (2 HUs operativas: HU-16, HU-17; F30 inglobada como CAs).
 - `HU_MVP2.md` — MVP2 del Product Backlog (HU-18, HU-19, HU-20, HU-21; HU-09 reside en este documento).
-- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-017).
+- `DECISIONS_HU.md` — Decisiones metodológicas sobre HUs (DHU-001 a DHU-018).
 - `DECISIONS.md` — Decisiones técnicas del producto (D-001 a D-009).
 - `TAREAS_TECNICAS_HABILITADORAS.md` — TTH-01 (autenticación), TTH-02 (Docker), TTH-03 (CI), TTH-04 (fallback en cascada), TTH-05 (tiempos preconfigurados degradado nivel 3), TTH-06 (capa DTOs, Trabajos Futuros), TTH-07 (SUMO), TTH-08 (visión), TTH-09 (GRU), TTH-10 (motor adaptativo), TTH-11 (spike de hiperparámetros temporales).
 - `LEAN_INCEPTION_CEREBROVIAL.md` — Inception completo aplicado al proyecto.
